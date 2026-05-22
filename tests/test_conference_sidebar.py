@@ -51,19 +51,25 @@ class ConferenceSidebarTest(unittest.TestCase):
             sidebar.write_text("* <a class=\"dpr-sidebar-root-link\" href=\"#/\">首页</a>\n* Daily Papers\n", encoding="utf-8")
             self.write_result(result)
 
-            self.mod.update_sidebar_with_conference(sidebar, result)
+            self.mod.update_sidebar_with_conference(sidebar, result, docs_dir=tmp_path / "docs")
             text = sidebar.read_text(encoding="utf-8")
 
             self.assertIn("* Conference Papers", text)
             self.assertIn("  * ICML 2025 <!--dpr-conference:icml-2025-->", text)
             self.assertIn("    * 推荐论文", text)
             self.assertIn("      * <a class=\"dpr-sidebar-item-link dpr-sidebar-item-structured\"", text)
+            self.assertIn("href=\"#/conference/icml-2025/openreview-icml-2025-abc123-a-conference-paper\"", text)
             self.assertIn("A Conference Paper", text)
             self.assertIn("https://openreview.net/forum?id=abc123", text)
             self.assertIn("&quot;selection_source&quot;: &quot;conference_retrieval&quot;", text)
             self.assertIn("&quot;label&quot;: &quot;rl&quot;", text)
             self.assertNotIn("rl:composite", text)
             self.assertIn("* Daily Papers", text)
+            paper_md = tmp_path / "docs" / "conference" / "icml-2025" / "openreview-icml-2025-abc123-a-conference-paper.md"
+            self.assertTrue(paper_md.exists())
+            md_text = paper_md.read_text(encoding="utf-8")
+            self.assertIn("# A Conference Paper", md_text)
+            self.assertIn("## 命中理由", md_text)
 
     def test_update_sidebar_replaces_existing_conference_block(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -73,9 +79,9 @@ class ConferenceSidebarTest(unittest.TestCase):
             sidebar.write_text("* Daily Papers\n", encoding="utf-8")
 
             self.write_result(result, title="First Title")
-            self.mod.update_sidebar_with_conference(sidebar, result)
+            self.mod.update_sidebar_with_conference(sidebar, result, docs_dir=tmp_path / "docs")
             self.write_result(result, title="Second Title")
-            self.mod.update_sidebar_with_conference(sidebar, result)
+            self.mod.update_sidebar_with_conference(sidebar, result, docs_dir=tmp_path / "docs")
             text = sidebar.read_text(encoding="utf-8")
 
             self.assertEqual(text.count("<!--dpr-conference:icml-2025-->"), 1)

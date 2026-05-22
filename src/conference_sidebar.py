@@ -13,6 +13,7 @@ from typing import Any, Dict, Iterable, List, Tuple
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DEFAULT_SIDEBAR_PATH = ROOT_DIR / "docs" / "_sidebar.md"
+DEFAULT_DOCS_DIR = ROOT_DIR / "docs"
 CONFERENCE_HEADING = "* Conference Papers\n"
 
 
@@ -41,6 +42,27 @@ def build_conference_label(conference: str, years: str) -> str:
     return f"{norm_text(conference).upper()} {year_label}".strip()
 
 
+def build_conference_key(conference: str, years: str) -> str:
+    key = f"{norm_text(conference).lower()}-{norm_text(years).replace(',', '-')}"
+    return re.sub(r"[^a-z0-9-]+", "-", key).strip("-") or "conference"
+
+
+def slugify(value: str) -> str:
+    text = norm_text(value).lower()
+    text = re.sub(r"\s+", "-", text)
+    text = re.sub(r"[^a-z0-9-]+", "", text)
+    return text.strip("-") or "paper"
+
+
+def yaml_escape_value(value: Any) -> str:
+    text = norm_text(value)
+    if not text:
+        return '""'
+    if any(ch in text for ch in [":", "#", '"', "'", "\n", "[", "]", "{", "}", ",", "&", "*", "!", "|", ">", "%", "@", "`"]):
+        return '"' + text.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n") + '"'
+    return text
+
+
 def normalize_sidebar_tag(raw_tag: str) -> Tuple[str, str]:
     text = norm_text(raw_tag)
     if not text:
@@ -57,6 +79,27 @@ def normalize_sidebar_tag(raw_tag: str) -> Tuple[str, str]:
     if kind == "query" and label.endswith(":composite"):
         label = label[: -len(":composite")].strip()
     return kind, label
+
+
+def build_conference_paper_route(paper: Dict[str, Any], conference: str, years: str) -> str:
+    paper_id = norm_text(paper.get("id")) or "paper"
+    title_slug = slugify(norm_text(paper.get("title")) or paper_id)
+    basename = f"{slugify(paper_id)}-{title_slug}"
+    return f"conference/{build_conference_key(conference, years)}/{basename}"
+
+
+def get_evidence(ranked_item: Dict[str, Any]) -> str:
+    return norm_text(
+        ranked_item.get("canonical_evidence")
+        or ranked_item.get("evidence_cn")
+        or ranked_item.get("evidence_en")
+        or ranked_item.get("tldr_cn")
+        or ranked_item.get("tldr_en")
+    )
+
+
+def get_tldr(ranked_item: Dict[str, Any]) -> str:
+    return norm_text(ranked_item.get("tldr_cn") or ranked_item.get("tldr_en"))
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -145,19 +188,109 @@ def build_sidebar_payload(
         "selection_source": "conference_retrieval",
         "tags": tags,
     }
-    evidence = norm_text(
-        ranked_item.get("canonical_evidence")
-        or ranked_item.get("evidence_cn")
-        or ranked_item.get("evidence_en")
-        or ranked_item.get("tldr_cn")
-        or ranked_item.get("tldr_en")
-    )
+    evidence = get_evidence(ranked_item)
     if evidence:
         payload["evidence"] = evidence
     return html.escape(json.dumps(payload, ensure_ascii=False), quote=True)
 
 
-def build_conference_block(result_path: Path, limit: int = 80) -> List[str]:
+def build_conference_markdown(
+    paper: Dict[str, Any],
+    ranked_item: Dict[str, Any],
+    conference: str,
+    years: str,
+) -> str:
+    title = norm_text(paper.get("title")) or norm_text(ranked_item.get("paper_id")) or "Untitled"
+    authors = paper.get("authors") if isinstance(paper.get("authors"), list) else []
+    authors_text = ", ".join(norm_text(item) for item in authors if norm_text(item)) or "Unknown"
+    published = norm_text(paper.get("published"))[:10] or "Unknown"
+    source = norm_text(paper.get("source"))
+    link = norm_text(paper.get("link"))
+    abstract = norm_text(paper.get("abstract")) or "No abstract is available."
+    evidence = get_evidence(ranked_item)
+    tldr = get_tldr(ranked_item)
+    query_text = norm_text(ranked_item.get("matched_query_text"))
+    score = ranked_item.get("score", ranked_item.get("star_rating", ""))
+    try:
+        score_text = f"{float(score):.1f}"
+    except Exception:
+        score_text = norm_text(score)
+
+    tags = [f"paper:{conference.upper()}", f"paper:{years.replace(',', '/')}"]
+    matched_tag = norm_text(ranked_item.get("matched_query_tag"))
+    if matched_tag:
+        kind, label = normalize_sidebar_tag(matched_tag)
+        if label:
+            tags.append(f"{kind}:{label}")
+
+    lines = ["---"]
+    lines.append(f"title: {yaml_escape_value(title)}")
+    lines.append(f"authors: {yaml_escape_value(authors_text)}")
+    lines.append(f"date: {yaml_escape_value(published)}")
+    if link:
+        lines.append(f"pdf: {yaml_escape_value(link)}")
+    if score_text:
+        lines.append(f"score: {score_text}")
+    if evidence:
+        lines.append(f"evidence: {yaml_escape_value(evidence)}")
+    if tldr:
+        lines.append(f"tldr: {yaml_escape_value(tldr)}")
+    if source:
+        lines.append(f"source: {yaml_escape_value(source)}")
+    lines.append("selection_source: conference_retrieval")
+    lines.append(f"tags: [{', '.join(yaml_escape_value(tag) for tag in tags)}]")
+    lines.append("---")
+    lines.append("")
+    lines.append(f"# {title}")
+    lines.append("")
+    lines.append(f"- 会议：{build_conference_label(conference, years)}")
+    lines.append(f"- 作者：{authors_text}")
+    lines.append(f"- 日期：{published}")
+    if score_text:
+        lines.append(f"- 评分：{score_text}/10")
+    if link:
+        lines.append(f"- 原文：[{link}]({link})")
+    lines.append("")
+    if evidence:
+        lines.append("## 命中理由")
+        lines.append(evidence)
+        lines.append("")
+    if tldr:
+        lines.append("## TLDR")
+        lines.append(tldr)
+        lines.append("")
+    if query_text:
+        lines.append("## 对应检索需求")
+        lines.append(query_text)
+        lines.append("")
+    lines.append("## Abstract")
+    lines.append(abstract)
+    lines.append("")
+    return "\n".join(lines)
+
+
+def write_conference_docs(
+    docs_dir: Path,
+    papers: Dict[str, Dict[str, Any]],
+    ranked: List[Dict[str, Any]],
+    conference: str,
+    years: str,
+) -> Dict[str, str]:
+    route_by_id: Dict[str, str] = {}
+    for item in ranked:
+        paper_id = norm_text(item.get("paper_id"))
+        paper = papers.get(paper_id)
+        if not paper:
+            continue
+        route = build_conference_paper_route(paper, conference, years)
+        md_path = docs_dir / f"{route}.md"
+        md_path.parent.mkdir(parents=True, exist_ok=True)
+        md_path.write_text(build_conference_markdown(paper, item, conference, years), encoding="utf-8")
+        route_by_id[paper_id] = route
+    return route_by_id
+
+
+def build_conference_block(result_path: Path, docs_dir: Path, limit: int = 80) -> List[str]:
     data = load_json(result_path)
     conference, years = parse_conference_result_name(result_path)
     marker = build_conference_marker(conference, years)
@@ -168,6 +301,7 @@ def build_conference_block(result_path: Path, limit: int = 80) -> List[str]:
         if isinstance(item, dict) and norm_text(item.get("id"))
     }
     ranked = collect_ranked_ids(data, limit)
+    route_by_id = write_conference_docs(docs_dir, papers, ranked, conference, years)
 
     lines = [f"  * {label} {marker}\n", "    * 推荐论文\n"]
     for item in ranked:
@@ -176,11 +310,12 @@ def build_conference_block(result_path: Path, limit: int = 80) -> List[str]:
         if not paper:
             continue
         title = norm_text(paper.get("title")) or paper_id
-        link = norm_text(paper.get("link")) or "#"
+        route = route_by_id.get(paper_id) or build_conference_paper_route(paper, conference, years)
+        href = f"#/{route}"
         payload = build_sidebar_payload(paper, item, conference, years)
         lines.append(
             "      * "
-            f'<a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="{html.escape(link, quote=True)}" '
+            f'<a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="{html.escape(href, quote=True)}" '
             f'data-sidebar-item="{payload}">{html.escape(title)}</a>\n'
         )
     return lines
@@ -234,14 +369,19 @@ def ensure_conference_heading(lines: List[str]) -> int:
     return insert_idx
 
 
-def update_sidebar_with_conference(sidebar_path: Path, result_path: Path, limit: int = 80) -> None:
+def update_sidebar_with_conference(
+    sidebar_path: Path,
+    result_path: Path,
+    limit: int = 80,
+    docs_dir: Path = DEFAULT_DOCS_DIR,
+) -> None:
     sidebar_path.parent.mkdir(parents=True, exist_ok=True)
     lines = sidebar_path.read_text(encoding="utf-8").splitlines(keepends=True) if sidebar_path.exists() else []
     conference, years = parse_conference_result_name(result_path)
     marker = build_conference_marker(conference, years)
     remove_existing_conference_block(lines, marker)
     heading_idx = ensure_conference_heading(lines)
-    block = build_conference_block(result_path, limit)
+    block = build_conference_block(result_path, docs_dir=docs_dir, limit=limit)
     lines[heading_idx + 1:heading_idx + 1] = block
     sidebar_path.write_text("".join(lines), encoding="utf-8")
 
@@ -261,11 +401,17 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="更新 docs/_sidebar.md 的 Conference Papers 分组。")
     parser.add_argument("--result", action="append", default=[], help="会议结果 JSON，优先 llm，其次 rerank/rrf。可重复传入。")
     parser.add_argument("--sidebar", default=str(DEFAULT_SIDEBAR_PATH))
+    parser.add_argument("--docs-dir", default=str(DEFAULT_DOCS_DIR))
     parser.add_argument("--limit", type=int, default=80)
     args = parser.parse_args()
 
     result_path = choose_result_file(Path(item) for item in args.result)
-    update_sidebar_with_conference(Path(args.sidebar), result_path, limit=max(int(args.limit or 0), 0))
+    update_sidebar_with_conference(
+        Path(args.sidebar),
+        result_path,
+        limit=max(int(args.limit or 0), 0),
+        docs_dir=Path(args.docs_dir),
+    )
     print(f"[INFO] Conference sidebar updated: {args.sidebar} <- {result_path}", flush=True)
 
 
