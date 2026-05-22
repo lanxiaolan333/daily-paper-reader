@@ -84,6 +84,8 @@ class ConferenceWorkflowAndUiTest(unittest.TestCase):
         self.assertIn("DPR_CONFIG_FILE", server)
         self.assertIn("/api/local/config", server)
         self.assertIn("CONFIG_PATH.write_text", server)
+        self.assertIn("/api/local/secret", server)
+        self.assertIn("SECRET_PATH.write_text", server)
         self.assertIn("build_secret_env", server)
         self.assertIn("DEEPSEEK_API_KEY", server)
         self.assertIn("SUMMARY_API_KEY", server)
@@ -92,6 +94,16 @@ class ConferenceWorkflowAndUiTest(unittest.TestCase):
         self.assertIn("payload.get(\"secret\")", server)
         for text in [main, bm25, embedding, fetch_arxiv]:
             self.assertIn("DPR_CONFIG_FILE", text)
+
+    def test_local_secret_private_is_disk_backed_and_ignored(self):
+        root = pathlib.Path(__file__).resolve().parents[1]
+        secret_js = (root / "app" / "secret.session.js").read_text(encoding="utf-8")
+        gitignore = (root / ".gitignore").read_text(encoding="utf-8")
+
+        self.assertIn("/api/local/secret", secret_js)
+        self.assertIn("saveLocalSecretPayloadToDisk", secret_js)
+        self.assertIn("loadLocalSecretPayloadPreferred", secret_js)
+        self.assertIn("secret.private", gitignore)
 
 
 if __name__ == "__main__":

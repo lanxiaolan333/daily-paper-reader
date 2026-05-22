@@ -17,6 +17,14 @@
     return host === 'localhost' || host === '127.0.0.1' || host === '::1';
   };
 
+  const getLocalApiUrl = (path) => {
+    const base = String(window.DPR_LOCAL_API_BASE || '').trim().replace(/\/$/, '');
+    if (base) return `${base}${path}`;
+    const protocol = String((window.location && window.location.protocol) || 'http:');
+    const hostname = String((window.location && window.location.hostname) || '127.0.0.1');
+    return `${protocol}//${hostname}:8000${path}`;
+  };
+
   function loadLocalSecretPayload() {
     if (!isLocalDebugHost()) return null;
     try {
@@ -44,6 +52,41 @@
       console.error('[SECRET] 保存本地 secret.private 失败：', e);
       return false;
     }
+  }
+
+  async function loadLocalSecretPayloadFromDisk() {
+    if (!isLocalDebugHost()) return null;
+    const res = await fetch(getLocalApiUrl('/api/local/secret'), { cache: 'no-store' });
+    if (!res.ok) return null;
+    const data = await res.json().catch(() => null);
+    if (!data || !data.ok || !data.exists || !data.payload) return null;
+    return data.payload;
+  }
+
+  async function saveLocalSecretPayloadToDisk(payload) {
+    if (!isLocalDebugHost()) return false;
+    const res = await fetch(getLocalApiUrl('/api/local/secret'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ payload }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.ok) {
+      throw new Error((data && data.error) || `写入本地 secret.private 失败：HTTP ${res.status}`);
+    }
+    saveLocalSecretPayload(payload);
+    return true;
+  }
+
+  async function loadLocalSecretPayloadPreferred() {
+    if (!isLocalDebugHost()) return null;
+    try {
+      const diskPayload = await loadLocalSecretPayloadFromDisk();
+      if (diskPayload) return diskPayload;
+    } catch (e) {
+      console.warn('[SECRET] 读取本地磁盘 secret.private 失败，回退 localStorage：', e);
+    }
+    return loadLocalSecretPayload();
   }
 
   const setAccessMode = (mode, detail) => {
@@ -968,7 +1011,7 @@
         unlockBtn.disabled = true;
         guestBtn.disabled = true;
         try {
-          const localPayload = loadLocalSecretPayload();
+          const localPayload = await loadLocalSecretPayloadPreferred();
           let payload = localPayload;
           if (!payload) {
             const resp = await fetch(SECRET_FILE_URL, { cache: 'no-store' });
@@ -1707,9 +1750,11 @@
           setMode('full');
 
           if (localOnly) {
-            const saved = saveLocalSecretPayload(payload);
-            if (!saved) {
-              setErrorText('❌ 保存到浏览器本地失败，请检查 localStorage 是否可用。', '#c00');
+            try {
+              await saveLocalSecretPayloadToDisk(payload);
+            } catch (e) {
+              console.error(e);
+              setErrorText('❌ 保存到本地 secret.private 失败，请确认本地后端已启动。', '#c00');
               return;
             }
           } else {
@@ -1913,7 +1958,7 @@
     // 检查是否已经存在 secret.private（用于区分“解锁”与“初始化”）
     (async () => {
       try {
-        const localPayload = loadLocalSecretPayload();
+        const localPayload = await loadLocalSecretPayloadPreferred();
         let resp = null;
         let hasSecret = Boolean(localPayload);
         if (!hasSecret) {
