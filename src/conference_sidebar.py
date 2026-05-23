@@ -362,10 +362,7 @@ def build_sidebar_payload(
         score_text = f"{float(score):.1f}"
     except Exception:
         score_text = norm_text(score) or "-"
-    tags = [
-        {"kind": "paper", "label": conference.upper()},
-        {"kind": "paper", "label": years.replace(",", "/")},
-    ]
+    tags: List[Dict[str, str]] = []
     matched_tag = norm_text(ranked_item.get("matched_query_tag"))
     if matched_tag:
         kind, label = normalize_sidebar_tag(matched_tag)

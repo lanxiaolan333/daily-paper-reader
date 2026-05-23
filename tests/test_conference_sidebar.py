@@ -66,6 +66,8 @@ class ConferenceSidebarTest(unittest.TestCase):
             self.assertIn("https://openreview.net/forum?id=abc123", text)
             self.assertIn("&quot;selection_source&quot;: &quot;conference_retrieval&quot;", text)
             self.assertIn("&quot;label&quot;: &quot;rl&quot;", text)
+            self.assertNotIn("&quot;label&quot;: &quot;ICML&quot;", text)
+            self.assertNotIn("&quot;label&quot;: &quot;2025&quot;", text)
             self.assertNotIn("rl:composite", text)
             self.assertIn("* Daily Papers", text)
             paper_md = tmp_path / "docs" / "conference" / "icml-2025" / "openreview-icml-2025-abc123-a-conference-paper.md"
