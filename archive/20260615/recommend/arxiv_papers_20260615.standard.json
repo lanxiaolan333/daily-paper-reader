@@ -1,0 +1,624 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-15T21:51:57.653158+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 10,
+    "quick_skim_target": 11,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2606.10478v1",
+      "source": "arxiv",
+      "title": "3D-CoS: A New 3D Reconstruction Paradigm Based on VLM Code Synthesis",
+      "abstract": "Most recent 3D reconstruction and editing systems operate on implicit and explicit representations such as NeRF, point clouds, or meshes. While these representations enable high-fidelity rendering, they are fundamentally low-level and hard to control programmatically. In contrast, we propose and systematically evaluate a new 3D reconstruction paradigm, 3D Code Synthesis (3D-CoS), where 3D assets are constructed as executable Blender code, a programmatic and interpretable medium. To assess how well current VLMs can use code to represent 3D objects, we evaluate representative open-source and closed-source VLMs in code-based reconstruction under a unified protocol. We further introduce a suite of structured code-synthesis workflows, including blueprint-based planning, Retrieval-Augmented Generation (RAG) over Blender API documentation, few-shot geometric demonstrations, and a component-level Agent workflow for part-wise code generation. To demonstrate the unique advantages of this representation, we further evaluate localized text-driven modifications and compare our code-based edits with a point-cloud-based 3D editing baseline. Our study shows that code as a 3D representation offers strong controllability and locality, yielding stronger edit fidelity and better preservation of unedited regions in our targeted editing evaluation. Our work also analyzes the potential of this paradigm, delineates the current capability frontier of VLMs for programmatic 3D modeling, and highlights code synthesis as a promising direction for editable 3D reconstruction.",
+      "authors": [
+        "Yuhao Wang",
+        "Puyi Wang",
+        "Linjie Li",
+        "Zhengyuan Yang",
+        "Kevin Qinghong Lin",
+        "Yu Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T06:46:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.10478v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "new 3D reconstruction paradigm using VLM code synthesis",
+      "llm_evidence_cn": "基于视觉语言模型代码合成的新3D重建范式",
+      "llm_evidence": "基于视觉语言模型代码合成的新3D重建范式",
+      "canonical_evidence": "基于视觉语言模型代码合成的新3D重建范式",
+      "llm_tldr_en": "3D-CoS proposes a novel 3D reconstruction paradigm that generates executable Blender code instead of implicit/explicit representations, enabling programmatic control and interpretability.",
+      "llm_tldr_cn": "现有3D重建系统多基于NeRF、点云或网格等低层表示，难以程序化控制。本文提出3D代码合成（3D-CoS）范式，利用视觉语言模型将3D物体重建为可执行的Blender代码，提供可解释且可编辑的中间表示。评估了多种开源与闭源VLM在该范式下的表现，并设计了蓝图基工作流。实验表明代码合成在特定场景下能达到与隐式表示相当的保真度，同时具备更强的可控性。",
+      "llm_tldr": "现有3D重建系统多基于NeRF、点云或网格等低层表示，难以程序化控制。本文提出3D代码合成（3D-CoS）范式，利用视觉语言模型将3D物体重建为可执行的Blender代码，提供可解释且可编辑的中间表示。评估了多种开源与闭源VLM在该范式下的表现，并设计了蓝图基工作流。实验表明代码合成在特定场景下能达到与隐式表示相当的保真度，同时具备更强的可控性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13652v1",
+      "source": "arxiv",
+      "title": "World Tracing: Generative Pixel-Aligned Geometry Beyond the Visible",
+      "abstract": "Image-to-3D methods often trade off faithfulness and completeness: depth estimators are anchored to input pixels but stop at the visible surface, while image-to-3D models generate complete shapes that are often misaligned with the input. We introduce World Tracing, a generative pixel-aligned geometry representation that predicts 3D points aligned with observed pixels while completing geometry beyond the visible surface. For each input pixel, World Tracing predicts an ordered stack of camera-space 3D points, where the first layer represents the visible surface and subsequent layers represent front-to-back intersections with occluded surfaces. We instantiate this representation with a world-tracing diffusion transformer, WT-DiT, which treats multiple geometry layers as separate denoising tokens coupled through factorized and global attention. WT-DiT is trained with pixel-space flow matching and a mixed noise schedule that balances visible-surface reconstruction with occluded-geometry generation. World Tracing achieves strong performance on visible-surface reconstruction and complete geometry generation across object, scene, and dynamic benchmarks, outperforming both depth predictors and image-to-3D generators. It also preserves 2D-to-3D correspondence, enabling text-driven 3D scene editing, geometry-conditioned novel-view video synthesis, and training-free integration with textured-mesh generators.",
+      "authors": [
+        "Hao Zhang",
+        "Mohamed El Banani",
+        "Jen-Hao Cheng",
+        "Paul Zhang",
+        "Yi Hua",
+        "Ben Mildenhall",
+        "Christoph Lassner",
+        "Narendra Ahuja",
+        "Gengshan Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-11T17:52:48+00:00",
+      "link": "https://arxiv.org/pdf/2606.13652v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generates 3D points aligned with image pixels, completes occluded geometry from single image",
+      "llm_evidence_cn": "从输入图像生成对齐的3D点，并补全被遮挡的几何",
+      "llm_evidence": "从输入图像生成对齐的3D点，并补全被遮挡的几何",
+      "canonical_evidence": "从输入图像生成对齐的3D点，并补全被遮挡的几何",
+      "llm_tldr_en": "Introduces World Tracing, a generative representation that predicts stacks of 3D points per pixel for visible and occluded surfaces, instantiated with a diffusion transformer.",
+      "llm_tldr_cn": "图像转3D方法通常在保真度和完整性之间权衡：深度估计只到可见表面，而生成模型可能错位。本文提出世界追踪，一种生成式像素对齐几何表示，为每个输入像素预测有序的3D点栈，第一层为可见表面，后续层为被遮挡表面。基于该表示实现的世界追踪扩散变压器（WT-DiT），在保持像素对齐的同时生成完整的3D几何。实验表明该方法在多个数据集上超过了现有图像到3D方法。",
+      "llm_tldr": "图像转3D方法通常在保真度和完整性之间权衡：深度估计只到可见表面，而生成模型可能错位。本文提出世界追踪，一种生成式像素对齐几何表示，为每个输入像素预测有序的3D点栈，第一层为可见表面，后续层为被遮挡表面。基于该表示实现的世界追踪扩散变压器（WT-DiT），在保持像素对齐的同时生成完整的3D几何。实验表明该方法在多个数据集上超过了现有图像到3D方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10395v1",
+      "source": "arxiv",
+      "title": "Efficient RWKV-based Representation Learning for 3D Point Clouds",
+      "abstract": "The recent receptance weighted key value (RWKV) model combines RNN-style recurrence, offering a linear-complexity alternative to Transformers' quadratic self-attention for modeling global dependencies. However, when directly applied to point clouds, RWKV, originally developed for sequential text, struggles to capture local geometric structures and model spatial dependencies effectively. To address this, we propose the \\textbf{P-RWKV} block, which bridges the gap between sequence modeling and irregular 3D geometry while preserving the efficiency advantages of RWKV. It consists of a Local Perception Expansion (LPE) component to expand contextual perception along the spatio-temporal sequence and a Spatial Context Enhancement (SCE) component to strengthen spatial awareness. To validate the effectiveness of P-RWKV for point cloud understanding, we construct PointER, a single-modality self-supervised representation learning framework whose encoder is composed of stacked P-RWKV blocks. Furthermore, we extend P-RWKV to a cross-modality setting and integrate the proposed core sub-modules into multiple architectures, demonstrating strong plug-and-play flexibility and architectural generality. Extensive experiments show that the P-RWKV block and its key sub-modules achieve competitive performance across various tasks with lower computational cost and inference latency. Code will be released upon acceptance.",
+      "authors": [
+        "Yun Liu",
+        "Xuefeng Yan",
+        "Liangliang Nan",
+        "Xianzhi Li",
+        "Peng Li",
+        "Zhe Zhu",
+        "Honghua Chen",
+        "Mingqiang Wei"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T04:16:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.10395v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "RWKV-based representation learning for 3D point clouds improves point cloud processing",
+      "llm_evidence_cn": "基于RWKV的3D点云表示学习改进了点云处理",
+      "llm_evidence": "基于RWKV的3D点云表示学习改进了点云处理",
+      "canonical_evidence": "基于RWKV的3D点云表示学习改进了点云处理",
+      "llm_tldr_en": "P-RWKV adapts the RWKV sequence model to 3D point clouds with local perception expansion and spatial context enhancement, achieving linear complexity while capturing local and global structures for tasks like classification and segmentation.",
+      "llm_tldr_cn": "RWKV模型在序列建模中效率高但难以直接用于点云。本文提出P-RWKV模块，通过局部感知扩展和空间上下文增强两个组件，弥合序列与3D几何的差距。在点云分类和分割任务上，P-RWKV以更低的复杂度达到了与Transformer相当甚至更好的性能，为点云重建等下游任务提供了高效的特征表示方法。",
+      "llm_tldr": "RWKV模型在序列建模中效率高但难以直接用于点云。本文提出P-RWKV模块，通过局部感知扩展和空间上下文增强两个组件，弥合序列与3D几何的差距。在点云分类和分割任务上，P-RWKV以更低的复杂度达到了与Transformer相当甚至更好的性能，为点云重建等下游任务提供了高效的特征表示方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.14389v1",
+      "source": "arxiv",
+      "title": "MooMIns -- Monocular 3D Reconstruction and Object Pose Estimation from Multiple Instances",
+      "abstract": "Simultaneous 3D reconstruction and 6D object pose estimation from a single monocular image is an inherently ill-posed problem. In industrial settings, however, multiple instances of an object are often randomly arranged in bins, implicitly providing several views of the same object within a single image. We show that this implicit multi-view geometry can be exploited to simultaneously reconstruct the object in 3D and estimate the 6D pose of each visible object instance. We present MooMIns, a new Gaussian-splatting-based approach that inverts the original Gaussian splatting formulation: instead of rendering a single scene from multiple cameras, we render multiple object instances from a single camera. Our method is initialized with SAM3 instance segmentation masks and a modified Structure from Motion (SfM) pipeline. In contrast to learned monocular depth estimation, we perform true geometry-based reconstruction from image evidence, avoiding hallucinations caused by training data priors. We evaluate MooMIns on synthetic and real bin-picking scenarios, and demonstrate accurate reconstruction of previously unseen objects as well as reliable pose estimation of individual instance",
+      "authors": [
+        "Robert Langendörfer",
+        "Markus Hillemann",
+        "Markus Ulrich"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T12:24:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.14389v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular 3D reconstruction from multiple object instances using implicit multi-view geometry",
+      "llm_evidence_cn": "利用多实例隐含多视图几何的单目3D重建",
+      "llm_evidence": "利用多实例隐含多视图几何的单目3D重建",
+      "canonical_evidence": "利用多实例隐含多视图几何的单目3D重建",
+      "llm_tldr_en": "MooMIns exploits multiple instances of the same object in a single image as implicit multi-view cues for simultaneous 3D reconstruction and 6D pose estimation using Gaussian splatting.",
+      "llm_tldr_cn": "本文针对单目图像中3D重建和6D姿态估计的固有不适定问题，提出MooMIns，利用工业场景中同一物体多个实例的隐含多视图几何。通过反转高斯溅射公式，从单相机渲染多实例，实现同时3D重建和姿态估计。实验证明该方法有效利用多实例线索，提升了重建和姿态估计的准确性。",
+      "llm_tldr": "本文针对单目图像中3D重建和6D姿态估计的固有不适定问题，提出MooMIns，利用工业场景中同一物体多个实例的隐含多视图几何。通过反转高斯溅射公式，从单相机渲染多实例，实现同时3D重建和姿态估计。实验证明该方法有效利用多实例线索，提升了重建和姿态估计的准确性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-08-730830-v2",
+      "source": "biorxiv",
+      "title": "Cross-cue reconstruction of perceived 3D object structure from human visual cortex",
+      "abstract": "The human brain assembles three-dimensional (3D) percepts from qualitatively different depth cues, yet the perceived 3D structure that the brain builds---a representation shared across cues---has remained difficult to measure directly. Here, we show that this cue-invariant 3D structure can be externalized as explicit 3D objects from human brain activity: fMRI responses are decoded into the latent features of a pretrained 3D point-cloud autoencoder, and a generator then maps these features back to a point cloud. A decoder trained exclusively on responses to 2D rendered objects passed three increasingly stringent tests: (i) it generalized to novel object categories; (ii) it generalized across depth cues to random dot stereograms (RDSs), which evoke 3D percepts through binocular disparity but share no pictorial shape information with the training images; and (iii) it tracked the 3D slant of contour-matched RDSs whose 2D outlines were held identical but whose disparity-defined slants varied, indicating that the reconstruction reflected depth-defined geometry rather than object category or image outline. Cross-cue generalization was strongest in higher visual areas, particularly along the dorsal stream. These results indicate that cross-cue generalization can serve as a criterion for externalizing perceived 3D structure and open a route toward reading out internal 3D representations that go beyond the momentary retinal input and could support predictions of how the world would appear under different viewpoints---a step toward externalizing the brain's internal world model.",
+      "authors": [
+        "Aoki, S. C.",
+        "Tsukasa, R.",
+        "Yang, S.",
+        "Tanaka, M.",
+        "Doi, E.",
+        "Nakamura, T.",
+        "Ho, J.-K.",
+        "Kamitani, Y."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-06-15T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.08.730830v2.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reconstructs 3D point clouds from brain activity using a pretrained point-cloud autoencoder",
+      "llm_evidence_cn": "利用预训练点云自编码器从脑活动重建3D点云",
+      "llm_evidence": "利用预训练点云自编码器从脑活动重建3D点云",
+      "canonical_evidence": "利用预训练点云自编码器从脑活动重建3D点云",
+      "llm_tldr_en": "This paper reconstructs perceived 3D object structure as point clouds from fMRI by decoding into a pretrained point-cloud autoencoder latent space, demonstrating cue-invariant cross-category generalization.",
+      "llm_tldr_cn": "人类大脑如何整合不同深度线索形成统一的3D感知？本文从脑活动直接重建出显式3D点云：使用预训练点云自编码器的潜在特征作为解码目标，将fMRI信号映射为点云。实验表明解码器能够泛化到未见过的物体类别和不同深度线索（如随机点立体图），揭示了大脑中共享的3D结构表示，也为基于点云的重建技术提供了神经科学视角的验证。",
+      "llm_tldr": "人类大脑如何整合不同深度线索形成统一的3D感知？本文从脑活动直接重建出显式3D点云：使用预训练点云自编码器的潜在特征作为解码目标，将fMRI信号映射为点云。实验表明解码器能够泛化到未见过的物体类别和不同深度线索（如随机点立体图），揭示了大脑中共享的3D结构表示，也为基于点云的重建技术提供了神经科学视角的验证。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.10019v1",
+      "source": "arxiv",
+      "title": "Generalized-CVO: Fast and Correspondence-Free Local Point Cloud Registration with Second Order Riemannian Optimization",
+      "abstract": "We propose a fast and correspondence-free local point cloud registration method that leverages geometric surface structure and reproducing kernel Hilbert space (RKHS) embeddings. The method represents point clouds as continuous functions with point-wise anisotropic kernels that encode local geometry. This formulation improves alignment along surface normals while relaxing alignment along tangential directions. To solve the resulting registration problem, we propose a second-order on-manifold optimization scheme with approximate Riemannian Hessians, achieving a speedup of up to 10x over the first-order solvers used in prior correspondence-free RKHS-based methods. We demonstrate improved frame-to-frame LiDAR and RGB-D tracking accuracy across diverse indoor and outdoor datasets. On a LiDAR tracking registration task in the driving domain, we achieve a reduction of $>55\\%$ in both translational and rotational drift in challenging feature-sparse environments. On object registration benchmarks, we show improved robustness over ICP-based methods and further gains when refining global initialization, particularly under moderate misalignment.",
+      "authors": [
+        "Ray Zhang",
+        "Marcus Greiff",
+        "Thomas Lew",
+        "John Subosits"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "published": "2026-06-08T18:07:11+00:00",
+      "link": "https://arxiv.org/pdf/2606.10019v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "fast correspondence-free local point cloud registration",
+      "llm_evidence_cn": "快速无对应局部点云配准",
+      "llm_evidence": "快速无对应局部点云配准",
+      "canonical_evidence": "快速无对应局部点云配准",
+      "llm_tldr_en": "Generalized-CVO proposes a fast correspondence-free local point cloud registration method using RKHS embeddings and second-order Riemannian optimization, achieving 10x speedup over first-order solvers.",
+      "llm_tldr_cn": "无对应点云配准方法通常计算缓慢，限制了其在实时场景中的应用。本文提出Generalized-CVO，利用再生核希尔伯特空间嵌入将点云表示为连续函数，并通过各向异性核编码局部几何。采用二阶黎曼优化近似Hessian矩阵，相比一阶求解器加速达10倍。在帧间LiDAR配准任务中展示了精度与速度的领先优势。",
+      "llm_tldr": "无对应点云配准方法通常计算缓慢，限制了其在实时场景中的应用。本文提出Generalized-CVO，利用再生核希尔伯特空间嵌入将点云表示为连续函数，并通过各向异性核编码局部几何。采用二阶黎曼优化近似Hessian矩阵，相比一阶求解器加速达10倍。在帧间LiDAR配准任务中展示了精度与速度的领先优势。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.09262v1",
+      "source": "arxiv",
+      "title": "See More, Match Better: Multi-Source Feature Fusion for Two-View Correspondence Learning",
+      "abstract": "Two-view correspondence learning aims to distinguish true correspondences (inliers) from false ones (outliers) in image pairs by leveraging their underlying differences. Existing methods mainly rely on coordinate-based geometric consistency. However, they often struggle with pseudo-consistent outliers in scenes containing repetitive structures, textureless regions, or locally similar geometric patterns. To address this limitation, we propose TriMatch, a multi-source feature fusion framework for two-view correspondence learning, which consists of two parts: feature extraction and feature refinement. In feature extraction, TriMatch jointly extracts geometric, texture semantic, and structural semantic features to provide complementary evidence for correspondence discrimination. To bridge the gap between semantic and geometric features, texture and structural semantic features are aligned with geometric features through dedicated Texture-Geometric Alignment and Structural-Geometric Alignment modules, respectively. We further introduce a Semantic-Guided Correspondence Modulation module, which modulates geometric features using semantic information to suppress geometrically plausible but semantically inconsistent correspondences. In feature refinement, a Hierarchical Semantic-Enhanced Correspondence Refinement strategy progressively models correspondence dependencies and recalibrates multi-context feature responses, enabling more reliable inlier-outlier discrimination. Extensive experiments demonstrate the effectiveness, robustness, and generalization capability of TriMatch.",
+      "authors": [
+        "Xiaojie Li",
+        "Xin Jiang",
+        "Luanyuan Dai",
+        "Jinnan Yang",
+        "Yongdong Zhang",
+        "Zechao Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T09:33:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.09262v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "two-view correspondence learning for 3D reconstruction from images",
+      "llm_evidence_cn": "两视图对应学习用于从图像重建3D模型",
+      "llm_evidence": "两视图对应学习用于从图像重建3D模型",
+      "canonical_evidence": "两视图对应学习用于从图像重建3D模型",
+      "llm_tldr_en": "TriMatch proposes a multi-source feature fusion framework for two-view correspondence learning, integrating geometric, texture semantic, and structural semantic features to improve inlier detection for 3D reconstruction.",
+      "llm_tldr_cn": "两视图对应学习常受重复结构、纹理区域等伪一致外点干扰。本文提出TriMatch，多源特征融合框架，同时提取几何、纹理语义和结构语义特征，提供互补信息。通过特征提取和精化两阶段，更准确地区分内外点。在多个基准上超越现有方法，为后续三维重建提供更可靠的对应关系。",
+      "llm_tldr": "两视图对应学习常受重复结构、纹理区域等伪一致外点干扰。本文提出TriMatch，多源特征融合框架，同时提取几何、纹理语义和结构语义特征，提供互补信息。通过特征提取和精化两阶段，更准确地区分内外点。在多个基准上超越现有方法，为后续三维重建提供更可靠的对应关系。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11782v1",
+      "source": "arxiv",
+      "title": "Seeing What Matters: Perceptual Wrapper with Common Randomness for 3D Gaussian Splatting",
+      "abstract": "While 3D Gaussian Splatting (3DGS) achieves impressive real-time rendering, it frequently struggles to synthesize high-frequency textures, a limitation heavily exacerbated in memory-constrained and rate-distortion-optimized (RDO) pipelines. To address this, we propose a versatile 2D perceptual wrapper that enhances the rendered outputs of existing 3DGS representations in a content- and view-dependent manner. Our method leverages a lightweight synthesis network conditioned on pseudo-random Gaussian noise to synthesize perceptually plausible textures. Supervised by Wasserstein Distortion, the network learns to match local feature statistics rather than strictly enforcing pixel-wise reconstruction fidelity, effectively mitigating the blurriness inherent in standard frameworks. We demonstrate the broad applicability of our plug-and-play approach across vanilla, memory-constrained, and RDO 3DGS methods. Comprehensive subjective and objective experiments confirm that our method significantly improves over existing baselines, yielding superior perceptual quality at sharply reduced file or model sizes.",
+      "authors": [
+        "He-Bi Yang",
+        "Jing-Zhong Chen",
+        "Yen-Kuan Ho",
+        "Sang NguyenQuang",
+        "Fan-Yi Hsu",
+        "Yun-Yu Lee",
+        "Jui-Chiu Chiang",
+        "Wen-Hsiao Peng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T08:14:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.11782v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "enhances rendering of 3D Gaussian Splatting, relevant to novel view synthesis",
+      "llm_evidence_cn": "增强3D高斯泼溅渲染，与新颖视图合成相关",
+      "llm_evidence": "增强3D高斯泼溅渲染，与新颖视图合成相关",
+      "canonical_evidence": "增强3D高斯泼溅渲染，与新颖视图合成相关",
+      "llm_tldr_en": "Proposes a 2D perceptual wrapper that enhances 3DGS rendered outputs by synthesizing perceptually plausible textures using a lightweight network conditioned on noise.",
+      "llm_tldr_cn": "3D高斯泼溅在实时渲染方面表现出色，但在高保真纹理合成方面存在不足，尤其在内存受限和率失真优化管线中。本文提出一种通用2D感知包装器，通过轻量级合成网络以噪声为条件，生成感知上合理的纹理。网络在Wasserstein距离监督下学习匹配局部特征统计，而非严格像素重构。该方法有效缓解了模糊纹理问题，提升了渲染质量。",
+      "llm_tldr": "3D高斯泼溅在实时渲染方面表现出色，但在高保真纹理合成方面存在不足，尤其在内存受限和率失真优化管线中。本文提出一种通用2D感知包装器，通过轻量级合成网络以噪声为条件，生成感知上合理的纹理。网络在Wasserstein距离监督下学习匹配局部特征统计，而非严格像素重构。该方法有效缓解了模糊纹理问题，提升了渲染质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12368v1",
+      "source": "arxiv",
+      "title": "DepthMaster: Unified Monocular Depth Estimation for Perspective and Panoramic Images",
+      "abstract": "While monocular depth estimation has achieved significant progress, achieving generalized metric depth estimation for both narrow field-of-view (FoV) perspectives and $360^\\circ$ panoramas remains an unsolved challenge. Existing methods are often tailored to specific camera types and struggle to produce accurate metric depth that generalizes across diverse settings. This limitation stems from two key challenges: the inherent geometric discrepancy between perspective and panoramic cameras, and the scarcity of panoramic training data with metric annotations. In this work, we introduce DepthMaster, a unified metric depth estimation framework. Rather than employing specialized networks to learn spherical distortions, we reformulate the problem by decomposing panoramic images into overlapping perspective patches. Crucially, distinct from prior projection-based methods that rely on ad-hoc architectural modifications to handle boundaries, we introduce a novel Correspondence Consistency Loss (CCL) and inject virtual projection cameras as geometric priors, allowing us to seamlessly stitch the patches while avoiding specialized operators and keeping the backbone largely compatible with standard Transformer designs. This strategy also resolves the geometric differences by unifying all inputs into a canonical perspective representation, and effectively circumvents data scarcity by directly unlocking powerful metric priors from vast perspective datasets. Trained on a mixed dataset that contains only one panorama dataset, DepthMaster achieves state-of-the-art zero-shot performance on 13 diverse datasets, outperforming not only universal methods but also leading specialist models in both perspective and panoramic domains.",
+      "authors": [
+        "Pengfei Wang",
+        "Shihao Wang",
+        "Liyi Chen",
+        "Zhiyuan Ma",
+        "Guowen Zhang",
+        "Lei Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T17:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.12368v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monocular depth estimation for 3D reconstruction from images",
+      "llm_evidence_cn": "单目深度估计用于从图像重建3D模型",
+      "llm_evidence": "单目深度估计用于从图像重建3D模型",
+      "canonical_evidence": "单目深度估计用于从图像重建3D模型",
+      "llm_tldr_en": "DepthMaster proposes a unified monocular depth estimation framework for both perspective and panoramic images, enabling generalized metric depth prediction that can support 3D reconstruction.",
+      "llm_tldr_cn": "单目深度估计对于小视场透视图像和360°全景图像难以统一泛化，且全景训练数据稀缺。本文提出DepthMaster统一度量深度估计框架，通过重新公式化投影几何，无需专门网络学习球面畸变即可同时适用于两种相机类型。利用透视数据辅助全景训练，实现了跨场景的高精度度量深度预测，为后续3D重建提供了基础。",
+      "llm_tldr": "单目深度估计对于小视场透视图像和360°全景图像难以统一泛化，且全景训练数据稀缺。本文提出DepthMaster统一度量深度估计框架，通过重新公式化投影几何，无需专门网络学习球面畸变即可同时适用于两种相机类型。利用透视数据辅助全景训练，实现了跨场景的高精度度量深度预测，为后续3D重建提供了基础。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.13376v1",
+      "source": "arxiv",
+      "title": "MoVerse: Real-Time Video World Modeling with Panoramic Gaussian Scaffold",
+      "abstract": "We present MoVerse, a real-time video world model that creates an interactively navigable scene from a single narrow-field-of-view image. This setting is challenging because the input observes only a small fraction of the environment, while interactive roaming requires a complete surrounding world, persistent geometry, controllable camera motion, and temporally coherent high-fidelity observations. MoVerse addresses this problem by separating world construction from observation rendering. It first expands the input into a gravity-aligned 360$^\\circ$ panorama with topology-aware diffusion, closing the missing field of view before 3D reasoning. It then lifts the panorama into a persistent 3D Gaussian scaffold using panoramic geometry-aware residual prediction, yielding a dense and directly renderable spatial memory. Finally, a Gaussian-conditioned video renderer translates scaffold renderings along user-specified camera trajectories into photorealistic video. To make this renderer practical for interaction, we train a bidirectional diffusion teacher for high-quality conditional rendering and distill it into a causal autoregressive student for bounded-latency streaming. This design combines the controllability and long-range consistency of explicit 3D representations with the perceptual quality of generative video models. MoVerse supports real-time scene roaming at 8~FPS on a single NVIDIA RTX~4090 GPU, demonstrating a practical path toward single-image world creation with interactive video output.",
+      "authors": [
+        "Yang Zhou",
+        "Ziheng Wang",
+        "Yuqin Lu",
+        "Haofeng Liu",
+        "Jun Liang",
+        "Shengfeng He",
+        "Jing Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T14:01:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.13376v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Real-time 3D world modeling from a single image for interactive navigation, related to novel view synthesis and 3D reconstruction",
+      "llm_evidence_cn": "从单张图像实时3D世界建模实现交互式导航，与新视图合成和3D重建相关",
+      "llm_evidence": "从单张图像实时3D世界建模实现交互式导航，与新视图合成和3D重建相关",
+      "canonical_evidence": "从单张图像实时3D世界建模实现交互式导航，与新视图合成和3D重建相关",
+      "llm_tldr_en": "MoVerse creates an interactively navigable 3D world from a single image by expanding to a panorama and building a persistent 3D Gaussian scaffold, enabling real-time new view synthesis.",
+      "llm_tldr_cn": "从单张窄视场图像构建完整可交互3D场景是一个挑战。MoVerse将世界构造与渲染分离：先通过拓扑感知扩散将输入扩展为全景，再基于全景几何感知残差预测构建持久3D高斯脚手架，实现实时交互漫游和新视图合成。实验表明在场景完整性和渲染速度上优于现有世界模型。",
+      "llm_tldr": "从单张窄视场图像构建完整可交互3D场景是一个挑战。MoVerse将世界构造与渲染分离：先通过拓扑感知扩散将输入扩展为全景，再基于全景几何感知残差预测构建持久3D高斯脚手架，实现实时交互漫游和新视图合成。实验表明在场景完整性和渲染速度上优于现有世界模型。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.12368v2",
+      "source": "arxiv",
+      "title": "DepthMaster: Unified Monocular Depth Estimation for Perspective and Panoramic Images",
+      "abstract": "While monocular depth estimation has achieved significant progress, achieving generalized metric depth estimation for both narrow field-of-view (FoV) perspectives and $360^\\circ$ panoramas remains an unsolved challenge. Existing methods are often tailored to specific camera types and struggle to produce accurate metric depth that generalizes across diverse settings. This limitation stems from two key challenges: the inherent geometric discrepancy between perspective and panoramic cameras, and the scarcity of panoramic training data with metric annotations. In this work, we introduce DepthMaster, a unified metric depth estimation framework. Rather than employing specialized networks to learn spherical distortions, we reformulate the problem by decomposing panoramic images into overlapping perspective patches. Crucially, distinct from prior projection-based methods that rely on ad-hoc architectural modifications to handle boundaries, we introduce a novel Correspondence Consistency Loss (CCL) and inject virtual projection cameras as geometric priors, allowing us to seamlessly stitch the patches while avoiding specialized operators and keeping the backbone largely compatible with standard Transformer designs. This strategy also resolves the geometric differences by unifying all inputs into a canonical perspective representation, and effectively circumvents data scarcity by directly unlocking powerful metric priors from vast perspective datasets. Trained on a mixed dataset that contains only one panorama dataset, DepthMaster achieves state-of-the-art zero-shot performance on 13 diverse datasets, outperforming not only universal methods but also leading specialist models in both perspective and panoramic domains.",
+      "authors": [
+        "Pengfei Wang",
+        "Shihao Wang",
+        "Liyi Chen",
+        "Zhiyuan Ma",
+        "Guowen Zhang",
+        "Lei Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T17:35:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.12368v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "unified monocular depth estimation supports multi-image 3D reconstruction",
+      "llm_evidence_cn": "统一单目深度估计为多图像3D重建提供基础",
+      "llm_evidence": "统一单目深度估计为多图像3D重建提供基础",
+      "canonical_evidence": "统一单目深度估计为多图像3D重建提供基础",
+      "llm_tldr_en": "DepthMaster unifies metric depth estimation for perspective and panoramic images, reformulating the problem to handle geometric discrepancies without specialized networks, enabling generalized depth prediction that can serve multi-view 3D reconstruction workflows.",
+      "llm_tldr_cn": "单目深度估计在视角和全景图像间存在几何差异且全景训练数据稀缺，现有方法难以统一。本文提出DepthMaster，通过重新将问题建模来避免学习球面畸变，实现统一的度量深度估计。实验表明该方法在多个数据集上取得领先性能，为多图像3D重建提供了关键的深度先验。",
+      "llm_tldr": "单目深度估计在视角和全景图像间存在几何差异且全景训练数据稀缺，现有方法难以统一。本文提出DepthMaster，通过重新将问题建模来避免学习球面畸变，实现统一的度量深度估计。实验表明该方法在多个数据集上取得领先性能，为多图像3D重建提供了关键的深度先验。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "biorxiv-10-1101-2025-03-04-641536-v4",
+      "source": "biorxiv",
+      "title": "Supervised Deep Learning for Efficient Cryo-EM Image Alignment in Drug Discovery with cryoPARES",
+      "abstract": "Cryo-Electron Microscopy (cryo-EM) is a pivotal tool for determining 3D structures of biological macromolecules. Current workflows are computationally demanding and require manual intervention, creating bottlenecks for high-throughput applications like structure-based drug discovery. In such contexts, where all protein samples can be assumed to be equivalent at resolutions relevant for image alignment, information about particle poses from previous refinements could be reused. Existing methods, however, ignore this prior knowledge, aligning each dataset from scratch. We present cryoPARES, a deep learning pose estimation method trained on pre-aligned datasets. Our method not only provides accurate angular predictions significantly faster than traditional approaches but also introduces automated particle pruning capabilities that eliminate manual intervention. Together with its single-pass operation, these features enable real-time reconstructions that provide feedback during data acquisition. We demonstrate cryoPARESs effectiveness through rapid structural determination of seven ligand-bound complexes across four distinct protein targets and release three new fragment-bound cryo-EM datasets.",
+      "authors": [
+        "Sanchez-Garcia, R.",
+        "Berndt, A.",
+        "Apelbaum, A.",
+        "Reeks, J.",
+        "Williams, P. A.",
+        "Poelking, C.",
+        "Deane, C.",
+        "Saur, M."
+      ],
+      "primary_category": "bioinformatics",
+      "categories": [
+        "bioinformatics"
+      ],
+      "published": "2026-06-08T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.1101/2025.03.04.641536v4.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "deep learning for 3D reconstruction from cryo-EM images (multiple images)",
+      "llm_evidence_cn": "基于深度学习的冷冻电镜图像3D重建",
+      "llm_evidence": "基于深度学习的冷冻电镜图像3D重建",
+      "canonical_evidence": "基于深度学习的冷冻电镜图像3D重建",
+      "llm_tldr_en": "Presents cryoPARES, a supervised deep learning method for pose estimation in cryo-EM, enabling efficient 3D reconstruction from multiple particle images by reusing prior alignments.",
+      "llm_tldr_cn": "冷冻电镜是确定生物大分子3D结构的重要工具，但现有工作流程计算量大且需手工干预，阻碍高通量应用。本文提出cryoPARES，一种监督式深度学习位姿估计方法，利用预先对齐的数据集训练，从多张粒子图像中快速估计姿态，实现高效3D重建。该方法在无需从头对齐的情况下提供准确的角度预测，显著加速了数据处理。",
+      "llm_tldr": "冷冻电镜是确定生物大分子3D结构的重要工具，但现有工作流程计算量大且需手工干预，阻碍高通量应用。本文提出cryoPARES，一种监督式深度学习位姿估计方法，利用预先对齐的数据集训练，从多张粒子图像中快速估计姿态，实现高效3D重建。该方法在无需从头对齐的情况下提供准确的角度预测，显著加速了数据处理。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.13676v1",
+      "source": "arxiv",
+      "title": "Modality Forcing for Scalable Spatial Generation",
+      "abstract": "Text-to-image (T2I) models contain rich spatial priors. Synthesizing photorealistic, cluttered scenes requires an understanding of geometry, including perspective and relative scale. Prior works adapt T2I models to leverage this prior for depth prediction, but they require dense depth data and involve complex recipes. We propose Modality Forcing, a simple, scalable post-training recipe for joint image-depth generation using a single DiT trained on sparse depth data. Modality Forcing enables conditional and joint generation of image and depth in any permutation by assigning separate noise levels per modality. Per-modality decoders let us train on sparse, real-world depth and achieve strong, generalizable depth prediction. We further show that Modality Forcing inherits the scalability of T2I pre-training: by training a set of T2I models from scratch (370M to 3.3B parameters), we find that larger models trained on more image data produce more accurate depth. Our strongest model is competitive with state-of-the-art monocular depth estimators and reduces AbsRel by 57% relative to existing joint image-depth generative models. These results provide strong evidence that image generation is a scalable pre-training objective for spatial perception. https://modality-forcing.github.io/",
+      "authors": [
+        "Bardienus Pieter Duisterhof",
+        "Deva Ramanan",
+        "Jeffrey Ichnowski",
+        "Justin Johnson",
+        "Keunhong Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T17:59:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.13676v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "joint image-depth generation assists multi-view 3D reconstruction via depth maps",
+      "llm_evidence_cn": "联合图像-深度生成为多视图3D重建提供深度图",
+      "llm_evidence": "联合图像-深度生成为多视图3D重建提供深度图",
+      "canonical_evidence": "联合图像-深度生成为多视图3D重建提供深度图",
+      "llm_tldr_en": "Modality Forcing enables joint image-depth generation from a single diffusion transformer trained on sparse depth, allowing conditional or combined generation useful for depth priors in 3D reconstruction.",
+      "llm_tldr_cn": "深度数据稀疏且获取困难，现有T2I模型用于深度预测需要密集标注。本文提出Modality Forcing，通过为每种模态分配独立噪声水平，使一个DiT模型支持图像与深度的条件或联合生成。在稀疏真实深度上训练即可获得强泛化能力，生成的深度图可直接用于多图像3D重建，提升了重建的几何准确度。",
+      "llm_tldr": "深度数据稀疏且获取困难，现有T2I模型用于深度预测需要密集标注。本文提出Modality Forcing，通过为每种模态分配独立噪声水平，使一个DiT模型支持图像与深度的条件或联合生成。在稀疏真实深度上训练即可获得强泛化能力，生成的深度图可直接用于多图像3D重建，提升了重建的几何准确度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.14699v1",
+      "source": "arxiv",
+      "title": "Instruct-Particulate: Scaling Feed-Forward 3D Object Articulation with Kinematic Control",
+      "abstract": "Reconstructing articulated 3D objects is important for animation, gaming, and robotic simulations. Recent neural networks can estimate the articulated structure of 3D objects, but their generalization remains limited by the scarcity of annotated data for this task. To address this gap, we introduce Instruct-Particulate, a model that takes a 3D mesh together with a target kinematic specification, including part descriptions, connectivity, joint types, and optional point prompts, and predicts the corresponding kinematic part segmentation and joint motion parameters. The kinematic specification disambiguates the task and allows the model to target annotations of different granularity, thereby making it possible to use more abundant heterogeneous training data. At test time, the kinematic specification can be obtained automatically from large-scale vision-language models, so the model can be applied to any input mesh. To train our model at scale, we construct a heterogeneous dataset of more than 150,000 articulated 3D objects, extending existing publicly available collections with data obtained by partially labelling other 3D models (monolithic or already decomposed into parts) with kinematic labels by means of vision-language models. Experiments show that our model generalizes better across categories and to AI-generated meshes, enabling articulated asset reconstruction from real-world images via image-to-3D models.",
+      "authors": [
+        "Ruining Li",
+        "Yuxin Yao",
+        "Matt Zhou",
+        "Chuanxia Zheng",
+        "Christian Rupprecht",
+        "Joan Lasenby",
+        "Shangzhe Wu",
+        "Andrea Vedaldi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-06-12T17:59:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.14699v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D object articulation reconstruction with kinematic control",
+      "llm_evidence_cn": "带运动学控制的3D物体铰接重建",
+      "llm_evidence": "带运动学控制的3D物体铰接重建",
+      "canonical_evidence": "带运动学控制的3D物体铰接重建",
+      "llm_tldr_en": "Instruct-Particulate predicts kinematic part segmentation and joint motion from a 3D mesh and kinematic specification, enabling scalable articulated 3D object reconstruction.",
+      "llm_tldr_cn": "本文针对铰接3D物体重建中标注数据稀缺的问题，提出Instruct-Particulate，输入3D网格和目标运动学规范（部件描述、连接关系、关节类型及可选点提示），预测运动学部件分割和关节运动参数。通过运动学规范消除任务歧义，支持不同粒度标注，从而利用更丰富的异质数据。实验证明该方法具有良好的泛化能力。",
+      "llm_tldr": "本文针对铰接3D物体重建中标注数据稀缺的问题，提出Instruct-Particulate，输入3D网格和目标运动学规范（部件描述、连接关系、关节类型及可选点提示），预测运动学部件分割和关节运动参数。通过运动学规范消除任务歧义，支持不同粒度标注，从而利用更丰富的异质数据。实验证明该方法具有良好的泛化能力。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-06-730367-v1",
+      "source": "biorxiv",
+      "title": "ConnectoFM: A Foundation Model for Learning the Language of the Connectome",
+      "abstract": "Accurate reconstruction of neural circuits from electron microscopy (EM) data is central to connectomics, yet modern datasets are now so large and heterogeneous that manual annotation and dataset-specific model retraining have become major challenges. While recent EM foundation models provide general visual representations, they are not specifically tailored to the connectomics domain, where preserving fine membrane boundaries and synaptic structures is essential to mitigate topological and connectivity errors. Here, we present ConnectoFM, the first foundation model for connectomics, pretrained on a diverse corpus of 1.7 million unlabeled EM images drawn from six species and 25 subdomains. ConnectoFM combines masked image modeling with contrastive alignment to learn robust visual representations directly from large-scale connectomics data. These representations organize EM images into biologically meaningful clusters across species, brain regions, developmental cohorts, and acquisition domains. Using frozen pretrained features with lightweight decoder heads, we transfer ConnectoFM to three important downstream tasks: binary segmentation, multiclass cell typing, and instance segmentation. Across 29 diverse datasets, including established benchmarks, ConnectoFM consistently outperforms existing EM foundation models and state-of-the-art methods that require task-specific training from scratch. With only 10% labeled data, ConnectoFM surpasses the baselines trained on 100% annotation budget, showing the superiority of ConnectoFM in low-data regimes. Improvements of ConnectoFM are especially pronounced for challenging and biologically important targets, including membranes, mitochondria, vesicles, post-synaptic densities and synapses, and remain strong in low-label settings. Extension to 3D volumetric segmentation and qualitative comparisons further show that ConnectoFM enables more accurate and biologically faithful performance across downstream tasks. These results establish ConnectoFM as a generalizable and data-efficient foundation model for connectomics and provide a scalable route towards more reliable neural circuit reconstruction.",
+      "authors": [
+        "Abir, A. R.",
+        "Saha, A.",
+        "Naswan, R.",
+        "Bayzid, M. S."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-06-10T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.06.730367v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "EM image reconstruction for connectomics, related to 3D reconstruction from images",
+      "llm_evidence_cn": "用于连接组学的EM图像重建，与从图像进行3D重建相关",
+      "llm_evidence": "用于连接组学的EM图像重建，与从图像进行3D重建相关",
+      "canonical_evidence": "用于连接组学的EM图像重建，与从图像进行3D重建相关",
+      "llm_tldr_en": "ConnectoFM is a foundation model for connectomics, pretrained on diverse EM images to reconstruct neural circuits with fine membrane and synapse preservation.",
+      "llm_tldr_cn": "本文针对电子显微镜图像中神经回路重建的挑战，提出ConnectoFM，首个面向连接组学的基础模型。在来自6个物种、25个子领域的170万张未标注EM图像上预训练，结合掩码图像建模和对比学习。该模型能够保留精细的膜边界和突触结构，减少拓扑和连接错误，在多种下游任务中表现优异。",
+      "llm_tldr": "本文针对电子显微镜图像中神经回路重建的挑战，提出ConnectoFM，首个面向连接组学的基础模型。在来自6个物种、25个子领域的170万张未标注EM图像上预训练，结合掩码图像建模和对比学习。该模型能够保留精细的膜边界和突触结构，减少拓扑和连接错误，在多种下游任务中表现优异。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
