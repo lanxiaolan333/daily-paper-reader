@@ -1,0 +1,288 @@
+Title: LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss
+
+URL Source: https://arxiv.org/pdf/2606.07932v1
+
+Published Time: Tue, 09 Jun 2026 00:25:09 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss 
+
+# Yongfei Guo, Qizhou Huo, Xuan Sun, Yuanhao Gong 
+
+Changchun Institute of Optics, Fine Mechanics and Physics, Chinese Academy of Sciences, Changchun, China University of Chinese Academy of Sciences, Beijing, China Multi-view Images 3D Gaussian Scene GS Render Rendered 
+
+Innovation 
+
+GT Image Laplacian enhanced Weighted loss 
+
+> Linear Nonlinear
+
+Nonlinear Laplacian guidance 
+
+Standard 3DGS pipeline 
+
+Image Gradient Laplacian 3DGS EGGS LEGS 
+
+Figure 1: Overview of LEGS. The standard 3DGS pipeline is kept unchanged, while Laplacian structural guidance and nonlinear weights are introduced only in the reconstruction loss. 
+
+## Abstract 
+
+3D Gaussian Splatting (3DGS) has become an efficient explicit rep-resentation for radiance field reconstruction and real-time novel view synthesis. However, its standard photometric loss treats flat and structure-rich regions similarly, which may limit the recovery of sharp contours and fine details. Edge-Guided Gaussian Splatting (EGGS) improves structure awareness through edge-guided weight-ing, but mainly relies on first-order gradient responses and linear weighting. In this paper, we propose LEGS, a Laplacian-Enhanced Gaussian Splatting method with a nonlinearly weighted loss. LEGS replaces first-order gradient guidance with second-order Laplacian structural guidance and maps the normalized Laplacian response into pixel-wise weights through nonlinear response-to-weight func-tions. The proposed loss improves structure-aware Gaussian opti-mization while keeping the original 3DGS rendering pipeline un-changed. Experiments on the full Tanks&Temples and Mip-NeRF360 
+
+Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. 
+
+Conference acronym ’XX, Woodstock, NY 
+
+© 2018 Copyright held by the owner/author(s). Publication rights licensed to ACM. ACM ISBN 978-1-4503-XXXX-X/2018/06 https://doi.org/XXXXXXX.XXXXXXX 
+
+datasets show that LEGS improves peak signal-to-noise ratio (PSNR) by up to 1.68 dB over 3DGS and up to 0.52 dB over EGGS. Incor-porating the proposed second-order nonlinear weighting strategy into FastGS and FasterGS further improves PSNR by up to 1.69 dB, demonstrating its effectiveness as a general loss-level extension for Gaussian Splatting pipelines with potential applications in AR/VR, immersive visualization, and real-time 3D content generation. 
+
+## CCS Concepts 
+
+• Computing methodologies → Computational photography; Reconstruction; Rasterization .
+
+## Keywords 
+
+Gaussian, Splatting, Radiance, Laplacian, Nonlinear Weighted Loss 
+
+ACM Reference Format: 
+
+Yongfei Guo, Qizhou Huo, Xuan Sun, Yuanhao Gong. 2018. LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss. In Proceed-ings of Make sure to enter the correct conference title from your rights confir-mation email (Conference acronym ’XX). ACM, New York, NY, USA, 5 pages. https://doi.org/XXXXXXX.XXXXXXX 
+
+## 1 Introduction 
+
+Radiance field reconstruction from multi-view images is a funda-mental problem in computer vision and graphics, with broad appli-cations in novel view synthesis, immersive visualization, AR/VR,  
+
+> arXiv:2606.07932v1 [cs.CV] 6 Jun 2026 Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Yongfei et al.
+
+and web-based 3D content generation [Barron et al . 2022a; Fridovich-Keil et al . 2022; Mildenhall et al . 2021; Müller et al . 2022]. Recently, 3D Gaussian Splatting (3DGS) has become an effective explicit representation for this task, enabling high-quality radiance field reconstruction and real-time rendering [Bao et al. 2025; Chen and Wang 2026; Kerbl et al . 2023]. Existing 3DGS variants improve ren-dering quality, efficiency, and compactness through anti-aliasing splatting, structured Gaussian representations, or Gaussian com-pression [Fan et al . 2023; Lu et al . 2024; Yu et al . 2024]. In contrast, this work focuses on loss-level structural guidance without chang-ing the Gaussian representation or rendering pipeline. Despite its success, 3DGS optimization is still mainly driven by photometric reconstruction losses, which treat flat, weakly tex-tured, and structure-rich regions similarly. As a result, important contours, corners, thin structures, and high-frequency details may not receive sufficient emphasis. Edge-Guided Gaussian Splatting (EGGS) [Gong 2024] addresses this issue by assigning larger re-construction weights to edge pixels, showing that loss-level edge guidance can improve Gaussian Splatting without modifying the rendering pipeline. However, EGGS relies on first-order gradient magnitude and linear response-to-weight mapping, which may not fully capture second-order variations [Chelani et al. 2025]. In this paper, we propose LEGS , a Laplacian-Enhanced Gauss-ian Splatting method with a nonlinear weighted loss. LEGS re-places first-order gradient guidance with the absolute Laplacian response of input images, which provides a compact second-order cue for structure-sensitive regions. Nonlinear response-to-weight mappings are further introduced to control the contribution of dif-ferent structural response levels. LEGS improves structure-aware Gaussian optimization while keeping the original 3DGS rendering and optimization pipeline unchanged. 
+
+## 1.1 3D Gaussian Splatting 
+
+3D Gaussian Splatting represents a radiance field using a set of anisotropic Gaussian primitives. Each primitive is associated with a 3D position, covariance, opacity, and view-dependent color pa-rameters. Given a camera view, the 3D Gaussians are projected onto the image plane and composited through differentiable alpha blending. This explicit representation enables efficient optimization and real-time rendering, making 3DGS attractive for high-quality novel view synthesis. Let 𝑈 and 𝐹 denote the rendered image and the supervision image, respectively. The standard 3DGS reconstruction loss is com-monly written as 
+
+𝐿 3DGS = (1 − 𝜆 )∥ 𝑈 − 𝐹 ∥1 + 𝜆𝐷 SSIM (𝑈 , 𝐹 ), (1) where 𝐷 SSIM is the SSIM-based distance and 𝜆 balances the two terms. Although effective, this objective does not explicitly distin-guish structure-rich pixels from flat ones, which may weaken the reconstruction of sharp boundaries and fine details. 
+
+## 1.2 Edge-Guided Gaussian Splatting 
+
+Edges and local structures are important visual cues, and edge-preserving filtering studies show that preserving structural dis-continuities helps avoid over-smoothing and maintain perceptual fidelity [Gong et al . 2018, 2021; Yin et al . 2019a,b]. In radiance field reconstruction, such cues often correspond to object boundaries, depth discontinuities, and fine details. EGGS introduces them into Gaussian Splatting through a gradient-based weight: 
+
+𝑊 𝑔 (𝑢, 𝑣 ) = 1 + 𝛽 ∥∇ 𝐹 (𝑢, 𝑣 )∥ 𝑝 , (2) where (𝑢, 𝑣 ) is the pixel coordinate, ∇ is the image gradient operator, and 𝛽 controls edge amplification. This loss-level design is simple and effective, but its guidance is based on first-order image variation. Gradient magnitude mainly captures local intensity slopes and may be insufficient for second-order structures such as corners, thin contours, and high-frequency details. Moreover, a linear response-to-weight mapping may not adapt well to different scenes and response distributions. 
+
+## 1.3 From First-Order to Second-Order 
+
+To introduce second-order structural guidance, we use the Laplacian response: 
+
+𝐸 𝑙 (𝑢, 𝑣 ) = ∥Δ𝐹 (𝑢, 𝑣 )∥ 𝑝 , (3) where Δ denotes the image Laplacian operator and the norm con-verts the signed response into a non-negative magnitude. Com-pared with gradient magnitude, the Laplacian provides a compact structure-sensitive cue for contours, corners, thin structures, and high-frequency local details. We further map the Laplacian response into loss weights. Since Laplacian responses can be unevenly distributed, a nonlinear response-to-weight mapping offers more flexible control over weak, medium, and strong structural responses during Gaussian optimization. 
+
+## 1.4 Motivations and Contributions 
+
+The main motivation of this work is to improve the structure aware-ness of Gaussian Splatting with a lightweight loss-level design. LEGS replaces first-order gradient guidance with second-order Laplacian structural guidance and further reshapes the response through nonlinear weighting, while keeping the original 3DGS representation and rendering pipeline unchanged. The main contributions are summarized as follows: 
+
+• We propose LEGS , a Laplacian-enhanced Gaussian Splatting method that introduces second-order structural guidance into radiance field reconstruction. 
+
+• We design a nonlinearly Laplacian-weighted loss to flexi-bly control the contribution of structure-rich pixels during Gaussian optimization. 
+
+• We evaluate LEGS on T&T and Mip-NeRF360, analyze the weighting parameter 𝛽 and nonlinear mappings, and further verify the generality of the proposed loss on FastGS and FasterGS under different Gaussian Splatting pipelines. 
+
+## 2 Laplacian-Enhanced Gaussian Splatting 
+
+Fig. 1 illustrates the overview of the proposed LEGS framework. LEGS keeps the standard 3DGS pipeline unchanged, including the Gaussian representation, differentiable Gaussian splatting renderer, and densification strategy, while introducing a Laplacian-enhanced nonlinear weighted loss for structure-aware optimization. LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss Conference acronym ’XX, June 03–05, 2018, Woodstock, NY 
+
+## 2.1 Overview 
+
+Given a set of multi-view training images F = {𝐹 𝑖 }𝑁 𝑖 =1, LEGS first computes a Laplacian structural response map for each input view. Since the response map depends only on the observed image rather than the optimized radiance field, it can be pre-computed and reused as a fixed structural prior throughout optimization. For each view, the Laplacian response is normalized to a common range and then passed through a nonlinear response-to-weight mapping. The mapped response is used to generate a pixel-wise weight map, which reweights the photometric reconstruction term. In this way, pixels with stronger second-order structural variations contribute more to Gaussian optimization, while the original 3DGS rendering process remains unchanged. 
+
+## 2.2 Laplacian Structural Guidance 
+
+For the 𝑖 -th input image 𝐹 𝑖 , we compute the Laplacian structural response as 
+
+𝐸 𝑖  
+
+> Δ
+
+(𝑢, 𝑣 ) = Δ𝐹 𝑖 (𝑢, 𝑣 ) 𝑝 , (4) where Δ denotes the image Laplacian operator, and ∥ · ∥ 𝑝 computes the magnitude of the Laplacian response. For RGB images, Δ𝐹 𝑖 (𝑢, 𝑣 )
+
+is regarded as a channel-wise response vector. To make the weighting factor comparable across different views and scenes, the response map is normalized to [0, 1]:
+
+ˆ𝐸 𝑖  
+
+> Δ
+
+(𝑢, 𝑣 ) = 𝐸 𝑖  
+
+> Δ
+
+(𝑢, 𝑣 ) − 𝐸 𝑖 
+
+> Δ,min
+
+𝐸 𝑖  
+
+> Δ,max
+
+− 𝐸 𝑖  
+
+> Δ,min
+
++ 𝜖 , (5) where 𝐸 𝑖  
+
+> Δ,min
+
+and 𝐸 𝑖  
+
+> Δ,max
+
+are the minimum and maximum values of 
+
+𝐸 𝑖  
+
+> Δ
+
+over the image domain, and 𝜖 is a small constant for numerical stability. The normalized response ˆ𝐸 𝑖  
+
+> Δ
+
+provides a compact second-order structural cue for the following weighted loss design. 
+
+## 2.3 Nonlinear Laplacian-Weighted Loss 
+
+A linear response-to-weight mapping is simple, but different Lapla-cian response levels may not contribute equally to Gaussian opti-mization. Therefore, we introduce a nonlinear mapping function to reshape the normalized Laplacian response: 
+
+˜𝐸 𝑖  
+
+> Δ,𝑚
+
+(𝑢, 𝑣 ) = 𝑓 𝑚 
+
+ ˆ𝐸 𝑖  
+
+> Δ
+
+(𝑢, 𝑣 )
+
+
+
+, 𝑚 = 1, . . . , 5, (6) where 𝑓 𝑚 : [0, 1] → [ 0, 1] denotes the 𝑚 -th mapping function. We evaluate five mappings, denoted as C1–C5. As shown in Fig. 2, C1 is the linear reference, while C2–C5 reshape the normalized Laplacian response with different nonlinear behaviors. These mappings allow the loss to adjust the relative contributions of weak, medium, and strong structural responses. The final Laplacian-enhanced weight map is defined as 
+
+𝑊 𝑖  
+
+> Δ,𝑚
+
+(𝑢, 𝑣 ) = 1 + 𝛽 ˜𝐸 𝑖  
+
+> Δ,𝑚
+
+(𝑢, 𝑣 ), (7) where 𝛽 > 0 controls the strength of Laplacian structural enhance-ment. When 𝛽 = 0, the weight map becomes one and the loss degenerates to the standard unweighted photometric loss. Let 𝑈 𝑖 denote the rendered image of the 𝑖 -th view. The Laplacian-weighted photometric term is defined as 
+
+𝐿 w = 1
+
+𝑁 
+
+> 𝑁
+
+∑︁ 
+
+> 𝑖 =1
+
+1
+
+|Ω|∑︁ (𝑢,𝑣 ) ∈ Ω
+
+𝑊 𝑖  
+
+> Δ,𝑚
+
+(𝑢, 𝑣 ) 𝑈 𝑖 (𝑢, 𝑣 ) − 𝐹 𝑖 (𝑢, 𝑣 ) 1 , (8) 
+
+Figure 2: Nonlinear response-to-weight mapping functions. C1 is the linear reference, while C2–C5 reshape the normal-ized Laplacian response with different nonlinear behaviors. 
+
+where Ω is the image domain. Following the standard reconstruc-tion objective in 3DGS, we combine the weighted photometric term with an SSIM-based distance: 
+
+𝐿 LEGS = (1 − 𝜆 )𝐿 w + 𝜆𝐿 ssim , (9) where 𝐿 ssim = 1
+
+> 𝑁
+
+Í𝑁 𝑖 =1 𝐷 SSIM (𝑈 𝑖 , 𝐹 𝑖 ). The proposed loss only changes the supervision signal and does not modify the Gaussian renderer or the optimization pipeline. Therefore, LEGS can be implemented as a lightweight loss-level extension of 3DGS. 
+
+## 3 Experiments 
+
+We evaluate the proposed Laplacian-enhanced weighted loss through overall comparison, component analysis, and visual inspection. Specifically, we compare LEGS with representative Gaussian Splat-ting baselines, analyze the effects of 𝛽 and nonlinear response-to-weight mappings, and examine local structural details through visual comparisons. 
+
+## 3.1 Experimental Setup 
+
+We evaluate the proposed method on the full Train and Truck scenes from Tanks-and-Temples (T&T) [Knapitsch et al . 2017] and the full Mip-NeRF360 dataset [Barron et al . 2022b]. All reported results, including 3DGS and other baselines, are computed on the training views for controlled within-paper comparison. We compare LEGS with 3DGS, EGGS, and LEGS-L, a linear Laplacian-weighted variant. To examine generality, we further incorporate the proposed loss into FastGS [Ren et al . 2025] and FasterGS [Hahlbohm et al . 2026]. Unless otherwise specified, the Gaussian representation and renderer are unchanged, and only the reconstruction loss is modified. 
+
+## 3.2 Quantitative Results 
+
+Table 1 reports the main quantitative comparison. The upper block compares 3DGS, EGGS, LEGS-L, and LEGS. LEGS-L improves over 3DGS on both datasets, confirming the effectiveness of second-order Laplacian guidance. LEGS further outperforms LEGS-L and EGGS, showing that nonlinear Laplacian-weighted supervision pro-vides stronger structure-aware optimization than linear Laplacian weighting and first-order gradient guidance. Conference acronym ’XX, June 03–05, 2018, Woodstock, NY Yongfei et al. 
+
+To further examine the generality of the proposed loss, we ap-ply LEGS to two efficient Gaussian Splatting variants, FastGS and FasterGS. As shown in the lower block of Table 1, replacing their original reconstruction losses with the proposed LEGS loss con-sistently improves the reconstruction quality on both T&T and Mip-NeRF360. This indicates that LEGS is not limited to a specific Gaussian Splatting implementation, but can be used as a general loss-level extension. 
+
+Table 1: Main quantitative comparison. Higher PSNR/SSIM and lower LPIPS are better.   
+
+> Method Tanks&Temples Mip-NeRF360 PSNR
+
+↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓                                                
+
+> 3DGS [Kerbl et al. 2023] 26.6731 0.8938 0.1508 29.3242 0.8729 0.1896 EGGS [Gong 2024] 27.8980 0.9052 0.1340 30.4814 0.8911 0.1687 LEGS-L 27.8820 0.9085 0.1286 30.3920 0.8927 0.1667 LEGS (Ours) 28.1961 0.9092 0.1269 31.0006 0.9010 0.1533
+> FastGS 25.7165 0.8673 0.2235 28.5103 0.8503 0.2283 FastGS+Ours 26.4326 0.8747 0.1775 29.6358 0.8705 0.2011
+> FasterGS 26.8850 0.8940 0.1825 30.1022 0.8971 0.1634 FasterGS+Ours 28.5700 0.9115 0.1555 31.7422 0.9217 0.1312
+
+## 3.3 Parameter and Nonlinear Mapping Analysis 
+
+We first study the effect of the weighting parameter 𝛽 under the lin-ear Laplacian-guided setting. As shown in Fig. 3, larger 𝛽 strength-ens the Laplacian guidance and improves performance within the evaluated range. Among the tested candidates, 𝛽 = 10 performs best and is used for the following nonlinear mapping analysis. 
+
+Figure 3: Effect of the weighting parameter 𝛽 on T&T. 
+
+We then compare the five mappings in Fig. 2 under the selected 
+
+𝛽 . Table 2 reports the results on T&T, with C1 as the linear refer-ence. C3 achieves the best overall performance and improves PSNR by 0.2467 dB over C1, showing that nonlinear response shaping benefits Laplacian-guided Gaussian optimization. 
+
+Table 2: Nonlinear mapping analysis on T&T. C1 is the linear reference.  
+
+> Curve PSNR
+
+↑ ΔPSNR SSIM ↑ ΔSSIM LPIPS ↓ ΔLPIPS C1 27.9494 +0.0000 0.9079 +0.0000 0.1291 +0.0000 C2 27.7214 -0.2280 0.9059 -0.0020 0.1330 +0.0039 C3 28.1961 +0.2467 0.9092 +0.0013 0.1269 -0.0022             
+
+> C4 27.7581 -0.1913 0.9069 -0.0010 0.1309 +0.0018 C5 28.0566 +0.1072 0.9073 -0.0006 0.1293 +0.0002
+
+## 3.4 Visual Comparison 
+
+Fig. 4 shows visual comparisons on representative scenes. Com-pared with 3DGS and EGGS, LEGS better preserves contours, cor-ners, and fine local structures. This agrees with the quantitative results and indicates that second-order Laplacian structural guid-ance helps the optimization allocate more attention to visually important regions.   
+
+> 3DGS [Kerbl et al. 2023] EGGS [Gong 2024] LEGS GT
+
+Figure 4: Visual comparison on representative scenes. 
+
+## 4 Conclusion 
+
+In this paper, we proposed LEGS, a Laplacian-Enhanced Gaussian Splatting method with a nonlinearly weighted loss. LEGS intro-duces second-order Laplacian structural guidance and nonlinear response-to-weight mapping to improve structure-aware Gaussian optimization, while keeping the original Gaussian representation, renderer, and optimization pipeline unchanged. Experiments on T&T and Mip-NeRF360 show that LEGS im-proves reconstruction quality over 3DGS, EGGS, and the linear Laplacian-weighted variant. Results on FastGS and FasterGS further show its generality as a loss-level extension for Gaussian Splatting pipelines. In future work, we will explore more adaptive structural weighting strategies and extend Laplacian-enhanced supervision to more efficient and compact Gaussian representations [Deng et al .2025; Huang et al . 2026a; Pang et al . 2025]. More broadly, LEGS can be applied to a wide range of radiance-field and real-time 3D applications where local structural information is important [Gong 2019, 2022, 2025; Gong and Chen 2019, 2020; Gong and Goksel 2019; Gong et al . 2012; Gong and Sbalzarini 2013, 2017; Gong et al . 2019; Guo et al . 2025; Huang et al . 2026b; Yin et al . 2020; Yu et al . 2022; Zhou et al. 2025; Zong et al. 2021]. 
+
+## 5 Acknowledgments 
+
+This work was supported in part by National Natural Science Foundation of China under Grant 12471502, CAS Hundred Tal-ents Program, and Science and Technology Development Plan Project of Jilin Province, China under Grant 20260204053YY. Con-tact:gong.ai@qq.com. 
+
+## References 
+
+> Yanqi Bao, Tianyu Ding, Jing Huo, Yaoli Liu, Yuxin Li, Wenbin Li, Yang Gao, and Jiebo Luo. 2025. 3D Gaussian Splatting: Survey, Technologies, Challenges, and
+
+LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss Conference acronym ’XX, June 03–05, 2018, Woodstock, NY 
+
+Opportunities. IEEE Transactions on Circuits and Systems for Video Technology 35, 7 (2025), 6832–6852. doi:10.1109/TCSVT.2025.3538684 Jonathan T. Barron, Ben Mildenhall, Dor Verbin, Pratul P. Srinivasan, and Peter Hedman. 2022a. Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields. In 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) . 5460–5469. doi:10.1109/CVPR52688.2022.00539 Jonathan T. Barron, Ben Mildenhall, Dor Verbin, Pratul P. Srinivasan, and Peter Hed-man. 2022b. Mip-NeRF 360: Unbounded Anti-Aliased Neural Radiance Fields. arXiv:2111.12077 [cs.CV] https://arxiv.org/abs/2111.12077 Kunal Chelani, Assia Benbihi, Torsten Sattler, and Fredrik Kahl. 2025. EdgeGaussians -3D Edge Mapping via Gaussian Splatting. In Proceedings of the Winter Conference on Applications of Computer Vision (WACV) . 3268–3279. Guikun Chen and Wenguan Wang. 2026. A Survey on 3D Gaussian Splatting. ACM Comput. Surv. (April 2026). doi:10.1145/3807511 Just Accepted. Xiaobin Deng, Changyu Diao, Min Li, Ruohan Yu, and Duanqing Xu. 2025. Im-proving Densification in 3D Gaussian Splatting for High-Fidelity Rendering. arXiv:2508.12313 [cs.CV] https://arxiv.org/abs/2508.12313 Zhiwen Fan, Kevin Wang, Kairun Wen, Zehao Zhu, Dejia Xu, and Zhangyang Wang. 2023. LightGaussian: Unbounded 3D Gaussian Compression with 15x Reduction and 200+ FPS. arXiv:2311.17245 [cs.CV] Sara Fridovich-Keil, Alex Yu, Matthew Tancik, Qinhong Chen, Benjamin Recht, and Angjoo Kanazawa. 2022. Plenoxels: Radiance Fields without Neural Networks. In 
+
+CVPR .Yuanhao Gong. 2019. Mean Curvature Is a Good Regularization for Image Processing. 
+
+IEEE Transactions on Circuits and Systems for Video Technology 29, 8 (2019), 2205– 2214. doi:10.1109/TCSVT.2018.2866866 Yuanhao Gong. 2022. Computing Curvature, Mean Curvature and Weighted Mean Curvature. In 2022 IEEE International Conference on Image Processing (ICIP) . 266–270. doi:10.1109/ICIP46576.2022.9897816 Yuanhao Gong. 2024. EGGS: Edge Guided Gaussian Splatting for Radiance Fields. Association for Computing Machinery, New York, NY, USA. https://doi.org/10. 1145/3665318.3677148 Yuanhao Gong. 2025. OSBF: One-Sided Box Filter for Edge-preserving Image Processing. 
+
+IEEE Access 13 (2025), 61149–61160. doi:10.1109/ACCESS.2025.3555434 Yuanhao Gong and Yong Chen. 2019. Computing Gaussian Curvature in Real-Time for 4K Video Processing. IEEE Access 7 (2019), 115936–115944. doi:10.1109/ACCESS. 2019.2936270 Yuanhao Gong and Yong Chen. 2020. Molecular Surface Estimation by Geometric Coupled Distance Functions. IEEE Access 8 (2020), 176263–176273. doi:10.1109/ ACCESS.2020.3026757 Yuanhao Gong and Orcun Goksel. 2019. Weighted mean curvature. Signal Processing 
+
+164 (2019), 329–339. doi:10.1016/j.sigpro.2019.06.020 Yuanhao Gong, Bozhi Liu, Xianxu Hou, and Guoping Qiu. 2018. Sub-window Box Filter. In 2018 IEEE Visual Communications and Image Processing (VCIP) . 1–4. doi:10. 1109/VCIP.2018.8698682 Yuanhao Gong, Gregory Paul, and Ivo F. Sbalzarini. 2012. Coupled signed-distance func-tions for implicit surface reconstruction. In 2012 9th IEEE International Symposium on Biomedical Imaging (ISBI) . 1000–1003. doi:10.1109/ISBI.2012.6235726 Yuanhao Gong and Ivo F. Sbalzarini. 2013. Local weighted Gaussian curvature for image processing. In 2013 IEEE International Conference on Image Processing . 534– 538. doi:10.1109/ICIP.2013.6738110 Yuanhao Gong and Ivo F. Sbalzarini. 2017. Curvature Filters Efficiently Reduce Certain Variational Energies. IEEE Transactions on Image Processing 26, 4 (2017), 1786–1798. doi:10.1109/TIP.2017.2658954 Yuanhao Gong, Wenming Tang, Lebin Zhou, Lantao Yu, and Guoping Qiu. 2021. Quarter Laplacian Filter For Edge Aware Image Processing. In 2021 IEEE International Conference on Image Processing (ICIP) . 1959–1963. doi:10.1109/ICIP42928.2021. 9506503 Yuanhao Gong, Hui Yin, Jingxin Liu, Bozhi Liu, and Guoping Qiu. 2019. Soft Tissue Removal in X-Ray Images by Half Window Dark Channel Prior. In 2019 IEEE International Conference on Image Processing (ICIP) . 3576–3580. doi:10.1109/ICIP. 2019.8803492 Yongfei Guo, Xudong Niu, Chizhi Zhang, and Yuanhao Gong. 2025. FPGA Ac-celerated One-Sided Box Filter for Edge-Preserving Image Processing. In 2025 IEEE International Workshop on Multimedia Signal Processing (MMSP) . 42–47. doi:10.1109/MMSP64401.2025.11324146 Florian Hahlbohm, Linus Franke, Martin Eisemann, and Marcus Magnor. 2026. Faster-GS: Analyzing and Improving Gaussian Splatting Optimization. arXiv:2602.09999 [cs.CV] https://arxiv.org/abs/2602.09999 Ziyang Huang, Jiagang Chen, Jin Liu, and Shunping Ji. 2026a. Opt3DGS: Optimizing 3D Gaussian Splatting with Adaptive Exploration and Curvature-Aware Exploita-tion. Proceedings of the AAAI Conference on Artificial Intelligence 40, 7 (Mar. 2026), 5230–5238. doi:10.1609/aaai.v40i7.37438 Zixun Huang, Cho-Ying Wu, Yuliang Guo, Xinyu Huang, and Liu Ren. 2026b. 3DGEER: 3D Gaussian Rendering Made Exact and Efficient for Generic Cameras. arXiv:2505.24053 [cs.GR] https://arxiv.org/abs/2505.24053 Bernhard Kerbl, Georgios Kopanas, Thomas Leimkühler, and George Drettakis. 2023. 3D Gaussian Splatting for Real-Time Radiance Field Rendering. ACM Transactions on Graphics 42, 4 (July 2023). https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/ Arno Knapitsch, Jaesik Park, Qian-Yi Zhou, and Vladlen Koltun. 2017. Tanks and temples: benchmarking large-scale scene reconstruction. ACM Trans. Graph. 36, 4, Article 78 (July 2017), 13 pages. doi:10.1145/3072959.3073599 Tao Lu, Mulin Yu, Linning Xu, Yuanbo Xiangli, Limin Wang, Dahua Lin, and Bo Dai. 2024. Scaffold-gs: Structured 3d gaussians for view-adaptive rendering. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition .20654–20664. Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ra-mamoorthi, and Ren Ng. 2021. NeRF: representing scenes as neural radiance fields for view synthesis. 65, 1 (2021). https://doi.org/10.1145/3503250 Thomas Müller, Alex Evans, Christoph Schied, and Alexander Keller. 2022. Instant Neural Graphics Primitives with a Multiresolution Hash Encoding. ACM Trans. Graph. 41, 4, Article 102 (July 2022), 15 pages. doi:10.1145/3528223.3530127 Guoying Pang, Kefeng Li, Guangyuan Zhang, Yufei Peng, Xiaotong Li, Jiayi Yu, Zhen-fang Zhu, Peng Wang, Zhenfei Wang, and Chen Fu. 2025. StruGS: Structurally consistent 3D Gaussian Splatting with targeted optimization strategies. Computers & Graphics 132 (2025), 104440. doi:10.1016/j.cag.2025.104440 Shiwei Ren, Tianci Wen, Yongchun Fang, and Biao Lu. 2025. FastGS: Training 3D Gaussian Splatting in 100 Seconds. arXiv preprint arXiv:2511.04283 (2025). Hui Yin, Yuanhao Gong, and Guoping Qiu. 2019a. Side Window Filtering. In 2019 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) . 8750–8758. doi:10.1109/CVPR.2019.00896 Hui Yin, Yuanhao Gong, and Guoping Qiu. 2019b. Side window guided filtering. Signal Process. 165, C (Dec. 2019), 315–330. doi:10.1016/j.sigpro.2019.07.026 Hui Yin, Yuanhao Gong, and Guoping Qiu. 2020. Fast and efficient implementation of image filtering using a side window convolutional neural network. Signal Processing 
+
+176 (2020), 107717. doi:10.1016/j.sigpro.2020.107717 Lantao Yu, Dehong Liu, Hassan Mansour, and Petros T. Boufounos. 2022. Fast and High-Quality Blind Multi-Spectral Image Pansharpening. IEEE Transactions on Geoscience and Remote Sensing 60 (2022), 1–17. doi:10.1109/TGRS.2021.3091329 Zehao Yu, Anpei Chen, Binbin Huang, Torsten Sattler, and Andreas Geiger. 2024. Mip-Splatting: Alias-free 3D Gaussian Splatting. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) . 19447–19456. Zheng Zhou, Yu-Jie Xiong, Jia-Chen Zhang, Chun-Ming Xia, Xihe Qiu, and Hongjian Zhan. 2025. Gradient-Direction-Aware Density Control for 3D Gaussian Splatting. 
+
+arXiv preprint arXiv:2508.09239 (2025). Ming Zong, Ruili Wang, Xiubo Chen, Zhe Chen, and Yuanhao Gong. 2021. Motion saliency based multi-stream multiplier ResNets for action recognition. Image and Vision Computing 107 (2021), 104108. doi:10.1016/j.imavis.2021.104108

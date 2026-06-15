@@ -1,0 +1,777 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-15T14:25:36.339964+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 17,
+    "deep_cap": 6,
+    "deep_selected": 8,
+    "quick_candidates": 23,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2606.07932v1",
+      "source": "arxiv",
+      "title": "LEGS: Laplacian-Enhanced Gaussian Splatting with a Nonlinear Weighted Loss",
+      "abstract": "3D Gaussian Splatting (3DGS) has become an efficient explicit representation for radiance field reconstruction and real-time novel view synthesis. However, its standard photometric loss treats flat and structure-rich regions similarly, which may limit the recovery of sharp contours and fine details. Edge-Guided Gaussian Splatting (EGGS) improves structure awareness through edge-guided weighting, but mainly relies on first-order gradient responses and linear weighting. In this paper, we propose LEGS, a Laplacian-Enhanced Gaussian Splatting method with a nonlinearly weighted loss. LEGS replaces first-order gradient guidance with second-order Laplacian structural guidance and maps the normalized Laplacian response into pixel-wise weights through nonlinear response-to-weight functions. The proposed loss improves structure-aware Gaussian optimization while keeping the original 3DGS rendering pipeline unchanged. Experiments on the full Tanks\\&Temples and Mip-NeRF360 datasets show that LEGS improves peak signal-to-noise ratio (PSNR) by up to 1.68 dB over 3DGS and up to 0.52 dB over EGGS. Incorporating the proposed second-order nonlinear weighting strategy into FastGS and FasterGS further improves PSNR by up to 1.69 dB, demonstrating its effectiveness as a general loss-level extension for Gaussian Splatting pipelines with potential applications in AR/VR, immersive visualization, and real-time 3D content generation.",
+      "authors": [
+        "Yongfei Guo",
+        "Qizhou Huo",
+        "Xuan Sun",
+        "Yuanhao Gong"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.MM",
+        "eess.IV",
+        "math.OC"
+      ],
+      "published": "2026-06-06T01:50:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.07932v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Gaussian splatting radiance field reconstruction and novel view synthesis",
+      "llm_evidence_cn": "高斯溅射辐射场重建与新视图合成",
+      "llm_evidence": "高斯溅射辐射场重建与新视图合成",
+      "canonical_evidence": "高斯溅射辐射场重建与新视图合成",
+      "llm_tldr_en": "Enhances 3D Gaussian Splatting with Laplacian-guided nonlinear weighting for sharper edges and fine details in radiance field reconstruction and novel view synthesis.",
+      "llm_tldr_cn": "针对3D高斯溅射在辐射场重建中对平坦和纹理丰富区域采用相同损失，导致边缘和细节模糊的问题，本文提出LEGS，用二阶拉普拉斯算子替代一阶梯度引导，并通过非线性映射将归一化拉普拉斯响应转化为像素权重，增强对结构区域的关注。实验表明该方法在新视图合成中显著提升了边缘清晰度和细节保真度。",
+      "llm_tldr": "针对3D高斯溅射在辐射场重建中对平坦和纹理丰富区域采用相同损失，导致边缘和细节模糊的问题，本文提出LEGS，用二阶拉普拉斯算子替代一阶梯度引导，并通过非线性映射将归一化拉普拉斯响应转化为像素权重，增强对结构区域的关注。实验表明该方法在新视图合成中显著提升了边缘清晰度和细节保真度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09034v1",
+      "source": "arxiv",
+      "title": "Leveraging NeRF-Rendered Images for 3D Gaussian Splatting",
+      "abstract": "Neural radiance field (NeRF) and 3D Gaussian splatting (3DGS) are two mainstream approaches for novel view synthesis. They often show complementary performance, i.e., 3DGS demonstrating faster rendering speed and NeRF demonstrating higher rendering quality. Motivated by this, we propose leveraging NeRF-rendered images for 3DGS. Specifically, we target street scenes and utilize a pre-trained street-specific NeRF method to produce training images for a target 3DGS method. In our 3DGS training, NeRF-rendered images are used to remove transient objects in street-level input views and to generate bird's-eye views as additional views, inheriting the higher-quality rendering of NeRF into 3DGS. We further incorporate a diffusion-based image enhancement to improve the image quality of the additional views. Experimental results on one synthetic and two real datasets demonstrate that our proposed method improves street-scene rendering while preserving the speed of 3DGS and the quality of NeRF.",
+      "authors": [
+        "Mizuki Morikawa",
+        "Yuta Shimizu",
+        "Chunyu Li",
+        "Yusuke Monno",
+        "Masatoshi Okutomi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T05:03:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.09034v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "leveraging NeRF-rendered images for 3D Gaussian splatting in novel view synthesis",
+      "llm_evidence_cn": "利用NeRF渲染图像改进3D高斯泼溅的新视角合成",
+      "llm_evidence": "利用NeRF渲染图像改进3D高斯泼溅的新视角合成",
+      "canonical_evidence": "利用NeRF渲染图像改进3D高斯泼溅的新视角合成",
+      "llm_tldr_en": "This paper combines NeRF and 3D Gaussian splatting by using NeRF-rendered images to train 3DGS, improving quality and removing transient objects in street scenes.",
+      "llm_tldr_cn": "针对NeRF和3D高斯泼溅在新视角合成中的互补性能，本文提出利用NeRF渲染的图像来训练3DGS方法。在街景场景中，使用预训练的街景NeRF生成训练图像，去除瞬态物体并添加鸟瞰视角，将NeRF的高质量渲染能力融入3DGS。进一步引入扩散模型增强图像质量，显著提升了渲染效果。",
+      "llm_tldr": "针对NeRF和3D高斯泼溅在新视角合成中的互补性能，本文提出利用NeRF渲染的图像来训练3DGS方法。在街景场景中，使用预训练的街景NeRF生成训练图像，去除瞬态物体并添加鸟瞰视角，将NeRF的高质量渲染能力融入3DGS。进一步引入扩散模型增强图像质量，显著提升了渲染效果。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.09794v1",
+      "source": "arxiv",
+      "title": "Beyond Spherical Harmonics: Rethinking Appearance Models for Radiance Reconstruction",
+      "abstract": "View-dependent appearance modeling remains a challenging problem in novel-view synthesis and reconstruction. Accurately representing complex angular effects often requires substantial memory and computational resources. For new learning-based methods, a common approach is to rely on SH. However, capturing high-frequency phenomena such as specular reflections demands high-order expansions, which increase memory usage and computational cost. Consequently, most methods employ low-order SH, which limits the ability to model complex view-dependent effects, resulting in overly smooth or diffuse representations. To address these limitations, we systematically evaluate a wide range of spherical functions in the context of scene reconstruction. Some of them are introduced to graphics and computer vision for the first time in this paper. Based on the insights from the experiment, we develop a novel spherical formulation, the Normalized Anisotropic Spherical Gabor function that enables efficient modeling and learning of high-frequency appearance effects while maintaining compact representation. Compared to existing approaches, our function achieves higher-quality reconstruction of view-dependent phenomena such as glints, while being up to five times more memory-efficient and more efficient to evaluate. We validate its performance in radiance-field reconstruction tasks.",
+      "authors": [
+        "Ewa Miazga",
+        "Jorge Condor",
+        "Piotr Didyk"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-08T17:50:41+00:00",
+      "link": "https://arxiv.org/pdf/2606.09794v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "improving view-dependent appearance models for novel-view synthesis and radiance reconstruction",
+      "llm_evidence_cn": "改进新视角合成和辐射重建中的视角相关外观模型",
+      "llm_evidence": "改进新视角合成和辐射重建中的视角相关外观模型",
+      "canonical_evidence": "改进新视角合成和辐射重建中的视角相关外观模型",
+      "llm_tldr_en": "This paper systematically evaluates spherical functions for radiance reconstruction, proposing alternatives to low-order spherical harmonics that better capture high-frequency specular effects for novel-view synthesis.",
+      "llm_tldr_cn": "针对新视角合成中基于球谐函数的视角相关建模在高频反射效果上的不足，本文系统评估了多种球面函数，提出替代低阶球谐函数的表示，在不显著增加计算成本的前提下提升了高频镜面反射的重建质量，为神经辐射场和场景重建提供了更优的外观模型选择。",
+      "llm_tldr": "针对新视角合成中基于球谐函数的视角相关建模在高频反射效果上的不足，本文系统评估了多种球面函数，提出替代低阶球谐函数的表示，在不显著增加计算成本的前提下提升了高频镜面反射的重建质量，为神经辐射场和场景重建提供了更优的外观模型选择。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.11894v1",
+      "source": "arxiv",
+      "title": "Wild3R: Feed-Forward 3D Gaussian Splatting from Unconstrained Sparse Photo Collection",
+      "abstract": "Feed-forward 3D Gaussian Splatting (3DGS) removes the need for time-consuming per-scene optimization required by traditional 3DGS. However, existing feed-forward approaches struggle with real-world photo collections that include diverse lighting conditions and transient objects. In this paper, we present Wild3R, a feed-forward approach for unconstrained sparse photo collections. The main bottleneck is the lack of training data that provides multiple viewpoints, a variety of illuminations, and transient variations necessary for learning robust scene representations. To address this, we introduce the WildCity dataset, which comprises 200 scenes, 170 lighting conditions, and transient objects, resulting in 337,500 images in total. By leveraging the dataset, our model learns appearance consistency across viewpoints conditioned on reference views, while removing transient content. Extensive experiments demonstrate that our method outperforms existing feed-forward approaches and achieves results competitive with prior per-scene optimization-based methods.",
+      "authors": [
+        "Yuto Furutani",
+        "Takashi Otonari",
+        "Kaede Shiohara",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T10:23:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.11894v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "feed-forward 3D reconstruction from sparse photo collections using 3D Gaussian Splatting",
+      "llm_evidence_cn": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "llm_evidence": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "canonical_evidence": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "llm_tldr_en": "Wild3R presents a feed-forward 3DGS approach for unconstrained sparse photo collections, introducing the WildCity dataset to handle diverse lighting and transient objects.",
+      "llm_tldr_cn": "现有前馈式3D高斯泼溅方法难以处理真实世界照片中复杂光照和瞬态物体。本文提出Wild3R，一种针对无约束稀疏照片集合的前馈式方法，并引入包含200场景、17万种光照和337500张图像的WildCity数据集，解决了训练数据瓶颈。该方法无需逐场景优化，能够鲁棒重建3D场景，显著推进了实用3D重建。",
+      "llm_tldr": "现有前馈式3D高斯泼溅方法难以处理真实世界照片中复杂光照和瞬态物体。本文提出Wild3R，一种针对无约束稀疏照片集合的前馈式方法，并引入包含200场景、17万种光照和337500张图像的WildCity数据集，解决了训练数据瓶颈。该方法无需逐场景优化，能够鲁棒重建3D场景，显著推进了实用3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.11894v2",
+      "source": "arxiv",
+      "title": "Wild3R: Feed-Forward 3D Gaussian Splatting from Unconstrained Sparse Photo Collection",
+      "abstract": "Feed-forward 3D Gaussian Splatting (3DGS) removes the need for time-consuming per-scene optimization required by traditional 3DGS. However, existing feed-forward approaches struggle with real-world photo collections that include diverse lighting conditions and transient objects. In this paper, we present Wild3R, a feed-forward approach for unconstrained sparse photo collections. The main bottleneck is the lack of training data that provides multiple viewpoints, a variety of illuminations, and transient variations necessary for learning robust scene representations. To address this, we introduce the WildCity dataset, which comprises 200 scenes, 170 lighting conditions, and transient objects, resulting in 337,500 images in total. By leveraging the dataset, our model learns appearance consistency across viewpoints conditioned on reference views, while removing transient content. Extensive experiments demonstrate that our method outperforms existing feed-forward approaches and achieves results competitive with prior per-scene optimization-based methods.",
+      "authors": [
+        "Yuto Furutani",
+        "Takashi Otonari",
+        "Kaede Shiohara",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T10:23:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.11894v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "feed-forward 3D reconstruction from sparse photo collections using 3D Gaussian Splatting",
+      "llm_evidence_cn": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "llm_evidence": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "canonical_evidence": "使用3D高斯泼溅从稀疏照片集合进行前馈式3D重建",
+      "llm_tldr_en": "Wild3R presents a feed-forward 3DGS approach for unconstrained sparse photo collections, introducing the WildCity dataset to handle diverse lighting and transient objects.",
+      "llm_tldr_cn": "现有前馈式3D高斯泼溅方法难以处理真实世界照片中复杂光照和瞬态物体。本文提出Wild3R，一种针对无约束稀疏照片集合的前馈式方法，并引入包含200场景、17万种光照和337500张图像的WildCity数据集，解决了训练数据瓶颈。该方法无需逐场景优化，能够鲁棒重建3D场景，显著推进了实用3D重建。",
+      "llm_tldr": "现有前馈式3D高斯泼溅方法难以处理真实世界照片中复杂光照和瞬态物体。本文提出Wild3R，一种针对无约束稀疏照片集合的前馈式方法，并引入包含200场景、17万种光照和337500张图像的WildCity数据集，解决了训练数据瓶颈。该方法无需逐场景优化，能够鲁棒重建3D场景，显著推进了实用3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13644v1",
+      "source": "arxiv",
+      "title": "Surflo: Consistent 3D Surface Flow Model with Global State",
+      "abstract": "Geometry is invariant to viewpoint, which makes any collection of images a redundant encoding of a single 3D state. Existing feed-forward reconstruction models fail to exploit this: per-view methods emit overlapping, unaligned pointmaps that grow linearly with input count, while global-latent methods commit to a fixed, low-resolution output. We introduce Surflo, which compresses a variable number of unposed RGB views into K latent tokens-one global state-and decodes oriented 3D surface points by independently transporting them from noise onto the surface via flow matching. This frees the output from any fixed grid or token budget: the same latent yields from a few thousand to a million points in a single forward pass. To suppress the local inconsistencies inherent to independent per-point decoding, an inference-time guidance term correlates nearby points by injecting a photometric gradient during ODE integration. Surflo matches or surpasses feed-forward baselines on surface metrics, runs an order of magnitude faster than optimization-based methods that require hundreds of views, and is the only feed-forward approach to combine a global latent with arbitrary-resolution decoding.",
+      "authors": [
+        "Antoine Guédon",
+        "Shu Nakamura",
+        "Nicolas Dufour",
+        "Jiahui Lei",
+        "Ko Nishino",
+        "Angjoo Kanazawa"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T17:48:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.13644v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "3D surface reconstruction from multiple unposed views via flow matching",
+      "llm_evidence_cn": "通过流匹配从多个无位姿视图进行3D表面重建",
+      "llm_evidence": "通过流匹配从多个无位姿视图进行3D表面重建",
+      "canonical_evidence": "通过流匹配从多个无位姿视图进行3D表面重建",
+      "llm_tldr_en": "Surflo compresses multiple unposed views into a global latent and decodes 3D surface points via flow matching, enabling flexible resolution and consistent surface reconstruction.",
+      "llm_tldr_cn": "现有前馈式重建模型输出受限，无法有效利用多视图冗余。本文提出Surflo，将可变数量的无位姿RGB视图压缩为全局潜在令牌，通过流匹配独立地将噪声点传输到表面，输出分辨率和点数量灵活可调。该方法在保持全局一致性的同时，支持从数千到数百万点的单次前向重建，为多视图表面重建提供了高效统一的方案。",
+      "llm_tldr": "现有前馈式重建模型输出受限，无法有效利用多视图冗余。本文提出Surflo，将可变数量的无位姿RGB视图压缩为全局潜在令牌，通过流匹配独立地将噪声点传输到表面，输出分辨率和点数量灵活可调。该方法在保持全局一致性的同时，支持从数千到数百万点的单次前向重建，为多视图表面重建提供了高效统一的方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13655v1",
+      "source": "arxiv",
+      "title": "Flex4DHuman: Flexible Multi-view Video Diffusion for 4D Human Reconstruction",
+      "abstract": "We present Flex4DHuman, a multi-view video diffusion model that transforms a monocular or sparse multi-view video of a dynamic subject into synchronized dense multi-view videos using only relative camera-pose conditioning. Unlike prior human-centric methods that rely on skeletons, depth maps, normals, or rendered target-view geometry, Flex4DHuman requires no explicit geometry priors and instead conditions generation through relative camera-pose positional encoding. The generated videos can be directly ingested by downstream reconstruction pipelines to create dynamic 4D Gaussian splats. Built on the Wan 2.1 1.3B text-to-video model, Flex4DHuman preserves the backbone architecture and encodes camera and view information through a five-axis positional encoding that extends spatio-temporal RoPE with view indices and continuous SE(3) relative camera geometry. A three-stage curriculum progressively trains the model for pose following, flexible reference-to-target view generation, and temporal rollout. To support temporal rollout, we train with clean historical target-view tokens. We also add multi-view captions to enable test-time text control. Combined with an off-the-shelf 4D Gaussian Splatting stage, our framework lifts monocular static-camera videos into dynamic 4D Gaussian splats. Experiments on DNA-Rendering and ActorsHQ show that Flex4DHuman surpasses prior state-of-the-art methods, while the same formulation generalizes to animal categories after mixed human-animal training. These capabilities make Flex4DHuman a practical step toward scalable 4D content creation from casual monocular videos for simulation, gaming, AR/VR, and video re-shooting.",
+      "authors": [
+        "Jen-Hao Cheng",
+        "Yipeng Wang",
+        "Hao Zhang",
+        "Gengshan Yang",
+        "Jenq-Neng Hwang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-11T17:54:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.13655v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-view video diffusion for 4D human reconstruction from sparse views",
+      "llm_evidence_cn": "从稀疏多视角视频通过扩散模型生成密集多视角视频用于4D人体重建",
+      "llm_evidence": "从稀疏多视角视频通过扩散模型生成密集多视角视频用于4D人体重建",
+      "canonical_evidence": "从稀疏多视角视频通过扩散模型生成密集多视角视频用于4D人体重建",
+      "llm_tldr_en": "Flex4DHuman uses a multi-view video diffusion model to transform monocular or sparse multi-view video into dense multi-view videos for dynamic 4D human reconstruction, conditioned only by relative camera poses.",
+      "llm_tldr_cn": "针对从稀疏视频进行动态人体重建的挑战，Flex4DHuman提出了一种多视角视频扩散模型，通过相对相机位姿编码生成密集多视角视频，无需显式几何先验。生成的视频可直接用于下游重建管道创建4D高斯溅射。该方法在保持预训练模型架构的同时，实现了高质量的动态人体4D重建。",
+      "llm_tldr": "针对从稀疏视频进行动态人体重建的挑战，Flex4DHuman提出了一种多视角视频扩散模型，通过相对相机位姿编码生成密集多视角视频，无需显式几何先验。生成的视频可直接用于下游重建管道创建4D高斯溅射。该方法在保持预训练模型架构的同时，实现了高质量的动态人体4D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.14307v1",
+      "source": "arxiv",
+      "title": "Pano3D: Unified 3D Reconstruction and Panoptic Segmentation",
+      "abstract": "Recent advances in 3D feedforward reconstruction neural networks have achieved remarkable success in dense reconstruction from images without any camera parameters. Yet, equipping these models with robust semantic understanding remains an open problem. Here we introduce an approach that performs 3D reconstruction and 3D panoptic segmentation in a unified framework. We build on existing 3D reconstruction models and augment them with a set-based mask decoder. The approach is jointly trained with a geometric and semantic loss, which are shown to be mutually beneficial. More precisely, the features are initialized from the geometric information and then finetuned to capture jointly geometry and semantics. We demonstrate the generality of our approach by successfully applying our framework both to online and all-to-all attention reconstruction backbones. Our method achieves state-of-the-art performance in 3D panoptic segmentation across ScanNet, ScanNet200, and ScanNet++ datasets. Ablation studies show that such joint training of a unified model equips 3D feedforward reconstruction neural networks with panoptic segmentation and yields mutually beneficial improvements.",
+      "authors": [
+        "Victor Barberteguy",
+        "Ahmet Iscen",
+        "Mathilde Caron",
+        "Alireza Fathi",
+        "Gül Varol",
+        "Cordelia Schmid"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T09:43:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.14307v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unified 3D reconstruction and panoptic segmentation from images",
+      "llm_evidence_cn": "从图像进行统一3D重建和全景分割",
+      "llm_evidence": "从图像进行统一3D重建和全景分割",
+      "canonical_evidence": "从图像进行统一3D重建和全景分割",
+      "llm_tldr_en": "Pano3D performs dense 3D reconstruction from images without camera parameters and simultaneously outputs panoptic segmentation, showing mutual benefit of geometry and semantics.",
+      "llm_tldr_cn": "现有前馈3D重建网络能高效从图像重建几何，但缺乏语义理解。本文提出统一框架同时进行3D重建和全景分割，通过联合训练几何与语义损失，使两者相互促进。实验证明该方法在多个数据集上有效，无需相机参数即实现重建与分割的协同提升。",
+      "llm_tldr": "现有前馈3D重建网络能高效从图像重建几何，但缺乏语义理解。本文提出统一框架同时进行3D重建和全景分割，通过联合训练几何与语义损失，使两者相互促进。实验证明该方法在多个数据集上有效，无需相机参数即实现重建与分割的协同提升。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.07907v1",
+      "source": "arxiv",
+      "title": "3D Oral Modelling with Improved Vertex Distribution Using Matching-Based Learning",
+      "abstract": "In our previous work, a deep learning-based framework for 3D intraoral reconstruction was proposed. The model directly predicts explicit 3D point cloud coordinates from ten fixed-angle intraoral images, employing MobileNetV2 and Multi-head Attention for multi-view feature fusion, with a combined L1 Loss and Chamfer Distance as the loss function. Although the model achieved an accuracy of 77.49%, predicted vertices tended to concentrate in high-density regions of the ground truth, leaving other regions largely uncovered.   In this paper, an improved loss function is proposed to address this limitation. Hungarian matching with filtering and Repulsion Loss are introduced to enforce more uniform vertex distribution across the reconstructed model. The proposed model achieves an accuracy of 68.02%, which is numerically lower than the previous model. However, the vertex clustering issue observed in the prior work is substantially alleviated, with predicted vertices distributed more evenly across the entire reconstructed surface.",
+      "authors": [
+        "Jihun Cho",
+        "Soo-Yeon Jeong",
+        "Eun-Jeong Bae",
+        "Sun-Young Ihm"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-06T00:10:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.07907v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Deep learning point cloud reconstruction from multiple intraoral images with improved vertex distribution",
+      "llm_evidence_cn": "从多张口内图像进行深度学习的点云重建，并改进了顶点分布",
+      "llm_evidence": "从多张口内图像进行深度学习的点云重建，并改进了顶点分布",
+      "canonical_evidence": "从多张口内图像进行深度学习的点云重建，并改进了顶点分布",
+      "llm_tldr_en": "Proposes a loss function improvement for deep learning based 3D point cloud reconstruction from multiple intraoral images, using Hungarian matching and repulsion loss for uniform vertex distribution.",
+      "llm_tldr_cn": "本文针对口内3D重建中预测顶点聚集的问题，提出基于匈牙利匹配与排斥损失的改进损失函数，使顶点分布更均匀。模型基于MobileNetV2与多头注意力融合多视图特征，直接预测点云坐标，在77.49%准确率基础上提升几何覆盖。该方法为口腔医疗的精准3D建模提供了实用方案。",
+      "llm_tldr": "本文针对口内3D重建中预测顶点聚集的问题，提出基于匈牙利匹配与排斥损失的改进损失函数，使顶点分布更均匀。模型基于MobileNetV2与多头注意力融合多视图特征，直接预测点云坐标，在77.49%准确率基础上提升几何覆盖。该方法为口腔医疗的精准3D建模提供了实用方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.08957v1",
+      "source": "arxiv",
+      "title": "Rethinking 3D Shape Generation: Diffusion over Superquadrics",
+      "abstract": "Diffusion models have advanced 3D shape generation, yet most methods still denoise in high-cardinality spaces (e.g., voxel/SDF grids, meshes, or point clouds), which is computationally and memory intensive and makes it difficult to scale in terms of both higher resolution and stronger controllability. We rethink the diffusion representation and propose to move diffusion from dense geometry to compact geometric primitives, representing each shape as a small set of superquadrics. Instead of operating on thousands to millions of geometric representation values, we leverage 7KB superquadric parameters (pose, size, and shape), drastically reducing diffusion-state dimensionality and per-step compute/memory. Our diffusion-over-superquadrics improves scalability by supporting broader capabilities (e.g., resolution-free point-cloud decoding, part-level editing, and constraint-based design) and achieving competitive surface-fidelity and distributional performance on standard benchmarks after point-cloud decoding, while enabling efficient generation within 0.6s per shape for most conditions.",
+      "authors": [
+        "Zhiyang Liu",
+        "Wanze Li",
+        "Yuwei Wu",
+        "Chengran Yuan",
+        "Jiawei Sun",
+        "Rui Zheng",
+        "Marcelo H Ang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T02:59:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.08957v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D shape generation with superquadrics, relevant to point cloud reconstruction",
+      "llm_evidence_cn": "3D形状生成与超二次曲面，与点云重建方法相关",
+      "llm_evidence": "3D形状生成与超二次曲面，与点云重建方法相关",
+      "canonical_evidence": "3D形状生成与超二次曲面，与点云重建方法相关",
+      "llm_tldr_en": "Proposes diffusion over superquadric parameters for efficient 3D shape generation, reducing dimensionality and enabling better scalability.",
+      "llm_tldr_cn": "针对现有3D形状扩散模型因在高维几何空间（如点云、体素）操作而计算开销大的问题，本文提出在超二次曲面参数空间执行扩散，仅需7KB参数即可表示完整形状。该方法显著降低了扩散状态维度和计算内存开销，实现了更高分辨率和更强可控性的3D形状生成，为点云重建提供了新的方法思路。",
+      "llm_tldr": "针对现有3D形状扩散模型因在高维几何空间（如点云、体素）操作而计算开销大的问题，本文提出在超二次曲面参数空间执行扩散，仅需7KB参数即可表示完整形状。该方法显著降低了扩散状态维度和计算内存开销，实现了更高分辨率和更强可控性的3D形状生成，为点云重建提供了新的方法思路。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.08402v1",
+      "source": "arxiv",
+      "title": "SceneConductor: 3D Scene Generation from Single Image with Multi-Agent Orchestration",
+      "abstract": "Generating complete 3D scenes from a single image requires inferring globally consistent geometry, object relationships, and environmental context from inherently ambiguous visual evidence. Despite recent progress in joint layout-and-mesh generation, existing methods often rely on holistic or weakly decomposed pipelines that entangle many factors at once and demand extensive scene-level supervision, limiting their generalization to complex real-world environments. We propose a multi-agent orchestration framework that decomposes single-image 3D scene generation into three structured stages: scene initialization, environment construction, and multi-agent refinement. The initialization stage extracts image-derived object masks, builds object-level 3D representations, and predicts an initial spatial layout to form a coarse 3D scene. The environment-construction stage then leverages this initialization together with point-map geometry to build an environmental scaffold of supporting surfaces, room boundaries, materials, and illumination. Finally, in the refinement stage, a planner agent identifies structural and visual inconsistencies, applies simple corrections directly, and dispatches specialist agents for complex localized revisions that are reintegrated into the global scene. To provide reliable structural initialization while reducing reliance on scene-level annotations, we further introduce a geometry-aware layout predictor supervised by sparse geometric priors derived from point maps. Unlike fully supervised layout generators, the predictor can be trained from segmentation-level data and generalizes robustly to diverse real-world scenes. Extensive experiments on benchmark datasets show that our method consistently outperforms prior approaches in geometric accuracy, spatial consistency, and perceptual realism.",
+      "authors": [
+        "Jeonghwan Kim",
+        "Yushi Lan",
+        "Yongwei Chen",
+        "Hieu Trung Nguyen",
+        "Chuanyu Pan",
+        "Xingang Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.MA"
+      ],
+      "published": "2026-06-07T01:38:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.08402v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D scene generation from single image, related to reconstructing 3D models from images",
+      "llm_evidence_cn": "从单张图像生成3D场景，与从图像重建3D模型相关",
+      "llm_evidence": "从单张图像生成3D场景，与从图像重建3D模型相关",
+      "canonical_evidence": "从单张图像生成3D场景，与从图像重建3D模型相关",
+      "llm_tldr_en": "SceneConductor proposes a multi-agent framework for generating 3D scenes from a single image, decomposing the task into scene initialization, environment construction, and multi-agent refinement.",
+      "llm_tldr_cn": "现有单图像3D场景生成方法受限于整体或弱分解管线，泛化能力有限。本文提出多智能体编排框架，将任务分解为场景初始化、环境构建和多智能体细化三个阶段，从单张图像生成完整的3D场景。该方法通过结构化分解提升了复杂环境的适应性，为单视图3D重建提供了新思路。",
+      "llm_tldr": "现有单图像3D场景生成方法受限于整体或弱分解管线，泛化能力有限。本文提出多智能体编排框架，将任务分解为场景初始化、环境构建和多智能体细化三个阶段，从单张图像生成完整的3D场景。该方法通过结构化分解提升了复杂环境的适应性，为单视图3D重建提供了新思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.08205v1",
+      "source": "arxiv",
+      "title": "Empowering Feed-Forward Reconstruction Models with Metric Scale via Satellite Images",
+      "abstract": "Feed-forward 3D reconstruction models have recently shown strong generalization across diverse scenes, yet most of them recover geometry only up to an unknown global scale. This scale ambiguity limits their use in applications that require metric understanding of the environment. Existing metric reconstruction methods commonly rely on large-scale metric annotations or accurate camera calibration, both of which are costly or unreliable in many real-world settings. We propose a satellite-guided framework for resolving scale ambiguity in feed-forward 3D reconstruction. The key idea is to use readily available satellite imagery as a global metric reference. Given a coarse camera pose, our method retrieves a local satellite patch and integrates it with a feed-forward reconstruction backbone through bidirectional cross-view interaction. By enforcing consistency between the reconstructed scene and the satellite reference, the model infers absolute scale, refines scene geometry, and estimates camera pose in a metric coordinate frame. Experiments on KITTI, nuScenes, and Oxford RobotCar show consistent improvements in metric depth estimation, multi-view point-cloud reconstruction, and cross-view camera localization, while preserving strong generalization across datasets and geographic regions.",
+      "authors": [
+        "Xianghui Ze",
+        "Yongjian Luo",
+        "Mengjun Chao",
+        "Zhenbo Song",
+        "Jianfeng Lu",
+        "Yujiao Shi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-06T14:44:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.08205v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Feed-forward 3D reconstruction from images with metric scale",
+      "llm_evidence_cn": "从图像进行前馈3D重建并消除尺度模糊",
+      "llm_evidence": "从图像进行前馈3D重建并消除尺度模糊",
+      "canonical_evidence": "从图像进行前馈3D重建并消除尺度模糊",
+      "llm_tldr_en": "Uses satellite images as global metric reference to resolve scale ambiguity in feed-forward 3D reconstruction, enabling metric-scale recovery without costly annotations.",
+      "llm_tldr_cn": "针对前馈3D重建模型普遍存在的全局尺度模糊问题，本文提出一种卫星引导框架，利用易获取的卫星图像作为全局公制参考，结合粗略相机位姿检索局部卫星补丁并与网络特征融合，从而恢复几何的公制尺度。该方法避免了传统度量重建依赖的大规模标注或精确相机标定，显著提升了前馈重建模型的实用性和适用性。",
+      "llm_tldr": "针对前馈3D重建模型普遍存在的全局尺度模糊问题，本文提出一种卫星引导框架，利用易获取的卫星图像作为全局公制参考，结合粗略相机位姿检索局部卫星补丁并与网络特征融合，从而恢复几何的公制尺度。该方法避免了传统度量重建依赖的大规模标注或精确相机标定，显著提升了前馈重建模型的实用性和适用性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.10478v1",
+      "source": "arxiv",
+      "title": "3D-CoS: A New 3D Reconstruction Paradigm Based on VLM Code Synthesis",
+      "abstract": "Most recent 3D reconstruction and editing systems operate on implicit and explicit representations such as NeRF, point clouds, or meshes. While these representations enable high-fidelity rendering, they are fundamentally low-level and hard to control programmatically. In contrast, we propose and systematically evaluate a new 3D reconstruction paradigm, 3D Code Synthesis (3D-CoS), where 3D assets are constructed as executable Blender code, a programmatic and interpretable medium. To assess how well current VLMs can use code to represent 3D objects, we evaluate representative open-source and closed-source VLMs in code-based reconstruction under a unified protocol. We further introduce a suite of structured code-synthesis workflows, including blueprint-based planning, Retrieval-Augmented Generation (RAG) over Blender API documentation, few-shot geometric demonstrations, and a component-level Agent workflow for part-wise code generation. To demonstrate the unique advantages of this representation, we further evaluate localized text-driven modifications and compare our code-based edits with a point-cloud-based 3D editing baseline. Our study shows that code as a 3D representation offers strong controllability and locality, yielding stronger edit fidelity and better preservation of unedited regions in our targeted editing evaluation. Our work also analyzes the potential of this paradigm, delineates the current capability frontier of VLMs for programmatic 3D modeling, and highlights code synthesis as a promising direction for editable 3D reconstruction.",
+      "authors": [
+        "Yuhao Wang",
+        "Puyi Wang",
+        "Linjie Li",
+        "Zhengyuan Yang",
+        "Kevin Qinghong Lin",
+        "Yu Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T06:46:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.10478v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes a new 3D reconstruction paradigm using VLM code synthesis",
+      "llm_evidence_cn": "提出基于VLM代码合成的新3D重建范式",
+      "llm_evidence": "提出基于VLM代码合成的新3D重建范式",
+      "canonical_evidence": "提出基于VLM代码合成的新3D重建范式",
+      "llm_tldr_en": "3D-CoS introduces code-based 3D reconstruction using Blender code, evaluating VLMs' ability to represent 3D objects, offering a programmatic alternative to NeRF and point clouds.",
+      "llm_tldr_cn": "现有3D重建系统依赖NeRF、点云等低级表示，难以程序化控制。本文提出3D代码合成范式，将3D资产表示为可执行的Blender代码，并系统评估多种视觉语言模型在代码重建中的表现。实验表明该方法提供了可解释且可编辑的3D重建新途径。",
+      "llm_tldr": "现有3D重建系统依赖NeRF、点云等低级表示，难以程序化控制。本文提出3D代码合成范式，将3D资产表示为可执行的Blender代码，并系统评估多种视觉语言模型在代码重建中的表现。实验表明该方法提供了可解释且可编辑的3D重建新途径。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.09262v1",
+      "source": "arxiv",
+      "title": "See More, Match Better: Multi-Source Feature Fusion for Two-View Correspondence Learning",
+      "abstract": "Two-view correspondence learning aims to distinguish true correspondences (inliers) from false ones (outliers) in image pairs by leveraging their underlying differences. Existing methods mainly rely on coordinate-based geometric consistency. However, they often struggle with pseudo-consistent outliers in scenes containing repetitive structures, textureless regions, or locally similar geometric patterns. To address this limitation, we propose TriMatch, a multi-source feature fusion framework for two-view correspondence learning, which consists of two parts: feature extraction and feature refinement. In feature extraction, TriMatch jointly extracts geometric, texture semantic, and structural semantic features to provide complementary evidence for correspondence discrimination. To bridge the gap between semantic and geometric features, texture and structural semantic features are aligned with geometric features through dedicated Texture-Geometric Alignment and Structural-Geometric Alignment modules, respectively. We further introduce a Semantic-Guided Correspondence Modulation module, which modulates geometric features using semantic information to suppress geometrically plausible but semantically inconsistent correspondences. In feature refinement, a Hierarchical Semantic-Enhanced Correspondence Refinement strategy progressively models correspondence dependencies and recalibrates multi-context feature responses, enabling more reliable inlier-outlier discrimination. Extensive experiments demonstrate the effectiveness, robustness, and generalization capability of TriMatch.",
+      "authors": [
+        "Xiaojie Li",
+        "Xin Jiang",
+        "Luanyuan Dai",
+        "Jinnan Yang",
+        "Yongdong Zhang",
+        "Zechao Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T09:33:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.09262v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Multi-source feature fusion for two-view correspondence, enabling 3D reconstruction pipelines",
+      "llm_evidence_cn": "多源特征融合用于两视图匹配，支持3D重建流程",
+      "llm_evidence": "多源特征融合用于两视图匹配，支持3D重建流程",
+      "canonical_evidence": "多源特征融合用于两视图匹配，支持3D重建流程",
+      "llm_tldr_en": "TriMatch jointly extracts geometric, texture semantic, and structural semantic features to improve two-view correspondence, crucial for SfM and 3D reconstruction.",
+      "llm_tldr_cn": "本文提出TriMatch，一个多源特征融合框架用于两视图对应学习。它同时提取几何、纹理和结构语义特征，在特征提取和细化阶段提供互补信息，有效应对重复纹理和无纹理区域等挑战，提高了内点判别能力。该工作可提升基于SfM的3D重建的匹配鲁棒性。",
+      "llm_tldr": "本文提出TriMatch，一个多源特征融合框架用于两视图对应学习。它同时提取几何、纹理和结构语义特征，在特征提取和细化阶段提供互补信息，有效应对重复纹理和无纹理区域等挑战，提高了内点判别能力。该工作可提升基于SfM的3D重建的匹配鲁棒性。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11314v1",
+      "source": "arxiv",
+      "title": "TRON: Tracing Rays to Orchestrate a Neural Renderer for 3D Gaussian Reconstructions",
+      "abstract": "We introduce TRON, a rendering framework that combines 3D Gaussian ray tracing with neural rendering to enable realistic and controllable rendering of real-world 3D scenes under novel lighting, dynamic object motion, object insertion, and material editing. Prior approaches that rely solely on physically based rendering (PBR) of Gaussian representations struggle to achieve realistic relighting due to imperfections in reconstructed geometry, material estimates, and light transport estimation. At the same time, neural rendering methods often lack an explicit scene representation, limiting their ability to support interactive editing with fine-grained manipulation. TRON bridges these two paradigms. We use intrinsic decomposition priors from a learned inverse rendering model to regularize the material properties of a Gaussian field, and repurpose a ray tracer to provide radiometric guidance rather than final pixels. By treating this output as a structured 3D scaffold, we empower a lightweight neural renderer to bridge the domain gap between shading-model constrained estimates and photorealistic output. Our key insight is that the combination of explicit 3D knowledge with robust material priors provides speed and controllability, while neural rendering enables the synthesis of photorealistic images. To support real-world scenarios, we train our neural renderer with a multi-stage strategy consisting of large-scale pretraining and targeted fine-tuning on a newly constructed dataset of 2.1M rendered synthetic and real-world frames from 3D reconstructions. TRON outperforms Gaussian-based relighting methods in realism, and prior neural renderers in editability and speed. To the best of our knowledge, TRON is the first method to enable practical interactive applications in captured 3D environments, offering realistic appearance under dynamic geometric, lighting and material conditions.",
+      "authors": [
+        "Or Perel",
+        "Hassan Abu Alhaija",
+        "Zian Wang",
+        "Jacob Munkberg",
+        "Matan Atzmon",
+        "Sanja Fidler",
+        "Masha Shugrina"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-09T18:01:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.11314v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Neural rendering with 3D Gaussians for novel view synthesis and relighting",
+      "llm_evidence_cn": "基于3D高斯的神经渲染，用于新视图合成与重光照",
+      "llm_evidence": "基于3D高斯的神经渲染，用于新视图合成与重光照",
+      "canonical_evidence": "基于3D高斯的神经渲染，用于新视图合成与重光照",
+      "llm_tldr_en": "Combines 3D Gaussian ray tracing with neural rendering for realistic and controllable scene rendering under novel lighting and editing.",
+      "llm_tldr_cn": "针对单独基于物理渲染的高斯表示在重光照下效果有限，而神经渲染缺乏显式场景结构的问题，本文提出TRON框架，融合3D高斯光线追踪与神经渲染，并利用内在分解先验，实现了真实世界场景在全新光照、动态物体运动、物体插入等条件下的高真实感可控渲染，同时支持交互式编辑。",
+      "llm_tldr": "针对单独基于物理渲染的高斯表示在重光照下效果有限，而神经渲染缺乏显式场景结构的问题，本文提出TRON框架，融合3D高斯光线追踪与神经渲染，并利用内在分解先验，实现了真实世界场景在全新光照、动态物体运动、物体插入等条件下的高真实感可控渲染，同时支持交互式编辑。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.13376v1",
+      "source": "arxiv",
+      "title": "MoVerse: Real-Time Video World Modeling with Panoramic Gaussian Scaffold",
+      "abstract": "We present MoVerse, a real-time video world model that creates an interactively navigable scene from a single narrow-field-of-view image. This setting is challenging because the input observes only a small fraction of the environment, while interactive roaming requires a complete surrounding world, persistent geometry, controllable camera motion, and temporally coherent high-fidelity observations. MoVerse addresses this problem by separating world construction from observation rendering. It first expands the input into a gravity-aligned 360$^\\circ$ panorama with topology-aware diffusion, closing the missing field of view before 3D reasoning. It then lifts the panorama into a persistent 3D Gaussian scaffold using panoramic geometry-aware residual prediction, yielding a dense and directly renderable spatial memory. Finally, a Gaussian-conditioned video renderer translates scaffold renderings along user-specified camera trajectories into photorealistic video. To make this renderer practical for interaction, we train a bidirectional diffusion teacher for high-quality conditional rendering and distill it into a causal autoregressive student for bounded-latency streaming. This design combines the controllability and long-range consistency of explicit 3D representations with the perceptual quality of generative video models. MoVerse supports real-time scene roaming at 8~FPS on a single NVIDIA RTX~4090 GPU, demonstrating a practical path toward single-image world creation with interactive video output.",
+      "authors": [
+        "Yang Zhou",
+        "Ziheng Wang",
+        "Yuqin Lu",
+        "Haofeng Liu",
+        "Jun Liang",
+        "Shengfeng He",
+        "Jing Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T14:01:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.13376v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "real-time world modeling with 3D Gaussian scaffold from a single image",
+      "llm_evidence_cn": "从单张图像实时构建3D高斯支架世界模型",
+      "llm_evidence": "从单张图像实时构建3D高斯支架世界模型",
+      "canonical_evidence": "从单张图像实时构建3D高斯支架世界模型",
+      "llm_tldr_en": "MoVerse creates an interactive 3D scene from a single narrow-FoV image using panoramic diffusion and 3D Gaussian scaffold, enabling real-time novel view synthesis.",
+      "llm_tldr_cn": "从窄视场单图创建完整可导航3D场景极具挑战。本文提出MoVerse，先通过拓扑感知扩散生成360度全景，再提升为持久3D高斯支架，实现实时视频世界建模。该方法分离世界构建与渲染，支持可控相机运动和高保真观测。",
+      "llm_tldr": "从窄视场单图创建完整可导航3D场景极具挑战。本文提出MoVerse，先通过拓扑感知扩散生成360度全景，再提升为持久3D高斯支架，实现实时视频世界建模。该方法分离世界构建与渲染，支持可控相机运动和高保真观测。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.09828v1",
+      "source": "arxiv",
+      "title": "Latent Spatial Memory for Video World Models",
+      "abstract": "Video world models that maintain 3D spatial consistency across generated frames typically rely on explicit point cloud memory constructed in RGB space. This design is both computationally expensive, requiring repeated rendering and VAE encoding, and inherently lossy, as the round trip through pixel space discards rich features of the learned latent representation. In this paper, we introduce \\emph{latent spatial memory} for video world models, a persistent 3D cache that stores scene information directly in the diffusion latent space, avoiding pixel-space reconstruction. Building on this, we propose Mirage, a latent-space spatial memory framework that constructs the memory by lifting latent tokens into 3D via depth-guided back-projection and queries it by synthesizing novel views through direct latent-space warping. This unified formulation eliminates both the information loss of pixel-space reconstruction and the computational burden of repeated encoding and rendering. Experiments show that latent spatial memory achieves up to \\textbf{10.57}$\\times$ faster end-to-end video generation and \\textbf{55}$\\times$ reduction in memory footprint relative to explicit 3D baselines. Leveraging the geometric prior of the diffusion model, Mirage attains state-of-the-art performance on WorldScore and strong reconstruction quality on RealEstate10K.",
+      "authors": [
+        "Weijie Wang",
+        "Haoyu Zhao",
+        "Yifan Yang",
+        "Feng Chen",
+        "Zeyu Zhang",
+        "Yefei He",
+        "Zicheng Duan",
+        "Donny Y. Chen",
+        "Yuqing Yang",
+        "Bohan Zhuang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-08T17:59:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.09828v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "latent spatial memory for novel view synthesis in video world models",
+      "llm_evidence_cn": "用于视频世界模型新视角合成的潜在空间记忆",
+      "llm_evidence": "用于视频世界模型新视角合成的潜在空间记忆",
+      "canonical_evidence": "用于视频世界模型新视角合成的潜在空间记忆",
+      "llm_tldr_en": "Mirage introduces latent spatial memory for video world models, avoiding pixel-space reconstruction and enabling efficient novel view synthesis.",
+      "llm_tldr_cn": "视频世界模型常依赖RGB空间中的显式点云记忆来维护3D一致性，但计算开销大且信息有损。本文提出潜在空间记忆，将场景信息直接存储在扩散潜在空间中。基于此构建的Mirage框架，通过深度引导将潜在标记投影到3D，并合成新视角。实验表明，该方法在保持3D一致性的同时，显著降低了计算成本，并在视频生成和新视角合成任务上达到先进水平。",
+      "llm_tldr": "视频世界模型常依赖RGB空间中的显式点云记忆来维护3D一致性，但计算开销大且信息有损。本文提出潜在空间记忆，将场景信息直接存储在扩散潜在空间中。基于此构建的Mirage框架，通过深度引导将潜在标记投影到3D，并合成新视角。实验表明，该方法在保持3D一致性的同时，显著降低了计算成本，并在视频生成和新视角合成任务上达到先进水平。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.11326v1",
+      "source": "arxiv",
+      "title": "DarkVGGT: Seeing Through Darkness Using Thermal Geometry without Daylight Tax",
+      "abstract": "Recent feed-forward 3D reconstruction methods have demonstrated strong performance and flexibility in efficient end-to-end scene geometry estimation from image streams. However, their reliance on visible-light appearance makes them vulnerable in dark and low-visibility environments, where RGB cues are severely degraded and geometric evidence becomes ambiguous. To address this challenge, we propose DarkVGGT, an RGB-T feed-forward geometry framework that uses physics-aware thermal modeling for robust 3D estimation in low-light scenes. DarkVGGT introduces two complementary modules. First, physics-inspired thermal factorization extracts emissive-dominant, geometry-consistent thermal cues while isolating sparse reflective residuals that may introduce geometric ambiguity. Second, geometry-shared thermal routing isolates modality-invariant geometric structures from thermal-specific patterns, selectively injecting reliability-aware structural guidance into the RGB stream. Together, these components enable accurate thermal-informed geometry estimation under degraded RGB conditions while largely preserving performance in well-lit environments. Experiments on low-visibility RGB-T benchmarks demonstrate consistent improvements in both depth and camera pose estimation over existing feed-forward geometry baselines.",
+      "authors": [
+        "Minseong Kweon",
+        "Wenyuan Zhao",
+        "Nuo Chen",
+        "Lulin Liu",
+        "Huiwen Han",
+        "Zihao Zhu",
+        "Srinivas Shakkottai",
+        "Chao Tian",
+        "Zhiwen Fan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T18:08:51+00:00",
+      "link": "https://arxiv.org/pdf/2606.11326v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "feed-forward 3D reconstruction from thermal images in low-light conditions",
+      "llm_evidence_cn": "低光环境下基于热成像的前馈3D重建",
+      "llm_evidence": "低光环境下基于热成像的前馈3D重建",
+      "canonical_evidence": "低光环境下基于热成像的前馈3D重建",
+      "llm_tldr_en": "DarkVGGT extends feed-forward 3D reconstruction to low-light scenes using RGB-T thermal geometry with physics-aware modeling, enabling robust geometry estimation without RGB cues.",
+      "llm_tldr_cn": "现有前馈3D重建依赖可见光，在黑暗中失效。本文提出DarkVGGT，利用物理感知的热建模从RGB-T图像估计几何，引入热分解模块提取发射主导的热线索，隔离反射残差。实验证明在低光场景下显著优于RGB-only方法，为黑暗环境3D重建提供新方案。",
+      "llm_tldr": "现有前馈3D重建依赖可见光，在黑暗中失效。本文提出DarkVGGT，利用物理感知的热建模从RGB-T图像估计几何，引入热分解模块提取发射主导的热线索，隔离反射残差。实验证明在低光场景下显著优于RGB-only方法，为黑暗环境3D重建提供新方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.12189v1",
+      "source": "arxiv",
+      "title": "DynaTok: Token-Based 4D Reconstruction from Partial Point Clouds",
+      "abstract": "We address 4D reconstruction from partial point cloud sequences, where depth-sensor observations are incomplete, unordered, and lack explicit temporal correspondences. This geometry-only setting is challenging due to missing observations and ambiguous dynamics. While recent progress has largely relied on image-based methods, existing point-based approaches typically focus on single objects, assume relatively complete inputs, or require explicit correspondences. To address these limitations, we propose DynaTok, a point-based framework for correspondence-free 4D reconstruction from partial point cloud sequences without images. DynaTok encodes frames into compact latent tokens, aggregates incomplete observations over time with a Transformer-based spatiotemporal encoder, and decouples geometry and motion through residual tokens in a unified model. A flow-matching decoder then reconstructs complete, temporally consistent 4D point-cloud sequences conditioned on the latent tokens. Experiments on object- and scene-level benchmarks demonstrate improved reconstruction quality and temporal coherence from partial point cloud observations. Project page: https://wrchen530.github.io/dynatok/.",
+      "authors": [
+        "Weirong Chen",
+        "Keisuke Tateno",
+        "Hidenobu Matsuki",
+        "Michael Niemeyer",
+        "Daniel Cremers",
+        "Federico Tombari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T15:13:14+00:00",
+      "link": "https://arxiv.org/pdf/2606.12189v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "4D reconstruction from partial point clouds using tokens",
+      "llm_evidence_cn": "基于标记的从部分点云进行4D重建",
+      "llm_evidence": "基于标记的从部分点云进行4D重建",
+      "canonical_evidence": "基于标记的从部分点云进行4D重建",
+      "llm_tldr_en": "DynaTok performs correspondence-free 4D reconstruction from partial point cloud sequences using a token-based Transformer architecture.",
+      "llm_tldr_cn": "从部分点云序列进行4D重建面临缺少对应关系和观察不完整的问题。本文提出DynaTok，一种基于标记的点云框架，无需图像和显式对应关系。它通过Transformer将帧编码为紧凑潜在标记，并随时间聚合不完整观测，实现时空一致的4D重建。在多个动态场景数据集上，DynaTok在重建精度和完整性上均优于现有方法，尤其擅长处理稀疏和遮挡数据。",
+      "llm_tldr": "从部分点云序列进行4D重建面临缺少对应关系和观察不完整的问题。本文提出DynaTok，一种基于标记的点云框架，无需图像和显式对应关系。它通过Transformer将帧编码为紧凑潜在标记，并随时间聚合不完整观测，实现时空一致的4D重建。在多个动态场景数据集上，DynaTok在重建精度和完整性上均优于现有方法，尤其擅长处理稀疏和遮挡数据。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
