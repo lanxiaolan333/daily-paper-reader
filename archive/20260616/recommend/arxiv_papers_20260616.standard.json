@@ -1,0 +1,550 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-16T22:22:28.810824+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2606.13376v1",
+      "source": "arxiv",
+      "title": "MoVerse: Real-Time Video World Modeling with Panoramic Gaussian Scaffold",
+      "abstract": "We present MoVerse, a real-time video world model that creates an interactively navigable scene from a single narrow-field-of-view image. This setting is challenging because the input observes only a small fraction of the environment, while interactive roaming requires a complete surrounding world, persistent geometry, controllable camera motion, and temporally coherent high-fidelity observations. MoVerse addresses this problem by separating world construction from observation rendering. It first expands the input into a gravity-aligned 360$^\\circ$ panorama with topology-aware diffusion, closing the missing field of view before 3D reasoning. It then lifts the panorama into a persistent 3D Gaussian scaffold using panoramic geometry-aware residual prediction, yielding a dense and directly renderable spatial memory. Finally, a Gaussian-conditioned video renderer translates scaffold renderings along user-specified camera trajectories into photorealistic video. To make this renderer practical for interaction, we train a bidirectional diffusion teacher for high-quality conditional rendering and distill it into a causal autoregressive student for bounded-latency streaming. This design combines the controllability and long-range consistency of explicit 3D representations with the perceptual quality of generative video models. MoVerse supports real-time scene roaming at 8~FPS on a single NVIDIA RTX~4090 GPU, demonstrating a practical path toward single-image world creation with interactive video output.",
+      "authors": [
+        "Yang Zhou",
+        "Ziheng Wang",
+        "Yuqin Lu",
+        "Haofeng Liu",
+        "Jun Liang",
+        "Shengfeng He",
+        "Jing Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T14:01:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.13376v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "real-time world modeling with panoramic Gaussian scaffold for novel view synthesis from single image",
+      "llm_evidence_cn": "使用全景高斯支架从单张图像进行实时视频世界建模与新颖视图合成",
+      "llm_evidence": "使用全景高斯支架从单张图像进行实时视频世界建模与新颖视图合成",
+      "canonical_evidence": "使用全景高斯支架从单张图像进行实时视频世界建模与新颖视图合成",
+      "llm_tldr_en": "MoVerse creates an interactively navigable 3D scene from a single image using panoramic Gaussian scaffold for real-time novel view synthesis.",
+      "llm_tldr_cn": "MoVerse提出一种实时视频世界模型，从单张窄视场图像创建可交互漫游的完整场景。通过拓扑感知扩散扩展为360度全景，再构建持久三维高斯支架，实现可控相机运动和时序一致的高保真观测。",
+      "llm_tldr": "MoVerse提出一种实时视频世界模型，从单张窄视场图像创建可交互漫游的完整场景。通过拓扑感知扩散扩展为360度全景，再构建持久三维高斯支架，实现可控相机运动和时序一致的高保真观测。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.16048v1",
+      "source": "arxiv",
+      "title": "PointDiffusion: Diffusion-Based Scene Completion in the Point Cloud Domain",
+      "abstract": "Reconstructing dense 3D scenes from sparse LiDAR point clouds is a fundamental challenge in autonomous driving, where latent diffusion models offer a promising solution. However, existing approaches rely on object-level autoencoders that collapse into unstable global representations at outdoor scale and suffer from ground truth data corrupted by odometry drift that systematically degrades supervision quality. Furthermore, multi-step diffusion inference incurs prohibitive latency for real-time deployment. We propose a novel multi-token Gaussian VAE with cross-attention pooling for stable scene-scale LiDAR compression, combined with an anchor-based ICP ground truth refinement pipeline that eliminates drift-induced noise from training supervision. Together, these components enable a scaffold-free single-step diffusion completion model that achieves an approximately 16x reduction in squared Chamfer distance on SemanticKITTI seq. 08 (0.396 m^2 to 0.024 m^2), surpasses LiDiff and ScoreLiDAR by 17-19% and 10-11%, respectively, and operates at 25-143x lower inference latency. Our results demonstrate that data quality dominates model design in this regime and that multi-token latent spaces provide a stable first stage for latent diffusion-based scene completion.",
+      "authors": [
+        "Chidera Agbasiere",
+        "Mikhail Sannikov",
+        "Faith Ogunwoye",
+        "Erik Shaikhiev",
+        "Alex Kozinov",
+        "Ilya Mikhalchuk",
+        "Iana Zhura",
+        "Dzmitry Tsetserukou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T22:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.16048v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "diffusion-based scene completion in point cloud domain",
+      "llm_evidence_cn": "基于扩散模型的点云场景补全",
+      "llm_evidence": "基于扩散模型的点云场景补全",
+      "canonical_evidence": "基于扩散模型的点云场景补全",
+      "llm_tldr_en": "PointDiffusion proposes multi-token Gaussian VAE and anchor-based ICP refinement for stable scene-scale LiDAR point cloud completion with diffusion models.",
+      "llm_tldr_cn": "PointDiffusion针对自动驾驶中稀疏LiDAR点云的稠密场景重建问题，提出多令牌高斯VAE实现稳定的场景级点云压缩，并结合基于锚点的ICP伪影去除管线消除训练噪声。该方法解决了现有扩散模型在室外场景的不稳定性和延迟问题，实现高效高质量的点云补全。",
+      "llm_tldr": "PointDiffusion针对自动驾驶中稀疏LiDAR点云的稠密场景重建问题，提出多令牌高斯VAE实现稳定的场景级点云压缩，并结合基于锚点的ICP伪影去除管线消除训练噪声。该方法解决了现有扩散模型在室外场景的不稳定性和延迟问题，实现高效高质量的点云补全。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-04-06-716718-v4",
+      "source": "biorxiv",
+      "title": "PA-SfM: Tracker-free differentiable acoustic radiation for freehand 3D photoacoustic imaging",
+      "abstract": "Three-dimensional photoacoustic imaging (3D PAI) commonly relies on sparse sensor arrays, which has both limited spatial sampling and field-of-view (FOV). Moving the sensor array or the target provides an effective route to multi-view imaging and large volume PA mapping, but accurate fusion of multiple poses conventionally depends on motor feedback or external tracking hardware. Such tracking increases system complexity and can suffer from calibration errors, backlash and motion instability. Here we introduce PA-SfM, a tracker-free differentiable acoustic structure-from-motion (SfM) framework that recovers relative imaging poses directly from PA measurements. By integrating a differentiable acoustic radiation model with hierarchical optimization and rigid array constraints, PA-SfM jointly estimates inter-view transformations and reconstructs 3D PA volumes without external pose measurements. We demonstrate genuine freehand 3D PAI of human hand vasculature, in which arbitrary hand motion over approximately 1 s provides multi-view measurements from which PA-SfM recovers the relative poses and jointly reconstructs a large FOV vascular network without motion tracking or predefined trajectories. We further validate PA-SfM using numerical simulations, in vivo rat kidney and liver imaging with known relative geometry, and a mechanically scanned 3D PAI system. Compared with encoder-based fusion of the mechanically scanned system, PA-SfM produced sharper and more continuous vascular reconstructions with expanded FOV. In controlled quantitative validations, PA-SfM achieved high reconstruction fidelity, with PSNRs of 38.90-41.42 dB and SSIMs of 0.9637-0.9864 relative to ground truth or known pose reference reconstructions. These results establish PA-SfM as a robust computational framework for tracker-free, freehand, multi-view and expanded FOV 3D PAI, providing an algorithmic foundation for flexible large volume PA vascular imaging. The source code is publicly available at https://github.com/JaegerCQ/PA-SfM.",
+      "authors": [
+        "Li, S.",
+        "Gao, J.",
+        "Kim, C.",
+        "Choi, S.",
+        "Huang, H.",
+        "Wang, X.",
+        "Shi, J.",
+        "Chen, Q.",
+        "Wang, Y.",
+        "Wu, S.",
+        "Zhang, Y.",
+        "Huang, T.",
+        "Zhou, Y.",
+        "Yao, B.",
+        "Yao, Y.",
+        "Li, C."
+      ],
+      "primary_category": "bioengineering",
+      "categories": [
+        "bioengineering"
+      ],
+      "published": "2026-06-09T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.04.06.716718v4.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "structure-from-motion for 3D reconstruction from multiple 2D acoustic images",
+      "llm_evidence_cn": "从多个2D声学图像进行三维重建的运动恢复结构方法",
+      "llm_evidence": "从多个2D声学图像进行三维重建的运动恢复结构方法",
+      "canonical_evidence": "从多个2D声学图像进行三维重建的运动恢复结构方法",
+      "llm_tldr_en": "PA-SfM recovers 3D imaging poses from photoacoustic measurements without external trackers, enabling freehand 3D reconstruction.",
+      "llm_tldr_cn": "传统3D光声成像需依赖外部追踪硬件，限制了便捷性。PA-SfM引入可微声学辐射模型，直接从声学测量中恢复相对成像位姿，实现无追踪器的自由手持3D重建。该方法在简化系统的同时保持了重建精度，为医学3D成像提供了新工具。",
+      "llm_tldr": "传统3D光声成像需依赖外部追踪硬件，限制了便捷性。PA-SfM引入可微声学辐射模型，直接从声学测量中恢复相对成像位姿，实现无追踪器的自由手持3D重建。该方法在简化系统的同时保持了重建精度，为医学3D成像提供了新工具。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-08-730830-v1",
+      "source": "biorxiv",
+      "title": "Cross-cue reconstruction of perceived 3D object structure from human visual cortex",
+      "abstract": "The human brain assembles three-dimensional (3D) percepts from qualitatively different depth cues, yet the perceived 3D structure that the brain builds---a representation shared across cues---has remained difficult to measure directly. Here, we show that this cue-invariant 3D structure can be externalized as explicit 3D objects from human brain activity: fMRI responses are decoded into the latent features of a pretrained 3D point-cloud autoencoder, and a generator then maps these features back to a point cloud. A decoder trained exclusively on responses to 2D rendered objects passed three increasingly stringent tests: (i) it generalized to novel object categories; (ii) it generalized across depth cues to random dot stereograms (RDSs), which evoke 3D percepts through binocular disparity but share no pictorial shape information with the training images; and (iii) it tracked the 3D slant of contour-matched RDSs whose 2D outlines were held identical but whose disparity-defined slants varied, indicating that the reconstruction reflected depth-defined geometry rather than object category or image outline. Cross-cue generalization was strongest in higher visual areas, particularly along the dorsal stream. These results indicate that cross-cue generalization can serve as a criterion for externalizing perceived 3D structure and open a route toward reading out internal 3D representations that go beyond the momentary retinal input and could support predictions of how the world would appear under different viewpoints---a step toward externalizing the brain's internal world model.",
+      "authors": [
+        "Aoki, S. C.",
+        "Tsukasa, R.",
+        "Yang, S.",
+        "Tanaka, M.",
+        "Doi, E.",
+        "Nakamura, T.",
+        "Ho, J.-K.",
+        "Kamitani, Y."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-06-11T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.08.730830v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uses point cloud autoencoder to reconstruct 3D point clouds from brain activity",
+      "llm_evidence_cn": "使用点云自编码器从脑活动重建3D点云",
+      "llm_evidence": "使用点云自编码器从脑活动重建3D点云",
+      "canonical_evidence": "使用点云自编码器从脑活动重建3D点云",
+      "llm_tldr_en": "Decodes fMRI responses into 3D point clouds using a pretrained autoencoder, demonstrating cue-invariant 3D structure reconstruction.",
+      "llm_tldr_cn": "人类大脑如何构建跨深度线索的3D结构一直难以直接测量。本文利用预训练的3D点云自编码器，将fMRI响应解码为潜在特征并生成显式点云。解码器能泛化到新类别和随机点立体图，揭示了大脑中共享的3D结构表示。",
+      "llm_tldr": "人类大脑如何构建跨深度线索的3D结构一直难以直接测量。本文利用预训练的3D点云自编码器，将fMRI响应解码为潜在特征并生成显式点云。解码器能泛化到新类别和随机点立体图，揭示了大脑中共享的3D结构表示。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.13655v2",
+      "source": "arxiv",
+      "title": "Flex4DHuman: Flexible Multi-view Video Diffusion for 4D Human Reconstruction",
+      "abstract": "We present Flex4DHuman, a multi-view video diffusion model that transforms a monocular or sparse multi-view video of a dynamic subject into synchronized dense multi-view videos using only relative camera-pose conditioning. Unlike prior human-centric methods that rely on skeletons, depth maps, normals, or rendered target-view geometry, Flex4DHuman requires no explicit geometry priors and instead conditions generation through relative camera-pose positional encoding. The generated videos can be directly ingested by downstream reconstruction pipelines to create dynamic 4D Gaussian splats. Built on the Wan 2.1 1.3B text-to-video model, Flex4DHuman preserves the backbone architecture and encodes camera and view information through a five-axis positional encoding that extends spatio-temporal RoPE with view indices and continuous SE(3) relative camera geometry. A three-stage curriculum progressively trains the model for pose following, flexible reference-to-target view generation, and temporal rollout. To support temporal rollout, we train with clean historical target-view tokens. We also add multi-view captions to enable test-time text control. Combined with an off-the-shelf 4D Gaussian Splatting stage, our framework lifts monocular static-camera videos into dynamic 4D Gaussian splats. Experiments on DNA-Rendering and ActorsHQ show that Flex4DHuman surpasses prior state-of-the-art methods, while the same formulation generalizes to animal categories after mixed human-animal training. These capabilities make Flex4DHuman a practical step toward scalable 4D content creation from casual monocular videos for simulation, gaming, AR/VR, and video re-shooting.",
+      "authors": [
+        "Jen-Hao Cheng",
+        "Yipeng Wang",
+        "Hao Zhang",
+        "Gengshan Yang",
+        "Jenq-Neng Hwang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-11T17:54:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.13655v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-view video diffusion for 4D human reconstruction from images",
+      "llm_evidence_cn": "从多视角视频扩散进行4D人体重建",
+      "llm_evidence": "从多视角视频扩散进行4D人体重建",
+      "canonical_evidence": "从多视角视频扩散进行4D人体重建",
+      "llm_tldr_en": "Flex4DHuman uses a multi-view video diffusion model conditioned only on relative camera poses to generate dense multi-view videos from monocular or sparse input, enabling downstream 4D reconstruction.",
+      "llm_tldr_cn": "Flex4DHuman提出一种多视角视频扩散模型，仅通过相对相机位姿条件，将单目或稀疏多视角视频转化为密集多视角视频，生成的视频可直接用于下游4D高斯泼溅重建。该方法无需显式几何先验，为动态人体4D重建提供了灵活的数据增强途径。",
+      "llm_tldr": "Flex4DHuman提出一种多视角视频扩散模型，仅通过相对相机位姿条件，将单目或稀疏多视角视频转化为密集多视角视频，生成的视频可直接用于下游4D高斯泼溅重建。该方法无需显式几何先验，为动态人体4D重建提供了灵活的数据增强途径。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.17027v1",
+      "source": "arxiv",
+      "title": "MeshLoom: Feed-Forward Non-Rigid Registration of Mesh Sequences",
+      "abstract": "We present MeshLoom, a feed-forward registration network that directly reconstructs vertex deformations across mesh sequences. Our approach advances non-rigid registration beyond existing models, which are typically constrained by costly per-instance optimization, narrow object categories, pairwise-only inputs, or merely intermediate outputs. The network is simple and efficient, registering multiple meshes within seconds. At its core lies a topology-aware encoder--decoder design. Specifically, we first introduce a topology-aware point representation that encodes the anchor (reference) mesh's topology into its per-vertex features. This representation strengthens the network's understanding of the anchor-mesh geometry and disambiguates points that are Euclidean-close yet geodesically distant. We then propose a multi-modal encoder that fuses this anchor-mesh representation with complementary cues from each frame, such as shape latents and image features. These multi-source signals are compressed into a compact global motion embedding that captures dense inter-frame correspondence. A lightweight decoder then queries this global embedding with the anchor-mesh point representation, retrieving per-vertex deformations at target timestamps. Through extensive experiments across diverse motions and object categories, we show that MeshLoom achieves state-of-the-art results on non-rigid registration. In addition, we find that our global embedding-then-query paradigm naturally enables the network to generate deformations at intermediate timestamps, which extends MeshLoom to motion interpolation and mesh morphing. Project page: https://meshloom.github.io/ .",
+      "authors": [
+        "Jianqi Chen",
+        "Jiraphon Yenphraphai",
+        "Xiangjun Tang",
+        "Sergey Tulyakov",
+        "Chaoyang Wang",
+        "Peter Wonka",
+        "Rameen Abdal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T17:51:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.17027v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "feed-forward non-rigid registration of mesh sequences for deformation reconstruction",
+      "llm_evidence_cn": "网格序列的前馈式非刚性配准，用于变形重建",
+      "llm_evidence": "网格序列的前馈式非刚性配准，用于变形重建",
+      "canonical_evidence": "网格序列的前馈式非刚性配准，用于变形重建",
+      "llm_tldr_en": "MeshLoom performs feed-forward registration of mesh sequences to reconstruct vertex deformations without per-instance optimization, using a topology-aware point representation.",
+      "llm_tldr_cn": "该论文提出MeshLoom，一种前馈式网格序列配准网络，直接重建顶点变形。通过引入拓扑感知的点表示，将参考网格拓扑编码到特征中，网络能高效配准多个网格，无需昂贵的逐实例优化。实验表明该方法在同类和跨类注册中均快速准确，配准时间仅需数秒，有助于动态3D重建和动画等下游应用。",
+      "llm_tldr": "该论文提出MeshLoom，一种前馈式网格序列配准网络，直接重建顶点变形。通过引入拓扑感知的点表示，将参考网格拓扑编码到特征中，网络能高效配准多个网格，无需昂贵的逐实例优化。实验表明该方法在同类和跨类注册中均快速准确，配准时间仅需数秒，有助于动态3D重建和动画等下游应用。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.14162v1",
+      "source": "arxiv",
+      "title": "VideoWeave: Unlocking Geometric Consistency in Video Generation via Joint Geometry-Video Modeling",
+      "abstract": "Large-scale video diffusion models often fail to preserve 3D structure over time, causing geometric drift and implausible motion under viewpoint changes. Existing methods usually enforce geometric consistency by using explicit geometry reconstructions, such as depth maps, point clouds, or reconstructed 3D structures, to define conditions, supervision, or reward signals, making the generator sensitive to errors from upstream geometry pipelines. We propose VideoWeave, a latent-space post-training framework that uses implicit geometry-model features to constrain the generative distribution, providing a more flexible and non-rigid form of guidance that mitigates the impact of reconstruction errors from geometry models. Specifically, VideoWeave adapts these features into geometry latents and jointly models them with video latents in a shared denoising space, allowing geometry to shape the generative distribution during training. To support this process, we build GeoVid-80K, an 80K-video dataset with paired appearance and geometry representations. Experiments on text-to-video and image-to-video generation show that VideoWeave improves geometric coherence while preserving strong visual quality. VideoWeave project page at https://videoweave.github.io/",
+      "authors": [
+        "Xunzhi Xiang",
+        "Zixuan Duan",
+        "Yabo Chen",
+        "Zhengxuan Wei",
+        "Guiyu Zhang",
+        "Zixiao Gu",
+        "Zhe Gao",
+        "Haibin Huang",
+        "Chi Zhang",
+        "Qi Fan",
+        "Xuelong Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T06:41:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.14162v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses implicit geometry features related to point cloud reconstruction to constrain video generation",
+      "llm_evidence_cn": "利用与点云重建相关的隐式几何特征来约束视频生成",
+      "llm_evidence": "利用与点云重建相关的隐式几何特征来约束视频生成",
+      "canonical_evidence": "利用与点云重建相关的隐式几何特征来约束视频生成",
+      "llm_tldr_en": "VideoWeave uses implicit geometry features to enforce 3D consistency in video generation, mitigating errors from explicit point cloud reconstructions.",
+      "llm_tldr_cn": "大规模视频扩散模型在视角变化下常丢失3D结构。VideoWeave提出一种隐式几何特征约束框架，在潜在空间中对生成分布进行后训练，从而避免显式点云重建的错误传播。实验表明该方法有效增强了几何一致性，为视频生成中的3D结构保持提供了新思路。",
+      "llm_tldr": "大规模视频扩散模型在视角变化下常丢失3D结构。VideoWeave提出一种隐式几何特征约束框架，在潜在空间中对生成分布进行后训练，从而避免显式点云重建的错误传播。实验表明该方法有效增强了几何一致性，为视频生成中的3D结构保持提供了新思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-07-730757-v1",
+      "source": "biorxiv",
+      "title": "A multimodal dataset for reconstructing common marmoset body-environment interactions in a 3D digital-twin framework",
+      "abstract": "The common marmoset (Callithrix jacchus) is an important non-human primate model in neuroscience and biomedical research. However, existing 3D resources for this species have mainly focused on brain atlases or keypoint-based pose estimation, and reusable data resources that jointly describe the body surface, fur, articulated structure, and experimental environment remain limited. Here, we present a multimodal dataset designed to reconstruct body- environment interactions of common marmosets in three dimensions. The dataset includes a whole-body surface mesh derived from computed tomography (CT) images, fur representations based on photographic references, a rigged 3D model for pose-driven animation, synchronized behavioral videos from three individuals recorded for approximately 90 hours from eight view-points, 2D and 3D keypoint estimation data, 3D models of the experimental environment constructed from blueprint information, and rendered pseudo-egocentric views generated by integrating pose estimation results with the 3D body and environment models. Technical validation assessed the geometric agreement between the CT-derived mesh and the surface model, the accuracy of 2D and 3D keypoint estimation, the dimensional accuracy of the environment model, and the structural similarity between real and rendered images. This dataset provides a foundation for treating marmoset natural behavior not only as point trajectories but also as a three-dimensional phenomenon involving body shape and its spatial relationship with the environment, thereby enabling applications in behavioral analysis, visualization, synthetic-data generation, and future digital-twin studies.",
+      "authors": [
+        "Iwata, K.",
+        "Kaneko, T.",
+        "Caeiro, C. C.",
+        "Thomas, D.",
+        "Koketsu, D.",
+        "Nambu, A.",
+        "Miyabe-Nishiwaki, T.",
+        "Hata, J.",
+        "Nakae, K."
+      ],
+      "primary_category": "animal behavior and cognition",
+      "categories": [
+        "animal behavior and cognition"
+      ],
+      "published": "2026-06-11T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.07.730757v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multimodal dataset for 3D reconstruction of marmoset body and environment",
+      "llm_evidence_cn": "用于重建狨猴身体与环境交互的多模态数据集",
+      "llm_evidence": "用于重建狨猴身体与环境交互的多模态数据集",
+      "canonical_evidence": "用于重建狨猴身体与环境交互的多模态数据集",
+      "llm_tldr_en": "Presents a multimodal dataset with CT-derived mesh, fur textures, rigged model, and synchronized video for reconstructing marmoset 3D interactions, supporting digital-twin research.",
+      "llm_tldr_cn": "该论文提供了一个多模态数据集，包含从CT扫描得到的全身表面网格、基于照片的毛发表示、可驱动动画的绑定模型以及同步视频数据，用于重建普通狨猴的身体-环境交互。该数据集弥补了现有资源在体表、毛发和关节结构联合描述上的不足，为神经科学和生物医学的数字孪生研究提供了基础数据资源，可直接用于3D重建和动画任务。",
+      "llm_tldr": "该论文提供了一个多模态数据集，包含从CT扫描得到的全身表面网格、基于照片的毛发表示、可驱动动画的绑定模型以及同步视频数据，用于重建普通狨猴的身体-环境交互。该数据集弥补了现有资源在体表、毛发和关节结构联合描述上的不足，为神经科学和生物医学的数字孪生研究提供了基础数据资源，可直接用于3D重建和动画任务。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.14699v1",
+      "source": "arxiv",
+      "title": "Instruct-Particulate: Scaling Feed-Forward 3D Object Articulation with Kinematic Control",
+      "abstract": "Reconstructing articulated 3D objects is important for animation, gaming, and robotic simulations. Recent neural networks can estimate the articulated structure of 3D objects, but their generalization remains limited by the scarcity of annotated data for this task. To address this gap, we introduce Instruct-Particulate, a model that takes a 3D mesh together with a target kinematic specification, including part descriptions, connectivity, joint types, and optional point prompts, and predicts the corresponding kinematic part segmentation and joint motion parameters. The kinematic specification disambiguates the task and allows the model to target annotations of different granularity, thereby making it possible to use more abundant heterogeneous training data. At test time, the kinematic specification can be obtained automatically from large-scale vision-language models, so the model can be applied to any input mesh. To train our model at scale, we construct a heterogeneous dataset of more than 150,000 articulated 3D objects, extending existing publicly available collections with data obtained by partially labelling other 3D models (monolithic or already decomposed into parts) with kinematic labels by means of vision-language models. Experiments show that our model generalizes better across categories and to AI-generated meshes, enabling articulated asset reconstruction from real-world images via image-to-3D models.",
+      "authors": [
+        "Ruining Li",
+        "Yuxin Yao",
+        "Matt Zhou",
+        "Chuanxia Zheng",
+        "Christian Rupprecht",
+        "Joan Lasenby",
+        "Shangzhe Wu",
+        "Andrea Vedaldi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-06-12T17:59:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.14699v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "feed-forward 3D articulated object reconstruction with kinematic control",
+      "llm_evidence_cn": "前馈式3D关节物体重建，带运动控制",
+      "llm_evidence": "前馈式3D关节物体重建，带运动控制",
+      "canonical_evidence": "前馈式3D关节物体重建，带运动控制",
+      "llm_tldr_en": "Instruct-Particulate learns to predict kinematic part segmentation and joint motion from a mesh and kinematic specification, enabling scalable articulated reconstruction without per-instance optimization.",
+      "llm_tldr_cn": "该论文针对3D可动物体的重建问题，提出Instruct-Particulate模型，输入3D网格和目标运动学规范（包括部件描述、连接类型和关节参数），即可预测部件分割和关节运动参数。该方法无需逐实例优化，可扩展至多种物体类别，通过运动学规范解耦任务，解决了标注数据稀缺问题。实验表明模型在未见物体上具有良好的泛化能力，为动画、游戏和机器人仿真提供了高效工具。",
+      "llm_tldr": "该论文针对3D可动物体的重建问题，提出Instruct-Particulate模型，输入3D网格和目标运动学规范（包括部件描述、连接类型和关节参数），即可预测部件分割和关节运动参数。该方法无需逐实例优化，可扩展至多种物体类别，通过运动学规范解耦任务，解决了标注数据稀缺问题。实验表明模型在未见物体上具有良好的泛化能力，为动画、游戏和机器人仿真提供了高效工具。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.14811v1",
+      "source": "arxiv",
+      "title": "S23DR 2026: End-to-End 3D Wireframe Prediction via DETR-Style Set Prediction with Contrastive Denoising",
+      "abstract": "We present WireframeDETR, our submission to the Structured Semantic 3D Reconstruction (S23DR) 2026 Challenge, which requires predicting a 3D building wireframe from multi-view COLMAP point clouds. Our method applies DETR-style set prediction directly to 3D point clouds, producing wireframes as sets of edge coordinate pairs without any intermediate vertex detection stage. We introduce three technical contributions: (1) contrastive denoising training that stabilises noisy Hungarian matching in early epochs; (2) a multi-scale encoder that aggregates the last encoder layer outputs via learned scalar weights; and (3) progressive auxiliary loss weighting that concentrates gradient signal on the decoder layers that most benefit from it. Our model achieves a public test HSS of 0.575 (F1~=~0.664, IoU~=~0.516) and a best validation HSS of 0.534 on the cleaned val split.",
+      "authors": [
+        "Nitiz Khanal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T07:29:10+00:00",
+      "link": "https://arxiv.org/pdf/2606.14811v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D wireframe prediction from multi-view point clouds",
+      "llm_evidence_cn": "从多视角点云预测3D线框",
+      "llm_evidence": "从多视角点云预测3D线框",
+      "canonical_evidence": "从多视角点云预测3D线框",
+      "llm_tldr_en": "WireframeDETR applies DETR-style set prediction directly on 3D point clouds for end-to-end wireframe prediction, with contrastive denoising and multi-scale encoder.",
+      "llm_tldr_cn": "WireframeDETR针对S23DR挑战赛，提出直接从多视角COLMAP点云预测3D建筑线框的方法。采用DETR风格的集合预测，无需中间顶点检测。引入对比去噪训练稳定早期匹配、多尺度编码器聚合特征和渐进辅助损失加权，在结构化语义3D重建任务上取得优异性能。",
+      "llm_tldr": "WireframeDETR针对S23DR挑战赛，提出直接从多视角COLMAP点云预测3D建筑线框的方法。采用DETR风格的集合预测，无需中间顶点检测。引入对比去噪训练稳定早期匹配、多尺度编码器聚合特征和渐进辅助损失加权，在结构化语义3D重建任务上取得优异性能。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.15681v1",
+      "source": "arxiv",
+      "title": "3D Consistency Optimization for Self-Supervised Monocular Video Depth Estimation",
+      "abstract": "Reliable monocular video depth estimation is crucial for downstream 3D reasoning and embodied AI in endoscopic navigation. However, existing self-supervised approaches typically treat video frames independently or rely on weak temporal regularization. These methods, lacking a holistic perception of the underlying 3D scene, inevitably suffer from geometrically inconsistent predictions and severe cross-frame drift. To address these limitations, we introduce a new paradigm that recasts sequential video depth estimation as an unconstrained multi-view 3D reconstruction problem, enabling full exploitation of the powerful geometric priors embedded in recent 3D foundation models. The core of our approach is a 3D consistency optimization framework driven by three constraints: image-level photometric rendering, explicit world-coordinate geometric alignment, and multi-scale temporal gradient consistency. Such unified optimization elegantly anchors isolated frames to a globally coherent 3D structure. Our method has been validated in both the self-supervised training scenarios and challenging zero-shot clinical environments. Results show that the proposed approach achieves state-of-the-art spatial accuracy, outperforming the frame-based, video-based depth estimators and the multi-view 3D reconstruction baselines.",
+      "authors": [
+        "Yuanye Liu",
+        "Ke Zhang",
+        "Junzhe Jiang",
+        "Li Zhang",
+        "Vishal Patel",
+        "Xiahai Zhuang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T08:56:45+00:00",
+      "link": "https://arxiv.org/pdf/2606.15681v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "recasts monocular video depth estimation as multi-view 3D reconstruction problem",
+      "llm_evidence_cn": "将单目视频深度估计重述为多视图三维重建问题",
+      "llm_evidence": "将单目视频深度估计重述为多视图三维重建问题",
+      "canonical_evidence": "将单目视频深度估计重述为多视图三维重建问题",
+      "llm_tldr_en": "Proposes a 3D consistency optimization framework for self-supervised monocular depth estimation, leveraging multi-view reconstruction priors.",
+      "llm_tldr_cn": "自监督单目深度估计常缺乏全局3D感知导致帧间不一致。本文将视频深度估计重新表述为多视图3D重建问题，利用3D基础模型的几何先验进行一致性优化。该方法显著提升了深度预测的几何一致性，适用于内窥镜导航等下游任务。",
+      "llm_tldr": "自监督单目深度估计常缺乏全局3D感知导致帧间不一致。本文将视频深度估计重新表述为多视图3D重建问题，利用3D基础模型的几何先验进行一致性优化。该方法显著提升了深度预测的几何一致性，适用于内窥镜导航等下游任务。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16638v1",
+      "source": "arxiv",
+      "title": "MVM-IOD: An Industrial Object-Centric Benchmark Dataset for the Evaluation of 3D Reconstruction Methods",
+      "abstract": "3D object reconstruction, and camera pose estimation in industrial applications are challenging tasks, as errors are costly while the computation time is often limited. The complexity of typical industrial objects further complicates these tasks. Most of the existing datasets in this context do not depict realistic industrial scenarios. Therefore, we introduce the Machine Vision Metrology Industrial Object Dataset (MVM-IOD). Images of typical industrial objects are captured systematically, by moving a camera, mounted at the end effector of an industrial robot arm, on a hemisphere around the objects. MVM-IOD contains reference camera poses and reference 3D point clouds, the acquired RGB images of 9 objects and 2 background choices resulting in 18 scenes, which allows evaluation of all image based methods that compute a 3D reconstruction, camera poses, or novel views of a scene. Based on MVM-IOD, we extensively evaluate current SOTA 3D reconstruction and camera pose estimation methods, such as Structure from Motion, Multi-View Stereo, recent feed forward methods (Visual Geometry Grounded Transformer, π3), and 2D Gaussian Splatting and report our findings as a baseline for future research. The experiments show that capture setups like ours generate out-of distribution images for feed forward methods, leading to suboptimal point clouds and camera poses. However, these out-of-distribution images can be shifted closer to the training distribution by applying simple preprocessing steps. Consequently, in certain industrial applications, feed forward methods should be used with caution.",
+      "authors": [
+        "Robert Langendörfer",
+        "Markus Hillemann",
+        "Markus Ulrich"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T12:26:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.16638v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "benchmark dataset for 3D reconstruction from multi-view images",
+      "llm_evidence_cn": "用于从多视角图像进行3D重建评估的基准数据集",
+      "llm_evidence": "用于从多视角图像进行3D重建评估的基准数据集",
+      "canonical_evidence": "用于从多视角图像进行3D重建评估的基准数据集",
+      "llm_tldr_en": "MVM-IOD provides reference poses and 3D point clouds for industrial objects from multi-view RGB images, enabling evaluation of reconstruction methods.",
+      "llm_tldr_cn": "MVM-IOD是一个面向工业物体的3D重建基准数据集，通过工业机器人臂沿半球移动相机采集多视角RGB图像，并提供参考相机位姿和3D点云。数据集包含9个典型工业物体和2个背景，填补了现实工业场景数据集的缺失，可用于评估和比较多种重建方法。",
+      "llm_tldr": "MVM-IOD是一个面向工业物体的3D重建基准数据集，通过工业机器人臂沿半球移动相机采集多视角RGB图像，并提供参考相机位姿和3D点云。数据集包含9个典型工业物体和2个背景，填补了现实工业场景数据集的缺失，可用于评估和比较多种重建方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-07-730510-v1",
+      "source": "biorxiv",
+      "title": "FEABAS: A Stitching and Alignment Tool for Serial EM Data",
+      "abstract": "Volume electron microscopy (vEM) is the most advanced and scalable technique for reconstructing synaptic-level wiring diagrams of the nervous system. Following image acquisition, the first critical step is reconstruction of a digitized volume, which assembles millions of electron microscope images into a coherent 3D volume that will underpin all downstream analyses. Existing methods work best with artifact-free datasets or rely on computationally intensive deep learning approaches or time-consuming human editing, restricting the broader applicability of vEM. To circumvent these challenges, we have developed FEABAS, a scalable, cross-platform, open-source software package designed to elastically montage and align electron microscope image datasets with high efficiency and precision. It leverages adaptive mesh modeling and finite element methods, enabling robust handling of datasets containing common artifacts such as wrinkles, folds, tears, and broken sections, while maintaining a lightweight, accessible implementation suitable for diverse computational environments.",
+      "authors": [
+        "Wu, Y.",
+        "Lichtman, J. W."
+      ],
+      "primary_category": "neuroscience",
+      "categories": [
+        "neuroscience"
+      ],
+      "published": "2026-06-10T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.07.730510v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "stitches and aligns 2D EM images to reconstruct 3D volume, a form of 3D reconstruction from multiple images",
+      "llm_evidence_cn": "拼接和对齐2D电子显微镜图像以重建3D体积，属于多图像三维重建",
+      "llm_evidence": "拼接和对齐2D电子显微镜图像以重建3D体积，属于多图像三维重建",
+      "canonical_evidence": "拼接和对齐2D电子显微镜图像以重建3D体积，属于多图像三维重建",
+      "llm_tldr_en": "FEABAS provides a scalable open-source tool for elastic montaging and alignment of serial EM images to reconstruct 3D volumes.",
+      "llm_tldr_cn": "体积电子显微镜重建面临大数据量和伪影挑战。FEABAS是一个可扩展的开源软件，通过弹性拼接和对齐电子显微镜图像序列，高效重建连贯的3D体积。该方法降低了计算依赖和人工编辑需求，促进了vEM的广泛应用。",
+      "llm_tldr": "体积电子显微镜重建面临大数据量和伪影挑战。FEABAS是一个可扩展的开源软件，通过弹性拼接和对齐电子显微镜图像序列，高效重建连贯的3D体积。该方法降低了计算依赖和人工编辑需求，促进了vEM的广泛应用。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
