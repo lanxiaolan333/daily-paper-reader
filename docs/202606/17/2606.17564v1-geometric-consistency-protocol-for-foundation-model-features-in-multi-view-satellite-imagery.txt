@@ -1,0 +1,227 @@
+Title: Geometric Consistency Protocol for Foundation Model Features in Multi-View Satellite Imagery
+
+URL Source: https://arxiv.org/pdf/2606.17564v1
+
+Published Time: Wed, 17 Jun 2026 00:35:17 GMT
+
+Number of Pages: 5
+
+Markdown Content:
+# Geometric Consistency Protocol for Foundation Model Features in Multi-View Satellite Imagery 
+
+Qiyan Luo ∗, Jie Yang ∗, Yingdong Pi †, Lekang Wen, Mi Wang 
+
+State Key Laboratory of Information Engineering in Surveying, Mapping and Remote Sensing, Wuhan University 
+
+430079 Hubei, China 
+
+{luoqy26, yangjie1, pyd imars, fanzhongli, wenlk3, wangmi }@whu.edu.cn 
+
+Abstract —Standardized evaluation protocols are indispensable for robust benchmarking in remote sensing, particularly as foundation features are increasingly transferred across diverse sensors and complex imaging geometries. In satellite multi-view reconstruction, conventional evaluations relying on unconstrained 2D global matching are often misleading. The Rational Function Model (RFM) and its Rational Polynomial Coefficients (RPC) dictate a curved, height-dependent epipolar geometry that render flat 2D search spaces physically inconsistent. We propose a geometry-faithful and reproducible protocol tai-lored for the RPC framework. Our approach integrates an RPC-projected 3D consistency metric with a geometry-constrained dense matching proxy, specifically evaluating whether similarity responses remain localized and unique under physically plausible search manifolds. A pivotal finding of our joint reporting strategy is the decoupling of semantic agreement and geometric localiza-tion: high cross-view similarity at a projected 3D point does not guarantee reliable matchability in practical inference. Our bench-mark demonstrates that incorporating geometric constraints is fundamental to the problem definition in satellite imagery. Furthermore, we show that state-of-the-art 2D backbones remain remarkably competitive against specialized 3D-aware models when subjected to this RPC-consistent evaluation. 
+
+Index Terms —Multi-view stereo, foundation models, protocol, satellite imagery, rational function model geometry 
+
+I. I NTRODUCTION 
+
+A. Motivation 
+
+The remote sensing community increasingly relies on shared datasets and benchmarks to compare algorithms. However, comparable performance claims also require standardized eval-uation protocols and metric definitions that are robust to differ-ences in platforms, implementations, and imaging conditions. This paper targets that need by proposing a geometry-faithful protocol for evaluating multi-view feature extractors in satellite imagery. Satellite multi-view 3D reconstruction relies on repeatable cross-view correspondence under a Rational Function Model (RFM) camera with Rational Polynomial Coefficients (RPC) [1, 2]. With the rise of visual foundation models, it is now common to reuse pretrained features from DINOv2 [3], CLIP 
+
+> *
+
+These authors contributed equally to this work. 
+
+> †
+
+Corresponding author. Supported by the Key Research and Development Program of Hubei Province (2025BEB069) and LIESMARS Special Research Funding and the National Science Fund for Distinguished Young Scholars grant number 62425102. 
+
+[4], and SAM [5]. Recent research further proposes multi-view conditioning and 3D supervision to produce features that are consistent across views and scenes, including multi-view foundation models (MVFM) [6] and FiT3D [7]. A common evaluation pattern in multi-view feature papers is sparse matching with an unconstrained 2D global search: for each query, select the maximum-similarity location in the target image or patch and measure the pixel distance to the ground-truth correspondence. In satellite imagery, this can be misleading for at least three reasons. First, RPC epipolar geometry is curved and height dependent, so the feasible search region is intrinsically a 3D decision rather than a flat 2D scanline. Second, satellite images cover large areas and contain repeated structures such as roads, rooftops, and parking lots, making unconstrained argmax matching prone to spurious maxima. Third, satellite images exhibit stronger radiometric variation and regional heterogeneity than common natural-image benchmarks, which changes the ambiguity of similarity responses. These observations motivate a protocol design. RPC pro-jected 3D feature consistency evaluates feature agreement for the same 3D point after RPC projection, while Dense matching proxy evaluates whether the same feature field yields a sharp and localized response under geometry-consistent search. The two are complementary rather than redundant: high agreement does not automatically imply high matchability. We focus on two research questions in the satellite RPC setting. We ask whether multi-view features remain consistent for the same 3D point under RPC projection with ground truth height, and whether they yield localized similarity peaks under geometry constrained search that approximates dense matching. 
+
+B. Contributions 
+
+This work proposes a geometric consistency protocol for foundation model features in multi-view satellite imagery. We introduce an RPC projected 3D consistency metric that measures class-weighted cosine similarity across views for the same 3D point, a dense matching proxy with geometry aware inference that reports class-weighted end pointerror and percentage of correct keypoints within 10 pixels under full search and RPC epipolar band constrained search, and a comprehensive evaluation of prevalent foundation model  
+
+> arXiv:2606.17564v1 [cs.CV] 16 Jun 2026 Fig. 1. Overview and visualization of the proposed evaluation protocol and metrics. (a) Class-weighted Cosine Similarity, (b) Class-weighted End Point Error and Percentage of Correct Keypoints within 10 pixels.
+
+features across more than 100 region tests in Omaha and Jacksonville. II. R ELATED WORK 
+
+2D Visual Foundation Models. Visual foundation models provide strong generic features for correspondence and re-construction. DINOv2 [3] improves patch level discrimination and local similarity through joint image and patch objectives. CLIP [4] learns an image text embedding that supports se-mantic alignment and promptable concepts. SAM [5] produces boundary aware representations that are robust to appearance changes. These models are widely reused as frozen feature backbones in downstream pipelines. 
+
+3D aware and multi-view aware features. A line of work aims to lift 2D features into 3D consistent representations. Per scene optimization methods fit a 3D representation for each scene, including NeRF [8], 3D Gaussian Splatting [9], and grid based fields such as Plenoxels [10] and DFA3D [11]. These approaches can yield strong geometric consistency but scale poorly when each scene requires its own optimization. Feed forward lifting and multi view conditioning reduce test time optimization. Lift3D [12] uses pretrained geometric proxies for zero shot lifting. FiT3D [7] fine tunes 2D backbones with 3D aware supervision distilled from consistent renderings. MVFM [6] conditions features on camera information using ray or Pl¨ ucker cues to improve cross view consistency and matching on standard benchmarks. Complementary evaluations analyze reconstruction transformers under sparse overlap and low texture [13]. 
+
+Evaluation protocols and reproducibility in remote sens-ing. Remote sensing increasingly relies on shared bench-marks and leaderboards [14–17]. Reliable comparisons also require consistent split definitions, preprocessing, and metric implementations [18], because small protocol differences can change rankings across teams and platforms. This sensitivity is amplified under cross region and cross constellation transfer [19, 20]. III. P ROTOCOL : G EOMETRY FAITHFUL EVALUATION 
+
+A. Data and reporting setting 
+
+We evaluate DFC2019 [21] satellite multi-view imagery with RFM cameras and ground-truth DSM on two full-region test settings with more than 100 areas of interest: Jacksonville and Omaha. 
+
+a) Shared class policy.: All class-weighted metrics in this paper use one reporting policy shared by Metric 1 and Metric 2. The reporting policy assigns weights of 0.7 and 0.3 to building and ground categories, respectively, to focus on stable geometric surfaces. In the paper, we describe this policy semantically as emphasizing stable and geometrically infor-mative surfaces, especially ground and building categories, while reducing the influence of unstable or weakly informative labels in the headline averages. The normalized weights ˜wc are always renormalized over the classes present in the evaluated split. 
+
+b) Implementation summary.: The dataset configura-tion used by the evaluation code adopts 512 × 512 inputs, 
+
+num views = 4 , crop-based processing, and deterministic DSM-driven sampling. For Metric 1, the released configuration evaluates up to 128 3D points per tile and only keeps points visible in at least 3 views. For Metric 2, the matching script evaluates 512 correspondences per sample with pair mode=all. Correspondence generation and 3D projection rely on the same DSM-constrained fixed-point solver used throughout the repository, with 8 iterations, a 0.5 m stopping threshold, and a symmetric DSM consistency check with a 2 m tolerance. When class-stratified reporting is enabled, the scripts scan up to 2048 
+
+candidates per sample to approximate the target class mixture. Invalid points, failed DSM lookups, insufficient-visibility sam-ples, and out-of-bounds reprojections are discarded rather than forced into the metric. 
+
+B. Metric 1: RPC projected 3D feature consistency 
+
+We measure whether features are consistent across views for the same 3D point, without relying on a potentially brittle 2D global argmax. 
+
+a) RPC projected correspondence in 3D: For each sam-pled reference pixel xi in patch coordinates, we obtain a ground-truth height hi from the DSM and compute a 3D point 
+
+Xi by inverse RPC projection in the reference view: 
+
+Xi = π−1 
+
+> r
+
+(xi, h i). (1) In the implementation, the ground point is solved by the DSM-constrained fixed-point RPC procedure described above, Fig. 2. Qualitative example of similarity responses and geometry constrained matching. TABLE I RPC PROJECTED 3D CONSISTENCY CLS COS .                             
+
+> Method clsCos ↑
+> Omaha Jacksonville DINOv2-Small [3] 0.847 0.875 DINOv2-Small reg [3] 0.872 0.907 DINOv3-Small [22] 0.898 0.907 SAM-Base [5] 0.866 0.846 CLIP-Base [4] 0.563 0.630 FiT3D (CLIP-Base) [7] 0.925 0.947 FiT3D (DINOv2-Small reg) [7] 0.905 0.927 FiT3D (DINOv2-Small) [7] 0.944 0.953 MVFM (CLIP-Base) [6] 0.785 0.804 MVFM (DINOv3-Small) [6] 0.865 0.882 MVFM (DINOv2-Small reg) [6] 0.999 0.999
+> MVFM (DINOv2-Small reg, w/o PL) [6] 0.999 0.999
+> MVFM (SAM-Base) [6] 0.979 0.978
+
+using the DSM height at the backprojected location as ini-tialization when available and otherwise falling back to the RPC height offset. We then forward-project Xi into each other view j using its RPC to obtain the corresponding pixel 
+
+x(j) 
+
+> i
+
+= πj (Xi) and bilinearly sample the feature map at that sub-pixel location. Points are only counted when the projected correspondence remains valid in enough views to satisfy the minimum-view criterion. 
+
+b) Cosine similarity metrics.: Let fr (xi) be the reference feature and fj (x(j) 
+
+> i
+
+) be the feature in view j. With ˜f = f /∥f ∥2,the per-view similarity is 
+
+si,j =
+
+D˜fr (xi), ˜fj (x(j) 
+
+> i
+
+)
+
+E
+
+. (2) We average over the set of valid projected views Vi to obtain per-point similarity si:
+
+si = 1
+
+|V i|
+
+X
+
+> j∈V i
+
+si,j . (3) Let N be the number of valid sampled points. Let yi ∈ C 
+
+be the land-cover label for point i, Nc = |{ i : yi = c}| , and let 
+
+˜wc be the normalized class weights defined above. We report mean cosine similarity 1
+
+> N
+
+P 
+
+> i
+
+si and the class-weighted mean cosine similarity clsCos = X
+
+> c∈C
+
+˜wc · 1
+
+Nc
+
+X
+
+> i:yi=c
+
+si. (4) 
+
+C. Metric 2: Dense matching proxy 
+
+Given a set of query pixels in a reference view and ground-truth correspondences in a target view, we predict correspon-dences using feature similarity. We report End Point Error (EPE) and Percentage of Correct Keypoints within 10 pixels (PCK@10), and we further report class-weighted variants (clsEPE and clsPCK@10) to emphasize the same task-relevant classes used in Metric 1. 
+
+D. Dense matching proxy: global search vs epipolar band search a) Metrics.: Let N be the number of evaluated corre-spondences. Let the predicted match be ˆpi = (ˆ ui, ˆvi) and the ground truth be pi = ( ui, v i) in target-image pixels. The Euclidean error is ei = ∥ˆpi − pi∥2. We define EPE = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+∥ˆpi − pi∥2 , (5) PCK@10 = 1
+
+N
+
+> N
+
+X
+
+> i=1
+
+⊮ [∥ˆpi − pi∥2 < 10] . (6) With the same class weights ˜wc as above, we define clsEPE = X
+
+> c∈C
+
+˜wc · 1
+
+Nc
+
+X
+
+> i:yi=c
+
+ei, (7) clsPCK@10 = X
+
+> c∈C
+
+˜wc · 1
+
+Nc
+
+X
+
+> i:yi=c
+
+⊮[ei < 10] . (8) 
+
+b) Inference modes: We report both unconstrained global search over the target patch and RPC epipolar band search that restricts candidates to a band around the curved and height dependent epipolar curve. IV. M ETHODS UNDER TEST 
+
+We treat all methods as frozen feature extractors under the same RPC consistent protocol and group them by how geome-try enters feature learning. As general purpose 2D backbones, DINOv2 [3] provides strong self-supervised dense features, DINOv3 [22] scales curated data and training stabilization to improve dense feature quality without fine tuning, CLIP [4] learns transferable representations from large scale image text alignment for open vocabulary semantics, and SAM [5] provides promptable segmentation features trained on a large mask dataset that generalize across distributions. Building on such 2D features, FiT3D [7] performs 3D aware fine tuning to encourage multi-view consistency, while MVFM [6] uses camera conditioned multi-view adapters with ray or Pl¨ ucker cues to promote cross view feature alignment, enabling us to test whether improving semantic consistency also improves geometric matchability in satellite imagery. TABLE II DENSE MATCHING PROXY CLS EPE AND CLS PCK@10 ON OMAHA AND JACKSONVILLE .                                                                                                                            
+
+> Method Omaha Jacksonville Epipolar Band Search (±4px) Global Search Epipolar Band Search (±4px) Global Search clsEPE ↓clsPCK@10 ↑clsEPE ↓clsPCK@10 ↑clsEPE ↓clsPCK@10 ↑clsEPE ↓clsPCK@10 ↑
+> CLIP-Base [4] 15.174 0.405 118.788 0.062 15.723 0.380 130.403 0.045 DINOv2-Small [3] 13.277 0.499 74.392 0.131 13.593 0.476 83.318 0.108 DINOv2-Small reg [3] 13.495 0.490 83.809 0.116 13.809 0.469 96.635 0.095 DINOv3-Small [22] 12.103 0.524 37.526 0.294 12.114 0.513 24.352 0.295
+> MVFM (DINOv3-Small) [7] 13.590 0.464 55.978 0.174 13.586 0.451 39.481 0.172 SAM-Base [5] 12.186 0.532 83.515 0.212 12.624 0.525 86.603 0.234 FiT3D (CLIP-Base) [7] 15.368 0.387 114.442 0.060 14.997 0.412 103.532 0.076 FiT3D (DINOv2-Small reg) [7] 13.725 0.473 93.126 0.105 13.333 0.501 83.370 0.127 FiT3D (DINOv2-Small) [7] 14.457 0.440 99.455 0.072 14.267 0.458 104.810 0.078 MVFM (CLIP-Base) [6] 15.723 0.380 130.403 0.045 15.174 0.405 118.788 0.062 MVFM (DINOv2-Small reg) [6] 16.172 0.396 69.811 0.044 16.017 0.413 84.505 0.045 MVFM (DINOv2-Small reg, w/o PL) [6] 15.811 0.410 69.474 0.050 15.657 0.426 84.590 0.050 MVFM (SAM-Base) [6] 12.611 0.522 95.056 0.172 13.278 0.505 98.729 0.183
+
+V. R ESULTS AND ANALYSIS 
+
+Interpretation of Metrics. We distinguish between Met-ric 1 (class-weighted cosine similarity, clsCos), which mea-sures feature agreement at the projected 3D point, and Metric 2 (class-weighted end-point error/ class-weighted percentage of correct keypoints, clsEPE/clsPCK), which evaluates match-ing localization. Table I shows that while 3D-aware models (FiT3D, MVFM) significantly boost feature consistency, this does not always translate to better matching. This decoupling occurs because high consistency can coexist with broad simi-larity plateaus, whereas satellite reconstruction demands sharp, unique peaks for geometric discriminability. 
+
+The Necessity of Epipolar Constraints. A key obser-vation is that unconstrained global matching is an ill-posed evaluation for satellite imagery. As shown in Table II, all methods exhibit a dramatic performance jump when moving from global search to epipolar-band search (±4 pixels). This confirms that geometry-constrained inference is essential to filter out physically implausible matches caused by repeated structures (e.g., rooftops, roads) and long baselines. 
+
+Methodology Comparison. Under the RPC-consistent protocol, strong 2D backbones remain highly competitive. 
+
+DINOv3-Small demonstrates superior discriminative localiza-tion in global search, while SAM shows the highest sta-bility under epipolar constraints. Multi-view-aware models, though improved in semantic alignment, do not consistently outperform these 2D baselines in precise geometric matching, highlighting a trade-off between feature invariance and peak sharpness. Natural-image protocols often assume calibrated or near-pinhole cameras where rectification yields near-straight epipo-lar lines, making correspondence evaluation close to a 1D search. Satellite imagery violates these assumptions. RPC epipolar geometry is curved and height dependent, so feasible correspondences form a 3D manifold rather than a scanline. Satellite images also cover larger extents with frequent self-similarity, and multi-temporal or cross-sensor settings intro-duce radiometric shifts and real change, all of which reshape similarity responses. As a result, unconstrained global argmax matching is ill-posed and can change method rankings by permitting physically implausible matches. 
+
+Key observations. First, epipolar-band-constrained infer-ence is essential: replacing global search with epi-4 im-proves clsPCK@10 for every method. Second, strong 2D backbones remain competitive. SAM is the strongest and most stable under epipolar-band search, while DINOv3-Small is especially strong under global search. Third, multi-view and 3D-aware families are competitive but do not consistently outperform the strongest 2D baselines under the same RPC-consistent inference. VI. C ONCLUSION 
+
+This paper presents a geometry-faithful and reproducible protocol for evaluating satellite multi-view feature extractors under the RPC camera model. The protocol combines RPC-projected 3D feature consistency with geometry-constrained dense matching metrics, and it makes explicit that these two properties are complementary rather than interchangeable. Experiments on full-region tests in Omaha and Jacksonville show that geometry-constrained inference is necessary for meaningful correspondence evaluation and that semantic con-sistency does not necessarily imply geometric matchability. These findings support the use of unified protocol choices and metric definitions when comparing emerging foundation features in remote sensing. VII. L IMITATIONS AND FUTURE WORK 
+
+Our findings advocate for the adoption of unified, geometry-aware evaluation standards to accurately benchmark emerging foundation models in the remote sensing domain. While this study establishes a reproducible protocol, it is limited to two DFC2019 regions and a selection of foundation models. Future extensions will include: (1) expanding to cross-sensor and multi-temporal imagery; (2) conducting sensitivity analyses on epipolar-band width and DSM noise; and (3) releasing a standardized evaluation toolkit to facilitate cross-institutional benchmarking. REFERENCES 
+
+[1] J. Gao, J. Liu, and S. Ji, “A general deep learning based framework for 3d reconstruction from multi-view stereo satel-lite images,” ISPRS Journal of Photogrammetry and Remote Sensing , vol. 195, pp. 446–461, 2023. [2] X. Huang, X. Liu, Y. Wan, Z. Zheng, B. Zhang, Y. Wang, H. Guo, and Y. Zhang, “Mvsr3d: An end-to-end framework for semantic 3-d reconstruction using multiview satellite imagery,” 
+
+IEEE Transactions on Geoscience and Remote Sensing , vol. 63, pp. 1–14, 2025. [3] M. Oquab, T. Darcet, T. Moutakanni, H. V. Vo, M. Szafraniec, V. Khalidov, P. Fernandez, D. HAZIZA, F. Massa, A. El-Nouby, M. Assran, N. Ballas, W. Galuba, R. Howes, P.-Y. Huang, S.-W. Li, I. Misra, M. Rabbat, V. Sharma, G. Synnaeve, H. Xu, H. Jegou, J. Mairal, P. Labatut, A. Joulin, and P. Bojanowski, “DINOv2: Learning robust visual features without supervision,” 
+
+Transactions on Machine Learning Research , 2024. [4] A. Radford, J. W. Kim, C. Hallacy, A. Ramesh, G. Goh, S. Agar-wal, G. Sastry, A. Askell, P. Mishkin, J. Clark, G. Krueger, and I. Sutskever, “Learning transferable visual models from natural language supervision,” in Proceedings of the 38th International Conference on Machine Learning , ser. Proceedings of Machine Learning Research, M. Meila and T. Zhang, Eds., vol. 139. PMLR, 18–24 Jul 2021, pp. 8748–8763. [5] A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo, P. Dollar, and R. Girshick, “Segment anything,” in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , October 2023, pp. 4015–4026. [6] L. Segre, O. Hirschorn, and S. Avidan, “Multi-view foundation models,” arXiv preprint arXiv:2512.15708 , 2025. [7] Y. Yue, A. Das, F. Engelmann, S. Tang, and J. E. Lenssen, “Improving 2D Feature Representations by 3D-Aware Fine-Tuning,” in European Conference on Computer Vision (ECCV) ,2024, pp. 57–74. [8] B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ra-mamoorthi, and R. Ng, “Nerf: representing scenes as neural radiance fields for view synthesis,” Commun. ACM , vol. 65, no. 1, p. 99–106, Dec. 2021. [9] B. Kerbl, G. Kopanas, T. Leimk¨ uhler, and G. Drettakis, “3d gaussian splatting for real-time radiance field rendering,” ACM Transactions on Graphics , vol. 42, no. 4, July 2023. [10] S. Fridovich-Keil, A. Yu, M. Tancik, Q. Chen, B. Recht, and A. Kanazawa, “Plenoxels: Radiance Fields without Neural Networks,” in 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) . IEEE, pp. 5491–5500. [11] H. Li, H. Zhang, Z. Zeng, S. Liu, F. Li, T. Ren, and L. Zhang, “DFA3D: 3D Deformable Attention For 2D-to-3D Feature Lift-ing,” in 2023 IEEE/CVF International Conference on Computer Vision (ICCV) . IEEE, pp. 6661–6670. [12] M. Varma T, P. Wang, Z. Fan, Z. Wang, H. Su, and R. Ra-mamoorthi, “Lift3d: Zero-shot lifting of any 2d vision model to 3d,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , June 2024, pp. 21 367– 21 377. [13] X. Wu, S. Landgraf, M. Ulrich, and R. Qin, “An evaluation of dust3r/mast3r/vggt 3d reconstruction on photogrammetric aerial blocks,” Geo-spatial Information Science , vol. 0, no. 0, pp. 1– 19, 2025. [14] P. Adorni, M.-T. Pham, S. May, and S. Lef` evre, “Towards efficient benchmarking of foundation models in remote sens-ing: A capabilities encoding approach,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recog-nition (CVPR) Workshops , June 2025, pp. 3121–3131. [15] X. An, J. Sun, Z. Gui, and W. He, “Choice: Benchmarking the remote sensing capabilities of large vision-language models,” 
+
+arXiv preprint arXiv:2411.18145 , 2024. [16] Q. Luo, J. Zhang, Y. Xie, X. Huang, and T. Han, “Comparative analysis of advanced feature matching algorithms in challeng-ing high spatial resolution optical satellite stereo scenarios,” in IGARSS 2024 - 2024 IEEE International Geoscience and Remote Sensing Symposium , 2024, pp. 2645–2649. [17] Q. Luo, J. Zhang, M. Wang, and Z. Fan, “Hsross: A benchmark for feature matching algorithms of high-resolution optical satel-lites in challenging scenarios,” IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing , vol. 18, pp. 26 108–26 120, 2025. [18] G. Vivone, L.-J. Deng, S. Deng, D. Hong, M. Jiang, C. Li, W. Li, H. Shen, X. Wu, J.-L. Xiao, J. Yao, M. Zhang, J. Chanussot, S. Garc´ ıa, and A. Plaza, “Deep learning in remote sensing image fusion: Methods, protocols, data, and future perspectives,” IEEE Geoscience and Remote Sensing Magazine , vol. 13, no. 1, pp. 269–310, 2025. [19] S. Lyu, Q. Zhao, Z. Zhou, M. Li, Y. Zhou, D. Yao, G. Cheng, H. Zhou, and Z. Shi, “Deep learning based domain adaptation methods in remote sensing: A comprehensive survey,” arXiv preprint arXiv:2510.15615 , 2025. [20] H. Tamazyan, A. Vanyan, A. Barseghyan, A. Khosrovyan, E. Shelhamer, and H. Khachatrian, “Geocrossbench: Cross-band generalization for remote sensing,” arXiv preprint arXiv:2511.02831 , 2025. [21] B. L. Saux, N. Yokoya, R. H¨ ansch, and M. Brown, “Data fusion contest 2019 (dfc2019),” 2019. [22] O. Sim´ eoni, H. V. Vo, M. Seitzer, F. Baldassarre, M. Oquab, C. Jose, V. Khalidov, M. Szafraniec, S. Yi, M. Ramamonjisoa 
+
+et al. , “Dinov3,” arXiv preprint arXiv:2508.10104 , 2025.
