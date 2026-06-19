@@ -1,0 +1,218 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-19T20:51:51.818888+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.20531v1",
+      "source": "arxiv",
+      "title": "VisDom: Sparse Novel View Synthesis with Visible Domain Constraint",
+      "abstract": "Sparse novel view synthesis (NVS) remains challenging due to the ambiguity of recovering 3D geometry from few input views. While NeRF- and Gaussian Splatting (GS)-based methods perform well with dense supervision, they often overfit in sparse settings, producing floating artifacts and inconsistent geometry. Silhouette consistency is commonly used as a regularizer, but it remains insufficient, as silhouette-consistent regions can extend beyond the true object geometry. We introduce VisDom, a learning-free geometric constraint that augments classical carving-based visual hull reconstruction by enforcing a minimum multi-view visibility requirement. Specifically, we define a visible domain as the subset of 3D space observed by at least $K$ views and use it as an additional filtering criterion on top of standard silhouette-based reconstruction. This provides a stronger spatial prior in sparse-view settings. We integrate VisDom into both implicit (NeRF) and explicit (GS) pipelines by restricting volumetric sampling and guiding Gaussian placement during optimization. Experiments on three challenging datasets show consistent improvements in sparse-view NVS, enabling high-quality object-centric reconstruction from as few as four input images. Our method is domain-agnostic, requires only silhouettes, and introduces no learned parameters, making it a simple complement to existing approaches. Applying VisDom on top of GaussianObject further improves performance on Omni3D and MipNeRF360, while matching or surpassing it at 22 $\\times$ lower training cost.",
+      "authors": [
+        "Mariia Gladkova*",
+        "Tarun Yenamandra*",
+        "Edmond Boyer",
+        "Robert Maier",
+        "Tony Tung",
+        "Daniel Cremers"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T17:45:37+00:00",
+      "link": "https://arxiv.org/pdf/2606.20531v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sparse novel view synthesis with visible domain constraint",
+      "llm_evidence_cn": "基于可见域约束的稀疏新视图合成",
+      "llm_evidence": "基于可见域约束的稀疏新视图合成",
+      "canonical_evidence": "基于可见域约束的稀疏新视图合成",
+      "llm_tldr_en": "VisDom introduces a learning-free geometric constraint for sparse novel view synthesis, defining a visible domain to regularize NeRF/GS methods and reduce floating artifacts.",
+      "llm_tldr_cn": "稀疏新视图合成中，NeRF和高斯溅射方法易产生漂浮伪影。VisDom提出学习自由的可见域约束，通过最小多视图可见性要求定义可见域，增强经典视觉外壳重建。该约束与现有方法兼容，显著提升稀疏视角下的重建质量。",
+      "llm_tldr": "稀疏新视图合成中，NeRF和高斯溅射方法易产生漂浮伪影。VisDom提出学习自由的可见域约束，通过最小多视图可见性要求定义可见域，增强经典视觉外壳重建。该约束与现有方法兼容，显著提升稀疏视角下的重建质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.13376v2",
+      "source": "arxiv",
+      "title": "MoVerse: Real-Time Video World Modeling with Panoramic Gaussian Scaffold",
+      "abstract": "We present MoVerse, a real-time video world model that creates an interactively navigable scene from a single narrow-field-of-view image. This setting is challenging because the input observes only a small fraction of the environment, while interactive roaming requires a complete surrounding world, persistent geometry, controllable camera motion, and temporally coherent high-fidelity observations. MoVerse addresses this problem by separating world construction from observation rendering. It first expands the input into a gravity-aligned 360$^\\circ$ panorama with topology-aware diffusion, closing the missing field of view before 3D reasoning. It then lifts the panorama into a persistent 3D Gaussian scaffold using panoramic geometry-aware residual prediction, yielding a dense and directly renderable spatial memory. Finally, a Gaussian-conditioned video renderer translates scaffold renderings along user-specified camera trajectories into photorealistic video. To make this renderer practical for interaction, we train a bidirectional diffusion teacher for high-quality conditional rendering and distill it into a causal autoregressive student for bounded-latency streaming. This design combines the controllability and long-range consistency of explicit 3D representations with the perceptual quality of generative video models. MoVerse supports real-time scene roaming at 8~FPS on a single NVIDIA RTX~4090 GPU, demonstrating a practical path toward single-image world creation with interactive video output.",
+      "authors": [
+        "Yang Zhou",
+        "Ziheng Wang",
+        "Yuqin Lu",
+        "Haofeng Liu",
+        "Jun Liang",
+        "Shengfeng He",
+        "Jing Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-11T14:01:02+00:00",
+      "link": "https://arxiv.org/pdf/2606.13376v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generates novel views using panoramic Gaussian scaffold",
+      "llm_evidence_cn": "使用全景高斯支架生成新视图",
+      "llm_evidence": "使用全景高斯支架生成新视图",
+      "canonical_evidence": "使用全景高斯支架生成新视图",
+      "llm_tldr_en": "MoVerse creates an interactively navigable 3D scene from a single image by expanding to a panorama and lifting to a 3D Gaussian scaffold for real-time novel view synthesis.",
+      "llm_tldr_cn": "该论文提出MoVerse，从单张窄视场图像实时生成可交互漫游的3D场景：先通过扩散模型补全全景图，再提升为3D高斯支架，实现高质量的新视图合成和相机控制。",
+      "llm_tldr": "该论文提出MoVerse，从单张窄视场图像实时生成可交互漫游的3D场景：先通过扩散模型补全全景图，再提升为3D高斯支架，实现高质量的新视图合成和相机控制。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.19451v1",
+      "source": "arxiv",
+      "title": "3D-DLP: Self-Supervised 3D Object-Centric Scene Representation Learning",
+      "abstract": "We introduce 3D-DLP, a self-supervised object-centric representation learning model that decomposes scene-level RGB-D or voxel observations into a set of 3D latent particles. Building on the Deep Latent Particles (DLP) framework, each particle encodes disentangled attributes, including 3D keypoint position, bounding box dimensions, and appearance features, and represents a distinct entity in the scene. The model learns interpretable per-particle segmentation maps through an end-to-end self-supervised reconstruction objective. We demonstrate on both simulated and real-world datasets that the learned latent space is interpretable and controllable: by manipulating particle positions and decoding, we can generate novel scene configurations. Furthermore, we show that leveraging these compact 3D latent particles for downstream robotic manipulation improves performance over baselines that either lack explicit 3D information or rely on memory-intensive dense 3D inputs without object-centric structure. Code and videos are available at https://eubooks3003.github.io/3d-dlp.",
+      "authors": [
+        "Ellina Zhang",
+        "Madhaven Iyengar",
+        "Amir Zadeh",
+        "Chuan Li",
+        "Deepak Pathak",
+        "David Held",
+        "Tal Daniel"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-06-17T18:00:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.19451v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-supervised 3D scene representation from multi-view RGB-D, reconstructs 3D particles",
+      "llm_evidence_cn": "自监督从多视角RGB-D学习3D场景表示，重建3D粒子",
+      "llm_evidence": "自监督从多视角RGB-D学习3D场景表示，重建3D粒子",
+      "canonical_evidence": "自监督从多视角RGB-D学习3D场景表示，重建3D粒子",
+      "llm_tldr_en": "3D-DLP learns self-supervised 3D object-centric scene representations by decomposing RGB-D observations into 3D latent particles, enabling interpretable and controllable scene generation.",
+      "llm_tldr_cn": "现有3D场景表示方法缺乏可解释性和可控性。本文提出3D-DLP，通过自监督方式将场景级RGB-D观测分解为一组3D潜在粒子，每个粒子编码3D关键点位置、包围框维度等属性。模型通过端到端重建目标学习可解释的粒子分割图，在仿真和真实数据集上展示了可解释和可控的场景生成能力。",
+      "llm_tldr": "现有3D场景表示方法缺乏可解释性和可控性。本文提出3D-DLP，通过自监督方式将场景级RGB-D观测分解为一组3D潜在粒子，每个粒子编码3D关键点位置、包围框维度等属性。模型通过端到端重建目标学习可解释的粒子分割图，在仿真和真实数据集上展示了可解释和可控的场景生成能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.17027v1",
+      "source": "arxiv",
+      "title": "MeshLoom: Feed-Forward Non-Rigid Registration of Mesh Sequences",
+      "abstract": "We present MeshLoom, a feed-forward registration network that directly reconstructs vertex deformations across mesh sequences. Our approach advances non-rigid registration beyond existing models, which are typically constrained by costly per-instance optimization, narrow object categories, pairwise-only inputs, or merely intermediate outputs. The network is simple and efficient, registering multiple meshes within seconds. At its core lies a topology-aware encoder--decoder design. Specifically, we first introduce a topology-aware point representation that encodes the anchor (reference) mesh's topology into its per-vertex features. This representation strengthens the network's understanding of the anchor-mesh geometry and disambiguates points that are Euclidean-close yet geodesically distant. We then propose a multi-modal encoder that fuses this anchor-mesh representation with complementary cues from each frame, such as shape latents and image features. These multi-source signals are compressed into a compact global motion embedding that captures dense inter-frame correspondence. A lightweight decoder then queries this global embedding with the anchor-mesh point representation, retrieving per-vertex deformations at target timestamps. Through extensive experiments across diverse motions and object categories, we show that MeshLoom achieves state-of-the-art results on non-rigid registration. In addition, we find that our global embedding-then-query paradigm naturally enables the network to generate deformations at intermediate timestamps, which extends MeshLoom to motion interpolation and mesh morphing. Project page: https://meshloom.github.io/ .",
+      "authors": [
+        "Jianqi Chen",
+        "Jiraphon Yenphraphai",
+        "Xiangjun Tang",
+        "Sergey Tulyakov",
+        "Chaoyang Wang",
+        "Peter Wonka",
+        "Rameen Abdal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T17:51:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.17027v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "non-rigid registration of mesh sequences for 3D reconstruction",
+      "llm_evidence_cn": "网格序列的非刚体配准用于3D重建",
+      "llm_evidence": "网格序列的非刚体配准用于3D重建",
+      "canonical_evidence": "网格序列的非刚体配准用于3D重建",
+      "llm_tldr_en": "MeshLoom directly reconstructs vertex deformations across mesh sequences via a feed-forward topology-aware network, enabling fast non-rigid registration without per-instance optimization.",
+      "llm_tldr_cn": "非刚体配准通常需要逐实例优化，速度慢且受限于类别。MeshLoom提出前馈配准网络，通过拓扑感知的点表示和编码器-解码器设计，直接重建网格序列的顶点变形。该方法在数秒内配准多个网格，无需优化，适用于多种物体。",
+      "llm_tldr": "非刚体配准通常需要逐实例优化，速度慢且受限于类别。MeshLoom提出前馈配准网络，通过拓扑感知的点表示和编码器-解码器设计，直接重建网格序列的顶点变形。该方法在数秒内配准多个网格，无需优化，适用于多种物体。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-15-732138-v1",
+      "source": "biorxiv",
+      "title": "3dcon: tomogram denoising by deconvolution",
+      "abstract": "Cryo-electron tomography is an expanding technology for the study of macromolecules, viruses, and cells. It is often applied to specimens that are too large or heterogeneous for methods based on 2D image averaging such as single particle analysis, e.g., intracellular membranes or organelles. Current practice records a tilt series of projection images in rotation. Reconstruction is normally an ill-posed mathematical problem. Particularly for the under-determined case of sparse data, discrete tilt angles, and a limited tilt range, characteristic artifacts appear in the reconstructed slices. Much of what appears as noise is in fact structural: the projection of contrast from different planes. Various schemes are employed to regularize the reconstruction, including machine-learning frameworks built on neural networks. To the extent that the noise is structural, it might be suppressed by deconvolution with a suitable kernel. This was demonstrated and has been used regularly in cryo-STEM tomography of thick specimens where the under-sampling problem is particularly acute. Here we present 3dcon as an open-source extension of the entropy-regularized deconvolution algorithm that had been adopted from fluorescence microscopy. It takes advantage of modern computing hardware for convenient and fast processing. Deconvolution is entirely algorithmic, meaning that successful processing of the data does not depend on the data itself. As such it should be robust in a wide variety of applications.",
+      "authors": [
+        "Kirchweger, P.",
+        "Melnikovsky, L.",
+        "Seifer, S.",
+        "Elbaum, M."
+      ],
+      "primary_category": "biochemistry",
+      "categories": [
+        "biochemistry"
+      ],
+      "published": "2026-06-18T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.15.732138v1.full.pdf",
+      "tags": [
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "tomogram reconstruction from tilt series",
+      "llm_evidence_cn": "从倾斜序列进行断层重建",
+      "llm_evidence": "从倾斜序列进行断层重建",
+      "canonical_evidence": "从倾斜序列进行断层重建",
+      "llm_tldr_en": "A deconvolution-based denoising method for cryo-electron tomograms, addressing the ill-posed reconstruction problem with regularization.",
+      "llm_tldr_cn": "该论文针对冷冻电子断层扫描中的重建难题，提出基于反卷积的去噪方法3dcon，通过正则化抑制稀疏数据导致的伪影，实验表明能显著提升断层图像质量，为生物大分子3D结构解析提供更清晰的重建结果。",
+      "llm_tldr": "该论文针对冷冻电子断层扫描中的重建难题，提出基于反卷积的去噪方法3dcon，通过正则化抑制稀疏数据导致的伪影，实验表明能显著提升断层图像质量，为生物大分子3D结构解析提供更清晰的重建结果。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
