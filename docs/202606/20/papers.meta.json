@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-20",
+  "date": "2026-06-20",
+  "generated_at": "2026-06-20T20:15:47",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/20/2606.20103v1-geometry-preserving-in-3d-gaussian-splatting-for-lidar-camera-extrinsic-calibration",
+      "section": "deep",
+      "title_en": "Geometry-Preserving in 3D Gaussian Splatting for LiDAR-Camera Extrinsic Calibration",
+      "authors": "Kyoleen Kwak, Daeho Kim, Jeong Woon Lee, Hyoseok Hwang",
+      "date": "2026-06-18",
+      "pdf": "https://arxiv.org/pdf/2606.20103v1",
+      "score": "8.0",
+      "evidence": "几何保持的3D高斯喷溅用于LiDAR-相机标定",
+      "tldr": "针对LiDAR-相机无目标标定中3DGS几何代理易漂移的问题，提出几何保持框架：聚合多视角LiDAR点云提供密集深度监督，同时阻断光度梯度对高斯空间参数的更新，使代理几何严格对齐真实LiDAR结构。在公开驾驶数据集上，校准精度显著优于现有方法。",
+      "tags": "query:d-recon",
+      "abstract_en": "Accurate LiDAR-camera calibration is essential for robust multi-modal perception. Targetless approaches avoid manual setup but remain limited by the scarcity of discriminative cross-modal features. Recent methods address this by reconstructing the scene within a differentiable model, enabling extrinsic optimization through dense photometric supervision. Among these, 3D Gaussian Splatting (3DGS) has been widely adopted as a geometric proxy that bridges LiDAR and camera within a single differentiable framework. However, since 3DGS was originally designed for novel view synthesis, existing methods tend to prioritize rendering quality, causing the proxy geometry to drift from the true LiDAR structure. We propose a framework that preserves the metric geometry of the Gaussian proxy by aggregating multi-view LiDAR observations for dense depth supervision and blocking photometric gradients from updating the Gaussian spatial parameters. We validate our method on public driving datasets, where it consistently outperforms existing targetless methods in calibration accuracy.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/20/2606.20424v1-lit-gs-lidar-inertial-thermal-gaussian-splatting-for-illumination-robust-mapping",
+      "section": "quick",
+      "title_en": "LIT-GS: LiDAR-Inertial-Thermal Gaussian Splatting for Illumination-Robust Mapping",
+      "authors": "Shikuan Shi, Chunran Zheng, Jiaming Xu, Tianyong Ye, Tao Yu, Yukang Cui",
+      "date": "2026-06-18",
+      "pdf": "https://arxiv.org/pdf/2606.20424v1",
+      "score": "7.0",
+      "evidence": "高斯泼溅用于三维建图，与新视图合成相关",
+      "tldr": "现有基于RGB的LiDAR-惯性-视觉高斯泼溅建图在光照变化和纹理缺失场景下易失败。本文提出LIT-GS框架，注入LiDAR平面几何约束，通过热-LiDAR跨模态锚点联合优化位姿与结构，并在可微泼溅中引入LiDAR平面正则化。实验表明，该方法在几何精度和渲染质量上显著优于现有方法，尤其适用于弱光照环境。",
+      "tags": "query:d-recon",
+      "abstract_en": "Gaussian Splatting has enabled real-time neural rendering, yet existing LiDAR-inertial-visual (LIV) Gaussian mapping pipelines remain fragile under illumination changes and texture-deficient scenes due to their reliance on RGB photometric cues. We present LIT-GS, a LiDAR-inertial-thermal Gaussian Splatting framework that injects LiDAR-derived plane geometry as an explicit constraint in both pose/structure refinement and Gaussian optimization. Specifically, we exploit LIV visual map points as confidence-aware cross-modal anchors to establish reliable thermal-LiDAR associations, and incorporate weighted LiDAR point-to-plane residuals into bundle adjustment to jointly refine camera poses and 3D points under weak thermal supervision. Building on the refined structure, we further introduce a LiDAR-plane-regularized differentiable splatting objective that constrains rendered 3D points to align with locally observed planes, mitigating surface thickening and structural drift in low-contrast thermal imagery. Experiments on proprietary sequences and public datasets demonstrate that LIT-GS consistently improves geometric accuracy and rendering quality over state-of-the-art LIV-based Gaussian Splatting baselines, particularly in challenging lighting conditions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/20/2606.14699v1-instruct-particulate-scaling-feed-forward-3d-object-articulation-with-kinematic-control",
+      "section": "quick",
+      "title_en": "Instruct-Particulate: Scaling Feed-Forward 3D Object Articulation with Kinematic Control",
+      "authors": "Ruining Li, Yuxin Yao, Matt Zhou, Chuanxia Zheng, Christian Rupprecht, Joan Lasenby, Shangzhe Wu, Andrea Vedaldi",
+      "date": "2026-06-12",
+      "pdf": "https://arxiv.org/pdf/2606.14699v1",
+      "score": "6.0",
+      "evidence": "从网格和运动学规范前馈重建铰接3D物体",
+      "tldr": "3D物体关节重建因标注数据稀缺而泛化受限。本文提出Instruct-Particulate模型，输入3D网格与目标运动学规格（部件、连接、关节类型），预测部分分割与运动参数。构建含超15万关节物体的异构数据集，利用视觉语言模型自动获取规格。实验表明模型跨类别及对AI生成网格泛化更优，支持从真实图像重建关节资产。",
+      "tags": "query:d-recon",
+      "abstract_en": "Reconstructing articulated 3D objects is important for animation, gaming, and robotic simulations. Recent neural networks can estimate the articulated structure of 3D objects, but their generalization remains limited by the scarcity of annotated data for this task. To address this gap, we introduce Instruct-Particulate, a model that takes a 3D mesh together with a target kinematic specification, including part descriptions, connectivity, joint types, and optional point prompts, and predicts the corresponding kinematic part segmentation and joint motion parameters. The kinematic specification disambiguates the task and allows the model to target annotations of different granularity, thereby making it possible to use more abundant heterogeneous training data. At test time, the kinematic specification can be obtained automatically from large-scale vision-language models, so the model can be applied to any input mesh. To train our model at scale, we construct a heterogeneous dataset of more than 150,000 articulated 3D objects, extending existing publicly available collections with data obtained by partially labelling other 3D models (monolithic or already decomposed into parts) with kinematic labels by means of vision-language models. Experiments show that our model generalizes better across categories and to AI-generated meshes, enabling articulated asset reconstruction from real-world images via image-to-3D models.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,440 @@
+Title: Geometry-Preserving in 3D Gaussian Splatting for LiDAR-Camera Extrinsic Calibration
+
+URL Source: https://arxiv.org/pdf/2606.20103v1
+
+Published Time: Fri, 19 Jun 2026 00:56:47 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# Geometry-Preserving in 3D Gaussian Splatting for LiDAR-Camera Extrinsic Calibration 
+
+Kyoleen Kwak 1, Daeho Kim 1, Jeong Woon Lee 1, and Hyoseok Hwang ⋆1
+
+Kyung Hee University 
+
+{2007kkl, kdh2769, everyman123, hyoseok}@khu.ac.kr 
+
+Abstract. Accurate LiDAR-camera calibration is essential for robust multi-modal perception. Targetless approaches avoid manual setup but remain limited by the scarcity of discriminative cross-modal features. Recent methods address this by reconstructing the scene within a dif-ferentiable model, enabling extrinsic optimization through dense pho-tometric supervision. Among these, 3D Gaussian Splatting (3DGS) has been widely adopted as a geometric proxy that bridges LiDAR and cam-era within a single differentiable framework. However, since 3DGS was originally designed for novel view synthesis, existing methods tend to prioritize rendering quality, causing the proxy geometry to drift from the true LiDAR structure. We propose a framework that preserves the metric geometry of the Gaussian proxy by aggregating multi-view Li-DAR observations for dense depth supervision and blocking photometric gradients from updating the Gaussian spatial parameters. We validate our method on public driving datasets, where it consistently outperforms existing targetless methods in calibration accuracy. 
+
+Keywords: LiDAR-Camera Calibration · 3D Gaussian Splatting · Tar-getless Calibration 
+
+## 1 Introduction 
+
+Autonomous systems, ranging from self-driving vehicles to mobile robots, rely on multi-modal sensor fusion for robust environmental perception [2, 4, 26, 28]. Among various sensor combinations, the integration of cameras and LiDAR is widely adopted, as cameras provide dense semantic information while LiDAR captures precise 3D geometric structures [6,27]. By combining these two modal-ities, perception systems can compensate for the limitations of each sensor, such as the scale ambiguity in monocular vision or the spatial sparsity of LiDAR data [23, 25]. However, the effectiveness of this sensor fusion depends on accu-rate spatial alignment between the sensors, which is known as LiDAR-Camera extrinsic calibration. For such spatial alignment, target-based methods [15, 32, 36] have served as the standard approach. These methods rely on physical targets with known ge-ometry, such as checkerboards, to establish precise correspondences between the  
+
+> ⋆
+
+Corresponding author.  
+
+> arXiv:2606.20103v1 [cs.CV] 18 Jun 2026 2K. Kwak et al.
+
+two sensors. While target-based methods achieve high accuracy under controlled conditions, they require careful manual setup and a prepared environment, which limits their use in practice [29]. In particular, recalibration during system op-eration is infeasible with this approach, making it difficult to correct sensor misalignment caused by mechanical vibrations or gradual drift in real-world de-ployments [19, 39]. Motivated by this overhead, targetless calibration methods have been actively explored [17, 31, 34]. Rather than relying on artificial markers, these approaches leverage shared geometric primitives such as edges and structural lines that can be extracted from both LiDAR and camera data. However, the accuracy of con-ventional targetless methods is constrained by the scarcity of such discrimina-tive features in typical driving scenes, especially in texture-poor or structurally repetitive environments [33]. To overcome this limitation, recent approaches have shifted from extracting individual features to representing the entire scene with a differentiable model, enabling extrinsic optimization through dense pixel-level supervision rather than sparse feature correspondences. Neural Radiance Fields for View Synthesis (NeRF) [20] exemplifies this direc-tion, but the computational burden of volumetric rendering often makes NeRF-based calibration [30,38] impractical for real-time or large-scale use. Recently, 3D Gaussian Splatting (3DGS) [14] has emerged as an efficient scene representation that enables fast, differentiable rendering through explicit point-based primi-tives. Since each Gaussian can be initialized from a LiDAR point, inheriting its precise metric position, and then rendered onto the camera image plane through differentiable rasterization, 3DGS can effectively function as a geometric proxy that bridges the LiDAR coordinate system and the camera image domain. This proxy property provides a clear advantage for LiDAR-Camera extrinsic calibration, and several recent methods have adopted 3DGS for this task [7, 12, 33, 37]. These methods share a similar pipeline in which Gaussians are initial-ized from LiDAR points, rendered into images through the Gaussian proxy, and jointly optimized with the extrinsic parameters by minimizing image-domain losses. Since 3DGS was originally designed for novel view synthesis, its opti-mization is inherently driven toward improving rendering quality, and existing calibration methods naturally inherit this tendency. However, this rendering-oriented optimization freely adjusts Gaussian positions and shapes to reduce photometric residuals, even at the cost of distorting the underlying geometric structure. Although existing methods constrain the proxy geometry using sparse depth supervision from a single LiDAR scan at each timestep, this coverage is insufficient to prevent the proxy’s geometric parameters from drifting away from the true LiDAR structure during joint optimization. As a result, the calibration accuracy that depends on metric faithfulness deteriorates. We refer to this phe-nomenon as Geometric Decay , a gradual loss of metric faithfulness in the proxy geometry that degrades calibration accuracy and stability. To address this problem, we propose Geo metry-Preserving Calib ration (GeoP-Calib), a framework that fully exploits the geometric proxy property of 3DGS for extrinsic calibration. First, we introduce Dense Depth Anchoring (DDA), Geometry-Preserving 3DGS for LiDAR-Camera Calibration 3
+
+which aggregates multi-view LiDAR observations to construct a dense depth prior. DDA increases the spatial coverage of depth supervision, providing a rigid metric foundation that penalizes geometric drift in regions where a single scan offers no constraint. To handle occlusion artifacts that arise from multi-view ac-cumulation, DDA further introduces a Volumetric Soft Mask (VSM) that uses the rendered depth of the Gaussian proxy as a continuous visibility prior, down-weighting occluded LiDAR projections and resolving spatial ambiguities. Second, we design Gradient Decoupling (GD), which blocks the backpropagation of pho-tometric gradients to the Gaussian spatial parameters, specifically position and covariance. GD prevents texture-driven residuals from deforming the proxy ge-ometry, effectively mitigating Geometric Decay and preserving the bridge role of the proxy between LiDAR and camera. In summary, our key contributions are: (i) We identify and analyze a photometric-geometric conflict in 3DGS-based calibration, and empirically demonstrate that photometric supervision can induce Geometric Decay of the Gaussian proxy. (ii) We propose GeoP-Calib, a novel framework that integrates Dense Depth An-choring and Gradient Decoupling to mitigate Geometric Decay of the Gaussian proxy. (iii) Extensive evaluations on KITTI odometry [5] and KITTI-360 [18] demonstrate consistent improvements in calibration accuracy, with particularly notable gains in translation estimation. 
+
+## 2 Related Works 
+
+2.1 Target-Based LiDAR-Camera Calibration 
+
+Target-based methods estimate extrinsics by observing artificial objects with known geometry, such as checkerboards or fiducial markers, and solving for the transformation via explicit 2D-3D correspondences. Zhang and Pless [32] estab-lished the foundational point-to-plane formulation for LiDAR-Camera pairs, and Zhou et al . [36] relaxed the target constraints by exploiting multimodal edge line and plane correspondences. Another line of research, Beltrán et al . [1] diversi-fied target-based calibration with circular targets, and Kim et al . [15] further improved it by more accurate circle-center localization. Despite their precision, target-based methods require meticulous manual setup, limiting their scalability for deployments where sensor extrinsics drift over time. 
+
+2.2 Targetless LiDAR-Camera Calibration 
+
+Targetless methods have exploited naturally occurring scene structures, avoiding dedicated calibration objects. One line of work aligned geometric features across modalities, such as edges [13, 31], 3D-2D lines [34], and cross-modal structural correspondences [21]. Another direction optimized photometric consistency di-rectly via mutual information or intensity-based objectives [10, 16, 22]. On the learning side, Iyer et al . [11] and Lv et al . [19] regressed extrinsics from raw LiDAR-image pairs using CNNs and cost volumes, while Zhang et al . [35] more 4 K. Kwak et al. 
+
+recently combined foundation-model-based monocular depth with LiDAR inten-sity alignment. Despite their flexibility, these approaches remain limited by the inherent sparsity of LiDAR point clouds, which restricts both the availability of discriminative features and the reliability of cross-modal comparison [33]. 
+
+2.3 Scene Reconstruction-Based LiDAR-Camera Calibration 
+
+Scene reconstruction-based methods formulate calibration as a joint optimiza-tion of a differentiable scene representation and extrinsic parameters, where the photometric loss between rendered and observed images drives pose refinement. NeRF-based approaches [8, 38] train neural radiance fields while jointly opti-mizing extrinsics, but the volumetric rendering pipeline incurs substantial com-putational cost, often requiring several hours per calibration. To overcome this efficiency bottleneck, recent methods adopt 3DGS [14] as the underlying rep-resentation. Herau et al . [7] first applied 3DGS to LiDAR-Camera calibration by fixing Gaussians on LiDAR points and jointly optimizing the scene model and extrinsics. Zhou et al . [37] adopted 2D Gaussian Splatting [9] and refined extrinsics through reprojection and triangulation losses. Zhang et al . [33] decou-pled scene modeling from extrinsic refinement via a hierarchical coarse-to-fine architecture. Jung et al . [12] introduced fixed anchor Gaussians and learnable auxiliary Gaussians with a camera rig optimization strategy for consistent multi-view calibration. 
+
+## 3 Problem Definition 
+
+3.1 3DGS Preliminaries 
+
+3DGS [14] represents a 3D scene using a set of anisotropic 3D Gaussians, G =
+
+{Gi}Ni=1 . Each Gaussian Gi is parameterized by its mean μi ∈ R3, covariance 
+
+Σi ∈ R3×3, opacity αi ∈ (0 , 1) , and color coefficients ci. The covariance matrix 
+
+Σi is typically decomposed into a rotation matrix Ri and a scaling matrix Si as 
+
+Σi = RiSiS⊤ 
+
+> i
+
+R⊤ 
+
+> i
+
+to maintain its physical validity during optimization. To render the scene from a specific viewpoint, the 3D Gaussians are projected onto the 2D image plane. Given World to Camera Tcw ∈ SE (3) and intrinsics K,each 3D Gaussian is projected to form a 2D Gaussian density G2Di (p) evaluated at pixel p ∈ R2.3DGS utilizes tile-based rasterization with alpha-compositing to render im-ages in a differentiable manner. For each pixel p, the rendered color Φcolor and depth Φdepth are computed by blending the N Gaussians overlapping that pixel: 
+
+Φcolor (G, Tcw )( p) = 
+
+> N
+
+X
+
+> i=1
+
+Ti(p)αiG2Di (p)ci, (1) 
+
+Φdepth (G, Tcw )( p) = 
+
+> N
+
+X
+
+> i=1
+
+Ti(p)αiG2Di (p)di, (2) Geometry-Preserving 3DGS for LiDAR-Camera Calibration 5
+
+where Ti(p) = Qi−1
+
+> j=1
+
+(1 − αj G2Dj (p)) represents the accumulated transmittance, and di denotes the depth of the i-th Gaussian in the camera coordinate system. The entire rendering pipeline is fully differentiable with respect to both the scene parameters G and the camera pose Tcw , enabling gradient-based optimization for calibration tasks. 
+
+3.2 3DGS-based Calibration Preliminaries 
+
+The objective of 3DGS-based LiDAR-Camera calibration is to estimate the op-timal scene representation and the extrinsic transformation by maximizing the joint posterior probability [33]. Given a set of camera images I = {It}, a set of LiDAR point clouds P = {P t}, and the world to LiDAR poses Tlw = {Ttlw },the optimization problem is formulated as: 
+
+ˆG, ˆTcl = arg max 
+
+> G,Tcl
+
+P (G, Tcl | I , P, Tlw ), (3) where G denotes the set of 3D Gaussian parameters, and Tcl ∈ SE (3) represents the extrinsic transformation from the LiDAR coordinate system ( l) to the camera coordinate system ( c), parameterized by a rotation matrix R ∈ SO (3) and a translation vector t ∈ R3.To solve this MAP estimation, existing frameworks typically minimize a multi-modal objective function. The extrinsic parameters are optimized through a differentiable rendering process Φ(G, Tcw ), where the camera pose at time t is defined as a function of the calibration target: Ttcw = Tcl · Ttlw .
+
+Photometric Alignment. The first objective ensures that the rendered ap-pearance matches the observed images. The photometric alignment loss Lpho is generally defined using a distance metric Dphoto :
+
+Lpho = Dphoto 
+
+
+
+It, Φ color (G, Tcl Ttlw )
+
+
+
+, (4) where Dphoto measures the visual discrepancy. In practice, this metric typically employs the pixel-wise L1 distance to ensure absolute color alignment and min-imize rendering residuals across the observed views [7, 12, 33, 37]. 
+
+Cross-view Geometric Consistency. Recent works further regularize the extrinsics using reprojection consistency [33, 37]. Utilizing the rendered depth map Dt = Φdepth (G, Tcl Ttlw ), a pixel pt in the source frame t can be warped to the target frame t + s as follows: 
+
+˜pt+s = π  K(Tcl Tt+slw )( Tcl Ttlw )−1 Dt(pt)K−1 ¯pt , (5) where K is the camera intrinsic matrix, ¯pt is the homogeneous coordinate of 
+
+pt, and π(·) denotes the perspective projection function that divides by the depth component. The reprojection loss Lrep minimizes the intensity discrepancy between the warped and target pixels: 
+
+Lrep = Drep 
+
+
+
+It+s(˜ pt+s), I t(pt)
+
+
+
+, (6) 6 K. Kwak et al. 
+
+where Drep represents a photometric distance function. 
+
+Optimization through Gaussian Proxy. In 3DGS-based calibration, the ex-trinsic Tcl is refined by minimizing image-domain objectives such as photometric alignment and cross-view reprojection consistency. We define the image-domain objective as 
+
+Limg = Lpho + λrep Lrep . (7) Since both Lpho and Lrep are computed from rendered outputs, their gradients with respect to Tcl flow through the differentiable renderer: 
+
+∂Limg 
+
+∂Tcl 
+
+= ∂Limg 
+
+∂Φ (G, Tcw ) · ∂Φ (G, Tcw )
+
+∂Tcl 
+
+, (8) where Tcw = Tcl Tlw . Importantly, the renderer Jacobian ∂Φ (G, Tcw )/∂ Tcl de-pends on the current proxy state G, implying that the reliability of the extrinsic update is tightly coupled to the geometric faithfulness of G with respect to the underlying LiDAR structure P.
+
+LiDAR Depth Anchoring. To explicitly constrain the proxy geometry in met-ric space, prior 3DGS-based calibration pipelines commonly include a LiDAR-derived depth anchoring term [33, 37]. In the standard setting, this term is in-stantiated from a single LiDAR scan at time t by projecting LiDAR points onto the image plane and comparing the rendered depth with the LiDAR depth at valid projection pixels. Since the extrinsic translation is still uncertain during op-timization, the depth rendering adopts a rotation-only extrinsic ¯Tcl = [ Rcl | 0],isolating the depth supervision from the translation uncertainty by keeping both measurements at the LiDAR origin. The depth anchoring loss is then formulated as: 
+
+Lsparse depth = 1
+
+|Ωt|
+
+X
+
+> p∈Ωt
+
+Ddepth (Drend (p), D l(p)) , (9) where Ωt denotes the set of valid projected pixels, Drend = Φdepth (G, ¯Tcl Ttlw )
+
+is the depth rendered from the virtual viewpoint at the LiDAR origin with the camera orientation, and Dl is the depth obtained from the projected LiDAR points. We denote Ldepth = Lsparse depth to represent the depth objective in existing baselines. 
+
+Overall Objective. The full objective minimized in typical 3DGS-based cal-ibration pipelines is a weighted sum of the photometric alignment, cross-view consistency, and geometric constraints: 
+
+Ltotal = Lpho + λrep Lrep + λdepth Ldepth , (10) where λrep and λdepth are balancing weights. 
+
+3.3 Limitations of Sparse LiDAR Supervision 
+
+As Eq. 9 supervises depth only at pixels where LiDAR points project, a sin-gle scan provides supervision over only a small fraction of the image, leaving Geometry-Preserving 3DGS for LiDAR-Camera Calibration 7      
+
+> (a)
+> (b) 02,000 4,000 6,000 8,000 10,000
+> Iterations
+> 0.5
+> 1
+> 1.5
+> 2
+> 2.5
+> Depth Loss (1e-3)
+> Photo
+> Loss
+> Active
+> Reprojection Loss Active
+> mean of depth loss
+> (w/. photometric alignment)
+> mean of depth loss
+> (w/o. photometric alignment) (c)
+
+Fig. 1: Illustration of Geometric Decay: (a) Rendered depth map of 3DGS optimized using Base pipeline with photometric alignment loss. (b) Rendered depth map of 3DGS optimized with only depth loss. (c) Evolution of the depth loss on KITTI-360 Seq. 1. Shaded regions indicate min–max. Reprojection is used when photometric alignment is disabled, and both are enabled after 9000 iterations. 
+
+most regions unconstrained in metric space. Notably, rendered depth is a view-dependent output produced at rendering time, Drend = Φdepth (G, ¯Tcl Ttlw ). Thus, outside the supervised set Ωt, the proxy geometry can change without being di-rectly penalized by the depth objective. As a result, many Gaussians can drift in underconstrained areas while still producing plausible renderings, which under-mines the geometric faithfulness of the proxy and can mislead extrinsic updates. 
+
+3.4 Analysis of Photometric-Geometric Conflict 
+
+In 3DGS-based LiDAR-Camera calibration, the extrinsic parameters are opti-mized through image-domain objectives in Eq. 4 and Eq. 6, and the resulting gradients backpropagate through the Gaussian proxy. Many pipelines intention-ally limit Gaussian density, for instance, by tying the primitive budget to Li-DAR voxelization or point sampling. [7, 12, 33, 37] This constraint is designed to preserve metric correspondence with the LiDAR initialization and prevent the model from introducing excessive geometric degrees of freedom to compensate for photometric errors. [7] Under this constrained proxy resolution, photomet-ric observations containing fine textures cannot always be fully explained by appearance parameters alone. Consequently, the optimizer may reduce photo-metric error by modifying geometric parameters such as Gaussian means and covariances, trading metric geometric fidelity for visually plausible renderings. We refer to this texture-driven distortion of the proxy geometry as Geomet-ric Decay , where the Gaussian metric structure loses faithfulness to the LiDAR points. Fig. 1 illustrates this phenomenon. Fig. 1a shows rendered depth appear-ing outside LiDAR-supported regions, whereas Fig. 1b keeps rendered depth more localized to regions where LiDAR points exist. Fig. 1c plots the depth 8 K. Kwak et al. GS Geo. (Σ, 𝜇 )   
+
+> GS Opacity ( 𝛼 )Extrinsic ( )
+> GS Color (c)
+> GS Opacity ( 𝛼 )Extrinsic ( )
+> GS Color (c) GS Geo. (Σ, 𝜇 )
+
+Fig. 2: Overview of the proposed geometry-preserving calibration integration. 
+
+loss, defined as an L1 discrepancy between rendered depth and LiDAR depth in the inverse-depth domain. The red curve (with photometric alignment) shows a higher mean loss and larger variability, particularly during the shaded interval when photometric alignment is enabled, compared to the run without photomet-ric alignment. These results indicate that optimizing photometric consistency can degrade the geometric accuracy required for LiDAR-Camera calibration. 
+
+## 4 Geometry-Preserving LiDAR-Camera Calibration 
+
+We propose Geometry-Preserving LiDAR-Camera Calibration (GeoP-Calib), a framework that preserves LiDAR-consistent proxy geometry throughout joint optimization. GeoP-Calib addresses the conflict identified in Sec. 3 through two complementary components: (1) Dense Depth Anchoring (DDA), which estab-lishes a rigid metric foundation by aggregating multi-view LiDAR observations, and (2) Gradient Decoupling (GD), which blocks the gradients of the photomet-ric alignment loss Lpho from updating the Gaussian spatial parameters, thereby mitigating Geometric Decay . These two components operate cooperatively while keeping their gradient effects decoupled. DDA governs the spatial parameters of the proxy, while GD allows photometric alignment to refine only appearance and sensor extrinsics without interfering with the established geometry. Geometry-Preserving 3DGS for LiDAR-Camera Calibration 9
+
+4.1 Dense Depth Anchoring with Volumetric Masking 
+
+To resolve the structural instability caused by the sparsity of single-scan LiDAR data, we propose Dense Depth Anchoring (DDA). This module provides a continuous geometric reference by accumulating multi-view LiDAR observations, ensuring that the Gaussian proxy remains rigidly aligned with the global scene structure. 
+
+Geometric Foundation via Point Accumulation. As identified in Sec. 3.3, the lack of spatial constraints in unsupervised void regions leads to Gaussian drift. We mitigate this by constructing a dense global point cloud Pglobal =S
+
+> t
+
+(Ttlw )−1Pt. By projecting Pglobal from the LiDAR viewpoint onto the image plane, we generate a dense depth prior Ddense l that covers a significantly larger portion of the image space than a single scan. This dense anchor effectively locks the spatial parameters ( μ, Σ ) of the Gaussians, preventing them from drifting even in regions where the current frame’s LiDAR data is absent. 
+
+Volumetric Soft Mask for Occlusion Handling. A fundamental challenge in dense point accumulation is the occlusion ambiguity , where points from dis-tant viewpoints are incorrectly projected onto foreground objects. To effectively resolve this, we leverage the volumetric nature of 3DGS. Since multi-view repro-jection evaluates structural consistency across different camera poses, it naturally encourages Gaussians to accurately fill valid spatial regions. This inherent spa-tial awareness makes the splatted Gaussians a useful geometric cue for reasoning about occlusions. Building upon this insight, we propose utilizing the 3DGS representation itself as a continuous occlusion filter, introducing a Volumetric Soft Mask 
+
+(VSM). Because the rendered depth Drend represents the expected ray termi-nation, it implicitly captures the visibility state of the scene. We formulate the visibility weight Wvis to adaptively filter the accumulated points as follows: 
+
+Wvis (p) = σ  β ·  Drend (p) (1 + τ ) − Ddense l (p) , (11) where σ(·) is the sigmoid function, τ is a depth-proportional tolerance margin, and β controls the sharpness of the transition. By smoothly penalizing points located significantly behind the rendered Gaussian surface ( Ddense l ≫ Drend ), this soft masking strategy effectively neutralizes invalid projections while main-taining a stable, differentiable loss landscape. 
+
+Dense Depth Consistency Loss. Using the accumulated points projected onto the current view, we explicitly enforce consistency between the rendered depth and the LiDAR-implied depth at the corresponding pixel locations. Let 
+
+Ωdense denote the set of valid projected LiDAR points, and let M (p) ∈ { 0, 1}
+
+be a binary validity mask indicating whether the rendered depth is defined at pixel p. We compute the depth residual in the inverse-depth domain to provide a more stable parameterization across a wide depth range [3]: 
+
+∆d inv (p) = dinv rend (p) − dinv l (p) , dinv l (p) = 1
+
+Ddense l (p) + ϵ , (12) 10 K. Kwak et al. 
+
+where dinv rend (p) denotes the rendered inverse depth at p, obtained using the same rotation-only extrinsic ¯Tcl as in Eq. 9. The final dense depth anchoring loss combines the validity mask and the soft visibility weight: 
+
+Ldense depth =
+
+P 
+
+> p∈Ωdense
+
+M (p) Wvis (p) ∆d inv (p)
+
+P 
+
+> p∈Ωdense
+
+M (p) Wvis (p) + ϵ . (13) 
+
+4.2 Gradient Decoupling for Structural Protection 
+
+To mitigate the Geometric Decay identified in Sec. 3.4, we introduce Gradi-ent Decoupling (GD). GD blocks the backpropagation of the photometric alignment loss to the Gaussian spatial parameters, preventing texture-driven photometric residuals from directly deforming the established metric structure. 
+
+Implementation via Gradient Blocking. In a standard joint optimization, the photometric alignment loss Lpho backpropagates through the entire set of Gaussian parameters G, comprising {μ, Σ, α, c }. To protect the structural in-tegrity, we apply a stop-gradient operator sg [·] to the spatial parameters (μ, Σ )
+
+specifically within the color rendering process. The modified photometric objec-tive is defined as: 
+
+Ldecoupled pho = Dphoto 
+
+
+
+It, Φ color (sg [μ, Σ ], α, c, Tcl · Ttlw )
+
+
+
+. (14) By explicitly decoupling these gradients, we ensure that the refinement of scene appearance and sensor extrinsics proceeds without inducing non-physical defor-mations in the underlying geometry. 
+
+Selective Gradient Blocking. As summarized in Fig. 2, we apply GD only to Lpho , while allowing the reprojection loss Lrep to update (μ, Σ ). Although 
+
+Lrep also uses a photometric distance, it compares ground-truth image intensi-ties through depth-induced reprojection correspondences without involving the learned Gaussian color attributes. As a result, its gradients to (μ, Σ ) are me-diated by the reprojection geometry and primarily encourage view-consistent structure rather than per-view texture fitting. This is empirically supported by Fig. 1c. The depth loss sharply increases once the photometric alignment loss is activated, yet the subsequent activation of the reprojection loss does not induce a comparable degradation. This design leverages image-domain supervision while mitigating Geometric Decay and preserving LiDAR-anchored structure during extrinsic refinement. Combining both components, GeoP-Calib modifies the baseline objective (Eq. 10) as: 
+
+LGP total = Ldecoupled pho + λrep Lrep + λsparse depth Lsparse depth + λdense depth Ldense depth . (15) 
+
+## 5 Experiment 
+
+5.1 Experiment Setup Dataset. We evaluated GeoP-Calib on KITTI-360 [18] and KITTI odometry [5] (denoted as KITTI hereafter). For KITTI-360, we used the same five sequences Geometry-Preserving 3DGS for LiDAR-Camera Calibration 11 
+
+Table 1: Quantitative comparison of extrinsic calibration accuracy on KITTI and KITTI-360 datasets. Best results are in bold, and second-best results are underlined. Values in parentheses denote the standard deviation. Seq. GST [16] Claim [35] RobustCalib [37] HiGS-Calib [33] GeoP-Calib 
+
+Er (◦) Et(m) Er (◦) Et(m) Er (◦) Et(m) Er (◦) Et(m) Er (◦) Et(m)
+
+> KITTI-360
+
+seq1 0.351 0.326 0.663 0.142 0.202 0.059 0.111 0.036 0.124 0.031          
+
+> (0.080) (0.018) (0.409) (0.148) (0.021) (0.006) (0.016) (0.006) (0.046) (0.006)
+
+seq2 4.631 0.394 0.614 0.056 0.272 0.107 0.177 0.087 0.145 0.059          
+
+> (2.543) (0.254) (0.219) (0.030) (0.046) (0.019) (0.031) (0.004) (0.020) (0.007)
+
+seq3 0.991 0.335 0.232 0.073 0.307 0.076 0.103 0.177 0.074 0.059          
+
+> (0.199) (0.212) (0.073) (0.041) (0.047) (0.002) (0.096) (0.106) (0.030) (0.002)
+
+seq4 1.011 0.316 0.809 0.296 0.246 0.133 0.167 0.118 0.110 0.071          
+
+> (0.176) (0.210) (0.641) (0.253) (0.068) (0.005) (0.161) (0.111) (0.042) (0.001)
+
+seq5 0.751 0.206 0.284 0.079 0.248 0.109 0.141 0.098 0.153 0.093          
+
+> (0.423) (0.071) (0.110) (0.039) (0.003) (0.012) (0.010) (0.001) (0.030) (0.003)
+
+Avg. 1.547 0.315 0.520 0.129 0.255 0.097 0.140 0.103 0.121 0.063          
+
+> (1.570) (0.099) (0.303) (0.126) (0.055) (0.028) (0.059) (0.055) (0.041) (0.021)
+> KITTI
+
+seq1 2.626 0.251 0.247 0.044 0.305 0.050 0.112 0.042 0.105 0.034          
+
+> (1.151) (0.082) (0.125) (0.016) (0.051) (0.006) (0.008) (0.002) (0.009) (0.001)
+
+seq2 1.310 0.232 0.371 0.092 0.482 0.074 0.201 0.056 0.160 0.054          
+
+> (0.294) (0.058) (0.107) (0.030) (0.417) (0.014) (0.003) (0.001) (0.010) (0.001)
+
+seq3 1.106 0.167 0.219 0.052 0.300 0.083 0.239 0.052 0.224 0.023          
+
+> (0.678) (0.050) (0.066) (0.017) (0.018) (0.008) (0.016) (0.005) (0.018) (0.001)
+
+seq4 0.512 0.413 0.354 0.067 0.298 0.084 0.269 0.062 0.250 0.052          
+
+> (0.186) (0.159) (0.078) (0.018) (0.102) (0.009) (0.011) (0.001) (0.024) (0.001)
+
+seq5 2.801 0.327 0.411 0.051 0.375 0.119 0.209 0.065 0.201 0.056          
+
+> (1.475) (0.178) (0.056) (0.013) (0.150) (0.012) (0.007) (0.003) (0.016) (0.002)
+
+Avg. 1.671 0.278 0.352 0.082 0.352 0.082 0.206 0.055 0.188 0.044          
+
+> (0.892) (0.085) (0.074) (0.022) (0.071) (0.022) (0.053) (0.008) (0.051) (0.013)
+
+as in [7, 33]. For KITTI, we used subsets of sequences 5, 6, 7, 9, and 10 follow-ing [37]. On KITTI-360, calibration was run on the two forward-facing cameras and averaged. On KITTI, we used only cam2. 
+
+Baselines and Protocols. We compared against GST [16] as a representa-tive traditional optimization-based method, CLAIM [35] as a foundation-model-based method, and RobustCalib [37] and HiGS-Calib [33] as recent 3DGS-based methods. All methods shared a unified initialization where the camera pose was aligned with the forward-facing LiDAR frame, except GST, whose SuperGlue [24] based correspondence initialization could fail under sparse LiDAR projections and lead to invalid or unstable optimization. Therefore, we initialized GST by perturbing the ground-truth extrinsics with a 1◦ rotation and 0.2 m translation to ensure that it entered a valid optimization regime. 12 K. Kwak et al. 
+
+Table 2: Component analysis for GeoP-Calib on KITTI-360. Note that VSM is a sub-component of DDA and is not defined without it. GD DDA VSM Er (◦) Et(m) T (s)
+
+0.122 (0.031) 0.077 (0.022) 875 (16) 
+
+✓ ✓ 0.117 (0.044) 0.068 (0.021) 923 (16) 
+
+✓ 0.127 (0.042) 0.067 (0.022) 866 (21) 
+
+✓ ✓ 0.124 (0.045) 0.066 (0.024) –
+
+✓ ✓ ✓ 0.121 (0.041) 0.063 (0.021) 922 (21) 1 2 3 4 5 6 7 8 9         
+
+> Noise Level
+> 0.12
+> 0.15
+> 0.18
+> 0.21
+> 0.24
+> 0.27
+> Rotation Error [°]  RobustCalib
+> HiGS-Calib
+> Ours
+> (a) 123456789
+> Noise Level
+> 0.05
+> 0.06
+> 0.07
+> 0.08
+> 0.09
+> 0.10
+> 0.11
+> Translation Error [m]  RobustCalib
+> HiGS-Calib
+> Ours (b)
+
+Fig. 3: Calibration error under varying noise levels: (a) rotation and (b) translation. 
+
+Evaluation Metrics. We quantitatively evaluated calibration accuracy using the translation error Et and the geodesic rotation error Er :
+
+Et = ˆt − t∗ 
+
+> 2
+
+, Er = arccos 
+
+ Tr 
+
+
+
+(R∗)⊤ ˆR
+
+
+
+− 12
+
+ , (16) where (R∗, t∗) and ( ˆR, ˆt) denote the ground-truth and estimated extrinsics, respectively. We report Er in degrees by converting radians to degrees. 
+
+5.2 Implementation Details 
+
+We built our method on top of the HiGS code base [33]. Notably, GD is applied throughout all stages to prevent photometric residuals from distorting the scene geometry. We adopt a two-stage optimization schedule: a geometric warm-up stage using sparse depth supervision to establish stable coarse geometry, fol-lowed by a refinement stage that activates the dense depth anchoring loss Ldense depth .For detailed hyperparameter settings, we refer the reader to the supplementary material. 
+
+5.3 Calibration Performance on Driving Datasets 
+
+We conducted a quantitative evaluation of rotation and translation errors on the KITTI-360 and KITTI datasets. As shown in Table 1, GeoP-Calib achieved the lowest rotation error on 7 out of 10 sequences and the lowest translation error Geometry-Preserving 3DGS for LiDAR-Camera Calibration 13    
+
+> (a) (b) (c)
+> Fig. 4: Qualitative comparison of rendered RGB images on KITTI-360: (a) GT, (b) Base and (c) GeoP-Calib (Ours). PSNR is computed over the entire image to assess photometric consistency.
+
+on 7 out of 10 sequences across KITTI-360 and KITTI. In contrast, GST did not perform reliably on these driving scenarios, resulting in large errors and high vari-ance. CLAIM, which leverages foundation models, attained relatively accurate translation in several sequences. However, its rotation accuracy was consistently inferior to the 3DGS-based approaches, limiting its overall calibration quality. Compared to prior 3DGS-based methods, GeoP-Calib yielded translation im-provements over HiGS-Calib on every sequence, demonstrating that preserving the geometric integrity of the 3DGS proxy provides a consistently stronger cal-ibration signal for metric alignment. Specifically, GeoP-Calib improves over the second-best result by 0.019 ◦ in rotation and 0.034 m in translation on KITTI-360, and by 0.018 ◦ in rotation and 0.011 m in translation on KITTI. 
+
+5.4 Ablation Study 
+
+Table 2 reports the component-wise ablation of GeoP-Calib on KITTI-360. Starting from Base, adding DDA reduced the translation error from 0.077 mto 0.068 m, improving by 0.009 m, and slightly improved the rotation error from 
+
+0.122 ◦ to 0.117 ◦, improving by 0.005 ◦. Adding GD alone also improved transla-tion to 0.067 m, improving by 0.010 m, while rotation increased to 0.127 ◦. How-ever, the increase was marginal at 0.005 ◦. When both DDA and GD are en-abled, GeoP-Calib achieved the best overall performance, reducing translation to 0.063 m and rotation to 0.121 ◦. Compared to Base, this yielded a 0.014 mimprovement in translation and a 0.001 ◦ improvement in rotation. We additionally ablated the VSM used for dense depth anchoring. With the same DDA+GD setting, enabling VSM improved rotation from 0.124 ◦ to 0.121 ◦,improved by 0.003 ◦, and improves translation from 0.066 m to 0.063 m, improving by 0.003 m. These results indicated that applying VSM for occlusion handling during dense depth anchoring provides a consistent benefit. In addition, on our RTX 4070 Ti and Ryzen 3600 setup, adding DDA in-creased the runtime by about 50 s compared to Base, resulting in an average per-sequence runtime of approximately 15.4 minutes. 14 K. Kwak et al.  
+
+> (a) (b) LOW  HIGH |LiDAR-Render| Abs error
+
+Fig. 5: Rendered depth error maps on KITTI-360, measured as the Mean Absolute Error (MAE) between rendered depth and LiDAR depth in the LiDAR-translation and camera-rotation setting: (a) Base and (b) GeoP-Calib (Ours). Colors indicate error magnitude, where blue denotes lower error and red denotes higher error. 
+
+5.5 Extended Analysis on Calibration Properties Robustness to Pose Initialization. We evaluated robustness to initialization on KITTI-360 Seq. 2 by injecting noise into the initial extrinsics. Specifically, we defined nine noise levels, where the rotation noise increased from 1◦ to 9◦, and the translation noise increased from 0.1 m to 0.9 m. For each noise level, we ran calibration from the perturbed initialization and reported the resulting rotation and translation errors. Fig. 3 shows that GeoP-Calib converged robustly even under high initialization noise levels. 
+
+Rendering Quality Does Not Imply Calibration Quality. We conducted this analysis on KITTI-360 Seq. 2 and Seq. 4. As shown in Fig. 4, GeoP-Calib yielded lower PSNR than the Base pipeline, indicating reduced photomet-ric consistency with the ground-truth RGB. Nevertheless, GeoP-Calib achieved higher LiDAR-Camera calibration accuracy on the same sequences. These results demonstrate that photometric fidelity is not a sufficient condition for accurate calibration. Rather, since extrinsic refinement is mediated through the Gaus-sian proxy, geometric faithfulness between the LiDAR structure and the 3DGS representation should be established as a prerequisite before improvements in photometric reconstruction can meaningfully translate into calibration gains. 
+
+Analysis for Geometric Accuracy. We evaluated how well GeoP-Calib pre-serves metric geometry compared to Base using the depth MAE between ren-dered depth and LiDAR depth on KITTI-360 after convergence. GeoP-Calib achieves a lower average MAE of 0.244 than Base at 0.294 , corresponding to an absolute reduction of 0.05 or approximately 17% . As shown in Fig. 5, Base exhibited localized regions where the depth error sharply increased, which is consistent with Geometric Decay that distorts the proxy geometry under photo-metric optimization, whereas GeoP-Calib yields a more spatially consistent error distribution. Geometry-Preserving 3DGS for LiDAR-Camera Calibration 15 
+
+## 6 Conclusion 
+
+We present GeoP-Calib, a geometry-preserving framework for targetless LiDAR-Camera calibration with 3DGS. By combining Dense Depth Anchoring and Gra-dient Decoupling, GeoP-Calib mitigates texture-driven Geometric Decay while preserving LiDAR-consistent proxy geometry. Experiments on KITTI and KITTI-360 showed consistent calibration improvements, particularly in translation. 
+
+Limitations and Future Works. While translation accuracy improved no-tably, rotation gains remained modest. Gradient Decoupling effectively defends against Geometric Decay , but may limit the extent to which the optimization leverages photometric texture cues. A promising future direction is to maxi-mize photometric consistency while still preventing Geometric Decay , enabling stronger use of texture information without sacrificing metric faithfulness. 
+
+## References 
+
+1. Beltrán, J., Guindel, C., De La Escalera, A., García, F.: Automatic extrinsic cali-bration method for lidar and camera sensor setups. IEEE Transactions on Intelli-gent Transportation Systems 23 (10), 17677–17689 (2022) 2. Caesar, H., Bankiti, V., Lang, A.H., Vora, S., Liong, V.E., Xu, Q., Krishnan, A., Pan, Y., Baldan, G., Beijbom, O.: nuscenes: A multimodal dataset for autonomous driving. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 11621–11631 (2020) 3. Civera, J., Davison, A.J., Montiel, J.M.: Inverse depth parametrization for monoc-ular slam. IEEE transactions on robotics 24 (5), 932–945 (2008) 4. Fan, Z., Zhang, L., Wang, X., Shen, Y., Deng, F.: Lidar, imu, and camera fusion for simultaneous localization and mapping: A systematic review. Artificial Intelligence Review 58 (6), 174 (2025) 5. Geiger, A., Lenz, P., Urtasun, R.: Are we ready for autonomous driving? the kitti vision benchmark suite. In: Conference on Computer Vision and Pattern Recogni-tion (CVPR) (2012) 6. Guan, H., Song, C., Zhang, Z.: Lidar-camera cooperative semantic segmentation. Machine Intelligence Research 22 (5), 956–968 (2025) 7. Herau, Q., Bennehar, M., Moreau, A., Piasco, N., Roldão, L., Tsishkou, D., Migniot, C., Vasseur, P., Demonceaux, C.: 3dgs-calib: 3d gaussian splatting for multimodal spatiotemporal calibration. In: 2024 IEEE/RSJ International Confer-ence on Intelligent Robots and Systems (IROS). pp. 8315–8321. IEEE (2024) 8. Herau, Q., Piasco, N., Bennehar, M., Roldao, L., Tsishkou, D., Migniot, C., Vasseur, P., Demonceaux, C.: Soac: Spatio-temporal overlap-aware multi-sensor calibration using neural radiance fields. In: Proceedings of the IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition. pp. 15131–15140 (2024) 9. Huang, B., Yu, Z., Chen, A., Geiger, A., Gao, S.: 2d gaussian splatting for geo-metrically accurate radiance fields. In: ACM SIGGRAPH 2024 conference papers. pp. 1–11 (2024) 10. Irie, K., Sugiyama, M., Tomono, M.: Target-less camera-lidar extrinsic calibration using a bagged dependence estimator. In: 2016 IEEE International Conference on Automation Science and Engineering (CASE). pp. 1340–1347. IEEE (2016) 16 K. Kwak et al. 11. Iyer, G., Murthy, J.K., Krishna, K.M., et al.: Calibnet: self-supervised extrinsic calibration using 3d spatial transformer networks. arXiv preprint arXiv:1803.08181 (2018) 12. Jung, H., Kim, N., Kim, J., Park, J.: Targetless lidar-camera calibration with neural gaussian splatting (2026) 13. Kang, J., Doh, N.L.: Automatic targetless camera–lidar calibration by aligning edge with gaussian mixture model. Journal of Field Robotics 37 (1), 158–179 (2020) 14. Kerbl, B., Kopanas, G., Leimkühler, T., Drettakis, G., et al.: 3d gaussian splatting for real-time radiance field rendering. ACM Trans. Graph. 42 (4), 139–1 (2023) 15. Kim, D., Shin, S., Hwang, H.: Camera-lidar extrinsic calibration using constrained optimization with circle placement. IEEE Robotics and Automation Letters 10 (2), 883–890 (2024) 16. Koide, K., Oishi, S., Yokozuka, M., Banno, A.: General, single-shot, target-less, and automatic lidar-camera extrinsic calibration toolbox. arXiv preprint arXiv:2302.05094 (2023) 17. Levinson, J., Thrun, S.: Automatic online calibration of cameras and lasers. In: Robotics: science and systems. vol. 2. Berlin, Germany (2013) 18. Liao, Y., Xie, J., Geiger, A.: KITTI-360: A novel dataset and benchmarks for urban scene understanding in 2d and 3d. arXiv preprint arXiv:2109.13410 (2021) 19. Lv, X., Wang, B., Dou, Z., Ye, D., Wang, S.: Lccnet: Lidar and camera self-calibration using cost volume network. In: Proceedings of the IEEE/CVF Con-ference on Computer Vision and Pattern Recognition. pp. 2894–2901 (2021) 20. Mildenhall, B., Srinivasan, P.P., Tancik, M., Barron, J.T., Ramamoorthi, R., Ng, R.: Nerf: Representing scenes as neural radiance fields for view synthesis. Commu-nications of the ACM 65 (1), 99–106 (2021) 21. Ou, N., Cai, H., Wang, J.: Targetless lidar-camera calibration via cross-modality structure consistency. IEEE Transactions on Intelligent Vehicles 9(1), 2636–2648 (2023) 22. Pandey, G., McBride, J., Savarese, S., Eustice, R.: Automatic targetless extrinsic calibration of a 3d lidar and camera by maximizing mutual information. In: Pro-ceedings of the AAAI conference on artificial intelligence. vol. 26, pp. 2053–2059 (2012) 23. Qiu, J., Cui, Z., Zhang, Y., Zhang, X., Liu, S., Zeng, B., Pollefeys, M.: Deepli-dar: Deep surface normal guided depth prediction for outdoor scene from sparse lidar data and single color image. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 3313–3322 (2019) 24. Sarlin, P.E., DeTone, D., Malisiewicz, T., Rabinovich, A.: SuperGlue: Learning feature matching with graph neural networks. In: CVPR (2020) 25. Song, Z., Yang, L., Xu, S., Liu, L., Xu, D., Jia, C., Jia, F., Wang, L.: Graphbev: Towards robust bev feature alignment for multi-modal 3d object detection. In: European Conference on Computer Vision (ECCV). pp. 347–366. Springer (2024) 26. Thrun, S., Montemerlo, M., Dahlkamp, H., Stavens, D., Aron, A., Diebel, J., Fong, P., Gale, J., Halpenny, M., Hoffmann, G., et al.: Stanley: The robot that won the darpa grand challenge. Journal of field Robotics 23 (9), 661–692 (2006) 27. Vora, S., Lang, A.H., Helou, B., Beijbom, O.: Pointpainting: Sequential fusion for 3d object detection. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 4604–4612 (2020) 28. Wang, Y., Mao, Q., Zhu, H., Deng, J., Zhang, Y., Ji, J., Li, H., Zhang, Y.: Multi-modal 3d object detection in autonomous driving: a survey. International Journal of Computer Vision 131 (8), 2122–2152 (2023) Geometry-Preserving 3DGS for LiDAR-Camera Calibration 17 29. Yan, G., Liu, Z., Wang, C., Shi, C., Wei, P., Cai, X., Ma, T., Liu, Z., Zhong, Z., Liu, Y., et al.: Opencalib: A multi-sensor calibration toolbox for autonomous driving. Software Impacts 14 , 100393 (2022) 30. Yang, Z., Chen, G., Zhang, H., Ta, K., Bârsan, I.A., Murphy, D., Manivasagam, S., Urtasun, R.: Unical: Unified neural sensor calibration. In: European Conference on Computer Vision (ECCV). pp. 327–345. Springer (2024) 31. Yuan, C., Liu, X., Hong, X., Zhang, F.: Pixel-level extrinsic self calibration of high resolution lidar and camera in targetless environments. IEEE Robotics and Automation Letters 6(4), 7517–7524 (2021) 32. Zhang, Q., Pless, R.: Extrinsic calibration of a camera and laser range finder (improves camera calibration). In: 2004 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)(IEEE Cat. No. 04CH37566). vol. 3, pp. 2301–2306. IEEE (2004) 33. Zhang, T., Zhang, L., Wang, H.: Higs-calib: A hierarchical 3d gaussian splatting based targetless local-consistent lidar-camera calibration method. IEEE Transac-tions on Circuits and Systems for Video Technology (2025) 34. Zhang, X., Zhu, S., Guo, S., Li, J., Liu, H.: Line-based automatic extrinsic cali-bration of lidar and camera. In: 2021 IEEE International Conference on Robotics and Automation (ICRA). pp. 9347–9353. IEEE (2021) 35. Zhang, Z., Liu, Y., Zhang, M., Tan, F., Ding, Y.: Claim: Camera-lidar alignment with intensity and monodepth. In: 2025 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 17921–17926. IEEE (2025) 36. Zhou, L., Li, Z., Kaess, M.: Automatic extrinsic calibration of a camera and a 3d lidar using line and plane correspondences. In: 2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 5562–5569. IEEE (2018) 37. Zhou, S., Xie, S., Ishikawa, R., Oishi, T.: Robust lidar-camera calibration with 2d gaussian splatting. IEEE Robotics and Automation Letters (2025) 38. Zhou, S., Xie, S., Ishikawa, R., Sakurada, K., Onishi, M., Oishi, T.: Inf: Implicit neural fusion for lidar and camera. In: 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 10918–10925. IEEE (2023) 39. Zhu, Y., Li, C., Zhang, Y.: Online camera-lidar calibration with sensor semantic information. In: 2020 IEEE International Conference on Robotics and Automation (ICRA). pp. 4970–4976. IEEE (2020)

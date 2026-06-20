@@ -6,37 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-19
-- 运行时间：2026-06-19 20:54:45 UTC
+- 最新运行日期：2026-06-20
+- 运行时间：2026-06-20 20:15:40 UTC
 - 运行状态：成功
-- 本次总论文数：5
-- 精读区：2
-- 速读区：3
+- 本次总论文数：3
+- 精读区：1
+- 速读区：2
 
 ### 今日简报（AI）
-1) 今日推荐聚焦新型视图合成与实时视频世界建模，两篇高分精读论文直击稀疏视角与全景场景核心难题。  
-2) 最值得关注《VisDom》提出的可见域约束稀疏视图合成（9.0分）与《MoVerse》的实时全景高斯世界建模（8.0分），前者突破新视角质量瓶颈，后者实现高效动态场景表示。  
-3) 建议优先精读这两篇论文代码与实验设置，作为该方向的入门或进阶参考。
-- 详情：[/202606/19/README](/202606/19/README)
+今日精读1篇、速读2篇，重点聚焦3D高斯泼溅在传感器标定与建图中的应用。最值得关注的是《Geometry-Preserving in 3D Gaussian Splatting for LiDAR-Camera Extrinsic Calibration》（8.0分），它提出保持几何结构的标定方法，适合对多传感器融合有需求的读者深入。建议优先精读这篇，再结合《LIT-GS》理解热成像与LiDAR融合的鲁棒性建图思路。
+- 详情：[/202606/20/README](/202606/20/README)
 
 ### 精读区论文标签
-1. [VisDom: Sparse Novel View Synthesis with Visible Domain Constraint](/202606/19/2606.20531v1-visdom-sparse-novel-view-synthesis-with-visible-domain-constraint)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：基于可见域约束的稀疏新视图合成
-2. [MoVerse: Real-Time Video World Modeling with Panoramic Gaussian Scaffold](/202606/19/2606.13376v2-moverse-real-time-video-world-modeling-with-panoramic-gaussian-scaffold)  
+1. [Geometry-Preserving in 3D Gaussian Splatting for LiDAR-Camera Extrinsic Calibration](/202606/20/2606.20103v1-geometry-preserving-in-3d-gaussian-splatting-for-lidar-camera-extrinsic-calibration)  
    标签：评分：8.0/10、query:d-recon
-   evidence：使用全景高斯支架生成新视图
+   evidence：几何保持的3D高斯喷溅用于LiDAR-相机标定
 
 ### 速读区论文标签
-1. [3D-DLP: Self-Supervised 3D Object-Centric Scene Representation Learning](/202606/19/2606.19451v1-3d-dlp-self-supervised-3d-object-centric-scene-representation-learning)  
+1. [LIT-GS: LiDAR-Inertial-Thermal Gaussian Splatting for Illumination-Robust Mapping](/202606/20/2606.20424v1-lit-gs-lidar-inertial-thermal-gaussian-splatting-for-illumination-robust-mapping)  
    标签：评分：7.0/10、query:d-recon
-   evidence：自监督从多视角RGB-D学习3D场景表示，重建3D粒子
-2. [MeshLoom: Feed-Forward Non-Rigid Registration of Mesh Sequences](/202606/19/2606.17027v1-meshloom-feed-forward-non-rigid-registration-of-mesh-sequences)  
+   evidence：高斯泼溅用于三维建图，与新视图合成相关
+2. [Instruct-Particulate: Scaling Feed-Forward 3D Object Articulation with Kinematic Control](/202606/20/2606.14699v1-instruct-particulate-scaling-feed-forward-3d-object-articulation-with-kinematic-control)  
    标签：评分：6.0/10、query:d-recon
-   evidence：网格序列的非刚体配准用于3D重建
-3. [3dcon: tomogram denoising by deconvolution](/202606/19/biorxiv-10-64898-2026-06-15-732138-v1-3dcon-tomogram-denoising-by-deconvolution)  
-   标签：评分：6.0/10、query:d-recon
-   evidence：从倾斜序列进行断层重建
+   evidence：从网格和运动学规范前馈重建铰接3D物体
 
 
 <div class="dpr-home-promo-card">
