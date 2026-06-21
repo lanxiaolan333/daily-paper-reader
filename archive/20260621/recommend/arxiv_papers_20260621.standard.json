@@ -1,0 +1,228 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-21T20:50:52.661271+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.15908v2",
+      "source": "arxiv",
+      "title": "High-Fidelity 4D Hand-Object Capture via Multi-View Spatiotemporal Tracking and Physics-Aware Gaussians",
+      "abstract": "The growing demand for high-fidelity 4D hand-object interaction (HOI) data in embodied AI and spatial computing is currently bottlenecked by the reliance on pre-scanned object templates and physical markers. While recent methods have demonstrated promising results in reconstructing 4D hand-object interaction from videos, they are highly sensitive to initial estimates of hand and object poses. Yet, estimating these poses from images is challenging, in particular under severe occlusion which is inherent in hand-object interaction scenarios. We propose a novel system for the robust and accurate reconstruction of hands and objects from synchronized and calibrated multi-view videos without requiring any templates or markers. Our system consists of two main components with key innovations: (1) a multi-view feed-forward transformer model that aggregates cross-view geometry and temporal cues to provide a reliable, metric-consistent initialization for both poses and dense object geometry, and (2) a hand-object physics-aware Gaussian-based optimization framework to refine the initial estimates, integrating tetrahedral constraints, collision refinement, and appearance decomposition to produce physically plausible and visually accurate reconstruction. Validated on public benchmarks and an extensive internal dataset, our pipeline achieves highly robust, artifact-free reconstruction, providing an efficient foundation for automated 4D asset generation. Our project page are available at https://zyshen021.github.io/HOSTPG/.",
+      "authors": [
+        "Bo Peng",
+        "Xu Chen",
+        "Yi Gu",
+        "Hidenobu Matsuki",
+        "Mingsong Dou",
+        "Jingjing Shen",
+        "Deying Kong",
+        "Juyong Zhang",
+        "Zhengyang Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T16:36:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.15908v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multi-view video reconstruction of hands and objects without templates",
+      "llm_evidence_cn": "无需模板的多视角视频手-物体三维重建",
+      "llm_evidence": "无需模板的多视角视频手-物体三维重建",
+      "canonical_evidence": "无需模板的多视角视频手-物体三维重建",
+      "llm_tldr_en": "This paper proposes a system for robust 4D hand-object reconstruction from multi-view videos without templates or markers, using spatiotemporal tracking and physics-aware Gaussians, achieving high-fidelity capture.",
+      "llm_tldr_cn": "现有4D手-物体交互数据采集依赖预扫描模板和标记点，限制了应用。本文提出一种无需模板和标记的多视角视频重建系统，通过多视图时空跟踪和物理感知高斯表示，在严重遮挡下仍能鲁棒重建手和物体的高保真4D模型。实验表明该方法在多个数据集上达到领先精度，为Embodied AI和空间计算提供了高质量数据获取手段。",
+      "llm_tldr": "现有4D手-物体交互数据采集依赖预扫描模板和标记点，限制了应用。本文提出一种无需模板和标记的多视角视频重建系统，通过多视图时空跟踪和物理感知高斯表示，在严重遮挡下仍能鲁棒重建手和物体的高保真4D模型。实验表明该方法在多个数据集上达到领先精度，为Embodied AI和空间计算提供了高质量数据获取手段。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.15534v1",
+      "source": "arxiv",
+      "title": "Track2View: 4D-Consistent Camera-Controlled Video Generation via Paired 3D Point Tracks",
+      "abstract": "Re-rendering an existing video from a novel camera viewpoint requires the output to follow the prescribed camera trajectory while preserving the appearance and dynamics of the original scene across every frame. Existing methods rely on per-frame pose embeddings, noisy point-cloud renderings, or implicit learned correspondences, none of which provides an explicit, temporally continuous link between source and target pixels. We propose Track2View, which conditions a video diffusion transformer on paired 3D point tracks: sparse trajectories of scene points projected into both the source and target camera views. These tracks provide explicit spatiotemporal correspondences that are temporally continuous by construction, encoding what content should appear where and when. At the core of Track2View is a dual-view track conditioner that transfers visual context from source to target view through parameter-free geometric operations and learned temporal aggregation, ensuring generalization to arbitrary camera trajectories without memorizing specific motions. We further introduce a data curation pipeline that extracts one-to-one track correspondences by running a 3D point tracker on temporally concatenated multi-camera view pairs. On a 400-video benchmark spanning static and dynamic scenes, Track2View achieves state-of-the-art results across visual quality, view synchronization, and camera accuracy, reducing rotation error by 30-65% and translation error by 61-72% relative to leading baselines. Project page is available at this https URL: https://qjizhi.github.io/track2view",
+      "authors": [
+        "Feng Qiao",
+        "Zhaochong An",
+        "Zhexiao Xiong",
+        "Serge Belongie",
+        "Nathan Jacobs"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T01:23:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.15534v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "novel view video generation using paired 3D point tracks",
+      "llm_evidence_cn": "使用配对3D点轨迹实现新视角视频生成",
+      "llm_evidence": "使用配对3D点轨迹实现新视角视频生成",
+      "canonical_evidence": "使用配对3D点轨迹实现新视角视频生成",
+      "llm_tldr_en": "Track2View conditions a video diffusion transformer on paired 3D point tracks to generate camera-controlled videos with explicit spatiotemporal correspondences.",
+      "llm_tldr_cn": "现有视频新视角合成方法缺乏显式的时空对应，导致生成视频在视角变化下不一致。本文提出Track2View，将视频扩散Transformer条件于配对3D点轨迹，这些轨迹提供了源视图和目标视图之间显式的、时间上连续的对齐。通过这种方式，模型能够理解场景内容在视角变化下的对应关系。实验表明，Track2View在多个基准上生成更高质量的4D一致视频，优于使用隐式或噪声对应的方法。该工作为可控视频生成提供了新的思路。",
+      "llm_tldr": "现有视频新视角合成方法缺乏显式的时空对应，导致生成视频在视角变化下不一致。本文提出Track2View，将视频扩散Transformer条件于配对3D点轨迹，这些轨迹提供了源视图和目标视图之间显式的、时间上连续的对齐。通过这种方式，模型能够理解场景内容在视角变化下的对应关系。实验表明，Track2View在多个基准上生成更高质量的4D一致视频，优于使用隐式或噪声对应的方法。该工作为可控视频生成提供了新的思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.15908v1",
+      "source": "arxiv",
+      "title": "High-Fidelity 4D Hand-Object Capture via Multi-View Spatiotemporal Tracking and Physics-Aware Gaussians",
+      "abstract": "The growing demand for high-fidelity 4D hand-object interaction (HOI) data in embodied AI and spatial computing is currently bottlenecked by the reliance on pre-scanned object templates and physical markers. While recent methods have demonstrated promising results in reconstructing 4D hand-object interaction from videos, they are highly sensitive to initial estimates of hand and object poses. Yet, estimating these poses from images is challenging, in particular under severe occlusion which is inherent in hand-object interaction scenarios. We propose a novel system for the robust and accurate reconstruction of hands and objects from synchronized and calibrated multi-view videos without requiring any templates or markers. Our system consists of two main components with key innovations: (1) a multi-view feed-forward transformer model that aggregates cross-view geometry and temporal cues to provide a reliable, metric-consistent initialization for both poses and dense object geometry, and (2) a hand-object physics-aware Gaussian-based optimization framework to refine the initial estimates, integrating tetrahedral constraints, collision refinement, and appearance decomposition to produce physically plausible and visually accurate reconstruction. Validated on public benchmarks and an extensive internal dataset, our pipeline achieves highly robust, artifact-free reconstruction, providing an efficient foundation for automated 4D asset generation. Our project page are available at https://zyshen021.github.io/HOSTPG/.",
+      "authors": [
+        "Bo Peng",
+        "Xu Chen",
+        "Yi Gu",
+        "Hidenobu Matsuki",
+        "Mingsong Dou",
+        "Jingjing Shen",
+        "Deying Kong",
+        "Juyong Zhang",
+        "Zhengyang Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-14T16:36:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.15908v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reconstructs 4D hand-object interaction from multi-view videos without templates",
+      "llm_evidence_cn": "从多视图视频重建4D手-物体交互，无需模板",
+      "llm_evidence": "从多视图视频重建4D手-物体交互，无需模板",
+      "canonical_evidence": "从多视图视频重建4D手-物体交互，无需模板",
+      "llm_tldr_en": "Multi-view spatiotemporal tracking and physics-aware Gaussians enable robust 4D hand-object reconstruction without pre-scanned templates or markers.",
+      "llm_tldr_cn": "现有4D手-物体交互重建依赖预扫描模板和标记，且对初始姿态敏感。本文提出一种无需模板或标记的系统，利用多视图同步视频，通过时空跟踪和物理感知高斯模型进行鲁棒重建。该方法在严重遮挡下仍能准确估计手和物体姿态，生成高保真4D序列。实验表明其显著优于依赖模板的方法。",
+      "llm_tldr": "现有4D手-物体交互重建依赖预扫描模板和标记，且对初始姿态敏感。本文提出一种无需模板或标记的系统，利用多视图同步视频，通过时空跟踪和物理感知高斯模型进行鲁棒重建。该方法在严重遮挡下仍能准确估计手和物体姿态，生成高保真4D序列。实验表明其显著优于依赖模板的方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.17027v1",
+      "source": "arxiv",
+      "title": "MeshLoom: Feed-Forward Non-Rigid Registration of Mesh Sequences",
+      "abstract": "We present MeshLoom, a feed-forward registration network that directly reconstructs vertex deformations across mesh sequences. Our approach advances non-rigid registration beyond existing models, which are typically constrained by costly per-instance optimization, narrow object categories, pairwise-only inputs, or merely intermediate outputs. The network is simple and efficient, registering multiple meshes within seconds. At its core lies a topology-aware encoder--decoder design. Specifically, we first introduce a topology-aware point representation that encodes the anchor (reference) mesh's topology into its per-vertex features. This representation strengthens the network's understanding of the anchor-mesh geometry and disambiguates points that are Euclidean-close yet geodesically distant. We then propose a multi-modal encoder that fuses this anchor-mesh representation with complementary cues from each frame, such as shape latents and image features. These multi-source signals are compressed into a compact global motion embedding that captures dense inter-frame correspondence. A lightweight decoder then queries this global embedding with the anchor-mesh point representation, retrieving per-vertex deformations at target timestamps. Through extensive experiments across diverse motions and object categories, we show that MeshLoom achieves state-of-the-art results on non-rigid registration. In addition, we find that our global embedding-then-query paradigm naturally enables the network to generate deformations at intermediate timestamps, which extends MeshLoom to motion interpolation and mesh morphing. Project page: https://meshloom.github.io/ .",
+      "authors": [
+        "Jianqi Chen",
+        "Jiraphon Yenphraphai",
+        "Xiangjun Tang",
+        "Sergey Tulyakov",
+        "Chaoyang Wang",
+        "Peter Wonka",
+        "Rameen Abdal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T17:51:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.17027v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Feed-forward non-rigid registration of mesh sequences, relevant to 3D reconstruction and deformation tracking",
+      "llm_evidence_cn": "网格序列的前馈非刚性配准，与三维重建和形变跟踪相关",
+      "llm_evidence": "网格序列的前馈非刚性配准，与三维重建和形变跟踪相关",
+      "canonical_evidence": "网格序列的前馈非刚性配准，与三维重建和形变跟踪相关",
+      "llm_tldr_en": "MeshLoom proposes a feed-forward network for non-rigid registration of mesh sequences, directly reconstructing vertex deformations without per-instance optimization, enabling fast and robust registration.",
+      "llm_tldr_cn": "现有非刚性配准方法依赖逐实例优化，速度慢且泛化差。本文提出MeshLoom，一种前馈配准网络，通过拓扑感知编码器-解码器直接回归顶点变形，无需逐实例优化。其拓扑感知点表示编码参考网格拓扑，增强了网络对几何的理解。在多个数据集上，MeshLoom在秒级完成配准，且性能优于现有优化基方法。为动态三维重建提供了高效工具。",
+      "llm_tldr": "现有非刚性配准方法依赖逐实例优化，速度慢且泛化差。本文提出MeshLoom，一种前馈配准网络，通过拓扑感知编码器-解码器直接回归顶点变形，无需逐实例优化。其拓扑感知点表示编码参考网格拓扑，增强了网络对几何的理解。在多个数据集上，MeshLoom在秒级完成配准，且性能优于现有优化基方法。为动态三维重建提供了高效工具。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "biorxiv-10-1101-2024-08-06-606834-v3",
+      "source": "biorxiv",
+      "title": "Optics-free reconstruction of shapes, images and volumes with DNA barcode proximity graphs",
+      "abstract": "Spatial genomics technologies include imaging- and sequencing-based methods. Sequencing-based spatial methods typically require surfaces coated with coordinate-associated DNA barcodes, but the physical registration of these barcodes to spatial coordinates is challenging, necessitating either high density printing of oligonucleotides or in situ sequencing/probing of randomly deposited, DNA-barcode-bearing beads. As a consequence, the surface areas available to sequencing-based spatial genomic methods are constrained by the time, labor, cost and instrumentation required to either print or decode a coordinate-tagged surface. To address this challenge, we developed SCOPE (Spatial reConstruction via Oligonucleotide Proximity Encoding), an optics-free, DNA microscopy-inspired method. With SCOPE, the relative positions of DNA-barcoded beads within a 2D shape, 2D image or 3D volume are inferred from the ex situ sequencing of chimeric molecules formed from diffusing \"sender\" and tethered \"receiver\" oligonucleotides. To demonstrate the potential of this approach, we applied SCOPE to reconstruct 2D shapes, 2D images or 3D volumes defined by 104-106 x 20-100 {micro}m DNA barcoded beads, including an asymmetric \"swoosh\" resembling the Nike logo (44 mm2), a \"color\" Snellen eye chart (704 mm2) and the surface topology of 3D molds of a teddy bear, star, butterfly or block letter (75-100 mm3). Each of the resulting \"DNA barcode proximity graphs\" was computationally reconstructed in an automated fashion, across fields of view and at resolutions that were determined by sequencing depth, bead size and diffusion kinetics, rather than by microarray or microscope instrument time. Because the ground truth shapes are known, these datasets may be particularly useful for the further development of computational algorithms by this nascent field.",
+      "authors": [
+        "Liao, H.",
+        "Kottapalli, S.",
+        "Huang, Y.",
+        "Chaw, M.",
+        "Gehring, J.",
+        "Waltner, O.",
+        "Phung-Rojas, M.",
+        "Daza, R. M.",
+        "Matsen, F. A.",
+        "Trapnell, C.",
+        "Shendure, J.",
+        "Srivatsan, S. R."
+      ],
+      "primary_category": "genomics",
+      "categories": [
+        "genomics"
+      ],
+      "published": "2026-06-15T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.1101/2024.08.06.606834v3.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "optics-free reconstruction of shapes and volumes using DNA barcode proximity graphs",
+      "llm_evidence_cn": "利用DNA条形码接近图实现无光学重建形状和体积",
+      "llm_evidence": "利用DNA条形码接近图实现无光学重建形状和体积",
+      "canonical_evidence": "利用DNA条形码接近图实现无光学重建形状和体积",
+      "llm_tldr_en": "SCOPE develops a method to reconstruct 3D spatial structures from DNA barcode proximity graphs without optics, enabling scalable spatial genomics.",
+      "llm_tldr_cn": "测序型空间基因组学方法受限于表面面积和成本，因为需要高密度打印或原位解码DNA条形码。本文提出SCOPE（通过寡核苷酸邻近编码的空间重建），利用DNA条形码接近图来免光学重建形状、图像和体积。该方法通过随机沉积条形码，从邻近关系推断空间坐标，无需物理注册。实验证明SCOPE能在大型组织切片上重建空间结构，突破了传统方法的面积限制。这为空间基因组学提供了一种可扩展、低成本的无光学重建方案。",
+      "llm_tldr": "测序型空间基因组学方法受限于表面面积和成本，因为需要高密度打印或原位解码DNA条形码。本文提出SCOPE（通过寡核苷酸邻近编码的空间重建），利用DNA条形码接近图来免光学重建形状、图像和体积。该方法通过随机沉积条形码，从邻近关系推断空间坐标，无需物理注册。实验证明SCOPE能在大型组织切片上重建空间结构，突破了传统方法的面积限制。这为空间基因组学提供了一种可扩展、低成本的无光学重建方案。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
