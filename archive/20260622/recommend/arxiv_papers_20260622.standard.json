@@ -1,0 +1,133 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-22T22:19:31.264202+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.19718v1",
+      "source": "arxiv",
+      "title": "One-Shot Novel View and Pose Human Image Synthesis via 3D Prior Guided Diffusion Model",
+      "abstract": "This paper addresses the challenge of one-shot novel view and pose human image synthesis. The existing methods transfer the reference human image to a target pose using a set of 2D pose keypoints or synthesize human images based on generalizable human NeRF which uses human model priors to extract point-wise features. However, pose transfer based methods can not handle complex human pose using ambiguous 2D pose as the condition, while generalizable human NeRFs may be inaccurate to recover occluded/invisiable human parts without extracted reliable features. To solve these problems, we propose a novel approach for novel view and pose synthesis from a singe human image via conditional denoising diffusion model. Our diffusion model divides the novel view and pose synthesis problem into a sequence of conditional denoising steps. Specifically, to generate humans with complex and arbitrary poses, we introduce 3D human priors, i.e., 3D normal map and color prompt, as geometry and color conditions into the generation process. By transferring the reference human into the target human with a series of diffusion steps, our diffusion model enables high-quality synthesis including the occluded/invisible parts. Further, we propose a self-reconstruction based customized refinement to enhance fine details when tested on novel persons.Experimental results on different public datasets demonstrate that our approach significantly outperforms previous methods and also shows better generalization ability across datasets. The code will be made publicly available at https://github.com/Yankeegsj/3DPGDM.",
+      "authors": [
+        "Shenjian Gong",
+        "Kangkan Wang",
+        "Shanshan Zhang",
+        "Jian Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T02:34:24+00:00",
+      "link": "https://arxiv.org/pdf/2606.19718v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "One-shot novel view human synthesis via diffusion model with 3D prior",
+      "llm_evidence_cn": "基于扩散模型和3D先验的单张图像人体新视角合成",
+      "llm_evidence": "基于扩散模型和3D先验的单张图像人体新视角合成",
+      "canonical_evidence": "基于扩散模型和3D先验的单张图像人体新视角合成",
+      "llm_tldr_en": "Addresses one-shot novel view and pose human image synthesis using a conditional denoising diffusion model guided by 3D priors, outperforming NeRF-based and pose-transfer methods.",
+      "llm_tldr_cn": "针对单张图像新视角和姿态合成中2D姿态歧义及NeRF对遮挡部分不准确的问题，该论文提出一种基于3D先验引导的条件扩散模型。通过将人体先验融入扩散过程，有效处理复杂姿态和遮挡。实验在多个基准上优于现有方法，包括NeRF和姿态迁移方法，提高了合成图像的真实感和视角一致性。",
+      "llm_tldr": "针对单张图像新视角和姿态合成中2D姿态歧义及NeRF对遮挡部分不准确的问题，该论文提出一种基于3D先验引导的条件扩散模型。通过将人体先验融入扩散过程，有效处理复杂姿态和遮挡。实验在多个基准上优于现有方法，包括NeRF和姿态迁移方法，提高了合成图像的真实感和视角一致性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.17432v1",
+      "source": "arxiv",
+      "title": "Edit3DGS: Unified Framework for Dynamic Head Editing via 2D Instruction-Guided Diffusion and 3D Gaussian Splatting",
+      "abstract": "We present Edit3DGS, a unified framework for dynamic 3D head editing that integrates 2D instruction-guided diffusion with 3D Gaussian splatting. Unlike prior approaches that separately address frame-based edits or static 3D reconstruction, our method couples semantic controllability in the image domain with photorealistic, temporally consistent 3D representations. Given an input video, editable facial regions are masked and modified using a text-conditioned diffusion model to support fine-grained operations such as expression transformation, attribute modification, and appearance refinement. The edited frames are then aggregated through 3D Gaussian splatting to produce a coherent, high-fidelity avatar that preserves both identity and motion dynamics. To enforce consistency, Edit3DGS incorporates multi-view batch editing and lightweight inpainting strategies that recover lost expressions across timesteps. Experimental results demonstrate that our framework enables controllable, artifact-free head editing with smooth temporal transitions, offering practical applications in virtual avatars, immersive communication, film production, and interactive media.",
+      "authors": [
+        "Duy-Dat Tran",
+        "Trung-Nghia Le"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-06-16T02:26:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.17432v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses 3D Gaussian splatting for dynamic head editing, a technique related to 3D reconstruction",
+      "llm_evidence_cn": "使用3D高斯泼溅进行动态头部编辑，与3D重建技术相关",
+      "llm_evidence": "使用3D高斯泼溅进行动态头部编辑，与3D重建技术相关",
+      "canonical_evidence": "使用3D高斯泼溅进行动态头部编辑，与3D重建技术相关",
+      "llm_tldr_en": "Edit3DGS integrates 2D diffusion with 3D Gaussian splatting for photorealistic, temporally consistent 3D head editing from video.",
+      "llm_tldr_cn": "现有动态头部编辑方法要么逐帧编辑，要么针对静态3D重建，缺乏统一的框架。本文提出Edit3DGS，将2D指令引导扩散模型与3D高斯泼溅相结合，实现对动态3D头部的编辑。通过掩码和扩散模型修改面部区域，再利用高斯泼溅生成连贯的3D表示。实验表明该方法能生成高保真、时间一致的编辑结果，为动态3D编辑提供了新范式。",
+      "llm_tldr": "现有动态头部编辑方法要么逐帧编辑，要么针对静态3D重建，缺乏统一的框架。本文提出Edit3DGS，将2D指令引导扩散模型与3D高斯泼溅相结合，实现对动态3D头部的编辑。通过掩码和扩散模型修改面部区域，再利用高斯泼溅生成连贯的3D表示。实验表明该方法能生成高保真、时间一致的编辑结果，为动态3D编辑提供了新范式。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.16593v1",
+      "source": "arxiv",
+      "title": "Rotational Symmetry based Object Pose Estimation from Point Clouds in the Absence of Known 3D Models",
+      "abstract": "Object pose estimation is crucial to many industrial applications, with one example being automated spray painting using a robot. However, confidentiality concerns often limit access to high-quality 3D models, posing a significant challenge for point-cloud-based pose estimation. In such scenarios, rotational symmetry, a readily accessible characteristic of many industrial objects, can provide valuable prior information to facilitate pose estimation.In this paper, we propose a method that leverages the rotational symmetry commonly found in industrial objects to address the challenge caused by the absence of 3D models. The object pose is jointly estimated with point cloud refinement through an iterative optimization process. This optimization relies on a rotational symmetry constraint loss. To construct this loss, each 3D point is rotated according to the currently estimated pose, and multiple correspondences are identified using nearest-neighbor search by exploiting the rotational symmetry property. These correspondences are then used to compute the rotational symmetry constraint loss, which iteratively refines both the pose and the point cloud.By explicitly incorporating rotational symmetry into the optimization process, the proposed method achieves robust pose estimation and generalizes well across diverse object types. The proposed method is evaluated on a dataset specifically created for point clouds without known 3D models, consisting of four categories of synthetic objects and one real wheel hub collected from a production line. Experimental results demonstrate that the proposed method achieves performance comparable to methods that rely on known 3D models.",
+      "authors": [
+        "Weichen Dai",
+        "Ruixun Yu",
+        "Yangjie Tang",
+        "Yifan Du",
+        "Yiyang Zhang",
+        "Donglei Sun",
+        "Hua Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-15T11:41:15+00:00",
+      "link": "https://arxiv.org/pdf/2606.16593v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Point cloud based object pose estimation using rotational symmetry",
+      "llm_evidence_cn": "基于点云的物体姿态估计，利用旋转对称性",
+      "llm_evidence": "基于点云的物体姿态估计，利用旋转对称性",
+      "canonical_evidence": "基于点云的物体姿态估计，利用旋转对称性",
+      "llm_tldr_en": "Proposes a method for object pose estimation from point clouds without known 3D models by leveraging rotational symmetry and iterative optimization.",
+      "llm_tldr_cn": "针对工业场景中缺乏3D模型导致点云姿态估计困难的问题，该论文利用物体常见的旋转对称性作为先验，通过迭代优化同时估计姿态和细化点云。在合成和真实数据上验证了方法有效性，尤其适用于喷涂机器人等工业应用。",
+      "llm_tldr": "针对工业场景中缺乏3D模型导致点云姿态估计困难的问题，该论文利用物体常见的旋转对称性作为先验，通过迭代优化同时估计姿态和细化点云。在合成和真实数据上验证了方法有效性，尤其适用于喷涂机器人等工业应用。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

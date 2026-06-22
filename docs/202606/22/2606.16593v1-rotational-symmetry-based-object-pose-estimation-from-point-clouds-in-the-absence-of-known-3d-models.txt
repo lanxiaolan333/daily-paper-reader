@@ -1,0 +1,279 @@
+Title: Rotational Symmetry based Object Pose Estimation from Point Clouds in the Absence of Known 3D Models
+
+URL Source: https://arxiv.org/pdf/2606.16593v1
+
+Published Time: Tue, 16 Jun 2026 02:09:29 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+> JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 1
+
+# Rotational Symmetry based Object Pose Estimation from Point Clouds in the Absence of Known 3D Models 
+
+Weichen Dai 1, Ruixun Yu 1, Yangjie Tang 1, Yifan Du 1, Yiyang Zhang 1, Donglei Sun 2, Member IEEE and Hua Zhang 1∗
+
+Abstract —Object pose estimation is crucial to many industrial applications, with one example being the automated spray paint-ing with a robot. However, confidentiality concerns often limit access to high-quality 3D models, posing a significant challenge for pose estimation based on point clouds. In such scenarios, rotational symmetry—a readily accessible characteristic of many industrial objects—can provide valuable prior information to facilitate pose estimation. In this paper, a method is proposed to leverage the rotational symmetry commonly found in industrial objects to address the challenge caused by the absence of 3D models. The pose of the object is jointly estimated with point cloud refinement in iterations. This iterative optimization relies on the loss of the constraint of rotational symmetry. To construct such loss of rotational symmetry, each 3D point is rotated based on the currently estimated pose, and multiple correspondences are then identified using the nearest neighbor search through exploiting the property of rotational symmetry. The identified correspondences are used to compute the rotational symmetry constraint loss, which iteratively refines both the pose and the point cloud. By explicitly incorporating rotational symmetry into the optimization process, the proposed method achieves robust pose estimation and generalizes well across diverse object types. The proposed method is evaluated using data specifically created from point clouds without known 3D models, which comprises a dataset from four types of synthetic objects and one real wheel hub from the production line. Experimental results demonstrate that the proposed method achieves a performance comparable to methods relying on known 3D models. 
+
+Index Terms —Pose estimation, rotational symmetry, simulta-neously iterative refinement and estimation 
+
+I. I NTRODUCTION 
+
+# OBJECT pose estimation calculates both the rotation and translation of an object with respect to a world-fixed coordinate frame [1]. Accurate calculation of object poses is a crucial prerequisite for various downstream applications, such as autonomous robotic spray painting [2] and manipulation [3]. Recently, considerable attention has been directed towards the methods of determining object poses from point clouds [4]– [7], which can be generated from various sources, such as laser range finders, industrial high-resolution 3D sensors, and multi-view stereo cameras, to name but a few. Accurate pose estimation from 3D point clouds is still challenging due to various factors such as measurement noise, incomplete sampling, and the presence of occlusions [8]. With impressive progress made in deep methods, object pose estimation methods have developed rapidly and achieved 
+
+> 1
+
+Key Laboratory of Brain Machine Collaborative Intelligence of Zhe-jiang Province, School of Computer Science, Hangzhou Dianzi University, Hangzhou 310018, China (zhangh@hdu.edu.cn) 2Advanced Intelligent Man-ufacturing Research Group, the University of Nottingham Ningbo China, Ningbo 315100, China *Corresponding author. Manuscript received April 19, 2021; revised August 16, 2021. 
+
+Fig. 1. Comparison of object pose estimation methods with and without using known 3D models. To address the model availability challenge, unlike previous pre-mapping methods that build the 3D model in advance, the proposed method utilizes rotational symmetry commonly found in industrial objects for object pose estimation. 
+
+good performance [9], [10]. Popular methods of pose esti-mation from point clouds are built upon finding the corre-spondence using global or local feature matching between the input data and a model of the object [11]–[13] created from either computer-aided design (CAD) or scanning. The pose is then estimated by using these identified correspondences. The estimation result can be further refined by using an Iterative Closest Point (ICP) algorithm if the 3D model of the object is available. However, high-quality 3D models of industrial objects are not commonly available, often due to confidentiality concerns, and hence the exploration of model-free methods on object pose estimation from point clouds is necessary. To reduce the demand for high-quality 3D models and improve the generalization capability [14], this study pays more attention to the utilization of inherent geometric char-acteristics, which can offer valuable prior model knowledge for object pose estimation. Similar to the problem setting without known models [15], simultaneous localization and mapping (SLAM) [16] from 3D sensors assumes that only a sequence of 3D measurements is available in an unknown environment, and a point cloud model can be reconstructed based on the geometric consistency between the multi-view measurements. Then, the poses of sensors can be estimated within the reconstructed point cloud model. Similar to SLAM, the geometric characteristics of objects also provide prior model information, and the raw point clouds can be further  
+
+> arXiv:2606.16593v1 [cs.CV] 15 Jun 2026 JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 2
+
+refined from multiple perspectives, through which the object pose can be estimated. Given the specific operational characteristics and design considerations inherent in the processing of industrial ob-jects [17], for example, the rotational machining process car-ried out by a lathe, a finding emerges: many industrial objects possess a discernible degree of symmetry, especially rotational symmetry. Though this symmetry may have some negative impact as it introduces the ambiguity issue [18], [19], it provides outweighing benefits: not only can it offer invaluable prior information to facilitate object pose estimation but it also serves as a more readily accessible source of information, considering the limited availability and inconsistent quality of CAD models. In this paper, we propose a object pose estimation method from point clouds which exploits the rotational symmetry of industrial objects to address the problem of unavailability of 3D models. Given the raw point cloud, the object point cloud is segmented from the surface where the object is positioned by point clustering of the surface. Then the pose and point cloud of the object are iteratively estimated, leveraging the constraint of rotational symmetry. Each 3D point is transformed to the object coordinates using the estimated pose. Afterwards, since the clutter and occlusion generate indiscrimination, multiple correspondences will be identified using the nearest neighbor search after several rotations, exploiting the property of rota-tional symmetry that an object retains its shape after a rotation. These correspondences are used to refine the pose and point cloud in each iteration. This conventional pipeline leverages the explicit rotational symmetry of the object, enabling the utilization on the fly for an unseen instance and enhancing generalization capabilities across diverse objects. To evaluate the proposed method, a dataset is collected from objects with rotational symmetry for pose estimation from point clouds, including point clouds of four synthetic objects and a real wheel hub. The main contributions of this work are as follows.  
+
+> •
+
+A method is proposed that can utilize rotational symmetry to achieve object pose estimation without 3D models.  
+
+> •
+
+A method for joint point cloud refinement and object pose estimation is developed that can further improve the accuracy of object pose estimation.  
+
+> •
+
+The proposed method shows competitive performance on the dataset, and shows a better generalization capability to arbitrary objects thanks to the explicit geometric con-straint. II. R ELATED WORK 
+
+Object pose estimation [9], [20]–[22] has wide applications in various industrial processes [3]. For instance, in industrial production and manufacturing, the spraying operation of parts plays a crucial role [2]. In traditional automated production processes, the preset pose is obtained by fixing the objects with limiting accessories such as clamps, which allows for the automated production to proceed and ensures economic benefits, particularly in mass production scenarios, as shown in Fig. 2 taken in the factory. However, when processing 
+
+> Fig. 2. Spraying operation from the factory. The objects are fixed with clamps.
+
+non-standard or small batches of objects, the repeated design, manufacturing and assembly of new accessories increase the production costs. In addition to sensing the object shape from the point clouds of sensors, accurate object pose estimation will address the challenge of the aforementioned high costs and optimize the operational tasks for such scenarios. 
+
+A. Object Pose Estimation from Point Clouds 
+
+Most conventional methods of object pose estimation pri-marily rely on feature-based matching, including both local and global features. The methods based on global features usually describe the entire point cloud of the object with self-similar surface parts, such as planar patches, as a feature [23]– [25]. The methods based on local features mainly explore the local structural information around some key points on the objects [26]. Therefore, object detection can be achieved in the cluttered scenes. There are some methods that combine the ad-vantages of both types of features [5] and a Point Pair Feature (PPF) has been proposed to describe the relative position and orientation of two oriented points. Following this promising idea, many works [8], [27] focus on the improvment of various aspects, including pipline [28], sampling strategy [29]. In recent years, methods utilizing the capabilities of deep learning have been employed to achieve object pose estimation [6], [30]. However, these methods often rely on a known 3D model, and due to confidentiality reasons, designers or manufacturers are usually unwilling to provide such models, thus making the implementation of these methods in downstream industry difficult if not impossible. 
+
+B. Object Pose Estimation without Known 3D Models 
+
+Compared to instance-level pose estimation, which needs a known 3D object model in implementation, many recent methods work on category-level object pose estimation [31]– [33] to meet the demands in practical applications. Most of these methods train a network on various instances of the category. Therefore, the network can learn a category-level representation of object appearance and shape and thus is able to generalize to new instances in the same category. In addition to category-level object pose estimation, pre-mapping methods JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 3 
+
+> Fig. 3. System overview.
+
+try to first construct a model using sensing information, as shown in Fig. 1, and then perform pose estimation based on the constructed model, see, for example, the Structure from Motion (SfM) [14] and comparison networks [34]. However, such methods still require three-dimensional models or data with known poses during the training or construction step and do not leverage readily available prior geometry information inherent in the symmetry of the objects. 
+
+C. Symmetry-Aware Object Pose Estimation 
+
+Due to the ambiguity of symmetric objects, multiple poses can be inferred with a specific appearance for them. To address this issue, an Average Distance for Symmetry (ADD-S) metric or a symmetry-invariant pose distance metric is adopted to train the networks [9], [10], [35]. Other methods propose an additional output to classify or predict the symmetry [18], [36], [37]. In addition, symmetry-aware key-point detection [19] and symmetry-aware matching loss [38] were proposed to further improve the performance. However, these methods primarily focus on minimizing the impact of rotational symmetry on pose estimation when known 3D models are available. Hence in-depth exploration of prior information from rotational sym-metry to enhance or achieve object pose estimation in scenar-ios with unknown geometric structures remains valuable. III. M ETHOD 
+
+In the industrial scenario of robotic painting, spraying is performed on one object at a time. Therefore, without deep networks, a multi-view point cloud segmentation method is employed to divide the object point clouds. Subsequently, based on the segmentation results, a pose estimation will be conducted for the object. The proposed method consists of steps for point cloud segmentation, outlier removal, and joint optimization of point clouds and object poses, as depicted in Fig. 3. 
+
+A. Point Cloud Segmentation 
+
+This section introduces the multi-view foreground-background segmentation with a mixture Gaussian model and a bottom-surface removal component, which identifies and excludes the background and bottom-surface points present in the raw point cloud to only keep the point cloud belonging to the object. 
+
+1) Multi-view foreground-background segmentation with a mixture Gaussian model: The raw point cloud, denoted by a point set P , can be obtained by depth measurements or SfM. Since the originally collected point clouds often capture not only the area where the object is located but also its back-ground information, to remove the background point cloud 
+
+P bg ⊂ P , a multi-view foreground-background segmentation method is proposed. All points from the point cloud are projected onto a specific view 
+
+ui, d i = π(Tcw pwi ) (1) where Tcw is the transformation matrix that converts the 
+
+i-th point from the world coordinates pw to the camera coordinates. π : R3 7 → R3 represents the camera model with intrinsic parameters which performs a reprojection of the i-th 3D point onto the frame in terms of the image coordinates 
+
+ui ∈ R2 with depth di. Then, all depth results are calculated and saved as a histogram of depth value for the point cloud in that view. Since there is a significant depth difference between the foreground and background points, as illustrated in Fig. 4, the proposed method creates clusters of point clouds in each view based on the depth statistics using a Gaussian mixture model 
+
+GM =
+
+> K
+
+X
+
+> i=1
+
+ϕiN (μi, Σi) (2) where the i-th vector component is characterized by a normal distribution with weight ϕi, mean value μi and covariance JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 4 
+
+> Fig. 4. Left: Gaussian clustering on histogram of depth statistics. Right: Segmentation results using surface-plane fitting.
+
+matrix Σi. Point cloud clusters with a smaller mean in the Gaussian statistics are considered the foreground, thereby creating masks for individual views. Each point Pi outside the mask will be eliminated from the point set P . Subsequently, multiple views will undergo the clustering segmentation pro-cess multiple times to ultimately obtain the point cloud where the object is located. 
+
+2) Bottom surface removal: In an actual scene, the object is typically placed on a plane, resulting in the ground point clouds and object point clouds being closely intermingled. Without any prior information, the segmentation will be chal-lenging. Assuming that the ground forms a large flat surface which exists on the object but with less significance than the ground. Due to potential noise in the point cloud, the Hough space may not be suitable. Therefore, a plane-fitting method using RANSAC is utilized to identify the ground plane from the point cloud above. The plane parameters are optimized based on the sum of point-to-plane distances 
+
+v ← argmin 
+
+> v
+
+X
+
+> i
+
+a b c d Pwi
+
+√a2 + b2 + c2 (3) where v⊤ = a b c d denotes the parameters of the surface plane ax + by + cz + d = 0 . Then, the RANSAC iterations are performed to find the inlier points of the plane model. Subsequently, all point clouds representing this ground are removed to obtain the required initial object point cloud. 
+
+B. Outlier Point Rejection 
+
+This section presents the outlier-rejection method which enhances the quality of the object point cloud by eliminating outlier points. 
+
+1) Density normalization: Due to factors such as varying distances of measurement, on-site lighting conditions, and the surface material of the object, the density of the constructed object point cloud is often uneven. Additionally, to further enhance accuracy, the point cloud is downsampled using grid normalization. This involves partitioning the space into grids and averaging the positions of all the points inside each as the normalized result for that grid. 
+
+2) Point cloud filtering: The downsampled point cloud ef-fectively reduces noise, and yet residual outlier points persist. These anomalies stem from the specular reflections incorpo-rated during point cloud reconstruction and the remnants from the uneven ground-surface removal. To address this issue, both the Region of Relevance (ROR) filter and Statistical Outlier Removal (SOR) filter are sequentially applied to the point cloud. This combination retains the object point cloud while effectively eliminating the outlier points. 
+
+C. Joint Optimization of Pose and Point Cloud using Rota-tional Symmetry 
+
+The axis of symmetry in objects with rotational symmetry is defined as the pose direction and the center of mass serves as the pose position. Based on the point cloud of the object provided by the aforementioned processes, the initial orientation and position of the object pose ˆT are determined respectively by fitting a plane and calculating the centroid of all points. 
+
+1) Joint optimization of point cloud and pose: Due to the rotational symmetry of the object, any point on the object should still remain on the object after a rotation around the axis of symmetry. For objects that are discretely rotationally symmetric of order n, the rotation transformations that con-stitute rotational symmetry form a set 
+
+Tr = {Tr , Tr Tr , Tr Tr Tr , . . . , Tr Tr · · · Tr
+
+| {z }
+
+> n−1
+
+} (4) where Tr denotes the rotation transformation of (360 ◦/n )
+
+around the axis of symmetry. With the initial pose T ← ˆT,similar to the Iterative Closest Point (ICP) algorithm that aligns two point clouds, the object point cloud is rotated to find the corresponding points, thereby estimating the object pose T
+
+through the self-alignment of the object point cloud under multiple symmetric rotations 
+
+T, pwi = argmin 
+
+> T,pwi
+
+X
+
+> i
+
+X
+
+> T′∈Tr
+
+∥p′ 
+
+> i
+
+− T′Tp wi ∥γ (5) where Tp wi transforms the i-th point to the object coordinates. 
+
+T′ denotes a rotation transformation in the set Tr . p′ 
+
+> i
+
+denotes the closest point in the original object coordinates to T′Tp wi .The Huber loss γ is applied to improve the robustness of the estimation. It should be noted that the object pose and the point cloud are optimized iteratively. The proposed loss traverses all points on the object point cloud and calculates the distance to their nearest point after the rotation. Therefore, each point has 
+
+n observations, which increases the utilization of all frames. If the estimations of the object pose and points are accurate, the loss will be minimized. After the optimization, the original object point cloud is augmented by multiple rotations to fill in the missing parts caused by occlusion. Then, the translation t
+
+of the matrix T =
+
+R t0 1
+
+
+
+is updated with the new centroid of the augmented object point cloud, where R is the rotation matrix. 
+
+2) Estimation of primary orientation: The estimated direc-tion of the augmented point cloud is chosen as the primary orientation of the object. Since the estimation result does not contain yaw angle, the histogram of point clouds in different directions is counted based on the augmented point cloud. When the axis of rotational symmetry is known, statistical analysis of the optimized point cloud at different angles reveals JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 5 
+
+> Fig. 5. Primary-orientation estimation with extreme points. With the axis of rotational symmetry, the same yaw angles of the ground-truth point cloud and the optimized point cloud can be aligned.
+
+a periodic pattern. Define the yaw angle of the ground-truth point cloud as the extreme point. Then, statistical analysis of the point cloud based on the initial estimation of the axis of rotational symmetry also yields locally aligned extreme points, as shown in Fig. 5. Therefore, the direction with the extreme value of the point cloud is selected as its primary orientation. 
+
+3) Implementation: Each point needs to be rotated multiple times to find its corresponding point and this creates a massive computational burden. Therefore, in implementation, the loss function is adjusted and a KD tree is utilized to accelerate the search for the nearest point in the point cloud 
+
+loss = KD (pwi ) − T−1T′Tp wi (6) where the KD (·) function can provide the corresponding point 
+
+p′wi = KD (pwi ). Since the KD tree can be constructed based on the original point cloud, this eliminates the need to recreate it during each iteration of the optimization when T is updated, thus reducing the computational burden. IV. E XPERIMENT 
+
+A. Dataset Acquisition 
+
+Since there is currently no dataset specifically designed for object pose estimation from the point clouds of a single object, the constructed dataset for evaluation has two parts, a synthetic dataset and some wheel-hub data. The most significant differ-ence between the two datasets is that the synthetic dataset includes the ground truth point cloud and its object pose. The centroid of the object’s shape is chosen as the coordinate origin of the object pose and the axis of symmetry serves as the z-axis. 
+
+1) Synthetic dataset : The data in the synthetic dataset was sampled based on CAD models. To diversify the dataset, CAD models of four different types of objects with rotational symmetry were used for data collection, including propellers, impellers, wheel hubs, and small parts (total 14 pcs), as shown in Fig. 6. To ensure that the accuracy of the estimated objects among different types was at the same scale and comparable, all these objects were normalized to have a diameter of 1. Using these CAD models, complete point clouds were initially obtained by random sampling as ground truth. Subsequently, with random views, noise was introduced to each captured  
+
+> Fig. 6. Synthetic Dataset. Objects (lower) are represented alongside their corresponding ground-truth point clouds (upper).
+
+color and depth image to simulate the noisy real-world sce-narios with missing data due to occlusions. Additionally, to effectively evaluate the proposed method, various noise levels were considered when creating the synthetic data. 
+
+2) Wheel-hub data: This part of the raw data was collected from a real wheel hub from the factory. To better evaluate the performance of the proposed method, an SfM approach based solely on RGB data was employed for point cloud reconstruction, as shown in Fig. 7. In comparison to the point cloud data directly measured by depth cameras, point clouds obtained through visual SfM methods exhibit more nonlinear noise. This is particularly evident for wheel hubs as they are characterized by metal surfaces with minimal surface texture, resulting in a point cloud with increased error. It is important to note that the original SfM-generated point cloud contains both foreground and background points. The latter have been removed through point cloud segmentation but the former still remain in the cloud and contain substantial noise as well as the base point cloud where the wheel hub was positioned. 
+
+B. Evaluation Metric 
+
+Due to the presence of objects with rotational symmetry, the proposed method is evaluated using the metric of Average Distance for Symmetry. This metric computes the mean of the closest-point distances between the points transformed by the ground-truth pose and the estimated pose: 
+
+ADD -S = 1
+
+p
+
+X
+
+> x1∈P
+
+min  
+
+> x2∈P
+
+|| (Rx 1 + t) − (Rgt x2 + tgt )|| (7) where Rgt and tgt denote the ground-truth rotation and translation, respectively, R and t denote the estimated rotation JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 6                     
+
+> Fig. 7. Point cloud of the wheel hub constructed with the SfM method. TABLE I COMPARISON OF AVERAGE ADD-S ON THE SYNTHETIC DATASET . T HE BEST RESULTS ARE IN BOLD .Method Wheel hubs Impellers Parts Propellers w/ 3D Models ICP 0.015 0.032 0.007 0.031
+> w/o 3D Models Gen6D 5.253 12.160 29.164 3.341 OURS 0.031 0.017 0.013 0.036
+
+and translation by the method under evaluation, P denotes the set of 3D points, and p is the number of points. 
+
+C. Quantitative Comparison 1) Accuracy: In this experiment, the four types of objects in the synthetic dataset were individually computed for ADD-S and then averaged. As shown in Table I, the average ADD-S for the four types of objects proves that the proposed method (denoted by OURS) can provide comparable accuracy to the ICP method. Particularly noteworthy are the results for impellers, which exceed those of ICP, indicating that exploiting rotational symmetry as a prior information is effective. The unsatisfactory performance of Gen6D [34] can be attributed to the inherent limitations of reconstructing objects with minimal textures, therefore it was struggling to extract information from the images of those objects. 
+
+2) Robustness to noise: To evaluate the impact of noise on the proposed method, noise was added to the original depth maps incrementally. As shown in Table II, σ represents the standard deviation of the noise. To simulate the characteristic that the measurement error of real depth increases with dis-tance, the standard deviation of the added noise is multiplied by the average depth value of each view. One can see from the table that as the noise gradually increases, the accuracy of the proposed method gradually diminishes. Interestingly, the method that jointly estimates object pose and point cloud is more susceptible to noise compared to the method only relying on rotational symmetry for object pose estimation. This is primarily due to the reason that increased noise levels weaken the rotational symmetry exhibited by the point clouds, hence leading to a decline in the precision of individual points, though the overall rotational symmetry of the point cloud is still maintained. As shown in Fig. 8, under the noise even with 
+
+2σ = 0 .002 , a considerable number of points deviated from the                                        
+
+> TABLE II COMPARISON OF THE ADD-S ON THE SYNTHETIC DATASET WITH DIFFERENT LEVELS OF NOISE .σ= 0 .001 . JO DENOTES JOINT OPTIMIZATION OF OBJECT POSE AND POINT CLOUD .Method σ2σ3σ4σ5σ
+> OURS w/o JO 0.027 0.029 0.034 0.034 0.042 OURS w/ JO 0.021 0.022 0.023 0.028 0.042
+> Fig. 8. The original point cloud and the point cloud with added noise. The original point cloud is represented in red, while the point cloud with noise is shown in green. TABLE III COMPARISON OF ADD-S ON THE SYNTHETIC DATASET WITH DATA FROM VARYING VIEWS . JO DENOTES THE JOINT OPTIMIZATION OF THE OBJECT POSE AND POINT CLOUD .Method 1V 2Vs 3Vs 4Vs 5Vs OURS w/o JO 0.078 0.032 0.051 0.029 0.025 OURS w/ JO 0.065 0.029 0.042 0.025 0.020
+
+original point cloud. It is worth noting that this experiment still demonstrates the capability of the proposed method to leverage rotational symmetry for accurate object pose estimation, even with noise amplified by five times, which verifies its robustness to noise. 
+
+3) Robustness to occlusion: In practical scenarios, infor-mation loss due to occlusion creates a challenge to pose estimation. Therefore, to evaluate the robustness of the pro-posed method against occlusion, data from varying views were employed to simulate different degrees of occlusion. As shown in Table III, rotational symmetry is maintained even in the presence of occlusion, as long as the majority of the object’s surface is observed, as illustrated in Fig. 9. This substantiates the robustness of the proposed method to occlusion. Moreover, through jointly optimizing point cloud and object pose, the method exhibits good precision in object pose estimation even under occlusion, which further demonstrates the robustness of the proposed approach. 
+
+D. Qualitative Analysis 
+
+From the results obtained on the synthetic dataset shown in Fig. 10, it can be observed that through multiple rotations for completion, the augmented point cloud can utilize information from the unobstructed portion of the point cloud to compensate for the missing element in the occluded parts. In addition to the synthetic dataset, the proposed method was also evaluated on an industrial component. The presence of substantial noise and shape distortions in the point cloud JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 7 
+
+> Fig. 9. Point clouds with data from varying views. The additional views con-tribute to a gradual reduction of occlusion-induced missing object structures.
+> Fig. 10. Augmentation of point cloud by rotation completion after the joint optimization. The red points represent the original point cloud, while the green points represent the point cloud patched through rotation completion.
+> Fig. 11. The red dots represent the point cloud after segmentation and outlier removal from the raw point cloud. The green ones represent the point cloud after joint estimation of point cloud and object pose.
+
+presents some challenges. As shown in Fig. 11, not only did the proposed method accurately estimate the object pose, it also corrected distortions introduced during the SfM point cloud construction.  
+
+> Fig. 12. Histogram of the number of points within different error ranges.
+
+E. Effectiveness of Joint Optimization 
+
+To validate the effectiveness of jointly optimizing pose and point cloud, results from post estimation with and without joint optimization are presented in Fig. 12, which shows that with joint optimization, the number of high-precision points is further increased, thereby improving the accuracy of the final object pose estimation. V. C ONCLUSION 
+
+In this paper, we proposed a method for pose estimation from point clouds by utilizing the rotational symmetry of industrial objects. Unlike many existing methods that treat rotational symmetry as a challenge, the proposed method leverages this property directly. This allows for object pose estimation even in the absence of known 3D object models. Moreover, by optimizing the object point cloud based on mul-tiple observations preserving rotational symmetry, the accuracy of object pose estimation is further enhanced. Finally, by compensating for occluded regions using rotational symmetry, missing areas caused by occlusion can be filled in to obtain more estimation results. Due to the discrete nature of point cloud models, it is chal-lenging to fully utilize the distribution information inherent in the point cloud during joint optimization. Therefore, future work will focus on utilizing rotational symmetry to further improve the accuracy of three-dimensional reconstruction of objects, particularly in continuous representations such as neural signed distance field. REFERENCES [1] J. Wu, X. Ru, S. Lu, R. Xiong, and Y. Wang, “Recurrent volume-based 3d feature fusion for real-time multi-view object pose estimation,” IEEE Transactions on Instrumentation and Measurement , 2024. [2] D. Gleeson, S. Jakobsson, R. Salman, F. Ekstedt, N. Sandgren, F. Edelvik, J. S. Carlson, and B. Lennartson, “Generating optimized tra-jectories for robotic spray painting,” IEEE Transactions on Automation Science and Engineering , vol. 19, no. 3, pp. 1380–1391, 2022. [3] H. Zhang, Z. Liang, C. Li, H. Zhong, L. Liu, C. Zhao, Y. Wang, and Q. J. Wu, “A practical robotic grasping method by using 6-d pose estimation with protective correction,” IEEE Transactions on Industrial Electronics ,vol. 69, no. 4, pp. 3876–3886, 2021. JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 8
+
+[4] D.-C. Hoang, J. A. Stork, and T. Stoyanov, “Voting and attention-based pose relation learning for object pose estimation from 3d point clouds,” 
+
+IEEE Robotics and Automation Letters , vol. 7, no. 4, pp. 8980–8987, 2022. [5] B. Drost, M. Ulrich, N. Navab, and S. Ilic, “Model globally, match locally: Efficient and robust 3d object recognition,” in 2010 IEEE computer society conference on computer vision and pattern recognition .Ieee, 2010, pp. 998–1005. [6] G. Gao, M. Lauri, Y. Wang, X. Hu, J. Zhang, and S. Frintrop, “6d object pose regression via supervised learning on point clouds,” in 2020 IEEE International Conference on Robotics and Automation (ICRA) . IEEE, 2020, pp. 3643–3649. [7] Y. Guo, M. Bennamoun, F. Sohel, M. Lu, and J. Wan, “An integrated framework for 3-d modeling, object detection, and pose estimation from point-clouds,” IEEE Transactions on Instrumentation and Measurement ,vol. 64, no. 3, pp. 683–693, 2014. [8] X. Xing, J. Guo, L. Nan, Q. Gu, X. Zhang, and D.-M. Yan, “Efficient mspso sampling for object detection and 6-d pose estimation in 3-d scenes,” IEEE Transactions on Industrial Electronics , vol. 69, no. 10, pp. 10 281–10 291, 2021. [9] Y. Xiang, T. Schmidt, V. Narayanan, and D. Fox, “Posecnn: A convolu-tional neural network for 6d object pose estimation in cluttered scenes,” 
+
+arXiv preprint arXiv:1711.00199 , 2017. [10] C. Wang, D. Xu, Y. Zhu, R. Mart´ ın-Mart´ ın, C. Lu, L. Fei-Fei, and S. Savarese, “Densefusion: 6d object pose estimation by iterative dense fusion,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2019, pp. 3343–3352. [11] S. Hinterstoisser, V. Lepetit, S. Ilic, S. Holzer, G. Bradski, K. Konolige, and N. Navab, “Model based training, detection and pose estimation of texture-less 3d objects in heavily cluttered scenes,” in Computer Vision– ACCV 2012: 11th Asian Conference on Computer Vision, Daejeon, Ko-rea, November 5-9, 2012, Revised Selected Papers, Part I 11 . Springer, 2013, pp. 548–562. [12] H. Wang, H. Wang, and C. Zhuang, “6d pose estimation from point cloud using an improved point pair features method,” in 2021 7th International Conference on Control, Automation and Robotics (ICCAR) . IEEE, 2021, pp. 280–284. [13] Y. He, W. Sun, H. Huang, J. Liu, H. Fan, and J. Sun, “Pvn3d: A deep point-wise 3d keypoints voting network for 6dof pose estimation,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2020, pp. 11 632–11 641. [14] J. Sun, Z. Wang, S. Zhang, X. He, H. Zhao, G. Zhang, and X. Zhou, “Onepose: One-shot object pose estimation without cad models,” in 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2022, pp. 6825–6834. [15] F. Li, I. Shugurov, B. Busam, S. Yang, and S. Ilic, “Ws-ope: Weakly supervised 6-d object pose regression using relative multi-camera pose constraints,” IEEE Robotics and Automation Letters , vol. 7, no. 2, pp. 3703–3710, 2022. [16] C. Cadena, L. Carlone, H. Carrillo, Y. Latif, D. Scaramuzza, J. Neira, I. Reid, and J. J. Leonard, “Past, present, and future of simultaneous localization and mapping: Toward the robust-perception age,” IEEE Transactions on robotics , vol. 32, no. 6, pp. 1309–1332, 2016. [17] M. Siemiatkowski and W. Przybylski, “Modelling and simulation anal-ysis of process alternatives in the cellular manufacturing of axially symmetric parts,” The International Journal of Advanced Manufacturing Technology , vol. 32, pp. 516–530, 2007. [18] G. Pitteri, M. Ramamonjisoa, S. Ilic, and V. Lepetit, “On object symmetries and 6d pose estimation from images,” in 2019 International conference on 3D vision (3DV) . IEEE, 2019, pp. 614–622. [19] F. Duffhauss, S. Koch, H. Ziesche, N. A. Vien, and G. Neumann, “Symfm6d: Symmetry-aware multi-directional fusion for multi-view 6d object pose estimation,” IEEE Robotics and Automation Letters , 2023. [20] Z. He, Z. Jiang, X. Zhao, S. Zhang, and C. Wu, “Sparse template-based 6-d pose estimation of metal parts using a monocular camera,” 
+
+IEEE Transactions on Industrial Electronics , vol. 67, no. 1, pp. 390–401, 2019. [21] Y. Zhang, Y. Liu, Q. Wu, J. Zhou, X. Gong, and J. Wang, “Eanet: Edge-attention 6d pose estimation network for texture-less objects,” IEEE Transactions on Instrumentation and Measurement , vol. 71, pp. 1–13, 2022. [22] J. Cheng, P. Liu, Q. Zhang, H. Ma, F. Wang, and J. Zhang, “Real-time and efficient 6-d pose estimation from a single rgb image,” IEEE Transactions on Instrumentation and Measurement , vol. 70, pp. 1–14, 2021. [23] A. Aldoma, M. Vincze, N. Blodow, D. Gossow, S. Gedikli, R. B. Rusu, and G. Bradski, “Cad-model recognition and 6dof pose estimation using 3d cues,” in 2011 IEEE international conference on computer vision workshops (ICCV workshops) . IEEE, 2011, pp. 585–592. [24] R. B. Rusu, G. Bradski, R. Thibaux, and J. Hsu, “Fast 3d recognition and pose using the viewpoint feature histogram,” in 2010 IEEE/RSJ international conference on intelligent robots and systems . IEEE, 2010, pp. 2155–2162. [25] W. Wohlkinger and M. Vincze, “Ensemble of shape functions for 3d object classification,” in 2011 IEEE international conference on robotics and biomimetics . IEEE, 2011, pp. 2987–2992. [26] Y. Guo, M. Bennamoun, F. Sohel, M. Lu, and J. Wan, “3d object recognition in cluttered scenes with local surface features: A survey,” 
+
+IEEE transactions on pattern analysis and machine intelligence , vol. 36, no. 11, pp. 2270–2287, 2014. [27] J. Guo, X. Xing, W. Quan, D.-M. Yan, Q. Gu, Y. Liu, and X. Zhang, “Efficient center voting for object detection and 6d pose estimation in 3d point cloud,” IEEE Transactions on Image Processing , vol. 30, pp. 5072–5084, 2021. [28] T. Birdal and S. Ilic, “Point pair features based object detection and pose estimation revisited,” in 2015 International Conference on 3D Vision ,2015, pp. 527–535. [29] S. Hinterstoisser, V. Lepetit, N. Rajkumar, and K. Konolige, “Going further with point pair features,” in Computer Vision–ECCV 2016: 14th European Conference, Amsterdam, The Netherlands, October 11-14, 2016, Proceedings, Part III 14 . Springer, 2016, pp. 834–848. [30] G. Zhou, D. Wang, Y. Yan, C. Liu, and Q. Chen, “6-d object pose estimation using multiscale point cloud transformer,” IEEE Transactions on Instrumentation and Measurement , vol. 72, pp. 1–11, 2022. [31] A. Ahmadyan, L. Zhang, A. Ablavatski, J. Wei, and M. Grundmann, “Objectron: A large scale dataset of object-centric videos in the wild with pose annotations,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2021, pp. 7822–7831. [32] H. Wang, S. Sridhar, J. Huang, J. Valentin, S. Song, and L. J. Guibas, “Normalized object coordinate space for category-level 6d object pose and size estimation,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2019, pp. 2642–2651. [33] S. Yu, D.-H. Zhai, and Y. Xia, “Synthetic depth image-based category-level object pose estimation with effective pose decoupling and shape optimization,” IEEE Transactions on Instrumentation and Measurement ,2024. [34] Y. Liu, Y. Wen, S. Peng, C. Lin, X. Long, T. Komura, and W. Wang, “Gen6d: Generalizable model-free 6-dof object pose estimation from rgb images,” in European Conference on Computer Vision . Springer, 2022, pp. 298–315. [35] N. Mo, W. Gan, N. Yokoya, and S. Chen, “Es6d: A computation efficient and symmetry-aware 6d pose regression framework,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,2022, pp. 6718–6727. [36] M. Rad and V. Lepetit, “Bb8: A scalable, accurate, robust to partial occlusion method for predicting the 3d poses of challenging objects without using depth,” in Proceedings of the IEEE international confer-ence on computer vision , 2017, pp. 3828–3836. [37] H. Zhang, J. Huang, X. Xu, Q. Fang, and Y. Shi, “Symmetry-aware 6d object pose estimation via multitask learning,” Complexity , vol. 2020, pp. 1–7, 2020. [38] H. Zhao, S. Wei, D. Shi, W. Tan, Z. Li, Y. Ren, X. Wei, Y. Yang, and S. Pu, “Learning symmetry-aware geometry correspondences for 6d object pose estimation,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 14 045–14 054. JOURNAL OF L ATEX CLASS FILES, VOL. 14, NO. 8, AUGUST 2021 9
+
+VI. B IOGRAPHY 
+
+Weichen Dai (M’21) was born in Wenzhou, China. He received his B.S. degree in information engi-neering from Zhejiang University of Technology, Hangzhou, China, in 2015, and his Ph.D. degree from the College of Control Science and Engineer-ing at Zhejiang University, Hangzhou, China, in 2021. His research interests include 3D vision and intelligent autonomous systems. He is now working in the School of Computer Science at Hangzhou Dianzi University, China. 
+
+Ruixun Yu was born in Lanzhou, China. He re-ceived his B.S. degree in computer science and technology from Hangzhou Dianzi University in 2023, and is currently enrolled as a graduate stu-dent in the Computer Science program at Hangzhou Dianzi University. His research interests include 3D reconstruction. 
+
+Yangjie Tang was born in Huzhou, China. He received his B.Eng. degree in computer science and technology from Zhejiang Agriculture and Forestry University, Hangzhou, China, in 2019, and his M.Eng. degree in computer technology from Hangzhou Dianzi University, Hangzhou, China, in 2024. His research interests include 3D vision and image processing. 
+
+Yifan Du was born in JiaXing, China. He received his B.S. degree in computer science and technology from Hangzhou Dianzi University in 2022, and is currently enrolled as a graduate student in the Com-puter Science program at Hangzhou Dianzi Univer-sity. His research interest is 3D reconstruction. 
+
+Yiyang Zhang was born in Hangzhou, China. He received his B.Eng. degree in computer science and technology from Hangzhou Dianzi University, Hangzhou, China, in 2022. He is currently pursu-ing his M.Eng degree in computer technology. His research interests include computer vision. 
+
+Donglei Sun (M’15) received the Bachelor’s de-gree in aircraft design and engineering and the Master’s degree in vehicle operation engineering from Beihang University, Beijing, China, in 2007 and 2012, respectively, and the Ph.D. degree in aerospace engineering from the University of Illinois at Urbana-Champaign, USA, in 2019. From 2020, he has been with the University of Nottingham Ningbo China, where he is currently Assistant Professor in Aerospace Engineering Design. His research in-terests include flight control, adaptive control, and aerial robotics. 
+
+Hua Zhang received B.S. and Ph.D. degrees in biomedical engineering and instrumentation from Zhejiang University, China, in 2003 and 2009, re-spectively. She is currently an associate professor at the School of Computer Science, Hangzhou Dianzi University. Her research interests are image quality assessment, 3D video encoding/decoding, robotic vision and embedded system design.
