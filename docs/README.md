@@ -6,67 +6,52 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-23
-- 运行时间：2026-06-23 21:16:05 UTC
+- 最新运行日期：2026-06-24
+- 运行时间：2026-06-24 21:39:46 UTC
 - 运行状态：成功
-- 本次总论文数：15
+- 本次总论文数：10
 - 精读区：6
-- 速读区：9
+- 速读区：4
 
 ### 今日简报（AI）
-今日精选15篇论文，重点关注3D几何与关节物体重建的两篇9分工作。  
-精读推荐《SCOPE》实现尺度一致的3D几何单次估计，《Artic-O》通过潜几何学习端到端重建可动结构。  
-建议读者优先精读这两篇高评分论文，并结合《φ-Scene》等物理驱动重建方法拓展实践。
-- 详情：[/202606/23/README](/202606/23/README)
+今日精读6篇，速读4篇，核心方向为3D重建与点云补全，其中高光谱神经辐射场（9.0分）和随机符号距离过程（8.0分）最具亮点。  
+最值得关注：Self-Calibrated Hyperspectral NeRF实现了对骨骼及其类似物的高精度3D重建；MedPCFM与FLUX3D则在点云补全和稀疏表示生成上表现突出。  
+建议下一步：若您从事医学影像或三维视觉，可优先研读高光谱NeRF论文中的自校准机理，并尝试将流匹配方法（如MedPCFM）应用于临床点云修复场景。
+- 详情：[/202606/24/README](/202606/24/README)
 
 ### 精读区论文标签
-1. [SCOPE: Scale-Consistent One-Pass Estimation of 3D Geometry](/202606/23/2606.21300v1-scope-scale-consistent-one-pass-estimation-of-3d-geometry)  
+1. [Self-Calibrated Hyperspectral Neural Radiance Fields for 3D Reconstruction of Bone and Bone Analogues](/202606/24/biorxiv-10-64898-2026-06-17-732938-v1-self-calibrated-hyperspectral-neural-radiance-fields-for-3d-reconstruction-of-bone-and-bone-analogues)  
    标签：评分：9.0/10、query:d-recon
-   evidence：从单目视频估计三维几何
-2. [Artic-O: End-to-End Articulated Object Reconstruction via Latent Geometry Learning](/202606/23/2606.21938v1-artic-o-end-to-end-articulated-object-reconstruction-via-latent-geometry-learning)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：端到端多视图铰接物体重建
-3. [ACEsplat: Accelerated 3D Gaussian Scene Regression via RGB and Poses Only](/202606/23/2606.22091v1-acesplat-accelerated-3d-gaussian-scene-regression-via-rgb-and-poses-only)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：仅从RGB图像和位姿进行3D高斯场景重建
-4. [Visual Geometry Transformer in the Wild: Distractor-Free 3D Reconstruction](/202606/23/2606.22787v1-visual-geometry-transformer-in-the-wild-distractor-free-3d-reconstruction)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：端到端多视图3D重建，处理干扰物
-5. [Learning Stable Canonical Worlds for Novel View Synthesis and Beyond](/202606/23/2606.23027v1-learning-stable-canonical-worlds-for-novel-view-synthesis-and-beyond)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：用于新颖视图合成的规范场景表示
-6. [Stochastic Signed Distance Processes](/202606/23/2606.20856v1-stochastic-signed-distance-processes)  
+   evidence：高光谱神经辐射场用于三维重建
+2. [Stochastic Signed Distance Processes](/202606/24/2606.20856v2-stochastic-signed-distance-processes)  
    标签：评分：8.0/10、query:d-recon
-   evidence：通过随机SDF的概率表面渲染用于新视图合成
+   evidence：利用随机符号距离过程进行多视图表面重建
+3. [DrivingVoxels: Compositional Sparse Voxel Rasterization for Dynamic Driving Scene Reconstruction](/202606/24/2606.23031v1-drivingvoxels-compositional-sparse-voxel-rasterization-for-dynamic-driving-scene-reconstruction)  
+   标签：评分：8.0/10、query:d-recon
+   evidence：利用稀疏体素从多视图进行动态场景重建
+4. [Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation](/202606/24/2606.24206v1-inclusive-interactive-collisions-for-multi-view-consistent-compositional-3d-generation)  
+   标签：评分：8.0/10、query:d-recon
+   evidence：多视图一致的3D生成
+5. [3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis](/202606/24/2606.24257v1-3dcargen-scalable-3d-car-generation-via-3d-consistent-multi-view-synthesis)  
+   标签：评分：8.0/10、query:d-recon
+   evidence：通过3D一致的多视图合成实现单视图3D汽车生成
+6. [MM-TRELLIS: Point-Cloud Guided Multi-Modal 3D Vehicle Generation in Autonomous Driving](/202606/24/2606.24301v1-mm-trellis-point-cloud-guided-multi-modal-3d-vehicle-generation-in-autonomous-driving)  
+   标签：评分：8.0/10、query:d-recon
+   evidence：点云引导的多模态3D生成，融合激光雷达和图像
 
 ### 速读区论文标签
-1. [$φ$-Scene: Physically Grounded Image-to-3D Scene Reconstruction](/202606/23/2606.21596v1--scene-physically-grounded-image-to-3d-scene-reconstruction)  
+1. [MedPCFM: Improving Medical Point Cloud Completion by Integrating Point Transformers and Flow Matching](/202606/24/2606.24433v1-medpcfm-improving-medical-point-cloud-completion-by-integrating-point-transformers-and-flow-matching)  
    标签：评分：8.0/10、query:d-recon
-   evidence：从单张图像到3D场景重建
-2. [Mesh2GS: White-Box 3DGS Construction via Plenoptic Sampling](/202606/23/2606.21898v1-mesh2gs-white-box-3dgs-construction-via-plenoptic-sampling)  
+   evidence：医学点云补全
+2. [FLUX3D: High-Fidelity 3D Gaussian Generation with Diffusion-Aligned Sparse Representation](/202606/24/2606.24874v1-flux3d-high-fidelity-3d-gaussian-generation-with-diffusion-aligned-sparse-representation)  
    标签：评分：8.0/10、query:d-recon
-   evidence：从网格构建3D高斯泼溅用于新视图合成
-3. [G-MASt3R-SfM: Graph-based View Pruning and Multi-stage Optimization for Robust SfM](/202606/23/2606.22856v1-g-mast3r-sfm-graph-based-view-pruning-and-multi-stage-optimization-for-robust-sfm)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：用于多视图三维重建的运动恢复结构
-4. [Can Single-View Mesh Reconstruction Generalize to Robot Camera Rotation?](/202606/23/2606.22987v1-can-single-view-mesh-reconstruction-generalize-to-robot-camera-rotation)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：单视图网格重建及相机旋转下的评估
-5. [Lightweight Neural Framework for Robust 3D Volume and Surface Estimation from Multi-View Images](/202606/23/2606.23653v1-lightweight-neural-framework-for-robust-3d-volume-and-surface-estimation-from-multi-view-images)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：使用点云融合的多视图3D体积和表面积估计
-6. [Lift4D: Harmonizing Single-View 3D Estimation for 4D Reconstruction In-the-Wild](/202606/23/2606.23688v1-lift4d-harmonizing-single-view-3d-estimation-for-4d-reconstruction-in-the-wild)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：从单目视频进行4D重建，利用单视图3D估计
-7. [CAOA -- Completion-Assisted Object-CAD Alignment](/202606/23/2606.18429v2-caoa----completion-assisted-object-cad-alignment)  
+   evidence：基于扩散对齐稀疏体素表示的图像到3D高斯生成
+3. [FLAT: Feedforward Latent Triangle Splatting for Geometrically Accurate Scene Generation](/202606/24/2606.24876v1-flat-feedforward-latent-triangle-splatting-for-geometrically-accurate-scene-generation)  
    标签：评分：7.0/10、query:d-recon
-   evidence：点云补全用于三维重建中的CAD对齐
-8. [OneCanvas: 3D Scene Understanding via Panoramic Reprojection](/202606/23/2606.19253v1-onecanvas-3d-scene-understanding-via-panoramic-reprojection)  
+   evidence：从单张图像生成具有表面对齐基元的可探索3D场景
+4. [GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction](/202606/24/2606.24829v1-geot2v-bench-benchmarking-3d-consistency-in-text-to-video-models-via-3d-reconstruction)  
    标签：评分：6.0/10、query:d-recon
-   evidence：多视图块特征聚合到3D世界坐标
-9. [Lightweight 3D Feature Pretraining by Bayesian Inversion of 2D Foundation Models](/202606/23/2606.21292v1-lightweight-3d-feature-pretraining-by-bayesian-inversion-of-2d-foundation-models)  
-   标签：评分：6.0/10、query:d-recon
-   evidence：通过概率逆推从多视图到3D语义映射
+   evidence：文本到视频模型的3D重建基准
 
 
 <div class="dpr-home-promo-card">
