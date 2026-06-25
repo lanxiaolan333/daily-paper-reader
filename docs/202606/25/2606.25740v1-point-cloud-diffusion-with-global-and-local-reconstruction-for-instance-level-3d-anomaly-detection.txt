@@ -1,0 +1,485 @@
+Title: Point Cloud Diffusion with Global and Local Reconstruction for Instance-Level 3D Anomaly Detection
+
+URL Source: https://arxiv.org/pdf/2606.25740v1
+
+Published Time: Thu, 25 Jun 2026 00:56:12 GMT
+
+Number of Pages: 10
+
+Markdown Content:
+> JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 1
+
+# Point Cloud Diffusion with Global and Local Reconstruction for Instance-Level 3D Anomaly Detection 
+
+Linchun Wu, Qin Zou, Senior Member, IEEE , Jiwen Lu, Fellow, IEEE , Qingquan Li 
+
+Abstract —3D anomaly detection in point clouds is critical for high-precision industrial manufacturing. Reconstruction-based methods have laid a strong foundation by detecting 3D anomalies through comparisons between defective inputs and their recon-structed normal counterparts. However, existing methods still suffer from two challenges: 1) the foreground weak defective regions such as scratches are hard to reconstruct and detect, where the anomaly deviations in normalized point clouds can be as small as 10 −3; 2) the background non-defective regions are prone to get positional bias in reconstruction, which leads to false positives. To address these challenges, we propose PCDiff, a point cloud diffusion framework for instance-level 3D anomaly generation and detection. In the generation phase, an instance-level multi-modal attention is embedded into the generation framework, where anomalies are conditioned with texture gradient, image patch, text and mask. The instance-level condition enables the high-quality generation of weak-defective anomalies. In the detection phase, a joint local-global reconstruction algorithm is introduced to ensure local anomaly restoration and global geometric consistency, which preserves background normal structure while restoring the foreground defect. Extensive experiments demonstrate that the proposed PCDiff significantly outperforms state-of-the-art methods in both 3D anomaly generation fidelity and reconstruction quality, lead-ing to substantial improvements in anomaly detection accuracy. 
+
+Index Terms —3D Anomaly Detection, Point Cloud Generation, Anomaly Aware Reconstruction. 
+
+I. I NTRODUCTION 
+
+3D data, such as point clouds and depth maps acquired by structured-light or LiDAR sensors, have become increasingly prevalent in multimedia systems—not only for entertainment and communication but also for industrial multimedia appli-cations like automated visual inspection [1]–[3] and smart manufacturing. In this context, 3D anomaly detection is vital for maintaining structural integrity, identifying functional defects—such as volumetric stability of energy cells [4] to the intricate topological continuity of high-density electronics [5]. While legacy 2D paradigms [6], [7] are limited by the loss of spatial dimensionality, the shift toward point cloud-based modalities represents a paradigm leap. By providing a high-fidelity digital depiction of physical surfaces, point clouds en-
+
+L. Wu and Q. Zou are with the School of Computer Science, Wuhan Uni-versity, Wuhan 430072, China (E-mails: {linchun.wu, qzou }@whu.edu.cn). J. Lu is with Department of Automation, Tsinghua University, Beijing 100084, China (e-mail: lujiwen@tsinghua.edu.cn). Q. Li is with the Guangdong Artificial Intelligence and Digital Economy Laboratory (SZ), Shenzhen 518060, China (e-mail: liqq@szu.edu.cn). Global 
+
+> Reconstruction
+> Global
+> Reconstruction
+> 2D Rendering
+> & Detection
+> Local (instance)
+> Reconstruction
+
+(a) 
+
+(b) 
+
+Fig. 1. Two different pipelines for 3D anomaly detection. (a) The conventional pipeline that performs a global reconstruction across all points, lacking spatial adaptivity to weak anomaly regions. (b) The proposed pipeline that integrates global and local reconstruction. The joint reconstruction preserves background normal structure while restoring the foreground defects. 
+
+able the robust synthesis and identification of subtle structural irregularities that deviate from nominal patterns [8]. 3D multimedia processing has seen significant growth, driven by advances in geometric representation learning [9]– [13]. A core challenge lies in the fine-grained decoupling of benign manufacturing variance from functional defects. Since real-world items exhibit inherent geometric noise that does not impair functionality, distinguishing these from true 3D anomalies—such as protrusions or pinholes—requires sophis-ticated generative patterns. Reconstruction-based paradigms address this by leveraging the statistical distribution of normal samples to identify defects through the residual discrepancy between input signals and their “normal” reconstructions [10], [11]. The success of diffusion models in conditional 3D gen-eration [12], [14] has inspired their application in anomaly detection. R3D-AD [12] employs progressive denoising for point cloud reconstruction, while PO3AD [15] improves rep-resentation learning by predicting deviations without explicit noise injection. Despite these gains, many diffusion-based frameworks rely on global reconstruction over the entire point set (Fig. 1). This global approach lacks spatial adaptivity, particularly for subtle or weak anomalies, leading to two crit-ical challenges that limit detection performance and practical applicability. First, weak foreground regions like fine scratches are dif-ficult to reconstruct and detect. Current 3D pseudo-anomaly generators often rely on high-amplitude geometric deforma- 
+
+> arXiv:2606.25740v1 [cs.CV] 24 Jun 2026 JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 2
+
+tions with smooth boundaries [12], failing to model the linear or texturally complex defects found in real-world scenarios. Consequently, models struggle to identify small-scale anoma-lies (Fig. 2). Second, background regions often suffer from positional bias during reconstruction, causing false positives. Standard strategies favor global structural fidelity over local texture consistency [10], [12], leading to over-smoothed edges and distorted point distributions in normal areas. Addressing these issues requires an anomaly-aware reconstruction that prior-itizes restoring defective regions while preserving normal geometry. To tackle these challenges, we propose PCDiff , a unified diffusion framework for 3D anomaly generation and detection. For generation, PCDiff adopts a multi-view image-guided pipeline that utilizes an instance-level multi-modal attention mechanism to incorporate texture gradients, image patches, and spatial masks. For reconstruction, PCDiff leverages 2D anomaly mask estimation derived from rendered shadow dif-ferences to localize subtle defects. These masks guide alocal-global joint reconstruction module, where a local branch focuses on anomaly restoration and a global branch ensures holistic geometry recovery. Our main contributions are summarized as follows:  
+
+> •
+
+We propose PCDiff , a novel framework leveraging 2D visual priors and multi-modal conditioning to synthesize fine-grained anomalies and achieve robust instance-level detection.  
+
+> •
+
+We introduce a geometry bank-guided synthesis method combined with gradient-based texture representations to generate diverse, subtle anomalies representing real-world defects.  
+
+> •
+
+We design a local-global joint reconstruction framework that integrates image-derived priors for focused anomaly restoration and global geometry recovery, enhancing both accuracy and spatial consistency. The rest of the paper is organized as follows. Section II reviews relevant work. Section III details the proposed PCDiff 
+
+generation framework. Section IV illustrate the proposed local-global joint detection module. Section V presents experiments and results. Section VI concludes the work. II. R ELATED WORKS 
+
+A. 3D Generation 
+
+Modern 3D generative models utilize diverse represen-tations, including point clouds [16]–[19], triplanes [20], NeRF [21], and Gaussian splatting [22]. Current frameworks typically employ diffusion [23] either directly on 3D geom-etry [24] or within a VAE-encoded latent space [25]. While two-stage methods [24] produce artistic textures via per-face generation, they incur high computational costs. Conversely, one-stage methods [25] enhance efficiency by projecting image features into the latent space for computationally feasible synthesis. Optimization-based methods [26], [27] leverage 2D diffu-sion priors for high-quality multi-view generation. By opti-mizing 3D distributions through rendering losses, these ap-Input  
+
+> Point Cloud
+> Reconstructed
+> Point Cloud
+> Anomaly
+> Map
+> Ground
+> Truth
+> R3D-AD
+> OURS
+> Mesh
+> R3D-AD
+> OURS
+> Fig. 2. Comparison of reconstruction results obtained by R3D-AD and PCDiff. The reconstructions produced by R3D-AD exhibit noticeable coarse-ness, with originally sharp edges appearing rounded and point positions significantly biased. The proposed PCDiff preserves the geometric integrity of non-defective regions while reconstructing anomalous areas, resulting in more accurate anomaly maps.
+
+proaches achieve impressive results but often suffer from pro-longed optimization, “multi-face” artifacts, and limited diver-sity [28]. To improve quality, multi-view information has been integrated across various modalities, including meshes [24], triplanes [20], and Signed Distance Fields [28]. Clay [24], for instance, utilizes a compressed latent-space voxel cloud to enable multi-modal control over text, images, and point clouds. Despite these advancements, existing models struggle with the fine-grained, localized synthesis required for anomaly generation. Achieving instance-level control over category, region, and texture remains a critical challenge for realistic defect synthesis. 
+
+B. 3D Anomaly Detection 
+
+Current 3D anomaly detection methods generally fol-low either reconstruction-based or feature embedding-based paradigms. Reconstruction-based methods [10], [29] operate on the assumption that defective regions can be restored to a normal state. These frameworks typically mask portions of the input and measure the residual discrepancy between the original signal and its normal reconstruction. Building on this, AST [11] utilizes an asymmetric teacher-student network, hypothesizing that anomalous samples—absent from the training set—will yield larger output distances. However, the reliability of these models remains constrained by the lack of explicit anomaly knowledge during training. To improve robustness, feature embedding methods [2], [29], [30] leverage reference normal samples. Reg3D-AD [2] employs memory banks to retrieve similar normal features, while Shape-guided [31] integrates multi-modal memory banks from both images and point clouds. These approaches enhance reconstruction stability and interpretability by reduc-ing the domain gap between training and inference. For multi-modal fusion, BTF [32] identifies optimal feature representa-tions for specific defect types, strategically combining 2D and 3D detection to significantly boost accuracy. JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 3Background Images       
+
+> Point Could
+> Diffusion
+> Gradient G Mask M Text T
+> ‘vase scratch ’
+> ‘vase bulge ’
+> Image I
+> Gradient G Mask M Text T
+> I-IA I-IA
+> P-IA P-IA Extract
+> Render
+> Sample
+> Compute
+> Gradient
+> Intersect & Shift
+> Mask
+> Crop
+
+Sequential Generation Pipeline     
+
+> Dataset Mesh AGuidance Bank
+> Textured Mesh A’ Gradient Map
+
+Texture Anomaly Data Augmentation             
+
+> Masks
+> Textured
+> Image
+> Background Points
+> Masks
+> Textured
+> Points
+> Mutil-view Image
+> Diffusion
+> Background
+> Mesh A’’
+> Background
+> Points
+> Foreground
+> Conditions
+> Fig. 3. An overview of the proposed PCDiff. The left part illustrates texture augmentation process. The input datasets mesh Ais augmented by inserting a random mesh from the guidance bank. A textured mesh A′is created by shifting the intersecting vertices. After gradient representation, the instance mask is applied. Then we render multi-view image for image generation and extract point cloud for 3D point diffusion. Instances are cropped based on the mask for both modalities. The right part depicts the sequential generation. Multi-view image generation takes masked images and the mask as reference to produce textured multi-view images. Instance conditioning in this stage includes text T, colored gradient images G, and the mask M, which are used in image-instance attention, I-IA. In the point cloud generation, masked point clouds and point masks serve as input, generating textured anomaly point clouds as output. In point-instance attention P-IA, the cropped image Iis added as a condition.
+
+Remark. The absence of anomaly knowledge during training remains a critical bottleneck. Our approach directly addresses this by synthesizing artificial anomalies to bridge the informa-tion gap, ensuring more reliable model outputs and enhanced interpretability. III. T EXTURED ANOMALY GENERATION 
+
+Our framework facilitates 3D anomaly detection by in-tegrating multi-view and point cloud generation to provide diverse data augmentation. This pipeline consists of two primary components: Texture Augmentation , which synthe-sizes subtle texture-level defects, and Sequential Generation ,which ensures high-fidelity cross-modal alignment. To ensure comprehensive coverage, we also incorporate an off-the-shelf method [13] for detecting prominent structural anomalies. 
+
+Texture Augmentation. As depicted in Fig. 3, this module synthesizes controllable anomalies by perturbing mesh sur-faces. We simulate geometric deformations by intersecting a guidance geometry with a non-defective mesh region and perturbing vertices along their normals. A computed gradient map provides conditioning for texture-aware diffusion. The resulting mesh is partitioned into three instances: anomaly 
+
+(e.g., bulge), texture-augmented (e.g., scratch), and 
+
+normal . These meshes and gradient maps are rendered into multi-view images for 2D diffusion, while corresponding point clouds are extracted for 3D generation. All inputs are cropped to ensure consistent instance-level conditioning. 
+
+Sequential Generation. To achieve high-fidelity reconstruc-tion, 3D point cloud diffusion utilizes multi-view images as spatial priors. The view with maximum pixel coverage of the target instance is selected as the primary condition for the 3D branch. We introduce a shared Instance Attention (IA) module across both pipelines to enable controllable generation of appearance, category, and spatial location. In the 2D pipeline, masked multi-view images Ir are conditioned on a mask 
+
+M , text prompt cT , and gradient map cG. For 3D diffusion, masked point features Pr are augmented with M , cT , cG, and a cross-modal image patch cI .
+
+A. Texture Augmentation 
+
+We synthesize textures by perturbing 3D mesh vertices, categorized into irregular and structured patterns. Irregular textures are generated via isotropic Gaussian noise. Struc-tured textures utilize a geometry-guided strategy leveraging a guidance bank of primitives (cubes for linear edges, spheres for curved contours). By applying per-instance scaling, rota-tion, and spatial overlay, we generate diverse anomaly patterns. 
+
+1) Geometric Guidance and Scaling: We sample n ∈{1, 2, 3} primitives G = {g1, . . . , g n}. To maintain statisti-cal consistency, each gi is scaled by s, constrained within 
+
+[max(¯ r − r, 0) , min(¯ r, r )] . Here, r is the local anomaly size of the input, and ¯r is the dataset-level mean anomaly scale: 
+
+¯r = 13N
+
+> N
+
+X
+
+> j=1
+
+X
+
+> d∈{ x,y,z }
+
+rdj , (1) where rdj represents the bounding box half-length along axis 
+
+d.
+
+2) Spatial Transformation and Perturbation: Each prim-itive is transformed via a random rotation matrix Ri and translated to an anchor vertex v sampled from non-defective regions: 
+
+g′′  
+
+> i
+
+= ( Ri × (gi · s)) + v. (2) The intersection of g′′  
+
+> i
+
+and the mesh defines the perturbation region. For each vertex pi within this volume, we apply a normal displacement: 
+
+ˆpi = pi + η · ni, (3) JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 4
+
+where η ∼ U (−0.05 , 0.05) represents the displacement mag-nitude, with the bounds derived from empirical dataset obser-vations. 
+
+B. Transformation-based Texture Representation 
+
+To facilitate both 2D image generation and 3D point cloud diffusion, we propose a point-based, transformation-aware texture representation . This descriptor encodes the transition from smooth surfaces to augmented anomalies by leveraging the vertex displacement field. Specifically, for each vertex i,the displacement vector is defined as ∆pi = ˆ pi − pi.To capture local geometric variations, we compute a local-ized gradient field. The gradient ∇gi at vertex i is normalized by the average distance to its k nearest neighbors within a local neighborhood: 
+
+∇gi = |ˆpi − pi|
+
+> 1
+> k
+
+Pkj=1 ∥pi − pj ∥ , (4) where pj denotes the j-th neighboring vertex. This formu-lation explicitly encodes the directional shifts and relative magnitudes of the surface perturbations. By capturing these transformation dynamics, the representation provides a dis-criminative feature set that enhances cross-modal adaptability for generative tasks. 
+
+C. Multi-modal Instance Attention 
+
+This module is designed to generate anomalies with precise control over localization, category, and texture. For both 2D and 3D generation, we design a unified structure for modality fusion and instance allocation. Specifically, each anomaly instance is defined by a text prompt cT , a gradient map cG (an image in 2D generation or points in 3D generation), a regional mask m, and optionally a cropped image cI . The modality fusion process is formulated as: 
+
+c = MLP ([ τθ (cT ), γ θ (cI )]) , (5) where τθ and γθ denote the CLIP text and image encoders, respectively, and MLP serves as the fusion layer. To enable fine-grained instance allocation, we adopt a mask-guided attention mechanism that selectively integrates features from different modalities. The formulation is: 
+
+ˆZ =
+
+> N
+
+X
+
+> j=0
+
+Attn  Qfj , K cj , V cj , M j
+
+ + Gj
+
+!
+
++ Z · M , (6) where j indexes the anomaly instance and N is the total number of instances. Qfj denotes the residual noise feature, while Kcj and V cj are the key and value features derived from the fused condition c. The gradient conditioning is given by 
+
+Gj = ρθ (cG), with ρθ representing the gradient encoder. Mj
+
+is the instance attention mask, where non-instance regions are set to −∞ and instance regions to 1. Z is the normalized input, and M is the complementary mask, where non-instance regions are 1 and instance regions are 0.This design ensures that each anomaly instance receives condition-specific attention while maintaining separation be-tween background and instance regions. The combination of modality fusion and mask-guided allocation enables precise, controllable, and semantically aligned anomaly generation across both 2D and 3D domains. 
+
+D. Training Objectives 
+
+For multi-view generation, the training objective can be formulated as: 
+
+LM DH = Eε(x),ε (xr ),ϵ ∼N (0 ,I),t || ϵt − ϵθ(z(t),t,m, T ,G || 2, (7) where x denotes the anomaly image, xr represents the masked image reference, m represents the mask, z is the noisy image feature pre-encoded with VQVAE ε, G is the gradient map, t
+
+is a random diffusion time step, and T is text embedding. For point cloud generation, we extract and quantize the point cloud from the augmented mesh with a 0.01 voxel size. The sample includes masked point cloud pr and sampled point clouds p, with the multi-view image I and texture map G as control. The training objective is as follows: 
+
+LP DH = Ep,pr ,ϵ ∼N (0 ,I),t || ϵt − ϵ(p(t),t,m, T ,G,I )|| 2. (8) IV. L OCAL -G LOBAL ANOMALY DETECTION 
+
+As illustrated in Figure 4, we introduce a local-global anomaly detection framework designed to achieve anomaly-aware reconstruction and robust multi-modal detection. The local branch emphasizes instance-level reconstruction guided by 2D-predicted anomaly regions, whereas the global branch performs unbiased reconstruction of the complete point cloud. By jointly leveraging the local reconstruction point cloud, the global reconstruction point cloud, and the image-level anomaly masks, the final detection stage achieves comprehensive and reliable anomaly point identification. 
+
+A. Local Reconstruction 
+
+To achieve comprehensive surface coverage for anomaly localization, we define a structured multi-view acquisition setup. We employ N = 3 circular camera trajectories at elevation angles of 45 ◦, 0◦, and −45 ◦. Along each trajec-tory, K = 6 cameras are distributed at equal intervals ( 60 ◦
+
+azimuthal steps), totaling 18 views per object. The rendering operation for a viewpoint (i, j ) is defined as: 
+
+Ii,j = R(M, Ji,j ), (9) where Ji,j ∈ SE (3) represents the camera pose matrix. This configuration ensures that even subtle anomalies located in occluded regions (e.g., the underside of a vase) are captured by at least two viewing frustums. The back-projection operator Π−1 maps pixel-level anomaly probabilities from the image plane back to the input point cloud P . For a point p ∈ P , the mapping is determined by: 
+
+Π−1(U, P, J ) = U (π(J · p)) , (10) where π denotes the perspective projection function. Points falling outside the camera frustum or those occluded by the mesh geometry M (determined via depth-buffer testing) are assigned a score of zero for that specific view. Averaging these scores across all N × K views effectively filters out 2D JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 5Local Reconstruction     
+
+> Mesh
+> Reconstruction
+> Multi-view
+> Rendering
+> Back
+> Projection
+> Instance
+> Reconstruction
+> Global
+> Reconstruction 3D Anomaly Detection
+> Global Reconstruction
+> 2D Anomaly
+> Detection
+> Test Point Cloud
+> Noisy Point Cloud Global
+> Reconstruction
+> Mesh Rendered
+> Images
+> 2D Anomaly
+> Results
+> 3D Guidance Mask
+> &Point Cloud
+> Local
+> Reconstruction
+> Detection Result
+> Add
+> Noise
+> Noisy Point Cloud
+> &Mask
+> Add
+> Noise
+> Fig. 4. The local-global anomaly detection framework. The local path reconstructs the test point cloud into a mesh, renders multi-view images, and estimates anomalies via comparison of rendered image and reconstructed image. The estimate image anomaly masks are then projected into 3D space as point masks, guiding instance-level reconstruction. The global path applies integral noise for unbiased geometry reconstruction. The local and global results are merged for final anomaly detection.
+
+detection noise and highlights regions with high multi-view consensus. Finally, the fused anomaly prior Up guides an anomaly-aware reconstruction network ψ, defined as: 
+
+ˆPl = ψ(P, U p), (11) where ˆPl is the locally reconstructed point cloud emphasizing anomaly-prone regions. By steering the network to attend to structurally or texturally abnormal areas, the local branch ensures high-fidelity recovery of subtle anomalies. 
+
+B. Global Reconstruction 
+
+To achieve comprehensive 3D reconstruction, we incor-porate a global reconstruction branch that operates on the complete input point cloud: 
+
+ˆPg = ψ(P ), (12) where ˆPg denotes the globally reconstructed point cloud, and 
+
+ψ represents a reconstruction network derived from the base generative framework, omitting multi-modal instance attention mechanisms. This global pathway captures holistic geometry without relying on anomaly priors, ensuring unbiased struc-tural restoring. 
+
+C. Training Objectives 
+
+To accelerate reconstruction and preserve authentic input ge-ometry, avoiding plausible but incorrect shape hallucinations, we introduce a one-step offset prediction objective. It learns to map anomalous coordinates to their normal counterparts. The training loss is: 
+
+LR = E(p),o o − o(p,m ) 
+
+> 2
+
+, (13) where o is the pseudo ground-truth offset between noisy anomaly and clean normal coordinates, p is the noisy point cloud, and m is an optional anomaly-aware mask. This en-courages learning robust geometric corrections under defective inputs. 
+
+D. Merging and Detection 
+
+For comprehensive 3D anomaly detection, we fuse local reconstruction, global reconstruction, and multi-view image-derived anomaly priors. The local branch restores fine-grained structures within anomalies, while the global branch pro-vides anomaly-agnostic structural consistency. Concurrently, the image-derived mask captures 2D texture cues. To integrate these sources, we adopt a selective merging strategy. The final anomaly score Sa is: 
+
+Sa = ζν
+
+
+
+P, ˆPl · Up + ϕ( ˆPl + ˆPg ) · Up, U p
+
+
+
+, (14) where ζν is the detection network, ˆPl and ˆPg are local and global reconstructions, Up is the 3D anomaly prior from image space, and Up = 1 −Up. The fusion layer ϕ(·) (two transformer blocks) adaptively merges reconstructions, ensuring accurate anomaly attribution by dynamically balancing local fidelity and global coherence. V. E XPERIMENTS 
+
+A. Datasets 
+
+Anomaly-ShapeNet Anomaly-ShapeNet [10] comprises a to-tal of 1,600 samples which are distributed across 40 distinct categories. There are six kinds of anomalies, including bulge, concavity, bending, crack, hole, and broken.                       
+
+> TABLE I COMPARISON OF GENERATION METHODS ACROSS F-S CORE , CLIP
+> SIMILARITY ,AND CATEGORIES ON ANOMALY -S HAPE NET DATASET .
+> Method F-Sco.(%) ↑CLIP-Sim ↑Categories ↑
+> Gau-SP [33] 38.2 54.6 6CutPaste [34] 81.6 63.1 6R3D-AD [12] 89.7 77.3 3Ours 95.4 81.0 6
+
+Real3D-AD Real3D-AD [2] comprises a total of 1,254 sam-ples that are distributed across 12 distinct categories. These categories include Airplane, Car, Candybar, Chicken, Dia-mond, Duck, Fish, Gemstone, Seahorse, Shell, Starfish, and Toffees. JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 6Bulge Concavity Stratch Bending Concavity Hole 
+
+Mesh 
+
+> Texture
+> Map
+
+Anomaly 
+
+Label 
+
+- Broken Concavity Scratch 
+
+Anomaly1 Bulge 
+
+Scratch Anomaly2 Bulge 
+
+Mutil-view 
+
+Images 
+
+Texture 
+
+Map 
+
+Hole 
+
+1
+
+1
+
+1
+
+1
+
+1
+
+1          
+
+> Fig. 5. 3D anomaly generation results obtained by the proposed PCDiff. Top: textured 3D anomaly samples. Bottom: the generated multi-view images. Ashtray Cap Headset Tap Vase Starfish
+> Patch
+> Core
+> PO3AD
+> Ours
+> Ground
+> Truth
+> Airplane Gemstone Candybar
+> Anomaly ShapeNet Real3D AD
+> Fig. 6. Visual comparison of detection results obtained by different methods on Anomaly-ShapeNet and Real3D-AD datasets.
+
+For both dataset, each training set for a category contains only four samples while the test set contains normal and various defect samples. 
+
+B. Anomaly Point Cloud Generation 
+
+Implementation Details For dataset augmentation, we con-struct a pool of all normal meshes and point clouds, applying structural synthesis from MC4AD and our module for sub-tle textures. Augmented samples are rendered, cropped, and extracted to generate 12 variants per sample, totaling 19,200 samples for Anomaly-ShapeNet and 7,812 for Real3D-AD. The data is split into training, validation, and test sets (4:1:1 ratio), with the latter used for generation evaluation. For multi-view image generation, we extend image diffu-sion to a multi-view framework by horizontally concatenating frames to model geometric relationships. We employ instance attention (max 3 instances) after cross-attention. The 9-channel input comprises the noisy latent, mask, and masked reference image. Training uses the Adam optimizer (lr = 1 ×10 −4) with a batch size of 16. For point cloud generation, our transformer-based architecture integrates instance attention after each multi-head attention block. We utilize a diffusion framework JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 7
+
+TABLE II O-AUROC / P-AUROC SCORES FOR ANOMALY DETECTION ACROSS 15 CATEGORIES OF ANOMALY -S HAPE NET . B OLD INDICATE THE BEST RESULTS .
+
+Category M3DM [29] IMRNet [10] R3D-AD [12] ISMP [8] PO3AD [15] PASDF [35] MC3AD [36] MC4AD [13] Ours Source CVPR’23 CVPR’24 ECCV’24 AAAI’24 CVPR’25 ICCV’25 IJCAI’25 NuerlIPS’25 
+
+Feat. PMAE PMAE Raw Raw Raw Raw PointMAE Raw Raw Ashtray 0.58/0.58 0.67/0.67 0.83/- 0.91/0.60 1.00 /0.96 1.00 /0.92 0.96/- 1.00 /0.90 1.0 /0.98 
+
+Bag 0.54/0.64 0.66/0.67 0.72/- 0.75/0.74 0.83/0.5 0.99 /0.96 0.81/- 0.98/ 0.96 0.93/0.90 Bottle 0.58/0.61 0.63/0.63 0.75/- 0.78/0.67 0.92/0.88 1.00 /0.94 0.75/- 0.97/0.91 1.00 /0.95 
+
+Bowl 0.58/0.63 0.68/0.68 0.75/- 0.78/0.72 0.88/0.94 0.97/0.90 0.86/- 0.94/0.96 0.98 /0.96 
+
+Bucket 0.41/0.70 0.68/0.68 0.72/- 0.73/0.60 0.82/0.83 0.87/0.85 0.84/- 0.92 /0.86 0.89/ 0.91 
+
+Cap 0.60/0.63 0.70/0.73 0.73/- 0.74/0.76 0.80/0.93 0.75/0.90 0.77/- 0.87/0.94 0.88 /0.91 
+
+Cup 0.55/0.64 0.70/0.67 0.77/- 0.82/0.77 0.85/0.92 0.91/0.92 0.85/- 0.96 /0.92 0.94/ 0.95 
+
+Eraser 0.63/0.71 0.55/0.55 0.89/- 0.90/0.71 0.99/ 0.97 0.60/0.95 0.77/- 1.0 /0.95 0.98/ 0.97 
+
+Headset 0.60/0.58 0.70/0.55 0.75/- 0.77/0.64 0.87/0.87 0.90/0.88 0.87/- 0.94 /0.86 0.92/ 0.90 
+
+Helmet 0.49/0.58 0.60/0.63 0.70/- 0.73/0.72 0.84/0.90 0.84/0.81 0.82/- 0.93/0.89 0.94 /0.92 
+
+Jar 0.44/0.54 0.78/0.77 0.84/- 0.87/0.82 0.87/0.87 1.00 /0.96 0.97/- 0.91/0.88 0.98/ 0.97 
+
+Micro. 0.36/0.36 0.76/0.74 0.76/- 0.78/0.66 0.78/0.81 1.00 /0.95 0.92/- 0.92/0.83 0.92/0.88 Shelf 0.56/0.55 0.60/0.61 0.70/- 0.73/0.69 0.57/0.66 0.71/0.87 0.84 /- 0.69/0.81 0.78/ 0.89 
+
+Tap 0.75/0.68 0.69/0.70 0.82/- 0.77/0.54 0.71/0.74 0.84/0.89 0.96/- 0.79/0.79 0.91 /0.90 
+
+Vase 0.53/0.63 0.63/0.60 0.73/- 0.73/0.69 0.83/0.94 0.93 /0.90 0.84/- 0.89/0.94 0.93 /0.97 
+
+Average 0.55/0.63 0.66/0.66 0.75/- 0.78/0.69 0.84/0.88 0.85/0.89 0.89/- 0.91/0.91 0.93 /0.94 
+
+TABLE III O-AUROC / P-AUROC SCORES FOR ANOMALY DETECTION ACROSS 12 CATEGORIES OF REAL 3D-AD. B OLD NUMBERS INDICATE THE BEST RESULTS .
+
+Category PatchCore [37] RegAD [38] ISMP [8] PO3AD [15] Reg2Inv MC3AD [36] MC4AD [13] PASDF [35] Ours Source CVPR’22 NeurIPS’23 AAAI’24 CVPR’25 NeurIPS’25 IJCAI’25 NeurIPS’25 ICCV’25 Feature FPFH PointMAE PointMAE Raw Raw Raw PointMAE Raw Raw Raw Airplane 0.88 /0.56 0.73/0.57 0.72/0.63 0.86/0.75 0.80/– 0.82/ 0.92 0.85/0.63 0.87/0.79 0.63/0.78 0.87/0.81 Car 0.59/0.75 0.50/0.61 0.70/0.72 0.73/0.84 0.65/– 0.76/ 0.94 0.75/0.82 0.68/0.84 0.96 /0.80 0.82/0.91 Candy 0.54/0.78 0.66/0.63 0.69/0.72 0.85/0.91 0.79/– 1.00 /0.97 0.83/0.55 0.81/0.84 0.79/0.55 1.00 /0.98 
+
+Chicken 0.84/0.43 0.83/0.73 0.85/0.68 0.71/0.80 0.69/– 0.94 /0.91 0.72/0.64 0.70/0.85 0.74/0.77 0.79/0.85 Diamond 0.57/0.83 0.78/0.72 0.90/0.84 0.95/0.93 0.80/– 1.00 /0.98 0.96/0.94 0.84/0.84 0.89/0.70 1.00 /0.99 
+
+Duck 0.55/0.26 0.49/0.53 0.58/0.50 0.71/0.88 0.82/– 0.75/ 0.94 0.83/0.82 0.82/0.78 0.66/0.77 0.92 /0.89 Fish 0.68/0.83 0.63/0.72 0.92/0.83 0.95 /0.89 0.86/– 0.67/0.85 0.86/ 0.93 0.89/ 0.93 0.99 /0.84 0.77/0.89 Gemstone 0.37/0.91 0.37/0.44 0.42/0.55 0.47/0.86 0.69/– 0.74/0.91 0.56/0.46 0.70/0.89 0.63/0.65 0.76 /0.94 
+
+Seahorse 0.51/0.74 0.54/0.63 0.76/0.82 0.73/0.81 0.76/– 0.53/0.65 0.72/0.66 0.75/0.82 1.00 /0.89 0.79/ 0.89 
+
+Shell 0.59/0.74 0.50/0.71 0.58/0.81 0.62/0.84 0.80/– 0.69/0.91 0.80/0.78 0.80/0.87 0.85/0.65 0.88 /0.94 
+
+Starfish 0.44/0.61 0.52/0.58 0.51/0.62 0.66/0.64 0.76/– 0.84 /0.84 0.77/0.69 0.77/0.79 0.62/0.70 0.79/ 0.87 
+
+Toffees 0.57/0.75 0.59/0.58 0.83/0.76 0.84/0.90 0.77/– 0.63/0.74 0.74/ 0.93 0.79/0.78 0.87 /0.84 0.75/0.86 Average 0.59/0.68 0.59/0.62 0.70/0.71 0.77/0.84 0.77/– 0.78/ 0.88 0.78/0.77 0.79/0.84 0.80/0.75 0.83 /0.89 
+
+with ‘v prediction‘ and optimize via Adam (lr = 1 × 10 −4,batch size 16). 
+
+Baselines and Metrics. We compare PCDiff against state-of-the-art anomaly synthesis methods: CutPaste [34], which performs point cloud injection; R3D-AD [12], which synthe-sizes structural defects (bumps, dents); and Gaussian Splatting (Gau-SP) [33]. For fair comparison, Gau-SP is conditioned on multi-view images generated by our pipeline. We evaluate 100 samples per category using two primary metrics: (1) CLIP Similarity, computed by averaging scores across 18 rendered views of the reconstructed mesh (via MeshAnything [39]) against textual prompts, and (2) F-score, to assess the geo-metric fidelity between generated and ground-truth anomaly point clouds. 
+
+Results From Table I, PCDiff surpasses all baseline meth-ods regarding F-Score and CLIP similarity. Additionally, we show the visual results on the Anomaly-ShapeNet dataset in Figure 2. Our model demonstrates superior authenticity and fine-texture in anomaly generation. For example, in the ‘Bulge’ category, anomalies exhibit convex geometry with subtle bumps, guided by an irregular texture map. In the ‘Con-cavity’ category, defects resemble realistic concavities with rich sink texture patterns. Especially, In the ‘Cap’ category, the generated subtle scratch on mesh matches the guiding line texture map. Overall, PCDiff synthesis sophisticated textures and structures, reflecting miniature details such as scratches in both point clouds and meshes. 
+
+C. Anomaly Detection 
+
+Implementation Details For local reconstruction, the prior 2D anomaly detection backbone shares the same architecture as our generation backbone, without instance-level attention. The 3D point cloud reconstruction backbone is aligned with the generation backbone, with the instance-level attention JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 8Input Global Reconstruction                  
+
+> 2D Detection Local Reconstruction 3D Detection
+> Label Input Global Reconstruction
+> 2D Detection Local Reconstruction 3D Detection
+> Label
+> Input Global Reconstruction
+> 2D Detection Local Reconstruction 3D Detection
+> Label Input Global Reconstruction
+> 2D Detection Local Reconstruction 3D Detection
+> Label
+> Fig. 7. The visualization of reconstruction and detection results on Anomaly ShapeNet and Real3D-AD datasets. The top 2 are from Anomaly ShapeNet, and the bottom 2 are from Real3D-AD. The light blue voxel image in the local reconstruction shows the 2D back-projected 3D anomaly-guiding masks.
+
+enabled with 2D detected mask as condition. For global reconstruction, the 3D point cloud backbone remains identical to the generation backbone, with instance attention disabled to reflect the absence of localized prompt cues. For merged detection, the 3D point cloud backbone again mirrors the generation architecture with instance attention omitted. 
+
+Baselines and Metrics To validate the efficacy of our method, we evaluate it with state-of-the-art anomaly-detection methods, including BTF [32] (CVPR’23), M3DM [29] (CVPR’23), PatchCore [37] (CVPR’22), RegAD [38] (NeurIPS’23), IMRNet [10] (CVPR’24), R3D-AD [12] (ECCV’24), ISMP [8] (AAAI’24), POA3D [15] (CVPR’25), PASDF [35] (ICCV’25), Reg2Inv [40] (NeurIPS’25), MC3AD [36] and MC4AD [13](NeurIPS’25). Similar to [15], we employ the O-AUROC and P-AUROC metrics for anomaly-detection evaluation, where higher values reflect better detection performance. 
+
+Results The comparison results for the Anomaly-ShapeNet dataset are listed in Table II. The proposed model achieves a superior detection performance in anomaly detection, boasting the highest O-AUROC of 0.93 . Further validation is performed on the Real3D-AD dataset. Table III shows that our method performs exceptionally well in anomaly localization with the highest O-AUROC of 0.82 . This validates the significant positive impact of our generated data on downstream anomaly inspection tasks. Furthermore, we present a visual comparison of detection results on the Anomaly-ShapeNet and Real3D-AD datasets in Figure 6. As shown, PatchCore tends to highlight anomaly boundaries with relatively low anomaly scores and occasion-ally misses true anomalies, leading to false negatives (e.g., the vase) as well as false positives (e.g., the tap). PO3AD demonstrates improved coverage of anomaly regions but still produces false positive detections, particularly on challenging cases such as the gemstone. In contrast, our method achieves more precise and consistent detection, capturing the majority of anomaly regions with high confidence while significantly reducing false positives. To provide deeper insight into the working mechanism, we further include representative inter-mediate results from our pipeline—namely global reconstruc-tion, local reconstruction, and multi-view detection—on both Anomaly-ShapeNet and Real3D-AD, as illustrated in Figure 7. 
+
+D. Ablation Studies 
+
+Ablation Study on Generation. We evaluate our genera-tion framework using two complementary metrics: F-score for 3D point cloud fidelity and CLIP score for text-image alignment. Our ablation focuses on two core components: (1) transformation-based texture representation, which encodes local anomalies, and (2) multi-modal instance attention, which integrates textual, visual, and gradient signals. For texture representation, we compare our proposed rep-resentation against traditional surface curvature [41] across three variants. As shown in Table IV, using Curvature alone yields an F-score of 0.83. Our Gradient representation alone achieves the highest F-score of 0.95, while the combination results in 0.91. These results underscore the superiority of our gradient module in capturing complex anomaly textures. 
+
+Ablation on Detection. We evaluate our local-global detection framework on the Anomaly-ShapeNet dataset to quantify JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 9                                                                   
+
+> TABLE IV ABLATION STUDY OF TEXTURE REPRESENTATION ON ANOMALY
+> SHAPE NET DATASETS .Curvature Gradient Curv. + Grad. F-score / CLIP 0.83 / 0.82 0.95 /0.81 0.91 / 0.78 TABLE V ABLATION STUDY OF THE PROPOSED PCD IFF .Global Recon. Local Recon. Ano. Mask O-AUROC elevation azimuth num a✓×××0.84 b✓[−45 ,0,45] 6×0.90 c✓[−45 ,0,45] 6✓0.93
+> d✓[−60 ,0,60] 6✓0.87 e✓[−30 ,0,30] 6✓0.86 f✓[−45 ,0,45] 8✓0.90 g✓[−45 ,0,45] 4✓0.88 h×[−45 ,0,45] 6✓0.87
+
+the contribution of each component. The baseline utilizes a standard global 3D anomaly reconstruction pipeline. We incrementally integrate the local reconstruction branch and 2D-based anomaly masks. Furthermore, we investigate the impact of image rendering hyperparameters—specifically elevation (angle relative to the horizontal plane) and azimuth (circular viewpoints)—on detection performance. As detailed in Table V, the global baseline achieves an O-AUROC of 0.84. Integrating the local reconstruction branch (b) improves performance by 0.06 . The inclusion of the anomaly mask provides an additional 0.03 gain. Sensitivity analysis of viewpoint hyperparameters reveals that narrowing or broadening the elevation range (e.g., to ±60 ◦ or ±30 ◦)reduces O-AUROC by 0.03 –0.04 . Similarly, deviating from the optimal azimuth count degrades results, likely due to redundant view overlap or insufficient coverage. Notably, removing the global reconstruction module (row h) causes a significant drop ( 0.93 → 0.78 ), confirming that the global branch provides the essential structural anchors required for consistent local refinement. 
+
+Robustness to Unreliable Mesh Reconstruction and 2D De-tection. We investigate how inaccurate mesh reconstructions and imprecise 2D detection masks impact final performance. As shown in Fig. 8, although errors can propagate, their influence is largely confined to the mask guidance stage. To mitigate error accumulation, we employ a dual strategy: (1) Strategic Data Augmentation , intentionally incorporating normal regions into guidance masks during training to enhance robustness to imprecise 2D priors, and (2) Local Point Re-construction , which “smooths” geometric inconsistencies from the initial coarse mesh. Quantitative results confirm that our system maintains high accuracy even with suboptimal early-stage outputs, effectively decoupling the final detection from the failure modes of traditional end-to-end 3D reconstruction. 
+
+Computational Efficiency and Deployment. For industrial implementation, real-time detection latency is the critical determinant for edge deployment. Our global and local re-construction Transformer, optimized with xFormers and gra-Label        
+
+> Label Input Mesh Reconstruction P*
+> 2D Detection Local Reconstruction 3D Detection
+> Input Mesh Reconstruction *
+> 2D Detection Local Reconstruction 3D Detection
+> Fig. 8. The visualization of failure mesh reconstruction and 2D detection results on Anomaly ShapeNet datasets, where the false positive accumulate to the voxel anomaly mask, however correctly reconstructed with point local reconstruction and yields accurate detection result.
+
+dient checkpointing, achieves a reconstruction latency of only 
+
+2.92 s —a 26.6 % improvement over MC3AD’s 3.98 s—despite the increased architectural depth required for 3D anomaly detection. While our model utilizes higher peak memory (17,312 MB vs. 4,437 MB), it delivers a significantly more efficient computational profile, requiring only 4,936 GFLOPs 
+
+compared to the 17,271 GFLOPs demanded by R3D-AD. The auxiliary pipeline—comprising mesh reconstruction (0.62 s), multi-view rendering (0.15 s), 2D detection (0.57 s), and back-projection (0.01 s)—adds a marginal 1.35 s, which is further mitigable via multi-process parallelism. Ultimately, our framework offers a favorable accuracy–efficiency trade-off: delivering a substantial performance gain ( 0.82 vs. 0.79 AUROC ) while simultaneously reducing overall inference latency. VI. C ONCLUSION 
+
+This paper proposed PCDiff, a gradient-guided point cloud diffusion method, for 3D anomaly generation and detection. It incorporates four key innovations: a high-fidelity anomaly generation, a gradient-based texture representation, a multi-modal instance attention mechanism, and a local-global joint detection framework. In 3D anomaly generation, the gradient-based texture representation improves the realism and diversity of weak anomalies, while the multi-modal instance attention mechanism enhances controllability over anomaly location, category, and texture. In 3D anomaly detection, the local-global joint detection framework enables fine-grained local anomaly reconstruction guided by 2D priors, while ensuring unbiased global geometric estimation. Extensive experiments validated the effectiveness of PCDiff, demonstrating signifi-cant improvements over state-of-the-art methods. JOURNAL OF L ATEX CLASS FILES, VOL. XX, NO. XX, APRIL 2026 10 
+
+REFERENCES [1] R. Du, H. Zhang, K. Zhang, B. Biekezati, H. Zhong, J. Yi, J. Mao, and Y. Wang, “Mgld-tlnet: Multigeometric and long-distance represen-tation network for transmission line inspection,” IEEE Transactions on Cybernetics , pp. 1–14, 2026. [2] J. Liu, G. Xie, R. Chen, X. Li, J. Wang, Y. Liu, C. Wang, and F. Zheng, “Real3d-ad: A dataset of point cloud anomaly detection,” Advances in Neural Information Processing Systems , vol. 36, 2024. [3] L. Ren, H. Wang, J. Dong, Z. Jia, S. Li, Y. Wang, Y. Laili, D. Huang, L. Zhang, and B. Li, “Industrial foundation model,” IEEE Transactions on Cybernetics , vol. 55, no. 5, pp. 2286–2301, 2025. [4] A. Tang, Z. Wu, Y. Xu, K. Liu, and Q. Yu, “Cloud-based li-ion battery anomaly detection, localization and classification,” IEEE Transactions on Industrial Informatics , 2024. [5] Z. Wang, H. Yuan, J. Lv, C. Liu, H. Xu, and J. Li, “Anomaly detection and fault classification of printed circuit boards based on multimodal features of the infrared thermal imaging,” IEEE Transactions on Instru-mentation and Measurement , vol. 73, pp. 1–13, 2024. [6] Y. Jiang, Y. Cao, Y. Cheng, Y. Zhang, and W. Shen, “Vtfusion: A vision–text multimodal fusion network for few-shot anomaly detection,” 
+
+IEEE Transactions on Cybernetics , pp. 1–10, 2026. [7] G. Xie, J. Wang, J. Liu, J. Lyu, Y. Liu, C. Wang, F. Zheng, and Y. Jin, “Im-iad: Industrial image anomaly detection benchmark in manufacturing,” IEEE Transactions on Cybernetics , vol. 54, no. 5, pp. 2720–2733, 2024. [8] H. Liang, G. Xie, C. Hou, B. Wang, C. Gao, and J. Wang, “Look inside for more: Internal spatial modality perception for 3d anomaly detection,” in Proceedings of the AAAI Conference on Artificial Intelligence , vol. 39, no. 5, 2025, pp. 5146–5154. [9] A. G. Pereira, G. F. Barbosa, M. G. Filho, S. B. Shiki, and A. L. d. Silva, “Quality control in extrusion-based additive manufacturing: A review of machine learning approaches,” IEEE Transactions on Cybernetics ,vol. 55, no. 6, pp. 2522–2534, 2025. [10] W. Li, X. Xu, Y. Gu, B. Zheng, S. Gao, and Y. Wu, “Towards scalable 3d anomaly detection and localization: A benchmark via 3d anomaly synthesis and a self-supervised learning network,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2024, pp. 22 207–22 216. [11] M. Rudolph, T. Wehrbein, B. Rosenhahn, and B. Wandt, “Asymmetric student-teacher networks for industrial anomaly detection,” in IEEE/CVF Winter Conference on Applications of Computer Vision , 2023, pp. 2592– 2602. [12] Z. Zhou, L. Wang, N. Fang, Z. Wang, L. Qiu, and S. Zhang, “R3d-ad: Reconstruction via diffusion for 3d anomaly detection,” in European conference on computer vision . Springer, 2024, pp. 91–107. [13] H. Liang, A. Wang, J. Zhou, X. Jin, C. Gao, and J. Wang, “Examining the source of defects from a mechanical perspective for 3d anomaly detection,” arXiv preprint arXiv:2505.05901 , 2025. [14] Y. Jin, J. Peng, Q. He, T. Hu, J. Wu, H. Chen, H. Wang, W. Zhu, M. Chi, J. Liu et al. , “Dual-interrelated diffusion model for few-shot anomaly image generation,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 30 420–30 429. [15] J. Ye, W. Zhao, X. Yang, G. Cheng, and K. Huang, “Po3ad: Predicting point offsets toward better 3d point cloud anomaly detection,” in Pro-ceedings of the Computer Vision and Pattern Recognition Conference ,2025, pp. 1353–1362. [16] T. Luo, C. Rockwell, H. Lee, and J. Johnson, “Scalable 3d captioning with pretrained models,” Advances in Neural Information Processing Systems , vol. 36, 2024. [17] Y. Zhou, D. Ye, H. Zhang, X. Xu, H. Sun, Y. Xu, X. Liu, and Y. Zhou, “Recurrent diffusion for 3d point cloud generation from a single image,” 
+
+IEEE Transactions on Image Processing , vol. 34, pp. 1753–1765, 2025. [18] Z. Fu, Y. Guo, M. Chen, Q. Hu, H. Laga, F. Boussaid, and M. Ben-namoun, “Wssic-net: Weakly-supervised semantic instance completion of 3d point cloud scenes,” IEEE Transactions on Image Processing ,vol. 34, pp. 2008–2019, 2025. [19] R. Liu, Y. Chen, Y. Pan, H. Xie, Y. Zhang, T. Yao, and T. Mei, “Hifi3d: Improving text-to-3d with high-fidelity multi-view diffusion,” 
+
+IEEE Transactions on Multimedia , 2026. [20] Z. Cao, F. Hong, T. Wu, L. Pan, and Z. Liu, “Difftf++: 3d-aware diffu-sion transformer for large-vocabulary 3d generation,” IEEE Transactions on Pattern Analysis and Machine Intelligence , 2025. [21] J. L. Lee, C. Li, and G. H. Lee, “Disr-nerf: Diffusion-guided view-consistent super-resolution nerf,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2024, pp. 20 561–20 570. [22] J. Tang, J. Ren, H. Zhou, Z. Liu, and G. Zeng, “Dreamgaussian: Generative gaussian splatting for efficient 3d content creation,” arXiv preprint arXiv:2309.16653 , 2023. [23] L. Li, J. Hou, W. Liu, Y. Fang, and J. Yan, “Diffusion-based facial aesthetics enhancement with 3d structure guidance,” IEEE Transactions on Image Processing , vol. 34, pp. 1879–1894, 2025. [24] L. Zhang, Z. Wang, Q. Zhang, Q. Qiu, A. Pang, H. Jiang, W. Yang, L. Xu, and J. Yu, “Clay: A controllable large-scale generative model for creating high-quality 3d assets,” ACM Transactions on Graphics (TOG) ,vol. 43, no. 4, pp. 1–20, 2024. [25] J. Xiang, Z. Lv, S. Xu, Y. Deng, R. Wang, B. Zhang, D. Chen, X. Tong, and J. Yang, “Structured 3d latents for scalable and versatile 3d generation,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2025, pp. 21 469–21 480. [26] L. Melas-Kyriazi, I. Laina, C. Rupprecht, and A. Vedaldi, “Realfusion: 360deg reconstruction of any object from a single image,” in IEEE/CVF conference on computer vision and pattern recognition , 2023, pp. 8446– 8455. [27] G. Metzer, E. Richardson, O. Patashnik, R. Giryes, and D. Cohen-Or, “Latent-nerf for shape-guided generation of 3d shapes and textures,” in 
+
+IEEE/CVF Conference on Computer Vision and Pattern Recognition ,2023, pp. 12 663–12 673. [28] M. Liu, R. Shi, L. Chen, Z. Zhang, C. Xu, X. Wei, H. Chen, C. Zeng, J. Gu, and H. Su, “One-2-3-45++: Fast single image to 3d objects with consistent multi-view generation and 3d diffusion,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2024, pp. 10 072–10 083. [29] Y. Wang, J. Peng, J. Zhang, R. Yi, Y. Wang, and C. Wang, “Multimodal industrial anomaly detection via hybrid fusion,” in IEEE/CVF Confer-ence on Computer Vision and Pattern Recognition , 2023, pp. 8032–8041. [30] X. Liu, B. Hou, H. Wang, K. Xu, J. Wan, and Y. Guo, “Duinnet: Dual-modality feature interaction for point cloud completion,” IEEE Transactions on Multimedia , 2025. [31] Y.-M. Chu, C. Liu, T.-I. Hsieh, H.-T. Chen, and T.-L. Liu, “Shape-guided dual-memory learning for 3d anomaly detection,” in Proceedings of the 40th International Conference on Machine Learning , 2023, pp. 6185– 6194. [32] E. Horwitz and Y. Hoshen, “Back to the feature: classical 3d features are (almost) all you need for 3d anomaly detection,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 2968–2977. [33] B. Kerbl, G. Kopanas, T. Leimk¨ uhler, and G. Drettakis, “3d gaussian splatting for real-time radiance field rendering.” ACM Trans. Graph. ,vol. 42, no. 4, pp. 139–1, 2023. [34] C.-L. Li, K. Sohn, J. Yoon, and T. Pfister, “Cutpaste: Self-supervised learning for anomaly detection and localization,” in IEEE/CVF confer-ence on computer vision and pattern recognition , 2021, pp. 9664–9674. [35] B. Zheng, J. Gan, X. Xu, X. Chen, W. Li, X. Huang, and Y. Wu, “Bridging 3d anomaly localization and repair via high-quality con-tinuous geometric representation,” in Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) , 2025, pp. 27 063– 27 072. [36] J. Cheng, C. Gao, J. Zhou, J. Wen, T. Dai, and J. Wang, “Mc3d-ad: A unified geometry-aware reconstruction model for multi-category 3d anomaly detection,” arXiv preprint arXiv:2505.01969 , 2025. [37] K. Roth, L. Pemula, J. Zepeda, B. Sch¨ olkopf, T. Brox, and P. Gehler, “Towards total recall in industrial anomaly detection,” in IEEE/CVF conference on computer vision and pattern recognition , 2022, pp. 14 318–14 328. [38] C. Huang, H. Guan, A. Jiang, Y. Zhang, M. Spratling, and Y.-F. Wang, “Registration based few-shot anomaly detection,” in European Conference on Computer Vision . Springer, 2022, pp. 303–319. [39] Y. Chen, T. He, D. Huang, W. Ye, S. Chen, J. Tang, X. Chen, Z. Cai, L. Yang, G. Yu et al. , “Meshanything: Artist-created mesh generation with autoregressive transformers,” arXiv preprint arXiv:2406.10163 ,2024. [40] Y. Yu, Z. Chen, X. Xu, L. Zhang, H. Yang, Y. Nie, and S. He, “Registration is a powerful rotation-invariance learner for 3d anomaly detection,” arXiv preprint arXiv:2510.16865 , 2025. [41] M. Pauly, M. Gross, and L. P. Kobbelt, “Efficient simplification of point-sampled surfaces,” in IEEE Visualization, 2002. VIS 2002. IEEE, 2002, pp. 163–170.

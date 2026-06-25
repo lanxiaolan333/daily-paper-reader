@@ -1,0 +1,252 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-25T20:48:44.484976+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.20842v1",
+      "source": "arxiv",
+      "title": "From Uncertainty to Stability and Fidelity: Guiding Sparse-View 3D Gaussian Splatting with Fisher Information",
+      "abstract": "3D Gaussian Splatting (3DGS) has emerged as a promising technique for novel view synthesis. However, 3DGS requires dense input views to achieve high-quality rendering. In sparse-view scenarios, 3DGS often prones to overfitting, resulting in noticeable artifacts and degraded rendering quality. Previous methods explore to address this issue by introducing additional priors (e.g. depth priors) or integrating regularization techniques (e.g. Dropout). However, these methods are often applied without principled guidance. In particular, prior-based augmentation typically samples novel viewpoints randomly, while Dropout-based regularization randomly removes Gaussians. The compounded randomness introduces uncertainty and instability, limiting the fidelity of novel view synthesis. In this paper, we propose a novel method for sparse-view 3DGS that incorporates Fisher Information to quantitatively guide the utilization of geometric priors and regularization. Specifically, our method comprises two key components: (1) Stereo augmentation with Fisher Information. By leveraging Fisher Information, we actively select most informative supporting views and use depth priors to curate reliable pseudo ground truths, which reduces randomness in augmentation and improves stability and rendering fidelity; (2) Uncertainty-aware regularization. We reduce the instability of Dropout-based regularization by using Fisher Information to quantitatively measure the uncertainty of each 3D Gaussian, and adaptively adjust the removal probability, leading to more stable and effective regularization. With these two components, our method effectively mitigates overfitting and improves the stability of optimization in sparse-view 3DGS, resulting in superior rendering fidelity. Extensive experiments show that our method achieves state-of-the-art performance in sparse-view novel view synthesis benchmarks.",
+      "authors": [
+        "Junbao Zhou",
+        "Qingshan Xu",
+        "Yuan Zhou",
+        "Xiaolong Shen",
+        "Beier Zhu",
+        "Kesen Zhao",
+        "Yiming Zeng",
+        "Chen Bai",
+        "Cheng Lu",
+        "Hanwang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T18:27:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.20842v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sparse-view 3D Gaussian splatting for novel view synthesis",
+      "llm_evidence_cn": "稀疏视角3D高斯泼溅新视角合成",
+      "llm_evidence": "稀疏视角3D高斯泼溅新视角合成",
+      "canonical_evidence": "稀疏视角3D高斯泼溅新视角合成",
+      "llm_tldr_en": "Proposes Fisher information guided regularization for sparse-view 3DGS, enhancing stability and fidelity in novel view synthesis.",
+      "llm_tldr_cn": "3D高斯泼溅在稀疏视角下易过拟合，现有随机采样缺乏原则指导。本文利用Fisher信息量来引导视角采样和高斯剔除，减少不确定性并提升渲染稳定性与保真度。实验表明该方法在稀疏视图条件下显著改善了新视角合成质量，为3DGS的鲁棒训练提供了理论驱动的解决方案。",
+      "llm_tldr": "3D高斯泼溅在稀疏视角下易过拟合，现有随机采样缺乏原则指导。本文利用Fisher信息量来引导视角采样和高斯剔除，减少不确定性并提升渲染稳定性与保真度。实验表明该方法在稀疏视图条件下显著改善了新视角合成质量，为3DGS的鲁棒训练提供了理论驱动的解决方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.20763v1",
+      "source": "arxiv",
+      "title": "From Sparse X-rays to 3D CT: Training-Free Reconstruction with Diffusion Priors",
+      "abstract": "Solving 3D medical inverse problems typically requires training dedicated supervised models for each specific task and measurement setting. To break this dependency, we present TF-PRDiT: a training-free conditional sampling framework that converts a frozen voxel-level 3D Diffusion Transformer prior into a versatile inverse medical problem solver. Building on the posterior-sampling view of diffusion inverse solvers, TF-PRDiT enforces measurement consistency during sampling via a task-specific forward operator rather than updating model weights, enabling a single pretrained prior to be reused across diverse conditional settings. Our method combines a predictor-corrector sampler with likelihood-based guidance on the denoised prediction, providing stable data-fidelity correction while preserving the underlying 3D anatomical prior. We highlight our framework's capability on the challenging task of X-ray-to-CT reconstruction by integrating a differentiable DRR projector to allow gradients to propagate directly from projection space back to voxels without any retraining. Experiments on LIDC-IDRI demonstrate that TF-PRDiT achieves strong reconstruction quality and uniquely scales to an arbitrary number of input X-rays (1-12) under a unified model, with performance improving consistently as additional views are provided. Beyond X-ray-to-CT, we show that simply swapping the forward operator extends the same frozen model to 3D super-resolution, volumetric infilling, and deblurring without any task-specific retraining, demonstrating that a single 3D diffusion prior can serve as a universal solver for volumetric medical inverse problems.",
+      "authors": [
+        "Zhenkai Zhang",
+        "Markus Hiller",
+        "Krista A. Ehinger",
+        "Tom Drummond"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV"
+      ],
+      "published": "2026-06-18T11:51:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.20763v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D CT reconstruction from sparse X-rays",
+      "llm_evidence_cn": "从稀疏X光到3D CT重建",
+      "llm_evidence": "从稀疏X光到3D CT重建",
+      "canonical_evidence": "从稀疏X光到3D CT重建",
+      "llm_tldr_en": "Training-free framework for 3D CT reconstruction from sparse X-rays using a pretrained diffusion prior.",
+      "llm_tldr_cn": "针对稀疏视角X射线到3D CT的重建问题，提出无需训练的条件采样框架TF-PRDiT。它利用预训练的3D扩散Transformer先验，通过任务特定的前向算子强制测量一致性，无需重新训练，即可在多种稀疏采样设置下重建高质量3D CT。",
+      "llm_tldr": "针对稀疏视角X射线到3D CT的重建问题，提出无需训练的条件采样框架TF-PRDiT。它利用预训练的3D扩散Transformer先验，通过任务特定的前向算子强制测量一致性，无需重新训练，即可在多种稀疏采样设置下重建高质量3D CT。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22481v1",
+      "source": "arxiv",
+      "title": "Lighting-Consistent Object Transfer Across Radiance Fields",
+      "abstract": "3D Gaussian Splatting (3DGS) is widely used to capture and render real scenes. Compositing objects from one capture into another has applications in many domains, such as VFX, architecture and interior design, or marketing. However, extracting an object from a source scene and naively pasting it into a target scene will fail to produce realistic results due to the different lighting conditions between the two scenes. To address this problem, we introduce a diffusion model that harmonizes naively composited images with inconsistent lighting. The model is trained with a heterogeneous dataset of image pairs (inconsistent composite input, consistent output), combining synthetic, generated, and real data. Our complete 3D solution allows a user to extract an object from the source scene and composite it into the target scene. From this, the (inconsistent) views of the target scene with the composite object are rendered. Our diffusion model harmonizes each one of these views, which are finally consolidated in a 3DGS representation with a post-optimization step. Our method provides visually compelling results, making object transfer between 3DGS easy to use and significantly improving quality compared to previous methods.",
+      "authors": [
+        "Nicolás Violante",
+        "George Kopanas",
+        "Linus Franke",
+        "Julien Philip",
+        "George Drettakis"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-06-21T12:50:07+00:00",
+      "link": "https://arxiv.org/pdf/2606.22481v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "radiance fields and object transfer",
+      "llm_evidence_cn": "辐射场与物体迁移",
+      "llm_evidence": "辐射场与物体迁移",
+      "canonical_evidence": "辐射场与物体迁移",
+      "llm_tldr_en": "Proposes a diffusion model to harmonize lighting for object transfer across 3D Gaussian Splatting radiance fields, enabling realistic compositing.",
+      "llm_tldr_cn": "针对不同场景间物体迁移时光照不一致的问题，提出一个扩散模型来调和光照。该方法利用合成、生成和真实数据训练，能够从源场景提取物体并和谐地插入目标场景，实现逼真的3D合成效果。",
+      "llm_tldr": "针对不同场景间物体迁移时光照不一致的问题，提出一个扩散模型来调和光照。该方法利用合成、生成和真实数据训练，能够从源场景提取物体并和谐地插入目标场景，实现逼真的3D合成效果。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.25430v1",
+      "source": "arxiv",
+      "title": "PRISM: Feed-Forward Single-Image 3D Reconstruction via Geometric Warp-Residual Modeling",
+      "abstract": "Reconstructing 3D scenes from a single image is a fundamental challenge in computer vision, with broad applications in virtual reality, robotics, and content creation. Recent methods achieve outstanding performance by leveraging camera-controlled video diffusion models, but rely on iterative diffusion sampling, which greatly limits their practical deployment. We observe that geometric forward warping alone can cover the majority of a target view directly from the input image, with only a compact residual left for the encoder to correct. Motivated by this observation, we propose PRISM, a feed-forward framework that decomposes multi-view latent prediction into a parameter-free geometric prior and a learned residual correction, with no diffusion sampling required at inference. To enable generalization from purely synthetic training data, we devise a two-stage training strategy combining latents supervised distillation for geometric generalization and perceptual fine-tuning for appearance quality optimization. Extensive experiments on three benchmarks demonstrate that PRISM achieves competitive reconstruction quality compared with diffusion-based methods, while reducing inference time dramatically to only 36 seconds per scene.",
+      "authors": [
+        "Zhijie Zheng",
+        "Xinhao Xiang",
+        "Jiawei Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T05:48:20+00:00",
+      "link": "https://arxiv.org/pdf/2606.25430v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "single-image 3D reconstruction via geometric warping and residual correction",
+      "llm_evidence_cn": "单图像3D重建通过几何扭曲与残差校正",
+      "llm_evidence": "单图像3D重建通过几何扭曲与残差校正",
+      "canonical_evidence": "单图像3D重建通过几何扭曲与残差校正",
+      "llm_tldr_en": "Proposes PRISM, a feed-forward framework for single-image 3D reconstruction that decomposes prediction into geometric prior and learned residual, avoiding diffusion sampling.",
+      "llm_tldr_cn": "单图像3D重建常用视频扩散模型但依赖迭代采样，推理慢。本文观察到几何正向扭曲已覆盖大部分目标视角，仅需紧凑残差。提出前馈框架PRISM，将多视图潜在预测分解为参数无关几何先验和残差校正，无需迭代。实验表明该方法在保持高质量的同时显著加速推理，为实时应用奠定基础。",
+      "llm_tldr": "单图像3D重建常用视频扩散模型但依赖迭代采样，推理慢。本文观察到几何正向扭曲已覆盖大部分目标视角，仅需紧凑残差。提出前馈框架PRISM，将多视图潜在预测分解为参数无关几何先验和残差校正，无需迭代。实验表明该方法在保持高质量的同时显著加速推理，为实时应用奠定基础。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.19253v1",
+      "source": "arxiv",
+      "title": "OneCanvas: 3D Scene Understanding via Panoramic Reprojection",
+      "abstract": "Existing approaches to 3D scene understanding in Vision-Language Models (VLMs) either rely on complex, model-specific geometry encoders or large training budgets in pursuit of spatial reasoning. Instead, OneCanvas aggregates patch features from all views onto a single equirectangular panoramic canvas. Namely, each patch is unprojected to a 3D world coordinate using its depth and camera pose, then placed on the canvas at the continuous longitude and latitude of that point as seen from the canvas origin, with no rasterization or aggregation across overlapping views. A 3D position embedding of the patch's metric coordinates is added to its feature, restoring the depth lost when collapsing the world position to an angular canvas coordinate. Patches from all frames thus share one spatial coordinate system with no fusion or major architectural modifications of the backbone. The pretrained VLM consumes this representation as if it were an ordinary image. Because the canvas can be centered on any pose of interest, the same representation directly supports situated reasoning from a specific viewpoint, a common requirement in robotics and embodied AI. Thanks to this representation, we can also introduce a spatial pretraining curriculum: by procedurally placing patch features of objects, drawn from real images, at chosen 3D world positions on an otherwise empty canvas, we generate on-the-fly supervision spanning a broad range of spatial reasoning tasks, with answer distributions controlled to reduce spatial reasoning shortcuts. OneCanvas achieves state-of-the-art accuracy on SQA3D and VSI-Bench, and generalizes to out-of-distribution data on SPBench, using an order of magnitude less training compute than the strongest competing methods.",
+      "authors": [
+        "Bartłomiej Baranowski",
+        "Dave Zhenyu Chen",
+        "Matthias Nießner"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-06-17T16:29:19+00:00",
+      "link": "https://arxiv.org/pdf/2606.19253v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D scene understanding from multiple images, depth, camera pose",
+      "llm_evidence_cn": "从多图像进行3D场景理解，使用深度和相机位姿",
+      "llm_evidence": "从多图像进行3D场景理解，使用深度和相机位姿",
+      "canonical_evidence": "从多图像进行3D场景理解，使用深度和相机位姿",
+      "llm_tldr_en": "OneCanvas aggregates multi-view patch features onto a single panoramic canvas via unprojection, enabling 3D scene understanding without complex geometry encoders.",
+      "llm_tldr_cn": "现有视觉语言模型进行3D场景理解需要复杂几何编码器或大量训练。本文提出OneCanvas，通过深度和相机位姿将各视角的patch特征反投影到全景画布上，无需光栅化或聚合重叠视图，实现对3D场景的简单有效理解。方法展示了在多个3D任务上的性能。",
+      "llm_tldr": "现有视觉语言模型进行3D场景理解需要复杂几何编码器或大量训练。本文提出OneCanvas，通过深度和相机位姿将各视角的patch特征反投影到全景画布上，无需光栅化或聚合重叠视图，实现对3D场景的简单有效理解。方法展示了在多个3D任务上的性能。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.25740v1",
+      "source": "arxiv",
+      "title": "Point Cloud Diffusion with Global and Local Reconstruction for Instance-Level 3D Anomaly Detection",
+      "abstract": "3D anomaly detection in point clouds is critical for high-precision industrial manufacturing. Reconstruction-based methods have laid a strong foundation by detecting 3D anomalies through comparisons between defective inputs and their reconstructed normal counterparts. However, existing methods still suffer from two challenges: 1) the foreground weak defective regions such as scratches are hard to reconstruct and detect, where the anomaly deviations in normalized point clouds can be as small as $10^{-3}$; 2) the background non-defective regions are prone to get positional bias in reconstruction, which leads to false positives. To address these challenges, we propose \\textbf{PCDiff}, a point cloud diffusion framework for instance-level 3D anomaly generation and detection. In the generation phase, an instance-level multi-modal attention is embedded into the generation framework, where anomalies are conditioned with texture gradient, image patch, text and mask. The instance-level condition enables the high-quality generation of weak-defective anomalies. In the detection phase, a joint local-global reconstruction algorithm is introduced to ensure local anomaly restoration and global geometric consistency, which preserves background normal structure while restoring the foreground defect. Extensive experiments demonstrate that the proposed PCDiff significantly outperforms state-of-the-art methods in both 3D anomaly generation fidelity and reconstruction quality, leading to substantial improvements in anomaly detection accuracy.",
+      "authors": [
+        "Linchun Wu",
+        "Qin Zou",
+        "Jiwen Lu",
+        "Qingquan Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-24T12:11:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.25740v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "point cloud reconstruction with diffusion for anomaly detection",
+      "llm_evidence_cn": "点云重构扩散方法用于异常检测",
+      "llm_evidence": "点云重构扩散方法用于异常检测",
+      "canonical_evidence": "点云重构扩散方法用于异常检测",
+      "llm_tldr_en": "Proposes PCDiff, a point cloud diffusion framework for anomaly detection via global and local reconstruction, addressing weak defect and positional bias issues.",
+      "llm_tldr_cn": "点云异常检测中，基于重构的方法通过比较缺陷输入与重构的正常版本来检测异常，但难以处理微小缺陷和背景位置偏差。本文提出PCDiff，一种点云扩散框架，结合全局与局部重构来增强异常检测。该方法在实例级异常检测中有效改善了精细缺陷的检测率并降低了假阳性。该工作展示了扩散模型在点云重构中的应用价值。",
+      "llm_tldr": "点云异常检测中，基于重构的方法通过比较缺陷输入与重构的正常版本来检测异常，但难以处理微小缺陷和背景位置偏差。本文提出PCDiff，一种点云扩散框架，结合全局与局部重构来增强异常检测。该方法在实例级异常检测中有效改善了精细缺陷的检测率并降低了假阳性。该工作展示了扩散模型在点云重构中的应用价值。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

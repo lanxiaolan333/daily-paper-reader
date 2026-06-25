@@ -6,52 +6,38 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-24
-- 运行时间：2026-06-24 21:39:46 UTC
+- 最新运行日期：2026-06-25
+- 运行时间：2026-06-25 20:51:26 UTC
 - 运行状态：成功
-- 本次总论文数：10
-- 精读区：6
-- 速读区：4
+- 本次总论文数：6
+- 精读区：4
+- 速读区：2
 
 ### 今日简报（AI）
-今日精读6篇，速读4篇，核心方向为3D重建与点云补全，其中高光谱神经辐射场（9.0分）和随机符号距离过程（8.0分）最具亮点。  
-最值得关注：Self-Calibrated Hyperspectral NeRF实现了对骨骼及其类似物的高精度3D重建；MedPCFM与FLUX3D则在点云补全和稀疏表示生成上表现突出。  
-建议下一步：若您从事医学影像或三维视觉，可优先研读高光谱NeRF论文中的自校准机理，并尝试将流匹配方法（如MedPCFM）应用于临床点云修复场景。
-- 详情：[/202606/24/README](/202606/24/README)
+今日聚焦3D视觉领域，精读2篇高分论文（9.0、8.0），速读2篇（6.0），共6篇。最值得关注的方向是使用Fisher信息指导稀疏视图重建（9.0分）和利用扩散先验实现X光到3D CT的无训练重建（8.0分）。建议优先精读这两篇，重点关注不确定性建模与扩散先验的实际应用效果。
+- 详情：[/202606/25/README](/202606/25/README)
 
 ### 精读区论文标签
-1. [Self-Calibrated Hyperspectral Neural Radiance Fields for 3D Reconstruction of Bone and Bone Analogues](/202606/24/biorxiv-10-64898-2026-06-17-732938-v1-self-calibrated-hyperspectral-neural-radiance-fields-for-3d-reconstruction-of-bone-and-bone-analogues)  
+1. [From Uncertainty to Stability and Fidelity: Guiding Sparse-View 3D Gaussian Splatting with Fisher Information](/202606/25/2606.20842v1-from-uncertainty-to-stability-and-fidelity-guiding-sparse-view-3d-gaussian-splatting-with-fisher-information)  
    标签：评分：9.0/10、query:d-recon
-   evidence：高光谱神经辐射场用于三维重建
-2. [Stochastic Signed Distance Processes](/202606/24/2606.20856v2-stochastic-signed-distance-processes)  
+   evidence：稀疏视角3D高斯泼溅新视角合成
+2. [From Sparse X-rays to 3D CT: Training-Free Reconstruction with Diffusion Priors](/202606/25/2606.20763v1-from-sparse-x-rays-to-3d-ct-training-free-reconstruction-with-diffusion-priors)  
    标签：评分：8.0/10、query:d-recon
-   evidence：利用随机符号距离过程进行多视图表面重建
-3. [DrivingVoxels: Compositional Sparse Voxel Rasterization for Dynamic Driving Scene Reconstruction](/202606/24/2606.23031v1-drivingvoxels-compositional-sparse-voxel-rasterization-for-dynamic-driving-scene-reconstruction)  
+   evidence：从稀疏X光到3D CT重建
+3. [Lighting-Consistent Object Transfer Across Radiance Fields](/202606/25/2606.22481v1-lighting-consistent-object-transfer-across-radiance-fields)  
    标签：评分：8.0/10、query:d-recon
-   evidence：利用稀疏体素从多视图进行动态场景重建
-4. [Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation](/202606/24/2606.24206v1-inclusive-interactive-collisions-for-multi-view-consistent-compositional-3d-generation)  
+   evidence：辐射场与物体迁移
+4. [PRISM: Feed-Forward Single-Image 3D Reconstruction via Geometric Warp-Residual Modeling](/202606/25/2606.25430v1-prism-feed-forward-single-image-3d-reconstruction-via-geometric-warp-residual-modeling)  
    标签：评分：8.0/10、query:d-recon
-   evidence：多视图一致的3D生成
-5. [3DCarGen: Scalable 3D Car Generation via 3D-consistent Multi-view Synthesis](/202606/24/2606.24257v1-3dcargen-scalable-3d-car-generation-via-3d-consistent-multi-view-synthesis)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：通过3D一致的多视图合成实现单视图3D汽车生成
-6. [MM-TRELLIS: Point-Cloud Guided Multi-Modal 3D Vehicle Generation in Autonomous Driving](/202606/24/2606.24301v1-mm-trellis-point-cloud-guided-multi-modal-3d-vehicle-generation-in-autonomous-driving)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：点云引导的多模态3D生成，融合激光雷达和图像
+   evidence：单图像3D重建通过几何扭曲与残差校正
 
 ### 速读区论文标签
-1. [MedPCFM: Improving Medical Point Cloud Completion by Integrating Point Transformers and Flow Matching](/202606/24/2606.24433v1-medpcfm-improving-medical-point-cloud-completion-by-integrating-point-transformers-and-flow-matching)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：医学点云补全
-2. [FLUX3D: High-Fidelity 3D Gaussian Generation with Diffusion-Aligned Sparse Representation](/202606/24/2606.24874v1-flux3d-high-fidelity-3d-gaussian-generation-with-diffusion-aligned-sparse-representation)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：基于扩散对齐稀疏体素表示的图像到3D高斯生成
-3. [FLAT: Feedforward Latent Triangle Splatting for Geometrically Accurate Scene Generation](/202606/24/2606.24876v1-flat-feedforward-latent-triangle-splatting-for-geometrically-accurate-scene-generation)  
-   标签：评分：7.0/10、query:d-recon
-   evidence：从单张图像生成具有表面对齐基元的可探索3D场景
-4. [GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction](/202606/24/2606.24829v1-geot2v-bench-benchmarking-3d-consistency-in-text-to-video-models-via-3d-reconstruction)  
+1. [OneCanvas: 3D Scene Understanding via Panoramic Reprojection](/202606/25/2606.19253v1-onecanvas-3d-scene-understanding-via-panoramic-reprojection)  
    标签：评分：6.0/10、query:d-recon
-   evidence：文本到视频模型的3D重建基准
+   evidence：从多图像进行3D场景理解，使用深度和相机位姿
+2. [Point Cloud Diffusion with Global and Local Reconstruction for Instance-Level 3D Anomaly Detection](/202606/25/2606.25740v1-point-cloud-diffusion-with-global-and-local-reconstruction-for-instance-level-3d-anomaly-detection)  
+   标签：评分：6.0/10、query:d-recon
+   evidence：点云重构扩散方法用于异常检测
 
 
 <div class="dpr-home-promo-card">
