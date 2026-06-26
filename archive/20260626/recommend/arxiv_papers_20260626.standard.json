@@ -1,0 +1,208 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-26T20:22:55.685957+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.23027v2",
+      "source": "arxiv",
+      "title": "Learning Stable Canonical Worlds for Novel View Synthesis and Beyond",
+      "abstract": "Feed-forward Gaussian splatting (FFGS) facilitates real-time novel view synthesis, yet current methods often remain tied to view-dependent predictions. As more input views are added, they may accumulate noisy or redundant evidence instead of converging to a stable scene representation. In this paper, we introduce CanonicalGS, a feed-forward pipeline that maps cluttered multi-view observations into a stable, scene-centric representation. CanonicalGS first extracts view-centric evidence from depth, semantic features, and uncertainty estimates, and then aggregates this evidence in a canonical latent world using uncertainty-aware fusion. By emphasizing reliable observations while suppressing uncertain or redundant ones, CanonicalGS produces representations that scale more effectively for novel view synthesis and transfer to downstream visual perception tasks. Experiments show up to a $2.5$ dB improvement in peak signal-to-noise ratio for synthesizing novel views and an $11\\%$ gain in semantic segmentation accuracy.",
+      "authors": [
+        "Xiaoyu Xu",
+        "Jian Zou",
+        "Sheyang Tang",
+        "Zhihua Wang",
+        "Jing Liao",
+        "Kede Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-22T08:38:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.23027v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "feed-forward Gaussian splatting for novel view synthesis",
+      "llm_evidence_cn": "前馈高斯溅射用于新视角合成",
+      "llm_evidence": "前馈高斯溅射用于新视角合成",
+      "canonical_evidence": "前馈高斯溅射用于新视角合成",
+      "llm_tldr_en": "Proposes CanonicalGS, a feed-forward pipeline that aggregates multi-view evidence into a stable canonical scene representation for robust novel view synthesis.",
+      "llm_tldr_cn": "前馈高斯溅射方法虽然实现了实时新视角合成，但多视角输入时易积累噪声导致表示不稳定。本文提出CanonicalGS，一种前馈管线，通过不确定感知融合将多视角观测映射到稳定的正则场景表示中。该方法提取深度、语义特征和不确定性估计，在正则隐空间中聚合可靠证据并抑制冗余信息，生成比现有方法更稳定且质量更高的新视角。",
+      "llm_tldr": "前馈高斯溅射方法虽然实现了实时新视角合成，但多视角输入时易积累噪声导致表示不稳定。本文提出CanonicalGS，一种前馈管线，通过不确定感知融合将多视角观测映射到稳定的正则场景表示中。该方法提取深度、语义特征和不确定性估计，在正则隐空间中聚合可靠证据并抑制冗余信息，生成比现有方法更稳定且质量更高的新视角。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27071v1",
+      "source": "arxiv",
+      "title": "PanoImager: Geometry-Guided Novel View Synthesis and Reconstruction from Sparse Panoramic Views",
+      "abstract": "Panoramic sensing offers wide field-of-view coverage, yet 3D reconstruction from sparse panoramas remains challenging under rotation-dominant, weak-parallax motion. In such regimes, SfM/SLAM initialization is often ill-conditioned and unreliable. We present PanoImager, an SfM-free framework that combines feed-forward pose/depth priors, geometry-conditioned diffusion view completion, and depth-guided 3DGS optimization. Given only a few panoramic images, PanoImager decomposes them into local perspective views, synthesizes auxiliary observations to enrich sparse evidence, and stabilizes Gaussian optimization for improved cross-view consistency. Experiments on multiple benchmarks show improved stability under extreme sparsity, suggesting PanoImager as an offline/background component for map refinement when SfM/SLAM fails to initialize.",
+      "authors": [
+        "Zhisong Xu",
+        "Takeshi Oishi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T14:15:09+00:00",
+      "link": "https://arxiv.org/pdf/2606.27071v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "geometry-guided novel view synthesis from sparse panoramic images",
+      "llm_evidence_cn": "从稀疏全景图像进行几何引导的新视角合成",
+      "llm_evidence": "从稀疏全景图像进行几何引导的新视角合成",
+      "canonical_evidence": "从稀疏全景图像进行几何引导的新视角合成",
+      "llm_tldr_en": "Proposes an SfM-free framework for novel view synthesis and 3D reconstruction from sparse panoramic views using geometry-conditioned diffusion and depth-guided 3D Gaussian Splatting.",
+      "llm_tldr_cn": "本文提出PanoImager，一种无需SfM的框架，用于从稀疏全景图像进行新视角合成和三维重建。该方法结合前馈姿态/深度先验、几何条件扩散视图补全和深度引导的3D高斯优化，在旋转主导、弱视差的挑战性场景中实现稳定的跨视图一致性。实验表明，该方法在极稀疏视图下表现出优越的稳定性。",
+      "llm_tldr": "本文提出PanoImager，一种无需SfM的框架，用于从稀疏全景图像进行新视角合成和三维重建。该方法结合前馈姿态/深度先验、几何条件扩散视图补全和深度引导的3D高斯优化，在旋转主导、弱视差的挑战性场景中实现稳定的跨视图一致性。实验表明，该方法在极稀疏视图下表现出优越的稳定性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.23062v1",
+      "source": "arxiv",
+      "title": "VolHuMe: a High-Resolution Large Scale Dataset of Volumetric Human Meshes",
+      "abstract": "We introduce VolHuMe, a dataset of high-quality 4D human scans captured with a state-of-the-art volumetric studio using 64 RGB and 32 depth cameras. VolHuMe contains individual captures of 104 subjects and provides extensive ground truth, including SMPL-X, high-resolution meshes, multi-view RGB/depth images, rigged meshes, point clouds, garment segmentation, and detailed hand and facial geometry. Unlike prior datasets that primarily rely on full-body imagery, VolHuMe uses a close-range, high-resolution capture setup that preserves fine-grained body-part details, improving geometric fidelity and texture resolution. We benchmark VolHuMe on state-of-the-art methods across 3D and 4D human reconstruction tasks, showcasing the dataset's quality and exposing the limitations of current evaluation testbeds.",
+      "authors": [
+        "Giulia Martinelli",
+        "Niccolò Bisagno",
+        "Nicola Garau",
+        "Esa Rahtu",
+        "Nicola Conci"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-06-22T09:13:52+00:00",
+      "link": "https://arxiv.org/pdf/2606.23062v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-view RGB/depth images and point clouds for 3D human reconstruction",
+      "llm_evidence_cn": "提供多视角RGB/深度图像和点云，用于三维人体重建",
+      "llm_evidence": "提供多视角RGB/深度图像和点云，用于三维人体重建",
+      "canonical_evidence": "提供多视角RGB/深度图像和点云，用于三维人体重建",
+      "llm_tldr_en": "Introduces a large-scale dataset of high-resolution 4D human scans with multi-view images and point clouds, serving as a benchmark for 3D reconstruction methods.",
+      "llm_tldr_cn": "本文介绍了VolHuMe数据集，该数据集包含104个受试者的高质量4D人体扫描，使用64个RGB和32个深度相机捕获。数据集提供多视角RGB/深度图像、点云、网格等丰富标注，旨在推动三维人体重建研究。基准测试表明，该数据集能够有效评估现有方法在几何精度和纹理分辨率上的表现。",
+      "llm_tldr": "本文介绍了VolHuMe数据集，该数据集包含104个受试者的高质量4D人体扫描，使用64个RGB和32个深度相机捕获。数据集提供多视角RGB/深度图像、点云、网格等丰富标注，旨在推动三维人体重建研究。基准测试表明，该数据集能够有效评估现有方法在几何精度和纹理分辨率上的表现。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.24829v1",
+      "source": "arxiv",
+      "title": "GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction",
+      "abstract": "Camera-prompted text-to-video (T2V) models are increasingly used to synthesize virtual camera captures, such as orbiting objects or moving through static scenes. For these outputs, visual plausibility is insufficient: the generated frames should also provide coherent multi-view evidence for a single static 3D scene. We introduce GeoT2V-Bench, a reconstruction-based diagnostic benchmark for evaluating whether camera-prompted T2V clips can support explicit rigid 3D reconstruction. Our pipeline estimates per-frame camera intrinsics and poses with VGGT-style geometry estimation, fits DeformableGS, derives a static MedianGS proxy by temporal-median aggregation, and renders this proxy along the estimated camera path. Instead of producing a pass/fail label or a single scalar score, GeoT2V-Bench reports a continuous reconstruction profile covering apparent image motion, estimated trajectory behavior, MedianGS static rendering error, static-render flow agreement, and the gap between flexible and static fits. On a fair-format four-seed evaluation with 3,840 completed reconstructions from 12 open-weight model configurations and 80 GeCo-Eval static-scene prompts, we find that visible motion, static rendering error, flow agreement, and flexible-vs-static behavior often disagree. GeoT2V-Bench therefore captures complementary failure modes that emerge when generated videos are tested as global static-scene acquisitions.",
+      "authors": [
+        "Chenrui Fan",
+        "Paolo Favaro"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T17:12:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.24829v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Benchmark for 3D consistency using 3D reconstruction",
+      "llm_evidence_cn": "利用3D重建评估3D一致性的基准",
+      "llm_evidence": "利用3D重建评估3D一致性的基准",
+      "canonical_evidence": "利用3D重建评估3D一致性的基准",
+      "llm_tldr_en": "GeoT2V-Bench uses 3D reconstruction to diagnose whether camera-prompted text-to-video clips support explicit rigid 3D structure.",
+      "llm_tldr_cn": "相机提示的文本到视频模型生成的内容需支持3D一致性。GeoT2V-Bench提出基于3D重建的诊断基准，通过估计相机内外参、拟合动态高斯、聚合静态代理来评估生成帧能否重建出刚性静态3D场景。实验揭示了现有T2V模型在3D一致性上的不足，为改进提供了方向。",
+      "llm_tldr": "相机提示的文本到视频模型生成的内容需支持3D一致性。GeoT2V-Bench提出基于3D重建的诊断基准，通过估计相机内外参、拟合动态高斯、聚合静态代理来评估生成帧能否重建出刚性静态3D场景。实验揭示了现有T2V模型在3D一致性上的不足，为改进提供了方向。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.26715v1",
+      "source": "arxiv",
+      "title": "Extracting Neural Materials from Multi-view Images",
+      "abstract": "Neural materials can represent complex specular reflections and scattering effects in a compact, universal basis. However, acquiring and authoring such materials remains challenging. We present NeuMatEx, a differentiable inverse rendering method for extracting spatially varying neural materials from images. The nonlinear structure of neural material latent spaces makes optimization with naive inverse rendering infeasible. To address this, we train a Large Material Reconstruction Model (LMRM) that directly predicts initialbase color, neural material latents, and aleatoric uncertainty guides from images. This material prior provides a good initialization and better constrains our subsequent optimization using inverse path tracing. The predicted uncertainty further helps by anchoring high-confidence regions more tightly to the LMRM prediction, preventing lighting and complex specular effects from being baked into materials. Experiments on synthetic and real assets show that NeuMatEx extracts complex materials with better visual quality and material decomposition than PBR-based methods.",
+      "authors": [
+        "Kim Youwang",
+        "Jon Hasselgren",
+        "Peter Kocsis",
+        "Andrea Weidlich",
+        "Tae-Hyun Oh",
+        "Jacob Munkberg"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-25T07:50:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.26715v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "extracts neural materials from multi-view images via inverse rendering",
+      "llm_evidence_cn": "从多视图图像通过逆渲染提取神经材质",
+      "llm_evidence": "从多视图图像通过逆渲染提取神经材质",
+      "canonical_evidence": "从多视图图像通过逆渲染提取神经材质",
+      "llm_tldr_en": "NeuMatEx extracts spatially varying neural materials from multi-view images using a large material reconstruction model and inverse path tracing, enabling high-quality material acquisition.",
+      "llm_tldr_cn": "NeuMatEx提出从多视图图像中提取空间变化神经材质的方法，通过训练大型材质重建模型提供初始预测与不确定性引导，再结合逆路径追踪进行精细优化。该方法在复杂反射和散射材质上取得了逼真效果，为从多图像重建3D材质提供了有效途径。",
+      "llm_tldr": "NeuMatEx提出从多视图图像中提取空间变化神经材质的方法，通过训练大型材质重建模型提供初始预测与不确定性引导，再结合逆路径追踪进行精细优化。该方法在复杂反射和散射材质上取得了逼真效果，为从多图像重建3D材质提供了有效途径。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

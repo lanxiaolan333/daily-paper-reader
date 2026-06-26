@@ -6,38 +6,37 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-25
-- 运行时间：2026-06-25 20:51:26 UTC
+- 最新运行日期：2026-06-26
+- 运行时间：2026-06-26 20:25:41 UTC
 - 运行状态：成功
-- 本次总论文数：6
-- 精读区：4
+- 本次总论文数：5
+- 精读区：3
 - 速读区：2
 
 ### 今日简报（AI）
-今日聚焦3D视觉领域，精读2篇高分论文（9.0、8.0），速读2篇（6.0），共6篇。最值得关注的方向是使用Fisher信息指导稀疏视图重建（9.0分）和利用扩散先验实现X光到3D CT的无训练重建（8.0分）。建议优先精读这两篇，重点关注不确定性建模与扩散先验的实际应用效果。
-- 详情：[/202606/25/README](/202606/25/README)
+1) 今日精读2篇9.0分高质论文，聚焦稳定规范世界与稀疏全景几何引导的新视图合成；速读涉及3D一致性基准与神经材质提取。  
+2) 最值得关注《Learning Stable Canonical Worlds》与《PanoImager》，前者解决多视角几何稳定性，后者实现稀疏全景下的高质量重建。  
+3) 建议优先精读这两篇高分论文，理解其核心方法如何提升新视角合成的几何一致性。
+- 详情：[/202606/26/README](/202606/26/README)
 
 ### 精读区论文标签
-1. [From Uncertainty to Stability and Fidelity: Guiding Sparse-View 3D Gaussian Splatting with Fisher Information](/202606/25/2606.20842v1-from-uncertainty-to-stability-and-fidelity-guiding-sparse-view-3d-gaussian-splatting-with-fisher-information)  
+1. [Learning Stable Canonical Worlds for Novel View Synthesis and Beyond](/202606/26/2606.23027v2-learning-stable-canonical-worlds-for-novel-view-synthesis-and-beyond)  
    标签：评分：9.0/10、query:d-recon
-   evidence：稀疏视角3D高斯泼溅新视角合成
-2. [From Sparse X-rays to 3D CT: Training-Free Reconstruction with Diffusion Priors](/202606/25/2606.20763v1-from-sparse-x-rays-to-3d-ct-training-free-reconstruction-with-diffusion-priors)  
+   evidence：前馈高斯溅射用于新视角合成
+2. [PanoImager: Geometry-Guided Novel View Synthesis and Reconstruction from Sparse Panoramic Views](/202606/26/2606.27071v1-panoimager-geometry-guided-novel-view-synthesis-and-reconstruction-from-sparse-panoramic-views)  
+   标签：评分：9.0/10、query:d-recon
+   evidence：从稀疏全景图像进行几何引导的新视角合成
+3. [VolHuMe: a High-Resolution Large Scale Dataset of Volumetric Human Meshes](/202606/26/2606.23062v1-volhume-a-high-resolution-large-scale-dataset-of-volumetric-human-meshes)  
    标签：评分：8.0/10、query:d-recon
-   evidence：从稀疏X光到3D CT重建
-3. [Lighting-Consistent Object Transfer Across Radiance Fields](/202606/25/2606.22481v1-lighting-consistent-object-transfer-across-radiance-fields)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：辐射场与物体迁移
-4. [PRISM: Feed-Forward Single-Image 3D Reconstruction via Geometric Warp-Residual Modeling](/202606/25/2606.25430v1-prism-feed-forward-single-image-3d-reconstruction-via-geometric-warp-residual-modeling)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：单图像3D重建通过几何扭曲与残差校正
+   evidence：提供多视角RGB/深度图像和点云，用于三维人体重建
 
 ### 速读区论文标签
-1. [OneCanvas: 3D Scene Understanding via Panoramic Reprojection](/202606/25/2606.19253v1-onecanvas-3d-scene-understanding-via-panoramic-reprojection)  
+1. [GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction](/202606/26/2606.24829v1-geot2v-bench-benchmarking-3d-consistency-in-text-to-video-models-via-3d-reconstruction)  
    标签：评分：6.0/10、query:d-recon
-   evidence：从多图像进行3D场景理解，使用深度和相机位姿
-2. [Point Cloud Diffusion with Global and Local Reconstruction for Instance-Level 3D Anomaly Detection](/202606/25/2606.25740v1-point-cloud-diffusion-with-global-and-local-reconstruction-for-instance-level-3d-anomaly-detection)  
+   evidence：利用3D重建评估3D一致性的基准
+2. [Extracting Neural Materials from Multi-view Images](/202606/26/2606.26715v1-extracting-neural-materials-from-multi-view-images)  
    标签：评分：6.0/10、query:d-recon
-   evidence：点云重构扩散方法用于异常检测
+   evidence：从多视图图像通过逆渲染提取神经材质
 
 
 <div class="dpr-home-promo-card">
