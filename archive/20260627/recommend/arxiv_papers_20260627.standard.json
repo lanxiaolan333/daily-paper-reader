@@ -1,0 +1,336 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-27T20:50:04.039980+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.27305v1",
+      "source": "arxiv",
+      "title": "Sculpting NeRF Geometry: Human-Preference Fine-Tuning of a 3D-Aware Face GAN",
+      "abstract": "Reinforcement learning from human feedback (RLHF) for 3D generation is now established across a number of works, but most existing pipelines optimise explicit surface representations, often by converting radiance fields into meshes and training heavily on surface-supervised data. We instead fine-tune a pretrained 3D-aware generative model directly from a learned reward over radiance-field density ($σ$) values, with no externally supplied mesh or shape prior. The reward model requires no pretraining, trains easily on a small set of preference samples, and yields robust improvement in 3D geometry. Working on an unconditional 3D-aware face GAN (EG3D), our reward reads the continuous 3D density field of the neural radiance field (NeRF) directly and supplies a geometry-only learning signal, requiring neither text conditioning, mesh extraction, nor multi-view rendering. A density-consistency constraint keeps the 2D appearance qualitatively similar while the geometry is reshaped, at a measurable but bounded distributional cost (FID-50k rises from 4.09 to 6.66): the fine-tuned generator, trained from the preferences of a single annotator as a proof of concept, produces face geometries preferred by users in 74.4% of pairwise comparisons.",
+      "authors": [
+        "Archer Moore",
+        "Mingming Gong",
+        "Liam Hodgkinson"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T17:26:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.27305v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly fine-tunes NeRF using human preferences for novel view synthesis",
+      "llm_evidence_cn": "直接通过人类偏好微调NeRF用于新视图合成",
+      "llm_evidence": "直接通过人类偏好微调NeRF用于新视图合成",
+      "canonical_evidence": "直接通过人类偏好微调NeRF用于新视图合成",
+      "llm_tldr_en": "Fine-tunes a pretrained 3D-aware face GAN (EG3D) using RLHF on NeRF density directly, without mesh conversion, improving novel view geometry.",
+      "llm_tldr_cn": "现有3D生成模型的强化学习微调通常需要将辐射场转换为网格并依赖表面监督。本文直接对NeRF密度场进行人类偏好学习，无需外部形状先验。奖励模型无需预训练，在少量偏好样本上即可训练，显著提升了3D几何质量。在3D感知人脸GAN上验证，为辐射场优化提供了新范式。",
+      "llm_tldr": "现有3D生成模型的强化学习微调通常需要将辐射场转换为网格并依赖表面监督。本文直接对NeRF密度场进行人类偏好学习，无需外部形状先验。奖励模型无需预训练，在少量偏好样本上即可训练，显著提升了3D几何质量。在3D感知人脸GAN上验证，为辐射场优化提供了新范式。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.25437v1",
+      "source": "arxiv",
+      "title": "LinStereo: Linear-Complexity Global Attention for Multi-Scale Iterative Stereo Matching",
+      "abstract": "Existing Vision Foundation Model (VFM)-based iterative stereo pipelines under-exploit three information pathways: multi-scale backbone features are collapsed into single-level correlations, geometric priors remain untapped at initialization, and context propagates only locally. These gaps widen under degraded photometric cues, making underwater scenes a stringent generalization test. To address this, we propose LinStereo, built upon Depth Anything V3, whose core is a Position-Aware Linear Attention (PALA) module that replaces local recurrence with global aggregation at linear cost, propagating reliable estimates from well-matched regions into degraded areas while preserving disparity structure. PALA is made effective by two enabling components: Hierarchical Semantic Cost Volumes (HSCV), which supply scale-aligned correlations from the VFM feature hierarchy, and a Depth Prior Initialization (DPI) that converts monocular depth into a metrically calibrated warm start. LinStereo achieves state-of-the-art-level accuracy on standard benchmarks and strong cross-domain generalization, particularly on underwater scene where severe photometric degradation makes stereo matching particularly challenging, attaining the best overall accuracy with consistent gains 28% lower AbsRel on TartanAir-UW, 26% on SQUID, a real-world underwater dataset).",
+      "authors": [
+        "Yiran Wang",
+        "Oliver Turner",
+        "Viorela Ila"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T05:58:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.25437v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Stereo matching from multi-view images for depth estimation and 3D reconstruction",
+      "llm_evidence_cn": "从多视图图像进行立体匹配以估计深度并重建3D",
+      "llm_evidence": "从多视图图像进行立体匹配以估计深度并重建3D",
+      "canonical_evidence": "从多视图图像进行立体匹配以估计深度并重建3D",
+      "llm_tldr_en": "LinStereo introduces Position-Aware Linear Attention for iterative stereo matching, enabling global context aggregation at linear cost to improve disparity estimation under degraded conditions like underwater scenes.",
+      "llm_tldr_cn": "现有的基于视觉基础模型的迭代立体匹配管线未能充分利用多尺度特征、几何先验和全局上下文，在退化场景下性能有限。本文提出LinStereo，其核心是位置感知线性注意力（PALA）模块，以线性复杂度实现全局聚合，将可靠区域的估计传播到退化区域。实验表明，该方法在多种情况下提升视差估计质量，尤其在低能见度水下场景中表现突出。",
+      "llm_tldr": "现有的基于视觉基础模型的迭代立体匹配管线未能充分利用多尺度特征、几何先验和全局上下文，在退化场景下性能有限。本文提出LinStereo，其核心是位置感知线性注意力（PALA）模块，以线性复杂度实现全局聚合，将可靠区域的估计传播到退化区域。实验表明，该方法在多种情况下提升视差估计质量，尤其在低能见度水下场景中表现突出。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.21405v1",
+      "source": "arxiv",
+      "title": "Geometry Calibration in Tomography with a Differentiable Ray-Based Model",
+      "abstract": "Geometric misalignments between the nominal and true acquisition parameters in tomography degrade reconstructions. We propose a framework that jointly reconstructs the volume and calibrates the acquisition geometry for arbitrary source--detector configurations. The core of our framework is an x-ray transform operator whose gradients with respect to the acquisition geometry can be efficiently computed with a ray-tracing method of structure and computational complexity similar to those of the forward operator. We represent the volume in a B-spline basis to provide a continuously differentiable model. This results in a better-behaved optimization landscape compared to voxel-based representations. We validate our framework with CT, micro-CT, nano-CT, and positron emission tomography data under a variety of geometric misalignments.",
+      "authors": [
+        "Youssef Haouchat",
+        "Aleix Boquet-Pujadas",
+        "Sepand Kashani",
+        "Philippe Thévenaz",
+        "Michael Unser"
+      ],
+      "primary_category": "eess.IV",
+      "categories": [
+        "eess.IV"
+      ],
+      "published": "2026-06-19T13:16:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.21405v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "tomography geometry calibration with differentiable ray model for 3D reconstruction from multiple views",
+      "llm_evidence_cn": "基于可微分射线模型的层析成像几何校准，服务于多视角三维重建",
+      "llm_evidence": "基于可微分射线模型的层析成像几何校准，服务于多视角三维重建",
+      "canonical_evidence": "基于可微分射线模型的层析成像几何校准，服务于多视角三维重建",
+      "llm_tldr_en": "Proposes a differentiable ray-based framework for joint volume reconstruction and geometry calibration in tomography, enabling accurate 3D reconstruction from multiple projections.",
+      "llm_tldr_cn": "针对层析成像中几何未校准导致重建退化的问题，提出一种可微分的射线追踪框架，联合重建体积并校准采集几何。该框架使用B样条基表示体积以提供连续可微模型，优化更易收敛。在CT、显微CT等数据集上验证了有效性，为多视角三维重建提供了通用校准方法。",
+      "llm_tldr": "针对层析成像中几何未校准导致重建退化的问题，提出一种可微分的射线追踪框架，联合重建体积并校准采集几何。该框架使用B样条基表示体积以提供连续可微模型，优化更易收敛。在CT、显微CT等数据集上验证了有效性，为多视角三维重建提供了通用校准方法。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24232v1",
+      "source": "arxiv",
+      "title": "FiCA: Feed-forward instant Gaussian Codec Avatars from a Single Portrait Image",
+      "abstract": "We introduce FiCA, a Feed-forward, instant Gaussian Codec Avatar generation pipeline that creates lifelike avatars from a single portrait image. Generating a photorealistic and drivable avatar from just a single image is significantly challenging due to the limited visual information available to accurately infer the 3D appearance and geometry of human heads. To address this, we develop a novel system that combines human-centric vision foundation models with a diffusion model. This system is designed to fully exploit partial visual observations to generate lifelike human avatars. Our proposed diffusion model learns a generative mapping from these partial observations to complete and authentic 3D mesh reconstruction. Additionally, we introduce a feed-forward mesh refinement network that enhances the fidelity and identity preservation of the generated avatars, eliminating the need for person-specific test-time optimization. By leveraging a universal prior model that decodes a generated mesh into a set of 3D Gaussians, we generate a photorealistic 3D Gaussian avatar, capable of being driven with novel expressions in real-time. Our experiments demonstrate that the avatars generated by our feed-forward approach faithfully represent diverse identities and surpass the visual quality of avatars produced by recent competing methods.",
+      "authors": [
+        "Kim Youwang",
+        "Zhengyu Yang",
+        "Liuhao Ge",
+        "Yu Rong",
+        "Timur Bagautdinov",
+        "Su Zhaoen",
+        "Nir Sopher",
+        "Jovan Popović",
+        "Teng Deng",
+        "Tae-Hyun Oh",
+        "Chen Cao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-23T07:22:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.24232v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "single-image 3D avatar reconstruction using Gaussian avatars",
+      "llm_evidence_cn": "单图像3D化身重建使用高斯化身",
+      "llm_evidence": "单图像3D化身重建使用高斯化身",
+      "canonical_evidence": "单图像3D化身重建使用高斯化身",
+      "llm_tldr_en": "FiCA generates lifelike 3D Gaussian Codec Avatars from a single portrait using diffusion and human-centric models.",
+      "llm_tldr_cn": "该论文针对单张肖像图生成逼真3D化身这一挑战，提出FiCA前馈流水线。结合人类视觉基础模型和扩散模型，从部分观测中推断完整的人头几何与外观，并通过高斯编码表达实现可驱动的化身。大量实验表明FiCA在身份保真度和细节丰富性上均达到先进水平，为单图像3D人脸重建提供了高效且高质量的解决方案。",
+      "llm_tldr": "该论文针对单张肖像图生成逼真3D化身这一挑战，提出FiCA前馈流水线。结合人类视觉基础模型和扩散模型，从部分观测中推断完整的人头几何与外观，并通过高斯编码表达实现可驱动的化身。大量实验表明FiCA在身份保真度和细节丰富性上均达到先进水平，为单图像3D人脸重建提供了高效且高质量的解决方案。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.24829v1",
+      "source": "arxiv",
+      "title": "GeoT2V-Bench: Benchmarking 3D Consistency in Text-to-Video Models via 3D Reconstruction",
+      "abstract": "Camera-prompted text-to-video (T2V) models are increasingly used to synthesize virtual camera captures, such as orbiting objects or moving through static scenes. For these outputs, visual plausibility is insufficient: the generated frames should also provide coherent multi-view evidence for a single static 3D scene. We introduce GeoT2V-Bench, a reconstruction-based diagnostic benchmark for evaluating whether camera-prompted T2V clips can support explicit rigid 3D reconstruction. Our pipeline estimates per-frame camera intrinsics and poses with VGGT-style geometry estimation, fits DeformableGS, derives a static MedianGS proxy by temporal-median aggregation, and renders this proxy along the estimated camera path. Instead of producing a pass/fail label or a single scalar score, GeoT2V-Bench reports a continuous reconstruction profile covering apparent image motion, estimated trajectory behavior, MedianGS static rendering error, static-render flow agreement, and the gap between flexible and static fits. On a fair-format four-seed evaluation with 3,840 completed reconstructions from 12 open-weight model configurations and 80 GeCo-Eval static-scene prompts, we find that visible motion, static rendering error, flow agreement, and flexible-vs-static behavior often disagree. GeoT2V-Bench therefore captures complementary failure modes that emerge when generated videos are tested as global static-scene acquisitions.",
+      "authors": [
+        "Chenrui Fan",
+        "Paolo Favaro"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T17:12:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.24829v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "benchmark for 3D consistency using 3D reconstruction from multi-view video",
+      "llm_evidence_cn": "使用多视图视频3D重建来评估3D一致性的基准",
+      "llm_evidence": "使用多视图视频3D重建来评估3D一致性的基准",
+      "canonical_evidence": "使用多视图视频3D重建来评估3D一致性的基准",
+      "llm_tldr_en": "GeoT2V-Bench uses 3D reconstruction from text-to-video clips to evaluate geometric consistency, providing a diagnostic benchmark for multi-view coherence.",
+      "llm_tldr_cn": "针对文本生成视频（T2V）模型合成的帧应支持刚性3D重建但缺乏评估的问题，GeoT2V-Bench提出基于重建的诊断基准，从T2V片段估计相机参数、拟合动态高斯、通过时间中值聚合得到静态代理并渲染，从而评价生成的帧是否一致地表示同一3D场景，推动了T2V模型的几何一致性评估。",
+      "llm_tldr": "针对文本生成视频（T2V）模型合成的帧应支持刚性3D重建但缺乏评估的问题，GeoT2V-Bench提出基于重建的诊断基准，从T2V片段估计相机参数、拟合动态高斯、通过时间中值聚合得到静态代理并渲染，从而评价生成的帧是否一致地表示同一3D场景，推动了T2V模型的几何一致性评估。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26007v1",
+      "source": "arxiv",
+      "title": "From Sparse and Imperfect 2D Anchors to Consistent 3D Gaussian Street Scenes: Support-Aware Appearance",
+      "abstract": "Image priors can synthesize target conditions for 3D Gaussian street scenes, but independently edited views do not define a coherent 3D target. Direct fitting can propagate view-specific noise, while existing pipelines do not jointly handle imperfect sparse anchors and standard-rasterizer deployment. To address this gap, teacher-relative appearance residual distillation is introduced for appearance baking. A structured space for frequency decomposition, confidence estimation, and primitive-level lifting is formed by residuals between teacher anchors and original renders. The direct optimization signal is supplied by renderer-space matching, while primitive assignment is regularized by support-aware Gaussian-space aggregation. Supported detail is admitted and unsupported noise is suppressed through confidence-gated coarse-to-fine optimization, after which all residuals are baked into fixed-geometry spherical-harmonic coefficients. The teacher and auxiliary training modules are discarded at inference. Evaluation across Waymo street assets, Tanks and Temples scenes, and multiple target conditions shows a favorable overall balance of target alignment, content preservation, artifact suppression, and cross-view consistency over editing-based baselines. Ablations confirm the effectiveness of the main components. Code will be released at https://github.com/Cagares/Baking-for-3D-Gaussian.",
+      "authors": [
+        "Long Cao",
+        "Zhongquan Wang",
+        "Jie Li",
+        "Yuhan Chen",
+        "Kefei Qian",
+        "Xiangfei Huang",
+        "Guofa Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-24T16:26:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.26007v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "consistent 3D Gaussian street scenes from sparse 2D anchors with appearance baking",
+      "llm_evidence_cn": "从稀疏2D锚点生成一致3D高斯街景，包含外观烘焙",
+      "llm_evidence": "从稀疏2D锚点生成一致3D高斯街景，包含外观烘焙",
+      "canonical_evidence": "从稀疏2D锚点生成一致3D高斯街景，包含外观烘焙",
+      "llm_tldr_en": "Teacher-relative appearance residual distillation and support-aware aggregation produce consistent 3D Gaussian street scenes from imperfect sparse anchors.",
+      "llm_tldr_cn": "针对稀疏不完美2D锚点导致3D街景不一致的问题，提出教师相对外观残差蒸馏和支撑感知高斯空间聚合，实现从稀疏锚点生成一致3D高斯街景，同时解决部署问题。",
+      "llm_tldr": "针对稀疏不完美2D锚点导致3D街景不一致的问题，提出教师相对外观残差蒸馏和支撑感知高斯空间聚合，实现从稀疏锚点生成一致3D高斯街景，同时解决部署问题。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.25300v1",
+      "source": "arxiv",
+      "title": "HiFiVe: High-Fidelity Vehicle Generation Leveraging Auto-Regressive 2D Generative Priors",
+      "abstract": "Existing 3D vehicle generation methods often suffer from low geometric fidelity and blurry textures, hindering their downstream applications. While recent works adopt multi-view diffusion models for high-fidelity texture, they are often constrained by fixed viewpoints, limited resolution, and a reliance on costly fine-tuning to achieve cross-view consistency. In this paper, we propose HiFiVe, a training-free framework for high-fidelity vehicle modeling through joint texture and geometry enhancement by imposing 3D geometric constraints to anchor 2D generative priors. Specifically, we propose an auto-regressive texture refinement pipeline that progressively synthesizes high-resolution textures from arbitrary viewpoints. To ensure cross-view consistency, the coarse geometry serves as a synchronization prior, conditioning each generation step on previously synthesized frames via depth-based warping and multi-view texture fusion. Moreover, the inherent symmetry of vehicles is exploited to mitigate error accumulation. Finally, high-frequency surface details are recovered by refining the mesh geometry using normal maps estimated from the enhanced textures. Extensive experiments on synthetic and real-world vehicle datasets demonstrate that our method significantly improves both geometric detail and texture quality compared to state-of-the-art baselines.",
+      "authors": [
+        "Hongli Xiao",
+        "Youjian Zhang",
+        "Qi Zheng",
+        "Zhaohui Hu",
+        "Yaohui Jin",
+        "Xiaoguang Ren",
+        "Wenjing Yang",
+        "Long Lan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-24T02:00:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.25300v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "high-fidelity 3D vehicle generation from 2D generative priors with geometric constraints",
+      "llm_evidence_cn": "利用2D生成先验和几何约束的高保真3D车辆生成",
+      "llm_evidence": "利用2D生成先验和几何约束的高保真3D车辆生成",
+      "canonical_evidence": "利用2D生成先验和几何约束的高保真3D车辆生成",
+      "llm_tldr_en": "HiFiVe leverages auto-regressive 2D generative priors with 3D geometric constraints to generate high-fidelity 3D vehicle models without training, improving texture and geometry.",
+      "llm_tldr_cn": "针对现有3D车辆生成方法几何保真度低、纹理模糊的问题，HiFiVe提出无需训练的框架，通过引入3D几何约束锚定2D生成先验，以自回归方式从任意视点渐进合成高分辨率纹理，同时提升几何精度，实现了高保真车辆建模，且无需微调。",
+      "llm_tldr": "针对现有3D车辆生成方法几何保真度低、纹理模糊的问题，HiFiVe提出无需训练的框架，通过引入3D几何约束锚定2D生成先验，以自回归方式从任意视点渐进合成高分辨率纹理，同时提升几何精度，实现了高保真车辆建模，且无需微调。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.26754v1",
+      "source": "arxiv",
+      "title": "Capacity-Controlled Multi-View Stylization of 3D Gaussian Splatting",
+      "abstract": "While 3D Gaussian Splatting (3DGS) provides an efficient and explicit representation for novel view synthesis, enforcing stylistic coherence across viewpoints remains challenging. Existing 3D stylization methods typically apply 2D feature-matching losses independently per rendered view, which leads to unstable style allocation, many-to-one feature reuse, and limited cross-view consistency. We propose a capacity-controlled framework for multi-view stylization of 3DGS, grounded in optimal transport. Specifically, we reformulate local style matching as a semi-balanced optimal transport problem. By introducing explicit column-capacity constraints with tunable strength, our formulation mitigates many-to-one matching and enables controllable allocation of style features. This transport-based objective provides a principled mechanism for balancing feature coverage and stylistic diversity while maintaining stable correspondences across viewpoints. To further enhance cross-view coherence, we incorporate a novel cross-view matching guidance to constrain correspondences between scene content and style patterns. In addition, we introduce several geometric regularizations to enhance the vanilla 3DGS, thereby enabling optimized Gaussian primitives to represent finer-grained textures during stylization. Extensive experiments demonstrate that our approach significantly improves multi-view stylistic consistency and produces stable, expressive 3D stylizations while preserving the core semantic structure of the scene.",
+      "authors": [
+        "Zhihao Wen",
+        "Yixin Yang",
+        "Bojian Wu",
+        "Yang Zhou",
+        "Dani Lischinski",
+        "Daniel Cohen-Or",
+        "Hui Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-25T08:36:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.26754v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Multi-view stylization for 3D Gaussian Splatting, a novel view synthesis method",
+      "llm_evidence_cn": "针对3D高斯泼溅的多视图风格化，新视角合成方法",
+      "llm_evidence": "针对3D高斯泼溅的多视图风格化，新视角合成方法",
+      "canonical_evidence": "针对3D高斯泼溅的多视图风格化，新视角合成方法",
+      "llm_tldr_en": "This paper proposes a capacity-controlled framework for multi-view stylization of 3D Gaussian Splatting using optimal transport to enforce stylistic coherence across viewpoints for novel view synthesis.",
+      "llm_tldr_cn": "3D高斯泼溅为新视角合成提供了高效显式表示，但多视图风格化仍存在一致性挑战。本文提出基于容量控制的最优传输框架，将局部风格匹配建模为半平衡最优传输问题，通过列容量约束避免特征复用，实现可控的跨视图风格分配。实验表明该方法在保持渲染质量的同时显著提升了风格一致性。",
+      "llm_tldr": "3D高斯泼溅为新视角合成提供了高效显式表示，但多视图风格化仍存在一致性挑战。本文提出基于容量控制的最优传输框架，将局部风格匹配建模为半平衡最优传输问题，通过列容量约束避免特征复用，实现可控的跨视图风格分配。实验表明该方法在保持渲染质量的同时显著提升了风格一致性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

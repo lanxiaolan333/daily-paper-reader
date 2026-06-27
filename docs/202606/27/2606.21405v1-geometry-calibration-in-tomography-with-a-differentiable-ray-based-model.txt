@@ -1,0 +1,767 @@
+Title: Geometry Calibration in Tomography with a Differentiable Ray-Based Model
+
+URL Source: https://arxiv.org/pdf/2606.21405v1
+
+Published Time: Tue, 23 Jun 2026 01:03:28 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Geometry Calibration in Tomography with a Differentiable Ray-Based Model 
+
+Youssef Haouchat, Aleix Boquet-Pujadas, Sepand Kashani, Philippe Th ´ evenaz, Fellow, IEEE ,and Michael Unser, Life Fellow, IEEE 
+
+This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible. 
+
+Abstract — Geometric misalignments between the nom-inal and true acquisition parameters in tomography de-grade reconstructions. We propose a framework that jointly reconstructs the volume and calibrates the acquisition ge-ometry for arbitrary source–detector configurations. The core of our framework is an x-ray transform operator whose gradients with respect to the acquisition geometry can be efficiently computed with a ray-tracing method of structure and computational complexity similar to those of the for-ward operator. We represent the volume in a B-spline basis to provide a continuously differentiable model. This results in a better-behaved optimization landscape compared to voxel-based representations. We validate our framework with CT, micro-CT, nano-CT, and positron emission tomog-raphy data under a variety of geometric misalignments. 
+
+Index Terms — Image Reconstruction, Ray Tracing, Com-puted Tomography, B-splines, Gradient Methods. 
+
+I. I NTRODUCTION 
+
+A. Motivation and Related Work 
+
+Tomography is an imaging modality where the goal is to reconstruct a volume from a set of its line integrals. The in-tercepts and directions of these lines constitute the acquisition parameters . While standard reconstruction methods typically assume their perfect calibration, the acquisition parameters of real-world imaging systems such as computed tomography (CT) scanners often deviate from their nominal values. This issue has become more significant with the advent of mi-croscopic and nanoscopic tomography [1], where mechanical instabilities are large relative to the spatial resolution of the system. Common sources of geometric mismatches in standard tomographic setups include motor imprecision, mechanical vibrations, axis misalignment, and focal-spot instability. They often manifest themselves as angular errors, detector dis-placements, geometric precession, and source-position shifts (Figure 1). It is important to account for these mismatches because they introduce artifacts that can significantly degrade the quality of reconstructed volumes [2]. The most widely-adopted methods to mitigate these errors still rely on physical calibration objects [3] or sinogram-based corrections, common in CT or electron microscopy. They 
+
+Y. Haouchat, P. Th ´ evenaz, and M. Unser are with the Biomedical Imaging Group at EPFL, Switzerland (email: youssef. haouchat@epfl.ch). A. Boquet-Pujadas is with the SDSC hub at PSI, Switzerland (email: aleix.boquet-i-pujadas@psi.ch). S. Kashani is with the Center for Imaging at EPFL, Switzerland. Corresponding author: A. Boquet-Pujadas. This work was supported in part by the European Research Council (ERC-2020-AdG FunLearn-101020573) and by the Swiss National Science Foundation (Sinergia Grant CRSII5 198569). 
+
+include: (i) fiducial-aided methods that track high-contrast markers [4], (ii) feature-matching techniques such as center-of-mass tracking [5] or SIFT [6], and (iii) iterative methods such as outer-contour-based misalignment correction [7]. Among approaches that employ fiducial markers, positron emission tomography (PET) scanners, for example, can be calibrated by triangulating a rotating point source [8]. However, all these methods are tailored to particular calibration tasks and cannot be readily adapted to arbitrary acquisition geometries. The gradient-based optimization of the acquisition param-eters would enable the calibration of arbitrary geometric configurations, but this is conditioned on the availability of a forward model that is efficiently differentiable with respect to those parameters. Existing open-source libraries [9, 10, 11] usually lack support for gradients with respect to acquisition geometry. The implementation of these gradients is chal-lenging. While automatic-differentiation-based projectors [12] support geometric gradients, they often incur a high memory overhead and a reduced computational efficiency compared to dedicated ray-tracing kernels, as explained in Section II-E. Likewise, alternative methods relying on finite-difference approximations [13] are computationally expensive and do not scale well to high-dimensional parameter spaces. Recent work has achieved explicit gradient computation [14, 15], but these approaches perform exhaustive voxel-by-voxel calculations, which is resource-intensive. We propose an augmented variant of ray-tracing that com-putes the explicit gradient of the x-ray transform with re-spect to arbitrary acquisition parameters. By representing the reconstructed volume with differentiable basis functions, we ensure that the forward model is continuously differentiable with respect to the geometry, which improves convergence during optimization. Our contributions enable a wide range of calibration scenarios to be handled effectively within a unified framework. We validate this framework using both real and simulated data from CT, micro-CT, nano-CT, and PET. 
+
+B. X-Ray Model and Ray Tracing 
+
+In tomography, measurements are assumed to be line inte-grals of the function that describes the volume of interest. Let a line in R3 be parameterized in terms of s and θ as 
+
+{s + tθ ∈ R3 | t ∈ R}, (1) where θ ∈ S2 is the unit vector that directs the line and 
+
+s ∈ R3 is its intercept. We drop the canonical orthogonality constraint ⟨s, θ⟩ = 0 to simplify our derivations and streamline the implementation.   
+
+> arXiv:2606.21405v1 [eess.IV] 19 Jun 2026 δθ i
+> (a) Angle imprecision
+> δc
+> (b) Center of rotation
+> δsi
+> δdi
+> (c) Source and detector positions
+> δbi
+> δbj
+> (d) PET-like block positions
+> Nominal sources Nominal detectors
+> True sources True detectors
+> Fig. 1. Calibration scenarios with simplified geometries.
+
+The x-ray transform [16, 17] denoted by P of an integrable function f : R3 → R corresponds to the collection of all its integrals along such lines. With the current parameterization, it is expressed as Pf : ( R3, S2) → R, with 
+
+Pf (s, θ) = 
+
+Z
+
+> R
+
+f (s + tθ) d t. (2) In practice, the numerical computation of (2) usually assumes a discretization of f as a linear combination of basis functions that are translates of a generator φ placed on a Cartesian grid. To simplify the presentation and without loss of generality, we assume that these functions are positioned on Z3. Accordingly, the continuous-domain image to be reconstructed is written as 
+
+x 7 → f (x) = X
+
+> k∈Ω
+
+ckφ(x − k), (3) where Ω = {1, . . . , N }3 with N 3 the number of coefficients that describe the volume f , and ck is the coefficient associated to the basis function φ(· − k). The x-ray transform of f is 
+
+Pf (s, θ) = X
+
+> k∈Ω
+
+ckPφ(s − Proj Hθ (k), θ), (4) where Proj Hθ (k) is the projection of k onto the hyperplane orthogonal to θ.For any acquisition parameters (s, θ), the efficient com-putation of (4) requires one to identify the indices k ∈ Ω
+
+whose associated basis function φ(·− k) has a nonzero integral along the ray, so that Pφ(s − Proj Hθ (k), θ)̸ = 0 . Ray-tracing algorithms are well-suited to this purpose: they sequentially compute the intersection points between the ray and cells of the Cartesian grid. When φ is the indicator function of the unit cube (voxel), Pφ(s−Proj Hθ (k), θ) equals the intersection length of the ray with the kth cell, so Pf (s, θ) reduces to a weighted sum of these lengths with coefficients ck. In this case, the algorithm is known either as the differential digital analyser (DDA) or as Siddon’s method [18, 19]. When φ is a higher-order spline function, generalized DDA algorithms that can handle overlapping basis functions [20, 21] are deployed to efficiently compute the corresponding coefficients. However, there exists no explicit ray-tracing algorithm that provides the gradients of Pf with respect to the acquisition parameters 
+
+(s, θ), which are required for geometry optimization. 
+
+C. Contributions 
+
+Our contributions are as follows. 1) We formulate the gradient of Pf with respect to the geometric parameters (s, θ) and obtain formulas that are computable with ray-tracing (Equations (9) and (10)). 2) We provide practical methods (Algorithms 1 and 2) to perform the task efficiently. Their basis-function-specific subroutines are obtained either in closed form or via automatic differentiation of the closed-form line integral alone, as we apply to higher-order splines. 3) We use differentiable basis functions in (3) to ensure that the forward model is continuously differentiable also with respect to the geometry. The structure and efficiency of the resulting algorithm follows that of ray-tracing. 4) As a baseline, we also derive the analytical gradients for the conventional voxel model which is not differentiable in the classic sense (Algorithms 3 and 4). 5) We demonstrate our method on well-known calibration scenarios and show the benefit of smooth basis functions over voxels for geometry optimization. 6) We provide an implementation that is publicly available. 1
+
+II. M ETHOD AND IMPLEMENTATION 
+
+In this section, we derive the main formulas and algo-rithms that are used in our framework. By contrast with most implementations that use voxels as basis functions to describe the volume, our formulation involves differentiable basis functions. First, we introduce the general ray-tracing Algorithms 1 and 2 that provide an exact computation of the gradients. Then, we instantiate them either with differentiable basis functions (Section II-C), or with explicit subroutines for voxels (Section II-D). 
+
+A. Main Derivations 
+
+We adopt the following notation for the gradients of the partial mappings of the x-ray transform: for s ∈ R3 and 
+
+θ ∈ S2,
+
+∇s[Pf ]( s, θ) := ∇[Pf (·, θ)]( s),
+
+∇θ [Pf ]( s, θ) := ∇[Pf (s, ·)]( θ). (5) 
+
+> 1https://github.com/HaouchatY/differentiable_xrt
+
+2In the second mapping, ∇ denotes the Riemannian gradient on the unit sphere S2, which corresponds to the projection of the Euclidean gradient onto the plane tangent to the sphere at 
+
+θ. We assume that f is compactly supported and continuously differentiable, so that the Leibniz rule allows differentiation under the integral sign. 2 Since the integral of a vector-valued function is defined component-wise, we obtain that 
+
+∇s[Pf ]( s, θ) = 
+
+Z
+
+> R
+
+∇[s′ 7 → f (s′ + tθ)]( s)d t
+
+=
+
+Z
+
+> R
+
+∇f (s + tθ)d t
+
+=
+
+
+
+P(∂1f )( s, θ)
+
+P(∂2f )( s, θ)
+
+P(∂3f )( s, θ)
+
+ . (6) The second equality comes from the chain rule and the fact that the Jacobian of s 7 → s+tθ is the identity of R3. Similarly, we write that 
+
+∇θ [Pf ]( s, θ) = 
+
+Z
+
+> R
+
+∇[θ′ 7 → f (s + tθ′)]( θ)d t
+
+= ( I − θθ ⊤)
+
+Z
+
+> R
+
+t∇f (s + tθ)d t, (7) where t(I − θθ ⊤) is the Riemannian Jacobian of θ 7 → s +
+
+tθ on S2. Both gradients involve ∇f under the integral or, equivalently, ∇φ (once f is expanded as in (3)). Differentiable basis functions such as high-order B-splines ensure that ∇φ
+
+is well-defined and continuous, which is a key advantage over the use of voxels in geometry optimization. The expression of ∇θ [Pf ] involves the factor t inside the integral, which depends on the global parameterization of the ray from its intercept s. To make it compatible with cell-by-cell ray tracing, we use a re-parameterization that we refer to as the reference-point translation .
+
+B. Reference-Point Translation 
+
+For any t0 ∈ R, it holds that 
+
+∇θ [Pf ]( s, θ) = ( I − θθ ⊤)
+
+ Z 
+
+> R
+
+(t − t0)∇f (s + tθ)d t
+
++ t0
+
+Z
+
+> R
+
+∇f (s + tθ)d t
+
+
+
+= ( I − θθ ⊤)
+
+Z
+
+> R
+
+t∇f (s + ( t + t0)θ)d t
+
++ t0∇s[Pf ]( s, θ)= ∇θ [Pf ]( s + t0θ, θ) + t0∇s[Pf ]( s, θ).
+
+(8) The second equality uses the fact that ∇s[Pf ]( s, θ) is or-thogonal to θ, which follows from the fundamental theorem of calculus applied to the compactly supported function f :R 
+
+> R
+
+θ⊤∇f (s + tθ) d t = 0 .By choosing t0 as the distance from s to the entry point of the traversed cell, we localize the computation to that cell     
+
+> 2When φis not classically differentiable (e.g., the voxel indicator), ∇φis understood in the distributional sense and the interchange follows from the generalized Leibniz rule for distributions.
+
+(a) (b) (c)
+
+s
+
+t0
+
+∼ 
+
+> δ→0
+
+t0δ
+
+pin 
+
+pout 
+
+pin + t0δe1
+
+θ θ + δe1
+
+δ
+
+e1
+
+e2               
+
+> (a) = Pf(s,θ),(b) = Pf(s+t0δe1,θ),(c) = Pf(s,θ+δe1)
+
+∂θ1 [Pf ]( s, θ) = lim  
+
+> δ→0(c)−(a)
+> δ
+
+= lim  
+
+> δ→0(c)−(b)
+> δ
+
++ lim 
+
+> δ→0(b)−(a)
+> δ
+> Fig. 2. Elements involved in the reference-point translation.
+
+and make the algorithm compatible with DDA. This concept is illustrated in Figure 2, and can be expressed formally as 
+
+∂θ1 [Pf ]( s, θ) = lim   
+
+> δ→0
+> Pf(s,θ+δe1)−P f(s,θ)
+> δ
+
+= lim   
+
+> δ→0
+> Pf(s,θ+δe1)−P f(s+t0δe1,θ)
+> δ
+
++ lim   
+
+> δ→0
+> Pf(s+t0δe1,θ)−P f(s,θ)
+> δ
+
+=∂θ1 [Pf ]( s + t0θ
+
+| {z } 
+
+> =pin
+
+, θ) + t0∂s1 [Pf ]( s, θ).
+
+The direction gradient thus decomposes into a cell-local term and a term that is proportional to the intercept gradient. 
+
+C. Proposed Algorithm 
+
+We derive the full ray-tracing algorithms by combining Section II-B with the expansion in (3). We have that 
+
+∇s[Pf ]( s, θ) = X
+
+> k∈Ω
+
+ck∇s[Pφ]( s(k), θ)= X
+
+> k∈Ω
+
+ck
+
+ Z 
+
+> R
+
+∇φ(s(k) + tθ) d t
+
+| {z }
+
+> Compute grad (s)
+
+
+
+, (9) where s(k) = s − Proj Hθ (k). Similarly, it holds that 
+
+∇θ [Pf ]( s, θ) = X
+
+> k∈Ω
+
+ck∇θ [Pφ]( s(k), θ)=( I − θθ ⊤) X
+
+> k∈Ω
+
+ck
+
+ Z 
+
+> R
+
+t ∇φ(s(k) + ( t + t0,k)θ) d t
+
+| {z }
+
+> Compute grad (θ)
+
++ t0,k
+
+Z
+
+> R
+
+∇φ(s(k) + tθ) d t
+
+| {z }
+
+> Compute grad (s)
+
+
+
+, (10) 3Algorithm 1 Compute ∇s[Pf ]( s, θ)
+
+Require: Volume c, intercept s, direction θ 
+
+> 1:
+
+pin = entry point (c, s, θ) 
+
+> 2:
+
+gs = [0 , 0, 0] ⊤ 
+
+> 3:
+
+while DDA is active do  
+
+> 4:
+
+pout ← DDA step (pin , θ) 
+
+> 5:
+
+k ← ⌊ (pin + pout )/2⌋ 
+
+> 6:
+
+gs ← gs + c[k] · Compute grad (s)(k, pin , pout , θ) 
+
+> 7:
+
+pin ← pout  
+
+> 8:
+
+end while  
+
+> 9:
+
+return gs
+
+Algorithm 2 Compute ∇θ [Pf ]( s, θ)
+
+Require: Volume c, intercept s, direction θ 
+
+> 1:
+
+pin = entry point (c, s, θ) 
+
+> 2:
+
+gθ = [0 , 0, 0] ⊤ 
+
+> 3:
+
+while DDA is active do  
+
+> 4:
+
+pout ← DDA step (pin , θ) 
+
+> 5:
+
+k ← ⌊ (pin + pout )/2⌋ 
+
+> 6:
+
+t0 ← ∥ pin − s∥2 
+
+> 7:
+
+g(t0) 
+
+> θ
+
+← Compute grad (θ)(k, pin , pout , θ) 
+
+> 8:
+
+gs ← Compute grad (s)(k, pin , pout , θ) 
+
+> 9:
+
+gθ ← gθ + c[k] g(t0) 
+
+> θ
+
++ t0gs
+
+ 
+
+> 10:
+
+pin ← pout  
+
+> 11:
+
+end while  
+
+> 12:
+
+return (I − θθ ⊤)gθ ▷ Project onto tangent space 
+
+P = project( pin , θ)Compute grad (s) = backward(P, var= pin )Compute grad (θ) = backward(P, var= θ)
+
+> Fig. 3. Code snippet.
+
+where t0,k = ∥pin − s(k)∥2 is the ray parameter at the entry point of the cell k. Expressions (9) and (10) accumulate cell-wise integrals of ∇φ along the ray, making them computable by DDA. Algorithms 1 and 2 detail these procedures, where 
+
+DDA step (pin , θ) returns the exit point pout of the cell. The subroutines Compute grad (s) and Compute grad (θ) are basis-specific and can be obtained in two ways: 1) When φ admits a closed-form line integral, we implement a function project (pin , θ) that computes Pφ(pin , θ).For spline basis functions, this reduces to the evaluation of appropriate polynomials [22, 23]. The subroutines then follow if one differentiates project with respect to 
+
+pin and θ, which automatic differentiation (AD) handles at the cost of a single scalar backward pass. This is described in Figure 3. Crucially, AD is applied only to this scalar function, not to the DDA loop itself, so no loop unrolling or graph storage is required. The cost of each subroutine scales linearly with the width of the discrete support of φ [20]. 2) The subroutines can also be derived analytically when 
+
+∇φ is known in closed form, as we do for voxels in Section II-D. In this case, there is no need for AD. 
+
+Algorithm 3 Compute grad (s) for voxels 
+
+Require: Index k, entry pin , exit pout , direction θ 
+
+> 1:
+
+σ = 1{pin =k} + 1{pout =k} − 1{pin =k+1} − 1{pout =k+1} 
+
+> 2:
+
+return σ ⊘ | θ| ▷ Elementwise division 
+
+Algorithm 4 Compute grad (θ) for voxels 
+
+Require: Index k, entry pin , exit pout , direction θ 
+
+> 1:
+
+L = ∥pout − pin ∥2 
+
+> 2:
+
+σout = 1{pout =k} − 1{pout =k+1} 
+
+> 3:
+
+return L(σout ⊘ | θ|) ▷ Unprojected local gradient 
+
+D. Closed Form for Voxels 
+
+Even though the voxel model is not differentiable in the classic sense, the x-ray transform integrates out the Diracs in-duced by differentiation. In this case, the volume is discretized with the help of the indicator function φ(·) = 1[0 ,1] 3 (·). Its gradient expands into a vector of Dirac delta distributions situated on the six faces of the unit cube, with 
+
+∇φ(x) = 
+
+
+
+1[0 ,1] 2 (x2, x 3) δ(x1) − δ(x1 − 1) 
+
+1[0 ,1] 2 (x1, x 3) δ(x2) − δ(x2 − 1) 
+
+1[0 ,1] 2 (x1, x 2) δ(x3) − δ(x3 − 1)  . (11) Rays that traverse any of the grid planes or intersect the voxel at its edges or corners constitute a set of measure zero; their gradients evaluate to zero and are safely ignored in practice. Through a change of variables, the integral of 
+
+∇φ along a ray parameterized by s and θ evaluates the intersections with the voxel faces as 
+
+Z
+
+> R
+
+∇φ(s + tθ)d t =
+
+ 
+
+> 1
+> |θ1|
+
+(σleft − σright ) 
+
+> 1
+> |θ2|
+
+(σbottom − σtop ) 
+
+> 1
+> |θ3|
+
+(σback − σfront )
+
+ , (12) where the Boolean indicator σface ∈ { 0, 1} is 1 when the ray intersects the corresponding face of the indicator function, and 
+
+0 otherwise. Consequently, if the ray either misses the voxel or traverses it by entering and exiting through parallel faces (e.g., entering the left face and exiting the right face), then the components cancel, which leads to 
+
+Z
+
+> R
+
+∇φ(s + tθ)d t = 0. (13) Applying the reference-point translation, we compute the an-gular gradient ∇θ [Pφ]( s, θ) by setting the reference intercept 
+
+s to the entry point on the boundary of the voxel of interest. There, the ray parameter is t = 0 , which causes the entry term to vanish. The integral is then determined exclusively by the exit intersection as 
+
+Z
+
+> R
+
+t∇φ(s + ( t + t0)θ)d t = L
+
+ 
+
+> 1
+> |θ1|
+
+(σ(out) left − σ(out) right ) 
+
+> 1
+> |θ2|
+
+(σ(out) bottom − σ(out) top ) 
+
+> 1
+> |θ3|
+
+(σ(out) back − σ(out) front )
+
+ , (14) where L is the total intersection length between the ray and the voxel, and where σ(out)  
+
+> face
+
+∈ { 0, 1} equals 1 if the exit face 
+
+of the ray corresponds to that specific boundary of the voxel, and 0 otherwise. The corresponding subroutines are given in Algorithms 3 and 4. 4sp
+
+> θp
+
+Acquisition geometry Θ  
+
+> Θp= ( sp,θp)
+
+Volume c     
+
+> k
+> ckφ(·− k)
+> f=P
+> kckφ(·− k)
+
+AΘ
+
+> differentiable operator
+
+Projections ˜y  
+
+> ˜y=AΘx
+
+L(˜ y) 12 ∥˜y − y∥22, typically 
+
+> y: measurements
+
+∇ΘAΘ
+
+| {z }
+
+> Alg. 1 & 2
+
+∇˜yL (update Θ)
+
+A⊤
+
+> Θ
+
+|{z} 
+
+> backprojection
+
+∇˜yL (update x)
+
+> Fig. 4. Overview of the differentiable framework.
+
+10 7 10 8
+
+10 
+
+100 
+
+Number of rays     
+
+> Wall time (ms)  forward Pf
+> gradient ∂s1[Pf]
+> Fig. 5. Computational complexity of a gradient entry with our method.
+
+E. Implementation Details 
+
+We implement our ray-tracing operators in Dr.Jit [24], a just-in-time compiler that traces computational graphs and compiles efficient CPU and GPU codes. Each ray is processed independently: an outer loop over rays runs in parallel across threads while an inner DDA loop runs sequentially within each thread. Backward-mode automatic differentiation, as in Dr.Jit, PyTorch, or JAX, records every operation as a directed acyclic graph before it is traversed in reverse. The forward x-ray DDA loop violates this: its variables (ray–cell intersection points) are updated in place at each step for efficiency. This creates an unfortunate cyclic dependency between the accumulated quantities and the differentiated variables. In this work, we bypass this state of affairs by defining custom operators (gradients with respect to s and θ) with an explicit vector-Jacobian product (VJP). The VJP itself (Algorithms 1 and 2) is a ray-tracing pass. The AD framework applies the chain rule and calls our custom VJP whenever the x-ray transform appears. A general overview of the framework is shown in Figure 4. To demonstrate our claims on complexity, we benchmark our implementation on 3D setups with arbitrary geometry in Fig. 5. Each geometric gradient entry matches the forward runtime with a mean ratio of 1.07 ± 0.03 , confirming that closed-form differentiation adds no asymptotic overhead. 
+
+III. N UMERICAL EXPERIMENTS 
+
+Tomographic reconstruction is formulated as the search for an estimate of x ∈ RN from measurements y ∈ RM . The measurements are assumed to follow the model 
+
+y = AΘx + n, n ∼ N (0, σ 2IM ), (15) where x is a vector where components collect the expansion coefficients ck describing the continuous image f as in (3), and AΘ ∈ RM ×N is the x-ray forward operator such that 
+
+[AΘ]m,n = Pφ(sm − Proj Hθm (kn), θm). (16) The linear operator A is parameterized by the acquisition parameters Θ = {(sm, θm) ∈ R3×2, m = 1 . . . M }. Each measurement component ym can be written as 
+
+ym = Pf (sm, θm) + nm, m = 1 , . . . , M. (17) In practice, a nominal geometry is known, which differs from Θ by a small perturbation denoted g and expressed as 
+
+Θnom = g(Θ). (18) Usually, the acquisition geometry is also structured , in the sense that the geometric perturbations can be parameterized by fewer variables than the total number of rays. The uncalibrated solution to the reconstruction problem is typically expressed through a maximum-likelihood formula-tion as 
+
+x∗ = arg min  
+
+> x∈RN
+> 12σ2
+
+∥y − Anom  
+
+> Θ
+
+x∥22
+
+| {z }
+
+> L(x,Θnom )
+
+. (19) Suppose we want at the same time to calibrate the model and to reconstruct the volume. Then, the optimization methods will need to find an estimate of both x and Θ, which will involve maximum-likelihood formulations such as 
+
+x∗, Θ∗ = arg min   
+
+> x∈RN,Θ∈RM×2×3
+
+L(x, Θ). (20) We conduct calibration experiments in both real and sim-ulated settings. We solve the non-convex joint problem (20) with Adam [25] throughout. All geometric perturbations are expressed in units of a single detector element. 5σj = 1 σj = 5 σj = 9 
+
+> Uncalibrated Our method
+
+Fig. 6. Synthetic calibration experiment. Top row: reconstructions with the nominal geometry. Bottom row: after joint calibration with our method and quadratic B-splines. Columns correspond to increasing jitter levels 
+
+σj ∈ { 1, 5, 9} applied to projection angles and detector offsets.                 
+
+> 123456789
+> 0
+> 10
+> 20
+> 30
+> 40
+> σj
+> PSNR (dB)
+> 123456789
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> σj
+> SSIM
+> Uncalib. Ours
+
+Fig. 7. Quality metrics for the simulated CT experiment of Figure 6. 
+
+A. Simulated Data 
+
+a) Cone-Beam CT: We assume a cone-beam geometry while reconstructing a volume of size 512 3 from 1024 pro-jection angles on a (768 × 768) detector. The unknown pertur-bation g in (18) adds independent Gaussian noise of standard deviation σj ∈ { 1, . . . , 9} to each angle and detector offset, as in column (c) of Figure 1. The insets of Figure 6 contain a region of the uncalibrated and calibrated reconstructions for 
+
+σj ∈ {1, 5, 9}, obtained with quadratic B-splines as basis functions. We report in Figure 7 the PSNRs and SSIMs as a function of σj for all levels. 
+
+b) PET-Like Geometry: We apply our framework to a PET-like geometry using the DigiMouse phantom [26] discretized on a 128 3 grid. The detector ring consists of 8 blocks of (64 ×
+
+64) scintillator elements, placed at a radius of 64 pixels from the center. Each measurement is a line of response between two detector elements. The perturbation g in (18) applies an independent random displacement of standard deviation σj = 2 
+
+to each block, as in column (d) of Figure 1. Reconstructions with and without calibration are shown in Figure 8 . 
+
+c) Benefit of Higher-Order Basis Functions: We compare voxel and quadratic B-spline representations on a parallel-beam calibration task using a phantom ( N = 500 3, 900 
+
+projection angles, (900 × 900) detector) with Gaussian offset jitter level σj = 5 .  
+
+> Ground truth Uncalibrated Our method
+
+Fig. 8. Calibration with PET geometry. Top row: full reconstruction. Bottom row: zoom on the central region. Left: ground truth; center: reconstruction with the perturbed geometry ( L = 0 .8); right: reconstruc-tion after calibration ( L = 1 .5 × 10 −4).        
+
+> Uncalibrated Our method (pixels) Our method (B-splines)
+> −2−1012
+> 0
+> 0.1
+> 0.2
+> Shift error (pixels)
+> Loss landscape
+> Pixels B-splines
+
+Fig. 9. Benefit of higher-order basis functions for calibration. Top row: reconstructions without calibration (left), with pixel-based calibration (center), and with quadratic B-spline calibration (right). The insets show zoomed regions. Bottom: loss landscape, as a function of a 1D detector shift at angle zero, for pixels and B-splines. 
+
+With voxels, the loss landscape is piecewise constant, thus producing zero gradients that trap the optimizer in flat regions. The optimal solution for the geometry is also not unique. The B-spline discretization yields a continuously differentiable landscape, which reduces the final geometry error ∥ ˆΘ − Θ∗∥
+
+by 55% compared to voxels ( 0.021 vs. 0.048 ). Reconstructions and loss landscapes are shown in Figure 9. 6Misaligned COR Source jitter Angle imprecision Detector vibrations Uncalibrated Our method 
+
+> Fig. 10. Uncalibrated and calibrated reconstructions with real data.
+
+B. Real Data 
+
+We now solve the formulation (20) for 3D real-data settings, each exhibiting a different type of geometric mismatch. 
+
+a) Misaligned Center of Rotation: A micro-CT scan of a sand sample ( (768 × 768) detector, 800 projections, pixel size 
+
+0.127 mm, source-to-detector distance 765 .7 mm, source-to-object distance 96 .46 mm) as acquired in-house. 3 The center of rotation (COR) is parameterized as a 2D offset ( 2 unknowns), as illustrated in Figure 1(b). 
+
+b) Source Jitter: Each projection of a cone-beam scan of a walnut ( (972 × 728) detector, 1200 projections) 4 has an independent 3D source displacement ( 3 × 1200 unknowns), as illustrated in Figure 1(c). 
+
+c) Angle Imprecision: The motor angular imprecision of a cone-beam micro-CT scan of a bone sample ( (1150 ×1150) de-tector, 361 projections, source-to-object distance 210 .66 mm, source-to-detector distance 553 .74 mm) 5 is parameterized as one unknown per projection ( 361 unknowns), as illustrated in Figure 1(a). 
+
+d) Detector Vibrations: A parallel-beam nano-CT scan of an NMC battery cathode particle was acquired at the Stanford Synchrotron Radiation Lightsource ( (1024 × 1024) detector, 
+
+180 projections) 6. Each projection has an independent 2D de-tector offset ( (2 ×180) unknowns), as illustrated in Figure 1(c). In all four cases, our calibration removes misalignment artifacts, as shown in Figure 10. In Figure 11, we plot the loss 
+
+L(xk, Θk) at each iteration k of optimization. This confirms that our method reaches a lower minimum than uncalibrated baselines.           
+
+> 3https://www.epfl.ch/schools/enac/pixe/
+> 4https://www.nature.com/articles/s41597-019-0235-y
+> 5https://zenodo.org/records/6990764
+> 6https://tomobank.readthedocs.io/en/latest/source/ data/docs.data.XANES.html
+> 0
+> 0.5
+> 1
+> Norm. loss
+> Micro-CT (sand) Cone-beam CT (walnut)
+> 01,000 2,000
+> 0
+> 0.5
+> 1
+> Iteration
+> Norm. loss
+> Micro-CT (bone)
+> 020 40 60
+> Iteration
+> Nano-CT (NMC)
+> Uncalibrated Our method
+> Fig. 11. Data-fidelity loss in terms of iterations for the data of Figure 10. Each panel shows the uncalibrated and calibrated curves, normalized to
+> [0 ,1] from the joint minimum and maximum of both curves.
+
+IV. C ONCLUSION 
+
+We have presented a ray-tracing algorithm that gives access to the gradients of the x-ray transform with respect to arbitrary acquisition parameters. Its computational complexity is iden-tical to that of the forward operator. The representation of the volume with B-spline basis functions yields a continuously differentiable forward model. Our optimization landscape is smoother than the one that results from voxel-based repre-sentations. We have demonstrated joint reconstruction and calibration on synthetic and real data across CT, micro-CT, and PET geometries. Since our method handles arbitrary ray geometries, it applies to any tomographic setup. 7V. A CKNOWLEDGMENTS 
+
+We acknowledge the ENAC Interdisciplinary Platform for X- ray micro-tomography (PIXE) for providing the real micro-CT data used in our experiments. 
+
+REFERENCES 
+
+[1] M. Dierolf, A. Menzel, P. Thibault, P. Schneider, C. M. Kewish, R. Wepf, O. Bunk, and F. Pfeiffer. “Ptycho-graphic X-ray computed tomography at the nanoscale”. In: Nature 467.7314 (2010), pp. 436–439. [2] L. von Smekal, M. Kachelrieß, E. Stepina, and W. A. Kalender. “Geometric misalignment and calibration in cone-beam tomography”. In: Medical Physics 31.12 (2004), pp. 3242–3266. [3] K. Yang, A. L. C. Kwan, D. F. Miller, and J. M. Boone. “A geometric calibration method for cone beam CT systems”. In: Medical Physics 33.6 Part1 (2006), pp. 1695–1706. [4] R. Coray, P. Navarro, S. Scaramuzza, H. Stahlberg, and D. Casta˜ no-D´ ıez. “Automated fiducial-based alignment of cryo-electron tomography tilt series in Dynamo”. In: 
+
+Structure 32.10 (2024), 1808–1819.e4. [5] T. Donath, F. Beckmann, and A. Schreyer. “Automated determination of the center of rotation in tomography data”. In: Journal of the Optical Society of America A 
+
+23.5 (2006), pp. 1048–1057. [6] R. Han, F. Zhang, X. Wan, J.-J. Fern´ andez, F. Sun, and Z. Liu. “A marker-free automatic alignment method based on scale-invariant features”. In: Journal of Struc-tural Biology 186.1 (2014), pp. 167–180. [7] Z. Zhang, Z. Dong, H. Yan, A. Pattammattel, X. Bi, Y. Dong, G. Liu, X. Sun, and Y. Zhang. “A general image misalignment correction method for tomography experiments”. In: iScience 26.10 (2023), p. 107932. [8] L. Pierce, R. Miyaoka, T. Lewellen, A. Alessio, and P. Kinahan. “Detector position estimation for PET scanners”. In: Nuclear Instruments and Methods in Physics Research Section A: Accelerators, Spectrome-ters, Detectors and Associated Equipment 677 (2012), pp. 74–79. [9] W. Van Aarle, W. J. Palenstijn, J. De Beenhouwer, T. Altantzis, S. Bals, K. J. Batenburg, and J. Sijbers. “The ASTRA Toolbox: A platform for advanced algo-rithm development in electron tomography”. In: Ultra-microscopy 157 (2015), pp. 35–47. [10] A. Biguri, M. Dosanjh, S. Hancock, and M. Soleimani. “TIGRE: A MATLAB-GPU toolbox for CBCT image reconstruction”. In: 2016 IEEE 13th International Sym-posium on Biomedical Imaging (ISBI) , pp. 120–123. [11] D. Gursoy, F. De Carlo, X. Xiao, and C. Jacobsen. “TomoPy: A framework for the analysis of synchrotron tomographic data”. In: Journal of Synchrotron Radia-tion 21.5 (2014), pp. 1188–1193. [12] V. Gopalakrishnan and P. Golland. “Fast Auto-differentiable Digitally Reconstructed Radiographs for Solving Inverse Problems in Intraoperative Imaging”. In: Clinical Image-Based Procedures . Cham: Springer Nature Switzerland, 2023, pp. 1–11. [13] T. Ramos, J. S. Jørgensen, and J. W. Andreasen. “Auto-mated angular and translational tomographic alignment and application to phase-contrast imaging”. In: Journal of the Optical Society of America A 34.10 (2017), p. 1830. [14] Y. Liu, J. Dong, T.-a. Pham, F. Marelli, and M. Unser. “Mechanical artifacts in optical projection tomography: Classification and automatic calibration”. In: Opt. Con-tinuum 1.12 (2022), pp. 2577–2589. [15] M. Zehni, L. Donati, E. Soubies, Z. Zhao, and M. Unser. “Joint Angular Refinement and Reconstruction for Single-Particle Cryo-EM”. In: IEEE Transactions on Image Processing 29 (2020), pp. 6151–6163. [16] A. C. Kak, M. Slaney, and G. Wang. “Principles of com-puterized tomographic imaging”. In: Medical Physics 
+
+29.1 (2002), pp. 107–107. [17] F. Natterer. The Mathematics of Computerized Tomog-raphy . SIAM, 2001. [18] R. L. Siddon. “Fast calculation of the exact radiological path for a three-dimensional CT array”. In: Medical Physics 12.2 (1985), pp. 252–255. [19] J. Amanatides and A. Woo. “A Fast Voxel Traversal Algorithm for Ray Tracing”. In: EG 1987-Technical Papers . Eurographics Association, 1987. [20] Y. Haouchat, S. Kashani, P. Th´ evenaz, and M. Unser. “Generalized Ray Tracing With Basis Functions for Tomographic Projections”. In: IEEE Transactions on Computational Imaging 11 (2025), pp. 1294–1305. [21] Y. Haouchat, S. Kashani, A. Boquet-Pujadas, P. Th´ evenaz, and M. Unser. “SplineSplat: 3D Ray Trac-ing for Higher-Quality Tomography”. In: 2026 IEEE 23rd International Symposium on Biomedical Imaging (ISBI) . 2026, pp. 1–5. [22] A. Entezari, M. Nilchian, and M. Unser. “A Box Spline Calculus for the Discretization of Computed Tomogra-phy Reconstruction Problems”. In: IEEE Transactions on Medical Imaging 31.8 (2012), pp. 1532–1541. [23] S. Horbelt, M. Liebling, and M. Unser. “Discretization of the radon transform and of its inverse by spline con-volutions”. In: IEEE Transactions on Medical Imaging 
+
+21.4 (2002), pp. 363–376. [24] W. Jakob, S. Speierer, N. Roussel, and D. Vicini. “Dr.Jit: A Just-In-Time Compiler for Differentiable Rendering”. In: Transactions on Graphics (Proceedings of SIGGRAPH) 41.4 (2022). [25] D. P. Kingma and J. Ba. “Adam: A Method for Stochas-tic Optimization.” In: ICLR . 2015. [26] B. Dogdas, D. Stout, A. F. Chatziioannou, and R. M. Leahy. “Digimouse: A 3D whole body mouse atlas from CT and cryosection data”. In: Physics in Medicine & Biology 52.3 (2007), p. 577. 8
