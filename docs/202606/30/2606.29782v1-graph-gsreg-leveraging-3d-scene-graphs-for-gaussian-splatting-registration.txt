@@ -1,0 +1,643 @@
+Title: Graph-GSReg: Leveraging 3D Scene Graphs for Gaussian Splatting Registration
+
+URL Source: https://arxiv.org/pdf/2606.29782v1
+
+Published Time: Tue, 30 Jun 2026 01:43:08 GMT
+
+Number of Pages: 34
+
+Markdown Content:
+# Graph-GSReg: Leveraging 3D Scene Graphs for Gaussian Splatting Registration 
+
+Jaewon Lee 1 , Mangyu Kong 1 , and Euntai Kim 1,2⋆ 
+
+> 1
+
+Yonsei University, Seoul, Republic of Korea  
+
+> 2
+
+Korea Institute of Science and Technology, Seoul, Republic of Korea 
+
+{leejaewon,mangyu0929,etkim}@yonsei.ac.kr https://lee-jaewon.github.io/Graph-GSReg/ 
+
+Abstract. Merging multiple 3D Gaussian Splatting (3DGS) scenes into a single unified Gaussian representation is essential for large-scale 3D mapping and long-term map management. Despite its importance, this area remains underexplored, and existing solutions exhibit several limi-tations. Learning-based methods attempt direct correspondence between Gaussian primitives and require training on large 3DGS datasets. Image-based optimization methods depend heavily on coarse initialization from generic foundation models and often incur expensive refinement. We present Graph-GSReg. Our method constructs a 3D scene graph from a 3DGS and its rendered images, reformulating 3DGS registration as a graph registration problem . The proposed 3D scene graph represents each 3DGS at a higher-level representation, enabling a globally consis-tent understanding of semantic information and structural context for accurate registration. To further construct a seamless unified scene, we introduce a Self-Supervised Test-Time Optimization. Naively merging two 3D Gaussian scenes often suffers from occlusion artifacts such as hollows and floaters. To alleviate this issue, we refine the merged Gaus-sians to preserve visual consistency between the original scenes and the merged scene. We evaluate our method on real and synthetic bench-marks, demonstrating competitive registration accuracy and merged scene rendering quality. 
+
+Keywords: Gaussian Splatting · Scene Graph Registration · Scene Merg-ing 
+
+## 1 Introduction 
+
+Large-scale 3D mapping is a fundamental challenge [3] in applications such as robot navigation and AR/VR. Recently, 3D Gaussian Splatting (3DGS) [11] has emerged as a new form of map representation, offering fast rendering speed and high visual quality, and is now being explored for large-scale scene representa-tion [13,17]. However, due to its optimization-based nature that requires refining  
+
+> ⋆
+
+Corresponding author 
+
+> arXiv:2606.29782v1 [cs.CV] 29 Jun 2026
+
+2 J. Lee et al. Ours  PhotoReg  
+
+> (ArXiv’24)
+> GaussReg
+> (ECCV’24)
+> 3D Scene Graph A 3D Gaussian Splatting A
+> 3D Scene Graph B Maximum Clique B 3D Gaussian Splatting B
+> Maximum Clique A
+> Self -Supervised
+> Test -Time Optimization
+
+Fig. 1: Graph-GSReg performs 3D Gaussian Splatting (3DGS) registration using 3D scene graphs. Given two partially overlapping 3DGSs, the second column shows the 3D scene graphs constructed from each 3DGS. In the third column, the two scene graphs are matched, and consistent correspondences are obtained through maximum clique search, without erroneous matches. 
+
+a massive number of Gaussian primitives, training a single model on large-scale environments leads to excessive memory consumption. This often results in un-stable optimization, making it practically infeasible [20, 36]. Furthermore, in real-world scenarios, it is often difficult to capture an entire scene at once [8]. Consequently, in 3DGS, aligning and merging multiple independently gener-ated scenes is essential for large-scale reconstruction, yet this problem has not been sufficiently explored. Several approaches have been proposed for 3DGS reg-istration. GaussReg [4] is a learning-based framework that performs registration using a point cloud network derived from Gaussian primitives and further refines the alignment through a rendered image-based network. However, it requires training on large 3DGS datasets. GaussReg attempts to fuse them based on the distance thresholds between Gaussian points. However, this thresholding-based approach excludes some Gaussians, often resulting in severe hollow re-gions. PhotoReg [33] performs coarse alignment of rendered image pairs using DUSt3R [29] and refines the alignment via image-based optimization. However, since such off-the-shelf models are not specifically tailored for 3DGS registration, they can introduce potential ambiguities in the initial estimation. This reliance on image-based alignment means that if coarse alignment fails, fine optimization also requires a significant amount of time. Moreover, PhotoReg does not employ a dedicated merging strategy and instead directly combines the scenes, resulting in noticeable artifacts and floaters. We propose Graph-GSReg, a framework that enables robust alignment and seamless merging of multiple scenes through a 3D scene graph representation [9, 10, 15]. Although 3DGS offers high-fidelity rendering, its primitives mainly en-code low-level attributes such as color, position, and rotation, making them difficult to directly exploit for higher-level reasoning. To address this limitation, we construct a 3D scene graph from a 3DGS and reformulate 3DGS registration as a graph registration problem, enabling consistent alignment across multiple scenes. Graph-GSReg 3
+
+To seamlessly merge multiple 3DGS scenes into a unified representation, we further introduce a Self-Supervised Test-Time Optimization (TTO) strat-egy. Naively merging 3DGS scenes often suffers from occlusion artifacts such as hollows and floaters. To mitigate this, we use the fact that each original scene remains renderable as a self-supervised reference. Specifically, we render both the merged scene and the corresponding original scene from the same viewpoint, and update the merged Gaussians by minimizing the difference between the two renderings. The renderings from the original scenes serve as reliable references that guide the refinement of the unified representation. This process alleviates artifacts caused by overlapping structures and occlusions while maintaining pho-tometric consistency across the scene. Fig. 1 showcases 3D scene graphs from real-world 3DGS and provides a brief qualitative comparison of our merging results. The contributions of this paper are summarized as follows: 
+
+– We propose Graph-GSReg, a registration framework that constructs a 3D scene graph enriched with geometric and semantic information from 3DGS scenes. 
+
+– We propose Self-Supervised Test-Time Optimization, a merging strategy that refines aligned 3D Gaussians and yields a seamless and visually con-sistent scene. 
+
+– We evaluate our method on both real-world and synthetic benchmarks, achieving competitive registration accuracy and high-quality merged-scene renderings. 
+
+## 2 Related Work 
+
+2.1 Scene Merging Strategies in Radiance Field 
+
+Several studies have explored aligning and seamlessly merging two scenes in Radiance Field. Based on NeRF [19], Block-NeRF [27] partitions large-scale scenes into multiple blocks and synthesizes them using inverse distance weight-ing (IDW) and appearance alignment. NeRFuser [6] proposes a re-rendering-based registration and a sample-level IDW-Sample blending method to fuse two NeRFs. In methods based on 3D Gaussian Splatting (3DGS) [11], Loop-Splat [37] registered between loop keyframes detected via NetVLAD [1] within the SLAM framework, and the additional merging process was performed in the SLAM backend optimization. GaussReg [4] introduces an end-to-end network for 3DGS scene registration, where the coarse stage aligns scenes using point cloud registration networks [22], and the fine stage refines them through a rendered image-based fine registration network that extracts volumetric features from overlapping views. For scene merging in GaussReg, a distance-based threshold-ing strategy is applied, preserving Gaussians closer to their own scene center. However, this heuristic thresholding approach relies solely on the scene centers, and may erroneously discard important regions when the two scenes differ in size or distribution. Another 3DGS merging method, PhotoReg [33], renders 4 J. Lee et al. 
+
+all images from each scene, selects the image pair with the highest similarity, and then employs a 3D foundation model such as DUSt3R [29] to estimate the initial registration pose. PhotoReg then refines the alignment via photometric-based optimization for a fixed number of iterations. Although DUSt3R enables image-level registration, failures in the initial stage often affect the subsequent fine optimization, resulting in overall performance degradation. Moreover, when merging two scenes, PhotoReg simply combines them without any additional processing. 
+
+2.2 Graph-based Representations for Registration 
+
+Graph-based representations are an effective way to transform complex scenes into interpretable forms. In 3D point cloud registration, initial correspondences are modeled as nodes and their geometric compatibility as edges, structurally capturing relations between features. This approach better captures inter-feature dependencies than Euclidean distance–based methods, while the graph con-nectivity ensures robustness under noise and low overlap by facilitating re-liable matching and outlier rejection. Graph-based registration methods can be divided into learning-based and non-learning-based approaches. Recently, SGAligner [26] and SG-PGM [31] have been proposed as learning-based methods. Such approaches leverage graph representations for registration, using GNNs [2] or Transformer-based models [7] to encode structural and semantic relationships that support robust correspondence matching and transformation estimation. Non-learning-based methods rely on the graph structure directly. Previous stud-ies [14,21,35] extract geometrically consistent inlier correspondences using maxi-mum clique or maximal clique search. Recent methods such as CLIP-Clique [18] enrich nodes with multi-modal features like CLIP [23] embeddings. They se-lect the highest-scoring clique among candidates to perform global localization. TEASER++ [32] represents correspondences as a graph and performs robust inlier selection, which enables accurate 3D point cloud registration under heavy outlier conditions. Graph-based approaches are not limited to geometric reason-ing. When combined with semantic and visual features, they show significantly improved performance. In this work, we render images from 3D Gaussian Splat-ting (3DGS) scenes and construct them into a consistent 3D scene graph for registration. The proposed method integrates both semantic and structural in-formation to achieve accurate and robust scene registration. 
+
+## 3 Method 
+
+Graph-GSReg registers two 3D Gaussian Splatting (3DGS) models, GA and GB ,and seamlessly merges them into a unified 3DGS scene. Unlike existing 3DGS registration methods that typically rely solely on either geometric or photo-metric cues, Graph-GSReg is designed to convert 3DGS into a 3D scene graph as a higher-level representation. Through this approach, the 3DGS registration Graph-GSReg 53DGS Model A 
+
+> Sec. 3.2)
+> 3D Scene Graph
+> Generation
+
+3D Scene Graph A 
+
+> Sec. 3.3) Scene Graph Registration
+
+3DGS Model B 
+
+> Sec. 3.2)
+> 3D Scene Graph
+> Generation
+
+3D Scene Graph B 
+
+> Self -Supervised
+> Test -time Optimization
+
+Merged 3DGS Model 
+
+Sec. 3.3) Scene Graph Registration     
+
+> 3D Scene Graph A
+> 3D Scene Graph B
+> I. Matched Pairs
+> Node Matching
+> II. TRIMs Calculation
+> III. Maximum Clique
+> IV. Registration
+> SVD: Graph Node
+> ICP: Point Cloud
+
+Sec. 3.2) 3D Scene Graph Generation 
+
++
+
+> Object Node
+> Association
+> Newly Detected Nodes
+> Registered Nodes
+> Image Rendering  3D Scene Graph
+
+# …
+
+# …   
+
+> Image Similarity
+> (CLIP)
+> Gaussian Similarity
+> (GIoU )
+> Newly Detected Node Registered Node
+> 0th frame 24 th frame
+
+> 𝝉 𝒂𝒔𝒔𝒐 →
+
+> Object -level
+> Segmentation
+> 𝑴𝒆𝒓𝒈𝒆
+
+Fig. 2: Overall architecture of Graph-GSReg . Starting from independently con-structed 3DGS models, Graph-GSReg constructs an object-level 3D scene graph from the 3DGS scenes by associating the same objects across frames to form globally con-sistent nodes (Sec. 3.2). It then aligns two scenes by matching their scene graphs to build a compatibility graph, where TRIMs-based filtering and clique selection produce reliable correspondences and the final registration (Sec. 3.3). 
+
+problem is reformulated as a graph registration problem. This graph representa-tion jointly encodes rich semantic cues and structural context, enabling robust registration. Finally, to construct a seamless unified scene, we introduce a Self-Supervised Test-Time Optimization that uses the original scenes as references to preserve the visual consistency of the merged scene. While we focus on the registration of two models for notational simplicity and clarity, extending this framework to multiple scenes is a natural progression once pairwise registration is established. Fig. 2 illustrates the overall architecture of our proposed method. 
+
+3.1 Problem Setup 
+
+The goal of Graph-GSReg is to merge two unregistered 3D Gaussian Splatting (3DGS) models. Each scene is defined as 
+
+SX = ( GX , C X ), X ∈ { A, B }, (1) where GX is the set of Gaussian primitives, and CX is the set of camera poses. Each scene X ∈ { A, B } consists of a set of Gaussian primitives 
+
+GX = {(μi, Σi, σ i, ci)}N XG
+
+i=1 , (2) 6 J. Lee et al. 
+
+where μi ∈ R3 is the mean position, Σi ∈ R3×3 is the covariance matrix, σi is the opacity, and ci is the color attribute of the i-th primitive. Here N XG denotes the number of Gaussian primitives in scene X. The set of camera poses for each scene is defined as CX = {(RXj , T Xj )}N XC
+
+> j=1
+
+, where N XC denotes the total number of image frames in each scene. The final transformation used to align scene 
+
+B to scene A is defined as a rigid transformation TAB = ( R, t), TAB ∈ SE (3) ,consisting of a rotation matrix R and a translation vector t. This transformation is applied only to all components of SB . After applying the transformation, all camera poses of scene B are updated as 
+
+CB′
+
+= {(RRBj , RT Bj + t)}N BC
+
+> j=1
+
+. (3) The transformation of the Gaussian primitive set is denoted, for notational sim-plicity, as GB ′ = TAB (GB ). This represents the result of applying the rigid trans-formation to all Gaussians in scene B. The transformation of each Gaussian’s position, covariance, and color is performed in the same way as GaussReg [4]. For a robust evaluation, the initial states of the two scenes are set with random orientations and large displacements to ensure no spatial overlap. 
+
+3.2 3D Scene Graph from Gaussian Splatting 
+
+Since independently reconstructed 3DGS scenes often contain different Gaussian primitives and inconsistent structures, establishing correspondences directly be-tween Gaussians is unreliable. To address these inconsistencies, we convert each 3DGS scene into a higher-level 3D scene graph representation that jointly cap-tures rich semantic cues and structural information. This globally consistent graph enables accurate registration. The proposed method constructs a graph utilizing mask-level visual cues and their corresponding Gaussians, obtained from per-frame rendered images of each pre-built 3DGS scene SX , where X ∈ { A, B }. We construct a globally consistent 3D scene graph GX for the entire scene by associating nodes corresponding to the same object across multiple frames. The graph is defined as GX = ( VX , EX ),consisting of a node set VX and an edge set EX . Since our method constructs the scene graph through cross-frame object association, rendering every frame densely is unnecessary. Accordingly, we render images IXj only from a subset of camera poses CX 
+
+> sampled
+
+uniformly sampled from the entire set. 
+
+IXj = Render  GX | (RXj , T Xj ) , j ∈ CX
+
+> sampled
+
+, X ∈ { A, B }, (4) where Render denotes the 3DGS rendering procedure. As shown in Fig. 2, we extract object masks from the rendered images using SAM [12], utilizing mask information above a certain confidence threshold cmask .Denoting the k-th specific mask in the j-th frame as mXj,k , we first extract the image feature of the corresponding mask region via CLIP [23] to exploit the rich information of the high-fidelity rendered image. Then, utilizing the current frame’s camera pose (RXj , T Xj ) and camera intrinsics K, we determine whether Graph-GSReg 7
+
+the Gaussians in the 3D space belong to the mask. Specifically, the Gaussian center μi is projected onto the 2D image plane at pixel coordinates pXi,j =[uXi,j , v Xi,j ]T according to 
+
+zXi,j 
+
+pXi,j 
+
+1
+
+
+
+= K(RXj )T (μi − T Xj ). (5) Here, zXi,j denotes the depth value along the Z-axis in the camera coordinate system. To identify the set of 3D Gaussians corresponding to the object mask 
+
+mXj,k , we define the subset AXj,k consisting of Gaussians whose projected pixel coordinates fall within the mask region and are located in front of the camera (zXi,j > 0)
+
+AXj,k = μi ∈ GX pXi,j ∈ mXj,k , z Xi,j > 0 . (6) By disregarding attributes such as rotation and scale, the extracted set AXj,k can be treated as a 3D point cloud. The mean of the 3D coordinates xXj,k ∈ R3 in this set is defined as the 3D position of the corresponding object node. 
+
+xXj,k = 1
+
+|A Xj,k |
+
+X
+
+> μi∈A Xj,k
+
+μi (7) As illustrated in the concrete example in Fig. 2, the image features of the masks and their corresponding Gaussians are used for node association. When compared with nodes appearing in subsequent frames, if the sum of the image feature similarity of mask and the 3D GIoU score between the two Gaussian coordinate sets exceeds the threshold τasso , the two nodes are considered to represent the same object and are merged. Otherwise, the object is regarded as unseen and added as a new node. Specifically, during the merge process, the two point clouds are combined and then downsampled to maintain uniform density. Then, we average the two CLIP features and normalize the result. Finally, to generate as many candidates as possible and identify inliers among them, the nodes are initially constructed as a fully connected graph. Based on this graph structure, we further enrich each node representation by incorporating structural context. Appearance-only matching between nodes is often ambiguous when objects share similar visual patterns. To incorporate structural context, we augment each node’s CLIP feature with a histogram of CLIP features in its 3-hop neighborhood. While the fully connected graph is used to consider broad candidate relations, the 3-hop neighborhood histogram is computed on a local graph that connects only spatially nearby nodes within a distance threshold. Therefore, this histogram reflects the local context around each object rather than global graph statistics. The final node embedding is defined by concatenating the normalized CLIP feature with the 3-hop neighbor-hood CLIP histogram, 
+
+f (v) = [ fCLIP (v), f hist (v)] , ∀v ∈ V X , (8) which captures both local appearance and the distribution of appearance cues in its neighborhood. 8 J. Lee et al. 
+
+3.3 Clique-driven Scene Graph Registration 
+
+Building on this rich information, rather than matching nodes independently, we seek correspondences that can be jointly explained across all nodes. There-fore, we formulate scene graph registration as a global consensus problem rather than a node-wise matching task. Candidate correspondences are generated using context-enriched node similarity and refined via maximum clique search [14, 32] to identify the largest set of mutually consistent correspondences. 
+
+Compatibility Graph with TRIMs. From the constructed two scene graphs 
+
+GA = ( VA, EA) and GB = ( VB , EB ), we estimate a globally consistent transfor-mation TAB between the scenes. Rather than treating candidate correspondences independently, we construct a compatibility graph Gcomp = ( Vcomp , Ecomp ) that captures pairwise geometric consistency among candidate matches. Candidate correspondences are generated using node embedding similarity, defined as 
+
+s(q, p ) = f (q) · f (p)
+
+∥f (q)∥∥ f (p)∥ , Vcomp = {(q′, p ′) | s(q, p ) ≥ τnode , q ∈ V A, p ∈ V B }.
+
+(9) But objects that are visually highly similar, yet located at different spatial positions, can still produce incorrect correspondences. To eliminate such mis-matches, we note that for correct correspondences, the distance between any two matched objects in one scene should be consistent with the distance between the corresponding objects in the other scene. Accordingly, we employ TRIMs [32] to enforce this pairwise distance consistency, and define edges in the compatibility graph as 
+
+(( q′
+
+> 1
+
+, p ′
+
+> 1
+
+), (q′
+
+> 2
+
+, p ′
+
+> 2
+
+)) ∈ E comp ⇐⇒ 1 − τTRIMs < ∥q′ 
+
+> 1
+
+− q′
+
+> 2
+
+∥∥p′ 
+
+> 1
+
+− p′
+
+> 2
+
+∥ < 1 + τTRIMs . (10) This constraint suppresses geometrically inconsistent matches while preserv-ing correspondences that are mutually compatible under a shared transforma-tion. Consequently, geometrically consistent correspondences become densely connected in the compatibility graph, providing a strong foundation for max-imum clique search to identify the largest globally consistent correspondence set. 
+
+Maximum Clique & Registration. Under the TRIMs-based distance in-variance constraint, correct correspondences preserve relative distances across scenes and therefore remain mutually connected in the compatibility graph. In contrast, incorrect correspondences may satisfy the distance consistency with some matches but violate it with others. As a result, they fail to form a globally consistent set of correspondences and cannot produce a fully connected structure in the compatibility graph. Graph-GSReg 9Matched Graph A Matched Graph B   
+
+> 3DGS & Graph A 3DGS & Graph B
+> Fig. 3: Visualization of the 3D scene graphs from two 3DGS scenes constructed from uHumans2 [24].
+
+Consequently, geometrically consistent correspondences form fully connected subgraphs in the compatibility graph. Based on this observation, we perform a maximum clique search in the compatibility graph. Fig. 3 shows the node matching process in large-scale indoor environments with partial overlap, where the first row shows the initial nodes obtained from node association and the second row shows the correspondences after TRIMs-based filtering and maximum clique selection. The structural agreement between the two final graphs shows that incorrect matches are effectively removed while preserving geometrically consistent correspondences. Using the extracted correspondence set, we estimate a rigid transformation 
+
+Tgraph ∈ SE (3) using an SVD-based method. When scale estimation is required, the Umeyama algorithm [28] is applied. The alignment is further refined by performing ICP on the means of the Gaussian primitives initialized with Tgraph ,yielding the final transformation TAB ∈ SE (3) .
+
+3.4 Self-Supervised Test-Time Optimization for Seamless Merging 
+
+The primary purpose of Graph-GSReg is to seamlessly fuse independently recon-structed scenes without information loss or visual degradation. However, inherent imperfections in rigid registration often lead to overlapping artifacts, occlusions, and redundant densities when naively aligning two Gaussian sets. To address artifacts, occlusions, and redundant densities caused by inher-ent imperfections in 3D registration, we introduce a Self-Supervised Test-Time Optimization (TTO) strategy. Instead of relying on heuristic pruning [4], our core insight is to leverage the original scenes as reliable rendering references. Although the ground-truth for the unified scene is absent, each individual scene, 10 J. Lee et al. 
+
+SA and the transformed SB′
+
+, is still renderable from its original viewpoints. We utilize these source renderings as references to guide the refinement of the uni-fied representation. Specifically, after alignment, we first construct a naive union of the two Gaussian sets, GA ∪ GB′
+
+. To suppress redundant Gaussians in the partially overlapping regions and establish a memory-efficient, stable initializa-tion, we apply a spatial voxelization with a resolution of 0.01 m to this union. Let Gmerged denote the Gaussian parameters of this initial merged scene, and let 
+
+Cmerged = CA ∪ CB′
+
+denote the combined set of all camera poses. During the TTO phase, we refine the merged scene using renderings from the original scenes as references. From the same viewpoint, we first render the original scene to obtain a reference image IXj = Render (GX | RXj , T Xj ), and then render the merged scene using Gmerged from the same viewpoint. The merged Gaussians are updated by minimizing the photometric discrepancy between the two renderings. Formally, the merged scene is optimized by minimizing the fol-lowing L1 rendering loss 
+
+arg min 
+
+> Gmerged
+
+X
+
+> j
+
+Render (Gmerged | RXj , T Xj ) − IXj 1 , X ∈ { A, B ′}. (11) Unlike geometric thresholding based solely on distance [4], this self-supervised mechanism is based on the expectation that the merged scene should preserve the full content of the original scenes. Under this assumption, it naturally miti-gates occlusion artifacts and maintains photometric consistency across the global scene. Moreover, this refinement achieves strong performance with only one minute of optimization and produces a visually seamless and complete scene representation. 
+
+## 4 Experiments 
+
+4.1 Experimental Setup 
+
+In this work, we evaluate both registration and merging performance on the real-world dataset ScanNet-GSReg [4] and the synthetic dataset uHumans2 [24]. For registration performance (Sec. 4.2), we report Relative Rotation Error (RRE), Relative Translation Error (RTE), Relative Scale Error (RSE), and Absolute Translation Error (ATE). For merging performance (Sec. 4.3), we compare ren-dered and ground-truth images using PSNR, SSIM [30], and LPIPS [34]. To evaluate performance in larger indoor environments, we conduct addi-tional experiments on a dataset constructed from uHumans2. Specifically, we generate 69 scene pairs from four static RGB-D sequences without dynamic objects. Each 3DGS model is reconstructed from 150 frames obtained by tem-porally subsampling the RGB-D sequence at 5 fps, and each scene pair contains 51 overlapping frames. All comparisons are performed by perturbing the initial transformation with random noise, and the reported metrics represent the mean error across all pairs. All experiments are conducted on an NVIDIA RTX 4070 and an Intel Core i5-13600. Graph-GSReg 11 
+
+Table 1: Quantitative comparison of Gaussian Splatting registration results on the ScanNet-GSReg [4] dataset. (* indicates values reported in the original papers.)                                     
+
+> Method RRE ( ◦)↓RTE ↓RSE ↓Time (s) ↓
+> GaussReg* (Coarse) [4] 3.403 0.061 0.034 3.700 GaussReg* (w/ Fine) [4] 2.827 0.042 0.032 4.800 PhotoReg (Coarse) [33] 7.825 0.082 -16.231 PhotoReg (w/ Fine) [33] 7.366 0.072 -585.216 Liu et al.* [16] 2.595 0.045 0.013 5.041 Ours (Coarse) 3.247 0.039 0.013 2.784
+> Ours (w/ Fine) 1.970 0.025 -3.658
+
+Table 2: Quantitative comparison of Gaussian Splatting registration results on the uHumans2 [24] dataset.                                     
+
+> Method RRE ( ◦)↓RTE ↓ATE (m) ↓Time (s) ↓
+> TEASER++ & ICP [32] 9.099 0.071 1.669 4.570 MAC (FPFH) [35] 108.089 0.652 17.118 6.359 MAC (FCGF) [35] 60.021 0.335 8.862 5.462 PhotoReg (Coarse) [33] 15.895 0.154 6.916 17.814 PhotoReg (w/ Fine) [33] 9.959 0.077 2.754 342.754 Ours (Coarse) 1.748 0.010 0.243 1.805
+> Ours (w/ Fine) 0.711 0.006 0.192 3.782
+
+Our method requires a preprocessing step that re-renders a pre-built 3DGS to generate a scene graph. However, this step is lightweight compared to the training cost of learning-based approaches and is performed only once per scene. The constructed graph can be reused across multiple registration tasks. Additional implementation details, extended analyses, and qualitative results are provided in the supplementary material. 
+
+4.2 3DGS Registration Evaluation 
+
+As reported in Tab. 1, we evaluate 82 partially overlapping scene pairs from ScanNet-GSReg [4]. GaussReg [4] performs both coarse and fine registration using supervised training and requires extensive datasets of completed 3DGS models. PhotoReg [33] does not require training, but it relies only on images. Its coarse registration based on a 3D foundation model [29] produces large errors in some scenes, which leads to poor fine alignment. Liu et al. [16] merge 3DGS using skeleton structures and show strong performance among recent methods. Our 3D scene graph-based registration achieves the best final performance, with a clear improvement in RTE. We do not report RSE for PhotoReg, as it estimates the scale of the two scenes separately, or for our ICP-based refinement, which is restricted to SE(3). We further evaluate registration on the uHumans2 [24] dataset using 69 scene pairs. We focus on methods applicable without large-scale supervised training, including TEASER++ [32], MAC [35], and PhotoReg [33]. TEASER++ extracts FPFH [25] features for global registration and then applies ICP for refinement. 12 J. Lee et al. 
+
+Table 3: Quantitative comparison of Gaussian Splatting merging results on the ScanNet-GSReg [4] and uHumans2 [24] datasets. ScanNet-GSReg [4] uHumans2 [24] Registration Merging PSNR ↑ SSIM ↑ LPIPS ↓ PSNR ↑ SSIM ↑ LPIPS ↓                                          
+
+> Oracle 22.2913 0.8566 0.3347 32.0999 0.9218 0.1416 Ground Truth PhotoReg [33] 20.1588 0.8117 0.3844 20.9777 0.7081 0.3316 GaussReg [4] 20.9512 0.8306 0.3551 23.3410 0.7368 0.2871 Graph-GSReg 21.8954 0.8465 0.3484 25.4032 0.7608 0.2801
+> Graph-GSReg PhotoReg [33] 19.3298 0.7926 0.4026 20.7897 0.7048 0.3370 GaussReg [4] 20.1133 0.8089 0.3715 23.1519 0.7321 0.2904 Graph-GSReg 21.5248 0.8304 0.3698 25.2425 0.7607 0.2868
+
+Meanwhile, MAC constructs compatibility graphs based on features extracted by FPFH or FCGF [5] and solves the registration problem through maximal clique search to identify the most consistent set of correspondences. However, these traditional point cloud-based methods often face challenges in noisy envi-ronments where incorrect feature matches lead to coarse alignment failures. In contrast, our 3D scene graph-based registration with ICP refinement achieves stable and high accuracy across all scenes. Detailed runtime analysis is reported in the supplementary material. 
+
+4.3 3DGS Merging Quality Evaluation 
+
+In this subsection, we compare the rendered image quality of different 3DGS merging methods. The evaluation is based on comparing rendered images of the merged scenes with ground truth images. The Oracle represents an upper bound as it renders each scene independently before merging and compares them with the ground truth. Since no merging is performed, this setting is free from duplication, removal, or artifacts introduced during the merging process. As shown in Tab. 3, we apply all merging methods to the same fixed registra-tion results produced by Graph-GSReg on ScanNet-GSReg and uHumans2, iso-lating the effect of the merging strategy. Under this setting, our Self-Supervised Test-Time Optimization-based merging achieves the best image quality. Pho-toReg simply merges the aligned scenes without further processing, while Gauss-Reg selects Gaussians based on distance thresholds. We further evaluate merging under ground-truth alignment and observe the same trend, indicating that the gain comes from the merging process itself rather than relying on registration accuracy. Fig. 4 and Fig. 5 show qualitative results on ScanNet-GSReg and uHumans2 using the same fixed registration results. GaussReg often produces hollow regions or strong artifacts due to its distance-based selection. PhotoReg accumulates redundant Gaussians, which degrades the scene quality. In contrast, our method effectively reduces incompleteness and floater artifacts. Graph-GSReg 13 GaussReg PhotoReg Ours Ground Truth    
+
+> Scene0707 Scene0771 Scene0760
+> 564
+> Scene0746
+> 1712 212 1718.png
+> Scene0787
+> 2190
+> Scene0791
+
+Fig. 4: Qualitative results on the ScanNet-GSReg [4] dataset. Each row shows rendered images from merged Gaussians. The yellow box highlights regions with severe hollows or occlusions. 
+
+Table 4: Ablation study of the 3D scene graph registration method on the ScanNet-GSReg [4] dataset. Method RRE ↓ RTE ↓ RSE ↓ Time (s) ↓                          
+
+> w/o CLIP Histogram 4.865 0.052 0.019 2.755
+> w/o TRIMs 6.047 0.140 0.104 2.903 w/o Maximum Clique 6.575 0.151 0.120 2.801 w/ FPFH feature 3.190 0.039 0.013 3.645 CLIP Histogram-5 3.867 0.045 0.015 4.341 Maximal Clique (Best CLIP Score) [18] 3.981 0.045 0.013 2.805
+> Ours 3.247 0.039 0.013 2.784
+
+Table 5: Ablation study and memory usage comparison of the 3DGS merg-ing method on the ScanNet-GSReg [4] dataset. Setting PSNR ↑ SSIM ↑ LPIPS ↓ Size (MB) ↓              
+
+> Oracle 22.2913 0.8566 0.3347 -GaussReg [4] 20.1905 0.8106 0.3698 148.18 Ours (w/o Voxelization) 21.4538 0.8304 0.3675 238.10 Ours (w/ Voxelization) 21.5248 0.8304 0.3698 82.84
+
+4.4 Ablation Study 3D Gaussian Splatting Registration. To evaluate the effectiveness of each component, we conducted ablation studies on the ScanNet-GSReg [4] dataset, and the results are summarized in Tab. 4. Incorporating a CLIP histogram im-proved registration performance compared to not using it. When TRIMs were not applied and all nodes were used, the accuracy decreased, confirming the necessity of geometrically validated node selection. Moreover, skipping clique search after TRIMs in the compatibility graph also led to degraded performance. Adding FPFH [25] features improved accuracy but increased computation time, so we exclude it from the final design, though it may be useful when point clouds are consistent or higher precision is needed. Finally, compared to CLIP-Clique [18], which selects the maximal clique with the highest CLIP similarity among nodes, our maximum clique strategy consistently achieved superior per-formance by leveraging more nodes. Overall, these results demonstrate that each component contributes to balancing registration accuracy and computational ef-ficiency. 14 J. Lee et al. GaussReg PhotoReg Ours      
+
+> Office Apartment Neighborhood Subway
+> 100,289 500,235
+> 1300,251 500,1
+> Ground Truth
+
+Fig. 5: Qualitative results on the uHumans2 [24] synthetic dataset. Each row shows rendered images from merged Gaussians. The yellow box highlights regions with severe hollows or occlusions. 
+
+3D Gaussian Splatting Merging. As discussed in Sec. 3.4, we also perform voxelization after registration before merging the two scenes. If the scenes are simply merged without any additional processing, a large number of duplicated Gaussians remain in the overlapped regions, which leads to a significant increase in storage size. As shown in Tab. 5, such a simple merging setting requires much larger memory compared to GaussReg, which reduces storage by selecting Gaussians based on distance. In contrast, our method applies voxelization before merging, effectively eliminating redundant Gaussians and achieving the smallest storage size, while maintaining or even improving merging performance. 
+
+## 5 Limitations 
+
+Our method requires a preprocessing step to construct a scene graph from each 3DGS scene prior to registration. This step involves image rendering and object-level information extraction, which introduces additional computation time. However, the graph is generated only once per scene and can be reused for multiple registration tasks. Moreover, this design removes the need for large-scale training data and can be applied regardless of environment or domain as long as a 3DGS scene is available. Graph-GSReg 15 
+
+## 6 Conclusion 
+
+We propose Graph-GSReg, a framework for robust registration and seamless merging of 3D Gaussian Splatting (3DGS) scenes. By leveraging 3D scene graphs, we reformulate registration as a graph matching problem and achieve consistent alignment without training. In addition, our Self-Supervised Test-Time Opti-mization utilizes the existing Gaussian scenes to update merged Gaussians, alle-viating occlusions and scene incompleteness and producing seamless merged re-sults. Overall, Graph-GSReg provides an effective solution for large-scale 3DGS-based scene reconstruction and long-term map management in robotics and 3D mapping applications. 16 J. Lee et al. 
+
+## References 
+
+1. Arandjelovic, R., Gronat, P., Torii, A., Pajdla, T., Sivic, J.: Netvlad: Cnn ar-chitecture for weakly supervised place recognition. In: Proceedings of the IEEE conference on computer vision and pattern recognition. pp. 5297–5307 (2016) 2. Brody, S., Alon, U., Yahav, E.: How attentive are graph attention networks? arXiv preprint arXiv:2105.14491 (2021) 3. Cadena, C., Carlone, L., Carrillo, H., Latif, Y., Scaramuzza, D., Neira, J., Reid, I., Leonard, J.J.: Past, present, and future of simultaneous localization and mapping: Toward the robust-perception age. IEEE Transactions on robotics 32 (6), 1309– 1332 (2017) 4. Chang, J., Xu, Y., Li, Y., Chen, Y., Feng, W., Han, X.: Gaussreg: Fast 3d regis-tration with gaussian splatting. In: European Conference on Computer Vision. pp. 407–423. Springer (2024) 5. Choy, C., Park, J., Koltun, V.: Fully convolutional geometric features. In: ICCV (2019) 6. Fang, J., Lin, S., Vasiljevic, I., Guizilini, V., Ambrus, R., Gaidon, A., Shakhnarovich, G., Walter, M.R.: Nerfuser: Large-scale scene representation by nerf fusion. arXiv preprint arXiv:2305.13307 (2023) 7. Fu, K., Liu, S., Luo, X., Wang, M.: Robust point cloud registration framework based on deep graph matching. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 8893–8902 (2021) 8. Golodetz, S., Cavallari, T., Lord, N.A., Prisacariu, V.A., Murray, D.W., Torr, P.H.: Collaborative large-scale dense 3d reconstruction with online inter-agent pose optimisation. IEEE transactions on visualization and computer graphics 24 (11), 2895–2905 (2018) 9. Gu, Q., Kuwajerwala, A., Morin, S., Jatavallabhula, K.M., Sen, B., Agarwal, A., Rivera, C., Paul, W., Ellis, K., Chellappa, R., et al.: Conceptgraphs: Open-vocabulary 3d scene graphs for perception and planning. In: 2024 IEEE Inter-national Conference on Robotics and Automation (ICRA). pp. 5021–5028. IEEE (2024) 10. Hughes, N., Chang, Y., Carlone, L.: Hydra: A real-time spatial perception system for 3D scene graph construction and optimization (2022) 11. Kerbl, B., Kopanas, G., Leimkühler, T., Drettakis, G.: 3d gaussian splatting for real-time radiance field rendering. ACM Transactions on Graphics 42 (4) (July 2023), https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/ 
+
+12. Kirillov, A., Mintun, E., Ravi, N., Mao, H., Rolland, C., Gustafson, L., Xiao, T., Whitehead, S., Berg, A.C., Lo, W.Y., et al.: Segment anything. In: Proceedings of the IEEE/CVF international conference on computer vision. pp. 4015–4026 (2023) 13. Lin, J., Li, Z., Tang, X., Liu, J., Liu, S., Liu, J., Lu, Y., Wu, X., Xu, S., Yan, Y., et al.: Vastgaussian: Vast 3d gaussians for large scene reconstruction. In: Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 5166–5175 (2024) 14. Lin, Y.K., Lin, W.C., Wang, C.C.: K-closest points and maximum clique pruning for efficient and effective 3-d laser scan matching. IEEE Robotics and Automation Letters 7(2), 1471–1477 (2022) 15. Linok, S., Zemskova, T., Ladanova, S., Titkov, R., Yudin, D., Monastyrny, M., Valenkov, A.: Beyond bare queries: Open-vocabulary object grounding with 3d scene graph. In: 2025 IEEE International Conference on Robotics and Automation (ICRA). pp. 13582–13589. IEEE (2025) Graph-GSReg 17 16. Liu, S., Yang, D., Gao, Y., Ren, B., Yang, Y., Fu, M.: Automated 3d-gs registration and fusion via skeleton alignment and gaussian-adaptive features. arXiv preprint arXiv:2507.20480 (2025) 17. Liu, Y., Luo, C., Fan, L., Wang, N., Peng, J., Zhang, Z.: Citygaussian: Real-time high-quality large-scale scene rendering with gaussians. In: European Conference on Computer Vision. pp. 265–282. Springer (2024) 18. Matsuzaki, S., Tanaka, K., Shintani, K.: Clip-clique: Graph-based correspondence matching augmented by vision language models for object-based global localiza-tion. IEEE Robotics and Automation Letters (2024) 19. Mildenhall, B., Srinivasan, P.P., Tancik, M., Barron, J.T., Ramamoorthi, R., Ng, R.: Nerf: Representing scenes as neural radiance fields for view synthesis. Commu-nications of the ACM 65 (1), 99–106 (2021) 20. Papantonakis, P., Kopanas, G., Kerbl, B., Lanvin, A., Drettakis, G.: Reducing the memory footprint of 3d gaussian splatting. Proceedings of the ACM on Computer Graphics and Interactive Techniques 7(1), 1–17 (2024) 21. Qiao, Z., Yu, Z., Yin, H., Shen, S.: Pyramid semantic graph-based global point cloud registration with low overlap. In: 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 11202–11209. IEEE (2023) 22. Qin, Z., Yu, H., Wang, C., Guo, Y., Peng, Y., Ilic, S., Hu, D., Xu, K.: Geo-transformer: Fast and robust point cloud registration with geometric transformer. IEEE Transactions on Pattern Analysis and Machine Intelligence 45 (8), 9806–9821 (2023) 23. Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., et al.: Learning transferable visual models from natural language supervision. In: International conference on machine learning. pp. 8748–8763. PmLR (2021) 24. Rosinol, A., Violette, A., Abate, M., Hughes, N., Chang, Y., Shi, J., Gupta, A., Car-lone, L.: Kimera: From slam to spatial perception with 3d dynamic scene graphs. The International Journal of Robotics Research 40 (12-14), 1510–1546 (2021) 25. Rusu, R.B., Blodow, N., Beetz, M.: Fast point feature histograms (fpfh) for 3d registration. In: 2009 IEEE international conference on robotics and automation. pp. 3212–3217. IEEE (2009) 26. Sarkar, S.D., Miksik, O., Pollefeys, M., Barath, D., Armeni, I.: Sgaligner: 3d scene alignment with scene graphs. In: Proceedings of the IEEE/CVF International Con-ference on Computer Vision. pp. 21927–21937 (2023) 27. Tancik, M., Casser, V., Yan, X., Pradhan, S., Mildenhall, B., Srinivasan, P.P., Barron, J.T., Kretzschmar, H.: Block-nerf: Scalable large scene neural view synthe-sis. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 8248–8258 (2022) 28. Umeyama, S.: Least-squares estimation of transformation parameters between two point patterns. IEEE Transactions on pattern analysis and machine intelligence 
+
+13 (4), 376–380 (2002) 29. Wang, S., Leroy, V., Cabon, Y., Chidlovskii, B., Revaud, J.: Dust3r: Geometric 3d vision made easy. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 20697–20709 (2024) 30. Wang, Z., Bovik, A., Sheikh, H., Simoncelli, E.: Image quality assessment: from error visibility to structural similarity. IEEE Transactions on Image Processing 
+
+13 (4), 600–612 (2004). https://doi.org/10.1109/TIP.2003.819861 
+
+31. Xie, Y., Pagani, A., Stricker, D.: Sg-pgm: Partial graph matching network with semantic geometric fusion for 3d scene graph alignment and its downstream tasks. 18 J. Lee et al. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 28401–28411 (2024) 32. Yang, H., Shi, J., Carlone, L.: Teaser: Fast and certifiable point cloud registration. IEEE Transactions on Robotics 37 (2), 314–333 (2020) 33. Yuan, Z., Zhang, T., Johnson-Roberson, M., Zhi, W.: Photoreg: Photometrically registering 3d gaussian splatting models. arXiv preprint arXiv:2410.05044 (2024) 34. Zhang, R., Isola, P., Efros, A.A., Shechtman, E., Wang, O.: The unreasonable effectiveness of deep features as a perceptual metric. In: Proceedings of the IEEE conference on computer vision and pattern recognition. pp. 586–595 (2018) 35. Zhang, X., Yang, J., Zhang, S., Zhang, Y.: 3d registration with maximal cliques. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recog-nition. pp. 17745–17754 (2023) 36. Zhao, H., Weng, H., Lu, D., Li, A., Li, J., Panda, A., Xie, S.: On scaling up 3d gaussian splatting training. In: European Conference on Computer Vision. pp. 14– 36. Springer (2024) 37. Zhu, L., Li, Y., Sandström, E., Huang, S., Schindler, K., Armeni, I.: Loopsplat: Loop closure by registering 3d gaussian splats. In: 2025 International Conference on 3D Vision (3DV). pp. 156–167. IEEE (2025) Supplementary Material of Graph-GSReg: Leveraging 3D Scene Graphs for Gaussian Splatting Registration 
+
+Jaewon Lee 1 , Mangyu Kong 1 , and Euntai Kim 1,2⋆  
+
+> 1Yonsei University, Seoul, Republic of Korea
+> 2Korea Institute of Science and Technology, Seoul, Republic of Korea
+> {leejaewon,mangyu0929,etkim}@yonsei.ac.kr https://lee-jaewon.github.io/Graph-GSReg/
+
+We provide additional details and analyses of Graph-GSReg in this supple-mentary material. Specifically, we include additional qualitative comparisons, multi-scene registration results, an analysis of Test-Time Optimization, details of dataset construction, ablation studies, failure mode analysis, implementation details, and additional evaluations in challenging outdoor environments. 
+
+## 1 Qualitative Comparison of Registration Results 
+
+The main paper presents a 3DGS merging quality evaluation, demonstrating the effectiveness of our Self-Supervised Test-Time Optimization (TTO) independent of the underlying registration results. To further analyze the robustness of the registration performance itself, Fig. 1 shows rendered scenes based on the registration results before applying TTO. We compare our method with GaussReg [2] (Coarse) and PhotoReg [9]. For all methods, the images are rendered directly after registration without applying any merging strategy. Naively merging two scenes without additional refinement inevitably pro-duces visual artifacts such as hollows and floaters due to occlusions between the two scenes. Nevertheless, our method achieves more accurate registration from the outset and produces cleaner rendering quality than GaussReg and PhotoReg even without additional refinement. In particular, as shown in Fig. 1, inaccurate registration leads to severe artifacts, such as duplicated objects, scenes occluded by large floaters. Such accurate initial alignment provided by our method offers a strong foundation for the subsequent TTO stage to further refine the merged scene. One potential issue is that when the registration error is large, a greater number of Gaussians must be corrected during optimization, making it difficult to achieve sufficient improvement within the same optimization time. Therefore, the higher initial alignment accuracy of our method enables TTO to operate more efficiently, ultimately producing more stable and higher-quality merged scenes.  
+
+> ⋆Corresponding author
+
+2 J. Lee et al. GaussReg  Graph -GSReg PhotoReg  Oracle 
+
+Fig. 1: Comparison without Test-Time Optimization. Rendered image of regis-tration results on ScanNet-GSReg [2] before seamless merging. Oracle shows renderings of the original, unmerged 3DGS scenes at the same camera poses. Graph-GSReg al-ready produces clean renderings even before our TTO refinement. 
+
+## 2 Feasibility of Multi-Scene Registration 
+
+For notational simplicity, Graph-GSReg is described for pairwise scene registra-tion. However, if pairwise registration is feasible, the proposed method natu-rally extends to multi-scene registration. To demonstrate this scalability, Fig. 2 presents qualitative results on the office sequence of the large-scale synthetic dataset uHumans2 [7], where multiple scenes are sequentially registered to form a unified scene. The pipeline based on TEASER++ [8] for global estimation followed by ICP [1] refinement achieves high registration accuracy for most scene pairs but fails for several pairs, resulting in misaligned scenes. In contrast, the proposed Graph-GSReg consistently produces accurate alignments across all scenes by Supplementary Material of Graph-GSReg 3Ground Truth Graph -GSReg TEASER++ & ICP 
+
+Fig. 2: Qualitative results of multiple-scene registration. Alignment of 20 in-dividual 3DGS scenes from the office sequence of uHumans2 [7]. The TEASER++ & ICP pipeline shows incorrect alignments in several scenes, whereas the proposed method produces results nearly identical to the ground truth. Different colors repre-sent different individual scenes. 0s  20s  40s  60s  Oracle 
+
+Fig. 3: Qualitative results on ScanNet-GSReg [2] showing how the opti-mization evolves over time. When the two Gaussian scenes are naively merged after registration, severe occlusion artifacts appear, as shown at 0s. After only 20 sec-onds of optimization, many of these occlusions are resolved, and the scene progressively approaches the appearance of the oracle rendering. 
+
+leveraging scene graph matching, yielding results that are nearly identical to the ground truth. 
+
+## 3 Analysis of Self-Supervised Test-Time Optimization 
+
+In this section, we present a detailed qualitative evaluation and analysis of the proposed Self-Supervised Test-Time Optimization. Fig. 3 illustrates how the optimization evolves over time. The occlusions in-troduced by naively merging two scenes are gradually resolved as the optimiza-tion proceeds, and the merged scene becomes increasingly similar to the oracle rendering. Here, the oracle is obtained by simply rendering each original 3DGS scene independently and represents the upper bound that the merged scene can ideally achieve. 4 J. Lee et al.       
+
+> Fig. 4: PSNR improvement during Test-Time Optimization. Top: Average PSNR trend over 82 test scenes from ScanNet-GSReg [2]. Bottom: Average PSNR trend over 69 merged scenes from the uHumans2 dataset [7].
+
+For a more quantitative analysis of the optimization behavior, Fig. 4 reports the average PSNR improvement on 82 merged scenes from ScanNet-GSReg [2] and 69 merged scenes from the uHumans2 [7] dataset. In ScanNet-GSReg, most scenes exhibit an increase of approximately 9% within the first 20 seconds, by which point the scene is already close to an al-most optimal state. Afterward, the improvement continues more gradually. This early improvement corresponds to roughly two passes over the full camera set in ScanNet-GSReg (i.e., about two epochs), indicating that repeatedly observing the same views quickly benefits the optimization. Furthermore, a similarly large performance improvement is observed on uHu-mans2, where the average PSNR increases by more than 15% within the first 20 seconds. Since each scene in uHumans2 contains more images, the optimization observes the full camera set only about once within this 20 seconds (i.e., roughly one epoch). After that, the performance continues to improve steadily, and the PSNR can increase by as much as 4 dB. Since the proposed TTO process does not rely on ground-truth images but instead uses the original scenes to guide the merged scene toward a visually consistent result, PSNR can be evaluated at any time during the optimization. Supplementary Material of Graph-GSReg 5                                
+
+> Table 1: Comparison of node feature representations for graph-based scene registration on ScanNet-GSReg [2]. CLIP features provide more stable node matching than DINOv2, and incorporating the proposed 3-hop histogram further im-proves the registration accuracy.
+> CLIP [6] DINOv2 [4] 3-Hop Histogram RRE ( ◦)↓RTE ↓RSE ↓Success Rate ↑
+> ✓10.782 0.149 0.022 0.524
+> ✓✓12.328 0.164 0.044 0.549
+> ✓4.865 0.052 0.019 1.0
+> ✓✓3.247 0.039 0.013 1.0
+
+Depending on the user’s requirements, the TTO process can be flexibly termi-nated once a desired PSNR level or a predefined PSNR improvement is reached, which provides a practical advantage in real-world applications. Additional qualitative results are presented in Fig. 6, Fig. 7 and Fig. 8. 
+
+## 4 Analysis of Node Feature Representations 
+
+We use CLIP [6] features as the node representation in the scene graph. Recently, self-supervised visual representations such as DINOv2 [4] have shown strong performance across various visual understanding tasks. Therefore, we compare the performance when replacing CLIP features with DINOv2 features for node representation. During registration, each 3DGS scene is rendered from multiple viewpoints, and features are extracted from the rendered images corresponding to each node. Graph association is then performed using both image feature similarity and spatial similarity to identify candidate correspondences between the two scene graphs. Subsequently, node matching is further refined based on the feature sim-ilarity. In this process, a key factor is how consistently the same object observed from different viewpoints is represented in the feature space. As shown in Tab. 1, CLIP features produce more stable node matching results than DINOv2 features on the ScanNet-GSReg dataset [2], despite the latter being conceptually stronger image representations. This behavior can be attributed to differences in the representation characteristics learned by the two models. CLIP is trained on large-scale image-text pairs and tends to learn object-level semantic representations, which allows it to maintain relatively high feature similarity for the same object even when observed from different viewpoints. In contrast, DINOv2 is trained with self-supervised objectives and is more sensitive to fine-grained visual patterns and texture variations. As a result, appearance changes caused by viewpoint differences can lead to larger variations in the feature space, which may reduce feature similarity even for the same object. We also observe that the cosine similarity between nodes corresponding to the same object across different viewpoints tends to be lower when using DINOv2 features. Our scene graph determines whether two nodes correspond to the same 6 J. Lee et al.                 
+
+> Table 2: Runtime analysis on ScanNet-GSReg. Graph-GSReg performs online pairwise registration within 5 seconds after one-time offline graph construction.
+> Stage Type Runtime
+> GaussReg (Training) Offline >10 h PhotoReg (Registration) Online >5 min 3DGS Rendering Offline 0.007 s/view Mask/feature extraction 1.573 s/view Graph association 0.251 s/view
+> Ours Offline total <2 min
+> Graph Registration Online 3.658 s
+> Ours Online total <5 sec
+
+object based on both feature similarity and spatial similarity, and performs asso-ciation when both conditions are satisfied. Such lower similarity therefore makes it difficult to construct stable graph associations. As a result, this issue propagates to the subsequent node matching stage, making it more difficult to recover correct node correspondences. Furthermore, the graph structure required for reliable registration often fails to be properly established, which ultimately leads to a lower overall registration success rate. These characteristics are particularly important for cross-view object match-ing in graph-based registration. Consequently, CLIP features provide more reli-able graph association and node matching, leading to more accurate graph-based scene registration. 
+
+## 5 Runtime Analysis of Graph Generation & Registration 
+
+Tab. 2 reports a detailed runtime breakdown of Graph-GSReg on ScanNet-GSReg, separating one-time offline preprocessing from online pairwise registra-tion. Unlike previous methods that require time-consuming training or iterative optimization, Graph-GSReg constructs the scene graph within a short offline preprocessing time and performs efficient pairwise registration at test time. In the offline stage, Graph-GSReg first renders multi-view images from each 3DGS scene, extracts object masks and visual features, and then associates them to construct an object-level scene graph. The overall offline preprocessing takes less than two minutes per scene. Among these steps, the runtime is mainly dom-inated by mask generation and feature extraction, which can be further reduced by adopting more efficient segmentation and feature extraction backbones. After the scene graph is constructed, the online registration stage only re-quires graph matching and transformation estimation. As a result, Graph-GSReg completes pairwise registration within five seconds, demonstrating its efficiency for test-time 3DGS scene registration. Supplementary Material of Graph-GSReg 7           
+
+> Table 3: Failure mode analysis under graph corruption on ScanNet-GSReg. We evalu-ate two practical corruption settings: removing object nodes to simulate missing masks and adding false candidate correspondences to simulate incorrect node matching.
+> Setting RRE ( ◦)↓RTE ↓
+> Drop 30% Object Nodes 3.620 0.044 Add 30% False Matches 3.300 0.042 No Corruption 3.247 0.039
+
+## 6 Analysis of Graph Corruption and Failure Modes 
+
+To further analyze the robustness and limitations of Graph-GSReg, we evaluate the proposed method under two practical graph corruption settings. Since our method relies on object-level scene graphs, registration performance can be af-fected by imperfect graph construction, such as missing object nodes caused by incomplete masks or incorrect candidate correspondences caused by ambiguous object matching. We therefore simulate these two cases by deliberately corrupt-ing the constructed scene graphs. Specifically, in the first setting, we randomly remove 30% of object nodes from one of the two submaps. This setting simulates the case where object masks are missing or incomplete during scene graph construction. In the second setting, we inject 30% false matches into the initial candidate correspondences. This setting simulates incorrect node matching caused by visually similar or semantically ambiguous objects. As shown in Tab. 3, both corruption settings lead to only minor degrada-tion compared with the uncorrupted case. Even when 30% of object nodes are removed, Graph-GSReg maintains accurate registration with an RRE of 3.620 ◦
+
+and an RTE of 0.044. Similarly, when 30% false matches are added, the method achieves an RRE of 3.300 ◦ and an RTE of 0.042. These results indicate that the proposed graph-based registration is robust to moderate graph construction errors. This robustness mainly comes from the geometric consistency verification in TRIMs and the subsequent maximum clique selection. False or inconsistent correspondences are unlikely to satisfy pairwise distance consistency with many other correspondences, and are therefore suppressed during compatibility graph construction. As a result, the final clique is likely to contain geometrically reliable correspondences, allowing stable pose estimation even when the initial graph contains noisy matches. Nevertheless, Graph-GSReg can still fail in more severe cases. Typical failure cases occur when the scene graph contains too few reliable object nodes, when most visible objects are repetitive or weakly distinctive, or when the overlap between two submaps is extremely limited. In such cases, the compatibility graph may not contain enough correct correspondences to form a reliable clique, which can lead to inaccurate transformation estimation. These observations suggest 8 J. Lee et al.                                   
+
+> Table 4: Fine registration results and overlap ratios for 69 sequence pairs in the uHumans2 [7] dataset. Office Apartment Subway Neighborhood Mean Overlap Ratio (%) 42.34 38.70 37.08 20.07 34.55
+> RRE ( ◦)↓0.200 0.300 2.090 0.254 0.711
+> RTE ↓0.001 0.003 0.019 0.002 0.006
+> ATE (m) ↓0.021 0.019 0.557 0.173 0.192
+> Time (s) ↓3.485 2.466 3.810 5.367 3.782
+
+that improving object-level graph construction under sparse, repetitive, or low-overlap conditions remains an important direction for future work. 
+
+## 7 3DGS Registration Dataset from uHumans2 
+
+ScanNet-GSReg [2] is one of the few publicly available datasets specifically de-signed for evaluating 3DGS registration. In addition, to evaluate registration performance in large-scale synthetic environments, we further construct a 3DGS registration test set using four sequences (office, apartment, subway, and neigh-borhood) from the uHumans2 [7] dataset. Specifically, we extract RGB images, depth images, and IMU measurements at 5 FPS from the uHumans2 dataset, which is provided in rosbag format [5]. The IMU measurements are used to obtain camera poses for 3DGS reconstruction. From the extracted frames, we construct scenes consisting of 150 frames each, while ensuring that consecutive scenes share 50 overlapping frames, resulting in a total of 69 overlapped scene pairs. As shown in Tab. 4, we report the average overlap ratio between scene pairs. ScanNet-GSReg, one of the few existing benchmarks for 3DGS registration, has an average overlap ratio of 56.23%, whereas our dataset has a significantly lower average overlap ratio of 34.55% , representing a more challenging setting with more limited overlap between scenes. These results demonstrate that the proposed method remains effective even under such conditions. The overlap ratio is measured using the original points. 
+
+## 8 Implementation Details 
+
+8.1 Details of 3D Scene Graph Construction 
+
+The 3D scene graph is constructed by first rendering each scene from multiple viewpoints, extracting object-level information from each frame, and then ag-gregating it into scene-level nodes. Specifically, SAM is applied to each rendered frame to obtain object masks. Only masks with confidence scores above a prede-fined threshold are retained, and CLIP features are extracted from the bounding box region of each mask to represent its semantic information. These mask-level Supplementary Material of Graph-GSReg 9
+
+features are then used to associate objects observed across multiple frames within the same scene, which ultimately forms the nodes of the final scene graph. The detailed settings for graph association and the registration hyperparameters are summarized in Tab. 5. Across all 82 scenes in ScanNet-GSReg, the average runtime of the scene graph construction process is approximately 2.076 seconds per frame for CLIP feature extraction, 1.089 seconds per frame for SAM-based mask extraction, and 0.007 seconds per frame for image rendering. In addition, graph associa-tion requires approximately 12.227 seconds per scene on average over the full benchmark. Most of this computational cost arises from object-level mask ex-traction and feature computation. However, since this stage is performed as an offline preprocessing step rather than during online inference, it remains practical within the overall pipeline. These runtimes may vary depending on factors such as rendering resolution, hardware configuration, and implementation details, and therefore should be interpreted as indicative rather than absolute measurements. Furthermore, as described in Algorithm 1, scene graph construction does not require densely processing all frames, and can instead be performed reliably using temporally sampled sparse frames. This suggests substantial room for further acceleration through parallelization and lightweight implementations, making the overall process sufficiently efficient in offline settings. 
+
+Table 5: Hyperparameters for scene graph construction and registration.                      
+
+> Parameter ScanNet-GSReg [2] uHumans2 [7]
+> Mask Confidence 0.96 0.98 Histogram Distance Threshold (m) 1.0 1.0
+> τasso 1.7 1.8
+> τTRIMs 0.1 0.05
+> τ′
+> TRIMs 0.02 0.02 Frame sampling interval ( s)210 Node Matching Threshold 0.95 0.95 Max ICP Iterations 500 500 ICP Distance Threshold (m) 0.1 0.1
+
+8.2 Details of TRIMs 
+
+To further analyze the effect of the TRIMs threshold τTRIMs , we conduct an ablation study by varying the ratio from 0.1 to 0.9. Fig. 5 reports the resulting registration accuracy and runtime. As the threshold increases, the distance consistency constraint becomes pro-gressively relaxed, allowing more candidate correspondences to remain in the compatibility graph. While this increases the number of graph nodes, it also introduces more geometrically inconsistent matches, which degrades the regis-tration accuracy. The enlarged compatibility graph further increases the compu-tational cost of the maximum clique search. 10 J. Lee et al. 
+
+Fig. 5: Ablation on the TRIMs threshold τTRIMs . We vary the threshold from 0.1 to 0.9 and evaluate the registration accuracy (RRE, RTE, RSE) and runtime. Larger thresholds relax the constraint, leading to lower accuracy and higher runtime. 
+
+Larger thresholds therefore lead to higher runtime and lower accuracy. Based on this observation, we set τTRIMs = 0 .1 in all experiments, as it provides the best trade-off between robustness and efficiency. To prevent excessive computational overhead, we introduce an additional safeguard in Algorithm 1. When the compatibility graph becomes excessively large, the subsequent SVD verification step may incur substantial computational cost. In such cases, we intentionally reduce the threshold to τ ′ 
+
+> TRIMs
+
+and apply TRIMs once more to regenerate the compatibility edges. This simple mechanism effectively limits the number of remaining correspondences, reducing the size of the compatibility graph and preventing the computational cost of subsequent steps from increasing excessively. 
+
+Table 6: Evaluation on 10 outdoor 3DGS scenes from Tanks and Temples [3]. Scenes with high symmetry or low texture are highlighted in bold. Graph-GSReg achieves accurate and efficient registration using only the graph-based coarse registration step. Scene Method RRE ( ◦) ↓ RTE ↓ ATE (m) ↓ Time (s) ↓                  
+
+> Family, Horse, Lighthouse, M60, Panther, Playground, Train,
+> Francis ,Museum ,Temple
+> TEASER++ & ICP 27.177 0.268 0.633 8.199 PhotoReg (Coarse) 32.940 0.701 1.531 30.703 PhotoReg (w/ Fine) 31.304 0.693 1.272 337.738 Ours (Coarse) 1.904 0.048 0.166 2.122
+
+## 9 Evaluation in Challenging Outdoor Environments 
+
+To further evaluate the robustness of Graph-GSReg in challenging outdoor en-vironments, we conduct an additional experiment on 10 outdoor 3DGS scenes from the Tanks and Temples [3] dataset. This benchmark includes scenes with large-scale structures, repetitive geometry, high symmetry, and weakly textured regions, which make appearance-based and photometric registration particu-larly challenging. Among the evaluated scenes, Francis , Museum , and Temple 
+
+contain high symmetry or low-texture regions, and are therefore highlighted in Tab. 6. Supplementary Material of Graph-GSReg 11 
+
+As shown in Tab. 6, Graph-GSReg achieves substantially lower registration errors than the baseline methods while requiring only a few seconds. Notably, our method uses only the graph-based coarse registration step in this experiment, without additional fine-level photometric optimization. These results demon-strate that the proposed object-level graph representation provides robust struc-tural cues even under challenging outdoor conditions where visual appearance alone can be ambiguous. 12 J. Lee et al. 
+
+Algorithm 1 Overall Pipeline of Graph-GSReg. 
+
+1: Input: 3DGS scenes GA, G B , Camera Poses CA, C B
+
+2: Output: Optimized Merged 3DGS Gmerged opt , Transformation TAB
+
+3: Phase 1: 3D Scene Graph Generation & Node Enrichment 
+
+4: CA 
+
+> sampled
+
+← { c ∈ CA | index (c) (mod s) = 0 }
+
+5: CB 
+
+> sampled
+
+← { c ∈ CB | index (c) (mod s) = 0 }
+
+6: GA, GB ← 3D_Scene_Graph_Generation (GA, G B , C A
+
+> sampled
+
+, C B
+
+> sampled
+
+)
+
+7: for each node v ∈ V A ∪ V B do 
+
+8: f (v) ← [fCLIP (v), f hist (v)] {Augment with 3-hop neighborhood histogram} 9: end for 
+
+10: Phase 2: Compatibility Graph Construction & Registration 
+
+11: Vcomp ←
+
+{
+
+(q, p ) | f (q)·f (p)   
+
+> ∥f(q)∥∥ f(p)∥
+
+≥ τnode , q ∈ V A, p ∈ V B
+
+}
+
+12: Ecomp ← ∅ 
+
+13: for each pair m1 = ( q1, p 1), m 2 = ( q2, p 2) ∈ V comp do 
+
+14: r ← ∥q1−q2∥∥p1−p2∥
+
+15: if 1 − τTRIMs < r < 1 + τTRIMs then 
+
+16: Ecomp ← E comp ∪ { (m1, m 2)}
+
+17: end if 
+
+18: end for 
+
+19: if |E comp | > 1000 then 
+
+20: Ecomp ← ∅ {Apply strict TRIMs filtering} 21: for each pair m1 = ( q1, p 1), m 2 = ( q2, p 2) ∈ V comp do 
+
+22: r ← ∥q1−q2∥∥p1−p2∥
+
+23: if 1 − τ ′ 
+
+> TRIMs
+
+< r < 1 + τ ′ 
+
+> TRIMs
+
+then 
+
+24: Ecomp ← E comp ∪ { (m1, m 2)}
+
+25: end if 
+
+26: end for 
+
+27: end if 
+
+28: Gcomp ← (Vcomp , Ecomp )
+
+29: Cmax ← Maximum_Clique (Gcomp )
+
+30: Tinit ← SVD (Cmax )
+
+31: P A
+
+> sampled
+
+, P B 
+
+> sampled
+
+← Downsample_Points (GA, G B )
+
+32: TAB ← ICP (P A
+
+> sampled
+
+, P B
+
+> sampled
+
+, Tinit )
+
+33: Phase 3: Merging & Test-Time Optimization 
+
+34: GB′
+
+← Transform (GB , TAB )
+
+35: Gmerged ← Voxel_Downsample (GA ∪ GB′
+
+, voxel_size = 0 .01) 
+
+36: Gmerged opt ← Test_Time_Optimization (GA, G B′
+
+, G merged )
+
+37: return Gmerged opt , TABSupplementary Material of Graph-GSReg 13 GaussReg  Graph -GSReg  Oracle 
+
+Fig. 6: Qualitative results on ScanNet-GSReg [2]. To isolate the effect of the merging strategy, all methods use the same fixed registration result produced by our method. Since GaussReg [2] employs a distance-based heuristic for merging, it produces severe hollow artifacts. In contrast, our proposed method refines the merged scene through TTO, producing results close to the Oracle within a very short time while effectively avoiding hollow artifacts. 14 J. Lee et al. GaussReg  Graph -GSReg  Oracle 
+
+Fig. 7: Qualitative results on the Apartment and Office sequences from our uHumans2-based dataset. Supplementary Material of Graph-GSReg 15 GaussReg  Graph -GSReg  Oracle 
+
+GaussReg  Graph -GSReg  Oracle 
+
+Fig. 8: Qualitative results on the Neighborhood and Subway sequences from our uHumans2-based dataset. 16 J. Lee et al. 
+
+## References 
+
+1. Besl, P., McKay, N.D.: A method for registration of 3-d shapes. IEEE Transactions on Pattern Analysis and Machine Intelligence 14 (2), 239–256 (1992). https://doi. org/10.1109/34.121791 
+
+2. Chang, J., Xu, Y., Li, Y., Chen, Y., Feng, W., Han, X.: Gaussreg: Fast 3d regis-tration with gaussian splatting. In: European Conference on Computer Vision. pp. 407–423. Springer (2024) 3. Knapitsch, A., Park, J., Zhou, Q.Y., Koltun, V.: Tanks and temples: Benchmarking large-scale scene reconstruction. ACM Transactions on Graphics 36 (4) (2017) 4. Oquab, M., Darcet, T., Moutakanni, T., Vo, H.V., Szafraniec, M., Khalidov, V., Fernandez, P., Haziza, D., Massa, F., El-Nouby, A., Howes, R., Huang, P.Y., Xu, H., Sharma, V., Li, S.W., Galuba, W., Rabbat, M., Assran, M., Ballas, N., Synnaeve, G., Misra, I., Jegou, H., Mairal, J., Labatut, P., Joulin, A., Bojanowski, P.: Dinov2: Learning robust visual features without supervision (2023) 5. Quigley, M., Conley, K., Gerkey, B., Faust, J., Foote, T., Leibs, J., Wheeler, R., Ng, A.Y., et al.: Ros: an open-source robot operating system. In: ICRA workshop on open source software. vol. 3, p. 5. Kobe (2009) 6. Radford, A., Kim, J.W., Hallacy, C., Ramesh, A., Goh, G., Agarwal, S., Sastry, G., Askell, A., Mishkin, P., Clark, J., et al.: Learning transferable visual models from natural language supervision. In: International conference on machine learning. pp. 8748–8763. PmLR (2021) 7. Rosinol, A., Violette, A., Abate, M., Hughes, N., Chang, Y., Shi, J., Gupta, A., Carlone, L.: Kimera: From slam to spatial perception with 3d dynamic scene graphs. The International Journal of Robotics Research 40 (12-14), 1510–1546 (2021) 8. Yang, H., Shi, J., Carlone, L.: Teaser: Fast and certifiable point cloud registration. IEEE Transactions on Robotics 37 (2), 314–333 (2020) 9. Yuan, Z., Zhang, T., Johnson-Roberson, M., Zhi, W.: Photoreg: Photometrically registering 3d gaussian splatting models. arXiv preprint arXiv:2410.05044 (2024)

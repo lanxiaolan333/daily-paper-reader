@@ -1,0 +1,243 @@
+Title: Fast and Accurate Outlier-Aware LiDAR Super-Resolution for SLAM Applications
+
+URL Source: https://arxiv.org/pdf/2606.28607v1
+
+Published Time: Tue, 30 Jun 2026 00:15:00 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+## FAST AND ACCURATE OUTLIER-AWARE LIDAR SUPER-RESOLUTION FOR SLAM APPLICATIONS 
+
+## Christos Anagnostopoulos 1,2 Alexandros Gkillas 1,3 Nikos Piperigkos 1,3 Aris S. Lalos 11 Industrial Systems Institute, Athena Research Center, Patras Science Park, Greece  
+
+> 2
+
+## Dpt. of Informatics & Telecom., University of Ioannina, Arta, Greece  
+
+> 3
+
+## AviSense.AI, Patras Science Park, Greece 
+
+ABSTRACT 
+
+This work tackles the challenge of enhancing low-resolution LiDAR sensors for SLAM applications through a novel Deep Unrolling-based Super-Resolution (SR) model. We integrate an outlier removal module to ensure structural integrity while maintaining real-time performance. By leveraging a model-based optimization approach, our method efficiently recon-structs high-resolution point clouds while minimizing com-putational overhead. The proposed SR model is evaluated within a LiDAR SLAM framework, demonstrating signifi-cant improvements in pose estimation accuracy and efficiency compared to state-of-the-art SR methods. 
+
+Index Terms — SLAM, model-based deep learning, au-tonomous vehicles, Super-Resolution 
+
+1. INTRODUCTION 
+
+LiDAR Simultaneous Localization and Mapping (SLAM) is essential for autonomous vehicles and robotics, enabling self-localization and environmental mapping. Compared to vi-sual SLAM, LiDAR-based methods offer superior reliabil-ity in low-light or low-visibility conditions [1]. By gener-ating high-resolution 3D point clouds, LiDAR facilitates pre-cise localization and navigation by aligning consecutive scans to minimize drift and improve trajectory estimation. How-ever, high-resolution LiDAR sensors are costly, making them impractical for many applications [2]. While 64-channel Li-DAR provides superior accuracy, lower-cost 16-channel sen-sors produce sparser point clouds, leading to reduced odom-etry accuracy, increased drift, and degraded SLAM perfor- 
+
+> This work has received funding from the European Union’s Horizon Europe research and innovation programme under the AutoTRUST project, “Autonomous Self-Adaptive Services for Transformational Personalized In-clusiveness and Resilience in Mobility” (Grant Agreement No. 101148123), and the GuardAI project, “Robust and Secure Edge AI Systems for Safety-Critical Applications” (Grant Agreement No. 101168067). © 2025 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, in any current or future media, including reprinting/republishing this material for advertising or promotional purposes, creating new collective works, for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works. DOI: 10.1109/ICIP55913.2025.11084730
+
+mance [3]. Additionally, higher resolution increases energy consumption, and costs. Balancing resolution, affordability, and odometry precision remains a key challenge in LiDAR-based SLAM. Inevitably, research has focused on enhancing the resolu-tion of low-cost LiDAR sensors to bridge the performance gap with high-resolution counterparts. This upsampling can be achieved through SR techniques, which refine low-resolution LiDAR data by reconstructing missing details and increasing spatial density [4]. However, most SR approaches fail to account for their impact on SLAM accuracy. These methods typically process either raw 3D point clouds or 2D range images derived from LiDAR scans, yet they introduce several critical limitations that hinder their effectiveness in real-world SLAM applications [4], [5]. Deep learning-based SR algo-rithms outperform traditional interpolation methods but rely on complex architectures with numerous learnable parame-ters, requiring substantial high-quality training data. Their high computational complexity limits frame rates, making real-time processing impractical for SLAM applications. Ad-ditionally, these methods operate independently of SLAM optimization, leading to inconsistent high-resolution recon-structions and artifacts that propagate errors in the SLAM pipeline. Many SR techniques also introduce outliers, fur-ther degrading SLAM accuracy and requiring costly post-processing, preventing real-time execution [6]. Nevertheless, to achieve a resource-efficient architec-ture without the need of computationally intensive post-processing methods, our approach draws its motivation from the model-based deep learning theory [7], leading a more efficient solution for the SR problem. To be more detailed, based on a novel optimization problem, we design a re-source efficient model-based SR network utilizing the deep unrolling (DU) strategy [7]. The resulting SR model can be integrated with the SLAM proces, resulting in an end-to-end real-time pipeline with improved accuracy. By leveraging the DU framework, we reformulate a novel optimization prob-lem into an efficient deep learning architecture. The main contributions of this work can be summarized as: • Model-based SR Network: This work introduces a 
+
+> arXiv:2606.28607v1 [cs.RO] 26 Jun 2026
+
+novel optimization problem for the LiDAR SR prob-lem, formulated in the range-view domain. The cost function of the optimization framework consists of three key components: (1) a data-consistency module that enforces the mathematical relationship between the low-resolution and high-resolution range images, (2) an encoder-decoder-based regularizer that captures intrin-sic properties of high-resolution range images, such as low-rank structures, and (3) a novel regularization term that simultaneously preserves structural consistency and removes outliers within the optimization process. By integrating this outlier removal process directly into the optimization framework, we eliminate the need for explicit post-processing while simultaneously en-hancing the effectiveness of the encoder-decoder-based regularizer. The iterative solution of the proposed op-timization problem is transformed into a model-based deep learning network using the deep unrolling strat-egy, resulting in a computationally efficient network, while effectively removes outliers and spurious points. • End-to-End architecture : The proposed computation-ally efficient SR model is combined with the SLAM to form the end-to-end framework. Overall, the joint op-timization and lightweight nature of the SR model al-low the resulting end-to-end framework to achieve per-formance and computational efficiency. The proposed method was implemented in C++ and integrated into the LeGO-LOAM pipeline to further increase the com-putational efficiency in fps. • SOTA performance We evaluate our method by test-ing it within a LiDAR-SLAM framework, demonstrat-ing its superiority in pose estimation accuracy and effi-ciency compared to state-of-the-art SR methods. 
+
+2. RELATED WORK 2.1. LiDAR-based SLAM 
+
+LiDAR SLAM systems can be categorized based on the type of sensors used. 3D LiDAR SLAM is more suitable for outdoor environments and is particularly well-suited for au-tonomous vehicle applications, as it captures data in three dimensions rather than being restricted to a single plane, as is the case with 2D LiDAR. They consist of a frontend and a backend. The frontend establishes data associations be-tween consecutive point clouds and provides an initial pose estimate, while the backend minimizes accumulated errors using filter-based or graph-optimization techniques. A key challenge in the frontend is scan matching, which estimates the sensor’s relative pose by aligning point clouds. This can be approached via direct matching or feature match-ing. Direct matching methods, such as ICP [8] and its vari-ants (Generalized-ICP [9], or NICP [10]), iteratively mini-mize distances between corresponding points. By utilizing NDT [11] or combining ICP with NDT [12], the requirement for explicit point correspondences can be eliminated, further improving efficiency. However, while scan-to-scan matching algorithms have advanced, their accuracy remains inherently limited. To improve pose estimation, recent LiDAR odom-etry techniques integrate both scan-to-scan and scan-to-map matching [13], [14]. Feature matching methods extract fea-tures to establish correspondences. LOAM [15] identifies linear and planar features based on curvature, while its exten-sions, such as RO-LOAM [16], enhance trajectory estimation using mesh features. LeGO-LOAM [17] improves feature extraction by segmenting points into ground and non-ground categories, utilizing planar and edge features to refine pose estimation. 
+
+2.2. LiDAR-based Super-Resolution 
+
+LiDAR Super-Resolution techniques can generally be clas-sified into two main approaches. The first category focuses on performing SR directly on raw 3D LiDAR point clouds [18–20]. However, these methods require substantial compu-tational resources to identify neighboring point relationships and often necessitate additional processing steps, such as seg-mentation, due to the inherent sparsity of 3D point clouds [21]. An alternative approach [22–24] operates in the range image domain by projecting 3D point clouds onto 2D range images. This representation offers a more compact format, ef-fectively mitigating data sparsity issues [25]. However, these methods typically rely on deep learning architectures with a large number of parameters, such as U-Net-based networks [24] and vision transformers [25]. Despite their potential, the computational demands of these models, combined with the need for post-processing to remove outliers, pose significant challenges for real-time implementation. The high complex-ity of inference, along with the additional processing over-head, often results in suboptimal frame rates, limiting their applicability in real-world SLAM. 
+
+3. PROPOSED METHODOLOGY 
+
+In this section, we formulate the basic SR LiDAR optimiza-tion problem by developing a model-based deep learning net-work to tackle the LiDAR SR problem, and integrating the SR method into an end-to-end LiDAR SLAM architecture. 
+
+3.1. Optimization Problem 
+
+To construct the proposed model-based deep learning ar-chitecture, we leverage the advantages of projection-based methodologies. Let S1 represent a high-resolution LiDAR sensor with N1 channels e.g., 64 , and S2 a low-resolution Li-DAR sensor with N2 channels e.g., 16 , where N1, N2 ∈ Z
+
+and N1 > N2. We project the 3D high-resolution point cloud P , obtained from S1, into a high-resolution range image H ∈ RN1×K , where K represents the horizontal reso-lution of the sensor. If L ∈ RN2×K denotes the range image produced by the low-resolution 16-channel LiDAR sensor, the transformation between the two range images i.e., the low-resolution and high-resolution image can be described by the following mathematical relationship: 
+
+L = DH + E, (1) where D ∈ RN2×N1 denotes the downsampling operator that selects only the N2 channels from the high resolution range image and E is a noise term. Our goal is to upscale the qual-ity of the resolution of the point cloud generated from the low resolution sensor. To achieve this, we formulate an optimiza-tion problem based on the work presented in [6]: 
+
+arg min 
+
+> H
+
+12 ∥L − DH ∥2 
+
+> F
+
++ μJ (H) (2) where the first component ensures consistency with the degra-dation model defined in (1). The second component J (.)
+
+serves as a learnable regularizer, designed to capture the in-trinsic features of the high-resolution range image H, and μ
+
+is the regularization parameter. However, the above formulation of method [6] still faces challenges in ensuring real-time performance, as the learnable regularizer, which aims to capture the intrinsic properties of range images, relies on 2D convolutions. These convolutions, while effective in learning spatial patterns, do not inherently preserve the 3D geometric consistency of the original LiDAR point cloud. As a result, they often introduce outliers, partic-ularly in regions with depth discontinuities, sharp edges, or occlusions. These artifacts often appear as spurious points in free-space regions or distortions along object boundaries, sig-nificantly affecting downstream SLAM tasks. To restore con-sistency, additional post-processing steps are often required to handle outliers. However, these steps increase computational overhead, restricting real-time performance and making the approach impractical for autonomous navigation. To overcome this, we introduce a novel regularization term that simultaneously preserves structural consistency and removes outliers within the optimization process. By integrating the outlier removal process directly into the opti-mization framework, we eliminate the need for explicit post-processing while simultaneously enhancing the effectiveness of the learnable regularizer J (.). Since J (.) is trained jointly with the outlier removal module, it can learn to better capture the structural properties of the high-resolution range image while being aware of the effects of outlier suppression. This synergistic optimization leads to more accurate and stable SR outputs, ultimately improving LiDAR SLAM performance. Thus, we propose a novel optimization problem, defined as 
+
+arg min 
+
+> H
+
+12 ∥L − DH ∥2 
+
+> F
+
++ μJ (H) + λQ(H) (3) where the term Q(.) represents an outlier removal regularizer. This module guides the solution toward generating geometri-cally consistent high-resolution range images. 
+
+3.2. Model-based deep learning SR 
+
+In order to address the proposed optimization problem in (3), we utilize the Half quadratic splitting (HQS) methodology to decompose the initial problem into more manageable sub-problems. Hence, the initial problem can be reformulated as: 
+
+arg min 
+
+> H
+
+12 ∥L − DH ∥2 
+
+> F
+
++ μJ (Z) + λQ(Y )
+
+s.t. H = Z, H = Y (4) where Z ∈ RN1×K , Y ∈ RN1×K are auxiliary variables. The loss function that HQS method seeks to minimize is: 
+
+L = 12 ∥L − DH ∥2 
+
+> F
+
++ μJ (Z) + λQ(Y )+ b
+
+2 ∥Z − H∥2 
+
+> F
+
++ b
+
+2 ∥Y − H∥2 
+
+> F
+
+(5) where b denotes a penalty parameter. Based on equation (5) a sequence of individual sub-problems emerges: 
+
+H(k+1) = arg min 
+
+> H
+
+12 L − DH (k) 2
+
+> F
+
++ b
+
+2 Z(k) − H(k) 2
+
+> F
+
++ b
+
+2 Y (k) − H(k) 2
+
+> F
+
+(6a) 
+
+Z(k+1) = arg min 
+
+> Z
+
+μJ (Z) + b
+
+2 Z − H(k+1) 2
+
+> F
+
+. (6b) 
+
+Y (k+1) = arg min 
+
+> Y
+
+λQ(Y ) + b
+
+2 Y − H(k+1) 2
+
+> F
+
+. (6c) 
+
+Data consistency Module - subproblem (6a): This subproblem takes the form of a quadratic regularized least squares problem, which can be solved as: 
+
+H(k+1) = ( DT D + 2 bI)−1(DT Y + bZ(k) + bY (k)).
+
+(7) 
+
+Denoising Module - subproblem (6b): The denoising module refines the range image by processing the output re-ceived from the data consistency module (as shown in equa-tion 7). This refinement step, which corresponds to equation (6b), can be implemented using a deep learning-based denois-ing network that functions as follows: 
+
+Z(k+1) = Gθ (H(k+1) ), (8) where Gθ denotes the denoising neural network that learns to identify and preserve the essential characteristics of range images, effectively serving as a learned prior. The network architecture follows a U-shaped autoencoder design, where the encoder uses 2D convolutional layers to downsample the Layer 1 = Iteration 1  Layer K = Iteration K  
+
+> …
+> 𝑌 (1)
+> Υ(𝑘 +1)
+> 2D low -res
+> Range Image (L)
+> Low -resolution
+> Point Cloud
+> Projection
+> Model -based LiDAR super -resolution
+> Estimated High -
+> resolution range
+> image
+> Estimated Pose
+> Data consistency
+> Module (10a)
+> Data consistency
+> Module (10a)
+
+Fig. 1 : The proposed end-to-end Super-LiDAR-SLAM architecture. The pipeline starts with a low-resolution point cloud captured by a low resolution LiDAR sensor, which is projected into a 2D range image. The 2D range image is then upscaled using the SR module, that consists of two denoising process i.e., the autoencoder denoiser (10b) that aims to refines the output of the data-consistency module (10a) and the outlier removal module to filter spurious points (10c). The processed output is passed into the LeGO-LOAM framework to estimate the final pose. input, while the decoder employs deconvolutional layers to perform upsampling. However, since it relies on 2D convo-lutions, it does not inherently preserve 3D geometric consis-tency, leading to outliers, particularly in regions with depth discontinuities, sharp edges, or occlusions. These artifacts manifest as spurious points and boundary distortions, which negatively impact SLAM performance. To mitigate this issue, we introduce an outlier removal module, described in the fol-lowing, which ensures the structural integrity of the estimated range image while maintaining real-time performance. 
+
+Outlier Removal - subproblem (6c): This module elim-inates outliers introduced by the denoising process, refining the estimated range image. The solution corresponds to the proximal operator of the regularizer Q. Instead of using a neural network, we adopt a cluster-based algorithm [26] that operates without learnable parameters. The algorithm processes the structured 2D range image using breadth-first search (BFS) to label connected components. It scans the image sequentially, starting from the top-left corner, and ini-tiates BFS for each unlabeled pixel. A neighboring pixel is added to the BFS queue based on a criterion involving range measurements r1 and r2 at points p1 and p2, measured by a sensor at s. The connectivity angle α2 is: 
+
+α2 = arctan 
+
+ ∥sp 2∥ sin α1
+
+∥sp 1∥ − ∥ sp 2∥ cos α1
+
+
+
+, (9) where α1 is the known angle between laser beams. A thresh-old θ determines connectivity: if α2 < θ , the points are in separate clusters due to a significant depth change; otherwise, they belong to the same object. This heuristic yet effective method efficiently segments range images, improving SLAM performance. Final iterative solutions : Hence, the HQS solver consists of three interpretable modules that are the data consistency solution for estimating the high-resolution range image (10a), the denoising step in equation (10b) and the out-lier removal submodule(10c). 
+
+H(k+1) = ( DT D + 2 bI)−1(DT Y + b(Z(k) + Y (k))) (10a) 
+
+Z(k+1) = Gθ (H(k+1) ) (10b) 
+
+Y (k+1) = Qθ (H(k+1) ) (10c) 
+
+Model-based SR network : The learnable components within the denoiser enable us to transform the context-aware optimization problem into an efficient and interpretable deep learning architecture based on established mathematical prin-ciples. We accomplish this by implementing the Deep Un-rolling framework. Instead of executing numerous iterations of the HQS solver from equation (10), we unroll a limited number K of iterations, with each iteration functioning as a distinct layer in the resulting deep network. This creates a K-layer neural network where each layer maps directly to one HQS iteration, creating an optimal balance between computational efficiency, and model interpretability. 
+
+3.3. End-to-End Architecture: SR-LeGO-LOAM 
+
+Having designed the proposed model-based Super-Resolution network, we now introduce the complete end-to-end archi-tecture, as illustrated in Figure 1. The proposed architecture extends the LeGO-LOAM framework by integrating the pro-posed SR model. The objective of this implementation is to incorporate SR functionality while maintaining the real-time performance of the algorithm. The pipeline begins with a sparse point cloud generated by a low resolution LiDAR sensor, which is transformed into a low-resolution range im-age. The 2D range image is then upscaled using the SR mod-ule, that consists of two denoising processes i.e., the autoen-coder denoiser (10b) that aims to refines the output of the data-consistency module (1oa) and the outlier removal mod-ule to filter spurious points (10c). The remaining steps of the pipeline follow the standard LeGO-LOAM SLAM process. Table 1 : Absolute Pose Error (RMSE) w.r.t. translation part (m), FPS, and Number of Parameters.                     
+
+> Method RMSE [m] FPS Parameters LiDAR-16 11.58 / 6717 --SRAE [4] 5.53 / 67.35 535M Simple DU [6] 3.78 / 31.71 50.1M VIT [25] 3.58 / 28.64 150M DU-OR (ours) 2.35 /22.64 400 0.2M
+
+4. NUMERICAL RESULTS 4.1. Simulation setup 
+
+We utilized the Ouster LiDAR dataset, which captures a 15-minute drive through San Francisco using an OS-1-64 3D Li-DAR sensor. The 64-channel LiDAR point clouds were pro-jected into high-resolution range images of size 64 × 1024 
+
+as ground truth, while low-resolution images were generated by extracting 16 out of the 64 channels. During training, we used the AdamW optimizer with PyTorch’s default settings and unrolled the HQS solver for k = 5 iterations, forming a 5-layer deep learning architecture. The model was imple-mented in C++ and integrated into the LeGO-LOAM pipeline as a preprocessing step, consistently operating in the 2D im-age domain. It was tested on an RTX 2080 Ti GPU. 
+
+4.2. Evaluation study 
+
+In this section, we present the evaluation results of the pro-posed SR module with Outlier Removal using the Ouster dataset, which consists of two sequences: a complex 8,000-scan sequence and a smaller 4,000-scan sequence, each sub-sampled to 16 channels. We compare our method (DU-OR) against state-of-the-art SR LiDAR techniques, includ-ing the Super-Resolution Autoencoder (SRAE) [4], a sim-ple Deep Unrolling (Simple DU) SR method [6], and a Transformer-based (VIT) approach [25]. These methods take the downsampled Ouster sequences as input and generate high-resolution 64-channel scans, acting as a preprocessing step for upscaling low-resolution LiDAR data, which are then used as input to the LeGO-LOAM SLAM pipeline. Addition-ally, we also evaluate LeGO-LOAM performance by directly feeding the low-resolution scans (LiDAR-16) without any processing. As a metric, we use the Absolute Pose Error (APE), with the ground truth being the LeGO-LOAM out-put using the original 64-channel LiDAR. We also report the execution time for each SR technique and the network size in terms of the number of parameters. Table 1 presents the RMSE values for both sequences in a single column, with the results for the 4,000-scan sequence listed first, followed by those for the 8,000-scan sequence, separated by a slash. The results highlight the limitations of the 16-channel LiDAR,  
+
+> (a) proposed DU heatmap (b) LiDAR-16 heatmap
+> (c) VIT [25] heatmap
+
+Fig. 2 : Heatmaps for the proposed DU, the 16-channel Li-DAR and the Transformer based method [25] using as refer-ence trajectory the path derived from the LiDAR-64. with an APE RMSE of 11.58m for 4,000 scans, which sharply increases to 6,717m for 8,000 scans, demonstrating the chal-lenges of low-resolution data in complex environments due to the sparsity of point clouds. The proposed DU-OR method consistently outperforms all tested SR approaches, achieving APE RMSE reductions ranging from 34% to 58% for 4,000 scans and 20% to 66% for 8,000 scans. Finally, Figure 2 vali-dates the above mentioned results. Beyond accuracy, DU-OR excels in real-time performance, achieving 400 fps, compared to 5 fps for SR-AE and 1 fps for VIT, while containing 99% 
+
+less parameters. The slower speeds of SR-AE [4] and VIT methods [25] result from Monte Carlo-based inference, re-quiring multiple evaluations per point cloud. In contrast, DU efficiently captures LiDAR structures, reconstructing high-resolution point clouds with a single inference, making it ideal for real-time autonomous applications. 
+
+5. CONCLUSION 
+
+This work presents a DU-based SR model with an inte-grated outlier removal module to enhance the accuracy and efficiency of low-resolution LiDAR sensors for SLAM appli-cations. By leveraging a model-based optimization approach, our method reconstructs high-resolution point clouds while maintaining real-time performance. The proposed SR model was integrated and evaluated within a state-of-the-art LiDAR SLAM framework, demonstrating significant improvements in pose estimation accuracy and efficiency over existing SR methods. These findings highlight the effectiveness of outlier-aware Super-Resolution in improving SLAM performance and its potential extension to other research areas such as object detection. 
+
+6. REFERENCES 
+
+[1] Mohammed Chghaf, Sergio Rodriguez, and Abdelhafid El Ouardi, “Camera, LiDAR and Multi-modal SLAM Systems for Autonomous Ground Vehicles: a Survey,” Journal of Intel-ligent & Robotic Systems , vol. 105, no. 1, pp. 2, May 2022. [2] Azim Eskandarian, Chaoxian Wu, and Chuanyang Sun, “Re-search advances and challenges of autonomous and connected ground vehicles,” IEEE Transactions on Intelligent Trans-portation Systems , vol. 22, no. 2, pp. 683–711, 2021. [3] Alexandros Gkillas, Aris S. Lalos, Evangelos K. Markakis, and Ilias Politis, “A federated deep unrolling method for li-dar super-resolution: Benefits in slam,” IEEE Transactions on Intelligent Vehicles , vol. 9, no. 1, pp. 199–215, 2024. [4] Tixiao Shan, Jinkun Wang, Fanfei Chen, Paul Szenher, and Brendan Englot, “Simulation-based lidar super-resolution for ground vehicles,” Robotics and Autonomous Systems , vol. 134, pp. 103647, 2020. [5] Jiang Yue, Weisong Wen, Jin Han, and Li-Ta Hsu, “3d point clouds data super resolution-aided lidar odometry for vehicular positioning in urban canyons,” IEEE Transactions on Vehicu-lar Technology , vol. 70, no. 5, pp. 4098–4112, 2021. [6] Alexandros Gkillas, Aris S. Lalos, and Dimitris Ampeliotis, “An efficient deep unrolling super-resolution network for lidar automotive scenes,” in 2023 IEEE International Conference on Image Processing (ICIP) , 2023, pp. 1840–1844. [7] Nir Shlezinger, Jay Whang, Yonina C. Eldar, and Alexan-dros G. Dimakis, “Model-based deep learning,” Proceedings of the IEEE , vol. 111, no. 5, pp. 465–499, 2023. [8] Paul J. Besl and Neil D. McKay, “Method for registration of 3-D shapes,” in Sensor Fusion IV: Control Paradigms and Data Structures . Apr. 1992, vol. 1611, pp. 586–606, SPIE. [9] Aleksandr V. Segal, Dirk Haehnel, and Sebastian Thrun, “Generalized-ICP,” in Robotics , Jeff Trinkle, Yoky Matsuoka, and Jose A. Castellanos, Eds., pp. 161–168. The MIT Press, July 2010. [10] Jacopo Serafin and Giorgio Grisetti, “NICP: Dense normal based point cloud registration,” in 2015 IEEE/RSJ Interna-tional Conference on Intelligent Robots and Systems (IROS) ,Sept. 2015, pp. 742–749. [11] P. Biber and W. Strasser, “The normal distributions trans-form: a new approach to laser scan matching,” in Proceedings 2003 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS 2003) (Cat. No.03CH37453) , Las Vegas, Nevada, USA, 2003, vol. 3, pp. 2743–2748, IEEE. [12] Hyunki Hong and B. H. Lee, “Probabilistic normal distri-butions transform representation for accurate 3D point cloud registration,” in 2017 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , Sept. 2017, pp. 3333– 3338, ISSN: 2153-0866. [13] Kenny Chen, Brett T. Lopez, Ali-akbar Agha-mohammadi, and Ankur Mehta, “Direct LiDAR Odometry: Fast Localization With Dense Point Clouds,” IEEE Robotics and Automation Letters , vol. 7, no. 2, pp. 2000–2007, Apr. 2022, Conference Name: IEEE Robotics and Automation Letters. [14] Jean-Emmanuel Deschaud, “IMLS-SLAM: scan-to-model matching based on 3D data,” Feb. 2018, arXiv:1802.08633 [cs]. [15] Ji Zhang and Sanjiv Singh, LOAM: Lidar Odometry and Map-ping in Real-time , July 2014. [16] Martin Oelsch, Mojtaba Karimi, and Eckehard Steinbach, “RO-LOAM: 3D Reference Object-based Trajectory and Map Optimization in LiDAR Odometry and Mapping,” IEEE Robotics and Automation Letters , vol. 7, pp. 1–1, July 2022. [17] Tixiao Shan and Brendan Englot, “LeGO-LOAM: Lightweight and Ground-Optimized Lidar Odometry and Mapping on Vari-able Terrain,” in 2018 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , July 2018, pp. 4758– 4765, ISSN: 2153-0866. [18] Jiang Yue, Weisong Wen, Jin Han, and Li-Ta Hsu, “3d point clouds data super resolution-aided lidar odometry for vehicular positioning in urban canyons,” IEEE Transactions on Vehicu-lar Technology , vol. 70, no. 5, pp. 4098–4112, 2021. [19] Artem Savkin, Yida Wang, Sebastian Wirkert, Nassir Navab, and Federico Tombari, “Lidar upsampling with sliced wasser-stein distance,” IEEE Robotics and Automation Letters , vol. 8, no. 1, pp. 392–399, 2023. [20] Di Tian, Dangjun Zhao, Dongyang Cheng, and Junchao Zhang, “Lidar super-resolution based on segmentation and geometric analysis,” IEEE Transactions on Instrumentation and Mea-surement , vol. 71, pp. 1–17, 2022. [21] Zhenqi Zheng, Xiao Sun, Zhichao Wen, Xuan Wang, Wenlei Fan, Hongji Yan, and You Li, “Indoor localization and trajec-tory correction with point cloud-derived backbone map,” In-ternational Journal of Applied Earth Observation and Geoin-formation , vol. 129, pp. 103783, 2024. [22] Youngsun Kwon, Minhyuk Sung, and Sung–Eui Yoon, “Im-plicit lidar network: Lidar super-resolution via interpolation weight prediction,” in 2022 International Conference on Robotics and Automation (ICRA) , 2022, pp. 8424–8430. [23] Chi Chen, Ang Jin, Zhiye Wang, Yongwei Zheng, Bisheng Yang, Jian Zhou, Yuhang Xu, and Zhigang Tu, “Sgsr-net: Structure semantics guided lidar super-resolution network for indoor lidar slam,” IEEE Transactions on Multimedia , vol. 26, pp. 1842–1854, 2024. [24] Tixiao Shan, Jinkun Wang, Fanfei Chen, Paul Szenher, and Brendan Englot, “Simulation-based lidar super-resolution for ground vehicles,” Robotics and Autonomous Systems , vol. 134, pp. 103647, 2020. [25] Bin Yang, Patrick Pfreundschuh, Roland Siegwart, Marco Hut-ter, Peyman Moghadam, and Vaishakh Patil, “Tulip: Trans-former for upsampling of lidar point clouds,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2024, pp. 15354–15364. [26] Igor Bogoslavskyi and Cyrill Stachniss, “Fast range image-based segmentation of sparse 3D laser scans for online op-eration,” in 2016 IEEE/RSJ International Conference on In-telligent Robots and Systems (IROS) , July 2016, pp. 163–169, ISSN: 2153-0866.

@@ -1,0 +1,913 @@
+Title: UniTriSplat: A Unified 3D Gaussian Splatting Framework with Uniform Spherical Rasterization for Universal Cameras
+
+URL Source: https://arxiv.org/pdf/2606.29794v1
+
+Published Time: Tue, 30 Jun 2026 02:02:58 GMT
+
+Number of Pages: 32
+
+Markdown Content:
+# UniTriSplat: A Unified 3D Gaussian Splatting Framework with Uniform Spherical Rasterization for Universal Cameras 
+
+Yipeng Zhu 1 , Huajian Huang 2† , Tristan Braud 1 , and Sai-Kit Yeung 1 
+
+> 1
+
+The Hong Kong University of Science and Technology, Hong Kong, China  
+
+> 2
+
+Beijing Institute of Technology, Beijing, China 
+
+> †
+
+Corresponding author 
+
+Abstract. Existing 3D Gaussian Splatting (3DGS) frameworks rely on camera-specific rasterization, suffering from inconsistent solid-angle sam-pling and degraded performance across heterogeneous camera models (e.g., perspective, fisheye, omnidirectional). To address this limitation, we propose UniTriSplat, a unified 3DGS framework for universal cameras that reformulates Gaussian splatting on the unit sphere via HEALPix discretization. Leveraging the equal-area property of HEALPix, we con-struct a spherical sampling grid aligned with the angular resolution of input images. We derive the forward rendering and gradient propagation of Gaussians directly in the spherical radian domain, yielding uniform op-timization behavior from narrow-FoV images to full 360-degree panora-mas. To enhance perceptual reconstruction quality, we additionally intro-duce a HEALPix-aware SSIM loss that respects spherical neighborhood structure. Extensive experiments across diverse camera models demon-strate that UniTriSplat consistently improves cross-camera generaliza-tion while preserving geometric fidelity and rendering quality. Project page: https://yipengzhu0809.github.io/UniTriSplat/ 
+
+Keywords: 3D Gaussian Splatting · Omnidirectional Reconstruction ·
+
+Novel View Synthesis 
+
+## 1 Introduction 
+
+3D Gaussian Splatting [23] (3DGS) achieves high-fidelity 3D reconstruction by employing explicit primitives and a differentiable tile-based rasterization pipeline. However, increasing demand for wide-field-of-view (FoV) perception in urban-scale digital twins [38,42] and immersive virtual reality [21,34] requires a shift from perspective rendering to omnidirectional synthesis. This transition necessitates that 3DGS natively supports heterogeneous imaging models across arbitrary-FoV configurations, including fisheye lenses and  360 ◦ imagery. Despite its efficiency, adapting 3DGS to diverse camera geometries remains challenging. Existing frameworks typically rely on camera-specific projection functions [29] and their corresponding Jacobian matrices [43], which leads to   
+
+> arXiv:2606.29794v1 [cs.CV] 29 Jun 2026 2Y. Zhu et al.
+> Fig. 1: Limitations of camera-specific 3DGS pipelines. Existing methods re-quire separate rasterizers and projection models for different camera types, resulting in fragmented implementations and poor cross-camera generalization.
+
+fragmented implementations and limits their versatility. Crucially, the tight cou-pling between the rasterizer and the pinhole model prevents the learned Gaussian scene from maintaining geometric consistency when rendered across different camera types, thereby compromising cross-camera generalization (Fig. 1). An alternative is to map diverse camera models onto a unified intermediate space, such as equirectangular panoramas [12, 19, 28]. Nevertheless, this approach is limited by the requirement for 360 ◦ coverage and struggles with partial-FoV in-puts. Furthermore, the non-uniform pixel density of equirectangular projection induces imbalanced sampling between polar and equatorial zones [20], resulting in biased gradient propagation and suboptimal convergence (Fig. 3). Fundamentally, all central camera models can be unified through a shared spherical geometry. In this work, we exploit this principle to develop Uni-TriSplat , a unified 3DGS framework featuring a camera-agnostic spherical ras-terizer. By projecting 3D Gaussians directly onto a standardized spherical grid, UniTriSplat decouples the rendering process from camera-specific projection, en-abling consistent synthesis across arbitrary FoVs and lens models. Specifically, we adopt HEALPix [11] (Hierarchical Equal Area iso-Latitude Pixelization) as the underlying spherical discretization scheme. HEALPix partitions the sphere into a hierarchical grid of equal-area pixels, inherently eliminating the sampling bias present in equirectangular representations [3]. To accommodate varying cam-era configurations, we adjust the HEALPix resolution by matching the grid’s solid angle to the local angular resolution of the input images. Building upon this representation, we reformulate the forward and backward rasterization of 3DGS within the arc-length coordinate system on the unit sphere, and employ HEALPix for uniform spherical tessellation. Subsequently, we redesign the tile query, depth sorting, and density control modules to operate natively on the HEALPix grid. In particular, the tile query supports both sequential scanning and quadtree traversal via different indexing schemes, integrating depth sort-UniTriSplat 3   
+
+> Fig. 2: Overview of UniTriSplat. (a) Unified mapping from heterogeneous camera models to the HEALPix domain with FoV-specific masking. (b) Spherical rasterization within the radian space: projection, tile query, and depth-sorted blending. (c) Sampling the rendered HEALPix grids into 2D images for evaluation. (d) Optimization guided by the HEALPix-aware SSIM and L1losses.
+
+ing by radial distance and density control driven by angular-gradient thresh-olds. During rendering, the 3D Gaussian scene is rasterized onto a spherical domain corresponding to the target FoV, followed by resampling onto the image plane of the target camera. To further extend spherical perceptual quality [15] to HEALPix, we introduce a HEALPix-aware SSIM (Structural Similarity Index) loss that computes structural similarity over spherical neighborhoods, improv-ing reconstruction fidelity in distorted regions. The pipeline of UniTriSplat is illustrated in Fig. 2. Our contributions can be summarized as follows: 
+
+– Proposing UniTriSplat, the first 3DGS framework supporting arbitrary cam-era models and FoVs via a unified HEALPix-based rasterization pipeline. 
+
+– Deriving the gradients for splatting 3D Gaussians onto HEALPix spherical grids and developing a custom rasterizer for effective training and rendering. 
+
+– Designing a HEALPix-SSIM loss for spherical geometry in structural simi-larity computation, facilitating spatially uniform Gaussian optimization. 
+
+– Comprehensive experiments demonstrating state-of-the-art spherical recon-struction metrics, competitive planar metrics, improved cross-camera gener-alization, and stable reconstruction quality for arbitrary-FoV inputs. 4 Y. Zhu et al.         
+
+> Fig. 3: HEALPix Tessellation and Uniform Rasterization. (a) Hierarchical structure and indexing. (b) Equirectangular projection shows 7.6×pixel area varia-tion, while HEALPix ensures uniform spherical sampling.
+
+## 2 Related Work 
+
+2.1 3D Gaussian Splatting Beyond Perspective Projection 
+
+Wide-FoV cameras are essential for VR, robotics, and autonomous systems, yet vanilla 3DGS relies on perspective projection, introducing severe distortions for such inputs (Fig. 3). Recent works [28, 29] derive camera-specific Jacobians for equidistant and equirectangular projections. Others employ tangent-plane pro-jections [1, 19, 25], splatting Gaussians onto local tangent planes then warping to the sphere, though this introduces linearization artifacts at patch boundaries. Several works [19, 27, 37] redesign the EWA affine approximation [43] for wide-FoV imaging; notably, Wu et al. [37] replace it with the Unscented Transform for more accurate nonlinear projection under arbitrary distortions. Ito et al. [20] apply distortion-aware reweighting to mitigate polar oversampling, while Shin et al. [32] jointly optimize with dual-fisheye calibration for seamless 360 ◦ ren-derings. Deng et al. [10] propose a cross-FoV method that extends perspective projection to a cubemap representation, enabling the processing of large-FoV images. However, all these methods require camera-specific modifications and remain confined to equirectangular or planar rasterization, leaving nonuniform sampling unaddressed. Our work performs rasterization directly on the sphere, providing a camera-agnostic framework with inherently uniform coverage. 
+
+2.2 Spherical Image Representation 
+
+Projecting visual signals onto a sphere aligns naturally with omnidirectional per-ception. Since omnidirectional imaging was widely adopted [4], equirectangular projection [33] has become popular for its simplicity, supporting various vision tasks [8,14,17,18,41], but suffers from severe polar oversampling. To address this, uniform tessellation schemes have been explored [6], including cubemap [12], icosahedral grids [31], and quasi-uniform Yin–Yang grid [22]. Choi et al. [7] use Yin-Yang grid for balanced ray sampling in scene reconstruction, while Lee et UniTriSplat 5
+
+al. [26] leverage it for quasi-uniform patch decomposition enabling pretrained networks on 360 ◦ images. We adopt HEALPix as our spherical representation (Fig. 3). Unlike quasi-uniform schemes, HEALPix guarantees strictly equal-area pixels with a hierarchical multi-resolution structure. Carlsson et al. [3] exploit this hierarchy for efficient spherical self-attention, while Krachmalnicoff et al. [24] and Cheng et al. [5] provide foundational spherical CNN implementations. De-spite existing efforts for HEALPix-based applications [5], HEALPix’s irregular geometry has limitations in 3D tasks. We present the first CUDA implementation integrating HEALPix directly into the 3DGS rasterization pipeline. 
+
+## 3 HEALPix-based 3D Gaussian Rasterization 
+
+In this paper, we present a unified 3DGS framework that rasterizes directly on the HEALPix spherical grid. The following sections detail HEALPix adaptation for visual representation (Sec. 3.1), latitude-aware spherical splatting with gra-dient derivations (Sec. 3.2), efficient tile query algorithms exploiting HEALPix’s indexing (Sec. 3.3), and image synthesis for arbitrary camera models (Sec. 3.4). 
+
+3.1 Adapting HEALPix for Visual Representation 
+
+Our rasterizer operates on the HEALPix grid, which partitions the unit sphere into 12 base quadrilaterals, each recursively subdivided with resolution param-eter Nside (power of two), yielding Npix = 12 N 2 
+
+> side
+
+equal-area pixels. This equal-area property ensures uniform solid angle Ωpix = 4 π/N pix per pixel, providing balanced gradient contributions during backpropagation. To dynamically match the input angular resolution, we compute the adap-tive HEALPix resolution  N ∗ 
+
+> side
+
+= p4πW H/ (12 Ωin ) and round it to the near-est power of two. The solid angle  Ωin  is defined as  4π for Equirectangular, 
+
+2π(1 −cos θ) for Fisheye, and  4 arcsin(sin θx sin θy ) for Perspective, where  θ, θ x, θ y
+
+denote the respective half-FoVs. For a camera model C, let DC ⊆ [0 , W ) × [0 , H )
+
+denote its valid image domain. We define the image-to-sphere mapping PC :
+
+DC → S2, which maps each valid image pixel (u, v ) to its spherical direction 
+
+(ω, ϕ ). The corresponding visible spherical region is RC = PC (DC ), with the HEALPix visibility mask MC (p) = 1[( ωp, ϕ p) ∈ R C ] . Ground-truth images are resampled onto the adaptive-resolution HEALPix grid within RC , enabling uni-fied supervision across camera models, as shown in Fig. 2(a). HEALPix provides two indexing schemes: RING ordering arranges pixels along iso-latitude rings, while NESTED ordering follows the hierarchical quadtree structure, as illustrated in Fig. 3. We adopt NESTED indexing with (x, y, f ) pa-rameterization, where x, y ∈ [0 , N side ) are local coordinates within base quadri-lateral f ∈ [0 , 12) . This maps naturally to GPU parallelization: each base quadri-lateral is partitioned into ⌈Nside /B ⌉2 tiles of B×B threads, yielding 12 ⌈Nside /B ⌉2
+
+parallel tiles with hierarchical spatial coherence for efficient memory access. 6 Y. Zhu et al. 
+
+3.2 Latitude-Aware Splatting on the Unit Sphere 
+
+We now formulate how 3D Gaussians are splatted onto the HEALPix spherical screen space, parameterized in radians rather than pixels. Let t = Wμ + b
+
+denote the camera-space position of a Gaussian center μ, where W ∈ R3×3 and 
+
+b are the rotation and translation of the view matrix. 
+
+Forward Projection. The spherical projection Π : R3 → S2 maps t =(tx, t y , t z )⊤ to longitude-latitude coordinates: 
+
+μ′ = Π(t) = ( ω, ϕ )⊤, ω = atan2( tx, t z ), ϕ = atan2 
+
+
+
+ty , pt2 
+
+> x
+
++ t2
+
+> z
+
+
+
+, (1) with radial depth r = ∥t∥ for depth sorting. The 3D covariance Σ3D is projected to radian-space covariance Σrad via the Jacobian of Π composed with the rota-tion, characterizing the Gaussian’s angular extent for spherical rasterization. Since the HEALPix screen measures arc length rather than angular displace-ment, and equal angular increments yield different arc lengths at different lati-tudes, we apply latitude-dependent scaling: 
+
+Σarc = SϕΣrad S⊤ 
+
+> ϕ
+
+, Sϕ = diag(cos ϕ, 1) . (2) Conic parameters are computed from Σ−1arc , and the spherical bounding radius 
+
+rs = 3 pλmax (Σarc ) determines tile overlap. 
+
+Backward Propagation. Gradients propagate through this pipeline to up-date μ, scale s, and rotation q. Let LX := ∂L 
+
+> ∂X
+
+.
+
+Covariance gradients. Since Sϕ depends on ϕ, backpropagating through Eq. (2) yields: 
+
+LΣrad = S⊤ 
+
+> ϕ
+
+LΣarc Sϕ, Lϕ Sϕ
+
+= − sin ϕ
+
+
+
+2 cos ϕ σ ωω Lσarc  
+
+> ωω
+
++ σωϕ Lσarc 
+
+> ωϕ
+
+
+
+, (3) where Σrad =   σωω σωϕ  
+
+> σωϕ σϕϕ
+
+. The first term is the standard covariance gradient; the second captures how projected Gaussian shape varies with latitude. Gradients then propagate through Σrad = TΣ3D T⊤ to update s and q.
+
+Position gradients. Beyond standard paths through J and μ′, spherical pro-jection introduces an additional path through Sϕ:
+
+∂L
+
+∂t J
+
+= ∂L
+
+∂Σrad 
+
+∂Σrad 
+
+∂J
+
+∂J
+
+∂t , ∂L
+
+∂t Sϕ
+
+= ∂L
+
+∂Σarc 
+
+∂Σarc 
+
+∂Sϕ
+
+∂Sϕ
+
+∂ϕ ∂ϕ ∂t . (4) The second term is a geometry-dependent gradient path unique to spherical projection. The total gradient, including ∂L 
+
+> ∂μ′
+
+J, transforms to world space via  
+
+> ∂L
+> ∂μ
+
+= W⊤ ∂L 
+
+> ∂t
+
+. For depth supervision, we use inverse radial depth r−1, whose gradient is ∂r −1 
+
+> ∂t
+
+= − t 
+
+> r3
+
+.
+
+3.3 Efficient Tile Query on HEALPix 
+
+Given the projected spherical covariances, we perform tile-based culling to re-strict each Gaussian’s contribution to its intersecting HEALPix regions, ensuring UniTriSplat 7
+
+high-performance rendering. In vanilla 3DGS, each 2D Gaussian’s rectangular footprint is intersected with a regular tile grid in O(1) time. Since HEALPix pix-els do not form a rectangular lattice, we develop two alternative query strategies exploiting its NESTED and RING indexing, which are illustrated in Fig. 8. 
+
+NESTED Quadtree Traversal. HEALPix’s NESTED indexing forms a quadtree hierarchy. Given a spherical disc with center (ω, ϕ ) and radius rs, we perform depth-first search (DFS) from the 12 base quadrilaterals, pruning sub-trees whose centers lie entirely outside the disc. Let N q 
+
+> side
+
+denote the query resolu-tion, P the number of Gaussians, and K the average touched pixels per Gaussian. This achieves O(K + log N q
+
+> side
+
+) time per Gaussian, but requires O(P · log N q
+
+> side
+
+)
+
+stack memory and suffers from irregular memory access on the GPU. 
+
+RING Sequential Scan. HEALPix’s RING indexing arranges pixels in iso-latitude rings, each characterized by z = cos ϑ where ϑ ∈ [0 , π ] is the colatitude measured from the north pole. We compute the z-range intersecting the disc, then analytically solve for the longitude range within each ring: 
+
+cos ∆ω = cos rs − zc · zring 
+
+p1 − z2 
+
+> c
+
+·
+
+q
+
+1 − z2ring 
+
+, (5) where zc = sin ϕc is the z-coordinate of the disc center at latitude ϕc, and ∆ω 
+
+is the half-width in longitude. This yields O(K) time with O(1) memory. Both schemes capture distinct trade-offs: NESTED prioritizes precision, while RING achieves a 1.7× speedup at the expense of quality (see Sec. 5.3). 
+
+3.4 Rendering on Spherical Grid and Image Synthesis 
+
+To ensure correct visibility across the full sphere, we perform per-tile alpha compositing by sorting Gaussians based on their radial distance r = |t| from the camera origin, rather than conventional planar z-depth. Each HEALPix pixel center is determined by its NESTED index (x, y, f ), which maps to spheri-cal coordinates (ωpix , ϕ pix ) via the HEALPix indexing scheme. During per-pixel blending, we compute the great-circle distance dgc between each Gaussian cen-ter (ω, ϕ ) and the HEALPix pixel center using the Haversine formula [35], as shown in Fig. 2 (b), then decompose it into local tangent-plane offsets (dx, d y )
+
+via the spherical bearing angle. The per-pixel blending weight is computed as 
+
+α = o · exp  − 12 d⊤Σ−1arc d, where o is the Gaussian opacity and d = ( dx, d y )⊤.Consequently, the HEALPix sphere is rendered through front-to-back α-blending. For a HEALPix pixel p, let Sp denote the set of overlapping Gaussians, sorted by increasing radial depth ri. Its rendered color is 
+
+IH(p) = X
+
+> i∈S p
+
+ci αi(p) Y 
+
+> j∈S p
+> rj<r i
+
+(1 − αj (p)) , (6) where ci is the view-dependent color of Gaussian i, and αi(p) is the blending weight, evaluated for Gaussian i at pixel p. Using the camera mapping PC and 8 Y. Zhu et al.  
+
+> Fig. 4: Rendering across camera models and FoVs. UniTriSplat synthesizes per-spective, fisheye, and omnidirectional images by changing only the image-to-sphere mapping and valid FoV mask. The underlying spherical rasterization remains un-changed across camera configurations.
+
+valid image domain DC defined in Sec. 3.1, the final image is obtained by inter-polating neighboring HEALPix samples: 
+
+IC (u, v ) = Interp H(IH, PC (u, v )) , (u, v ) ∈ D C . (7) For partial-FoV cameras, rendering and optimization are restricted to HEALPix pixels satisfying MC (p) = 1 , avoiding computation outside the visible spherical region RC . Figure 4 illustrates image synthesis across different camera models and FoVs while keeping the underlying HEALPix rasterization unchanged. 
+
+## 4 Training on the HEALPix Grid 
+
+Having described the spherical rasterization pipeline, we now detail the training procedure. Two components require adaptation: the structure-aware loss must re-spect HEALPix’s non-planar topology (Sec. 4.1), and the density control thresh-olds must operate in radian space rather than pixel counts (Sec. 4.2). 
+
+4.1 HEALPix-SSIM Loss 
+
+The original 3DGS combines L1 photometric loss and SSIM [36] structure-aware loss. However, standard SSIM assumes a regular 2D grid, making it inapplicable to HEALPix tessellation. We propose HEALPix-SSIM (HSSIM), a structural similarity metric for the HEALPix grid with a fully differentiable CUDA imple-mentation. Within each base quadrilateral, the NESTED (x, y, f ) parameteriza-tion approximates a local 2D grid, enabling separable convolution to compute local statistics μ, σ2, and covariance σ12 between rendered and ground-truth HEALPix images for the SSIM index. At quadrilateral boundaries, topologi-cal singularities cause some corner pixels to have only 7 neighbors; we detect such cases and renormalize kernel weights accordingly. Furthermore, since equal pixel offsets correspond to different angular distances at varying latitudes, we UniTriSplat 9 
+
+> Fig. 5: HEALPix-SSIM. Zone-specific convolution kernels (left), spherical convolu-tion with shared memory and singularity-aware boundary handling (middle), and the comparison of the resulting HSSIM map and SSIM map (right).
+
+employ zone-specific Gaussian kernels: isotropic for the equatorial zone where pixels are roughly square, and anisotropic for polar zones where pixel geome-try is longitudinally compressed (Fig. 5). Our CUDA implementation leverages shared memory with cross-face padding and caches intermediate derivatives for efficient gradient propagation via transposed convolution. The final training loss is L = (1 − λ)LH1 + λ LH-SSIM , where LH1 is the per-pixel ℓ1 distance on the HEALPix grid and λ balances photometric and perceptual terms. 
+
+4.2 Radian-Space Density Control 
+
+Adaptive density control in 3DGS clones or splits high-gradient Gaussians and prunes low-opacity or oversized ones. Directly applying pixel-based thresholds to HEALPix is problematic because spherical projection maps Gaussians to angular coordinates (ω, ϕ ), requiring size-based criteria to operate in radian-space. For each visible Gaussian, the spherical projection produces a 2D covariance Σarc on the sphere, from which we derive an angular radius rs representing the Gaussian’s spherical footprint. We maintain a per-Gaussian buffer that records the maxi-mum rs observed across training iterations, updated via rs, max ← max( rs, max , r s)
+
+whenever the Gaussian is visible. This radian-space tracking replaces pixel-based screen size and ensures scale comparisons remain consistent on the HEALPix grid. The pruning threshold for oversized Gaussians is similarly converted from pixels to radians based on the HEALPix resolution Nside .In order to reduce the number of primitives and time consumption, we also explore multi-view consistent pruning [30], which removes Gaussians contribut-ing minimally to reconstruction across sampled views. This is an exploratory configuration that is not used in the final framework due to quality degradation. However, ablation results confirm that it provides a speed-quality trade-off. 
+
+## 5 Experiment 
+
+In this section, we evaluate UniTriSplat’s performance in terms of multi-FoV re-construction fidelity, cross-camera generalization, and computational efficiency. 10 Y. Zhu et al. 
+
+Table 1: Quantitative Results of Multi-FoV Evaluation. We evaluate Uni-TriSplat on perspective (Pp.), fisheye (Fe.), and omnidirectional (Omni.) datasets. FoV denotes horizontal × vertical field of view. Training time is reported for 30,000 it-erations. Blue and light blue indicate the best and second-best results, respectively.                                                                                                                                     
+
+> Dataset FoV Method PSNR (dB) ↑SSIM ↑HSSIM ↑LPIPS ↓Train (min) ↓
+> Pp.
+> Mip-NeRF 360
+> 52 ◦×36 ◦–
+> 68 ◦×47 ◦
+> 3DGS 25.59 0.801 0.726 0.258 25.2
+> OP43DGS 28.03 0.879 0.741 0.231 45.6
+> Ours 27.57 0.848 0.806 0.239 47.2
+> Fe.
+> ScanNet++ 127 ◦×85 ◦
+> OP43DGS 21.82 0.728 0.650 0.355 30.5
+> Fisheye-GS 29.13 0.920 0.801 0.186 43.5
+> Ours 29.75 0.928 0.883 0.179 46.4
+> Fe.
+> FIORD
+> 120 ◦×120 ◦–
+> 170 ◦×170 ◦
+> OP43DGS 21.64 0.717 0.634 0.321 50.1 Fisheye-GS 21.15 0.704 0.615 0.350 25.6 Ours 24.27 0.791 0.748 0.279 54.2
+> Omni.
+> Ricoh360 360 ◦×180 ◦
+> ODGS 21.89 0.813 0.786 0.246 42.8 OP43DGS 23.07 0.833 0.809 0.221 71.1 OmniGS 25.34 0.872 0.843 0.195 18.1 Ours 24.70 0.864 0.863 0.212 29.0
+> Omni.
+> OmniBlender 360 ◦×180 ◦
+> ODGS 29.81 0.876 0.859 0.239 40.5 OP43DGS 32.01 0.883 0.865 0.182 91.8 OmniGS 33.21 0.919 0.891 0.166 19.8 Ours 32.57 0.905 0.900 0.172 28.2
+> Omni.
+> 360Roam 360 ◦×180 ◦
+> ODGS 20.72 0.722 0.685 0.383 247.6 OP43DGS 21.04 0.732 0.686 0.376 330.7 OmniGS 21.48 0.741 0.710 0.369 122.6
+> Ours 21.82 0.747 0.724 0.353 102.1
+
+We compare against 3DGS and OP43DGS [19] on perspective images, Fisheye-GS [29] and OP43DGS on fisheye images, and ODGS [25], OP43DGS, and Om-niGS [28] on omnidirectional images. We conduct three sets of experiments: multi-FoV evaluation, cross-camera validation, and an ablation study. 
+
+5.1 Implementation and Experiment Setup Implementation. UniTriSplat is built upon standard 3DGS with a redesigned rasterization pipeline and the HEALPix-aware SSIM module. While baseline methods retain their default training parameters, we adapt the densification thresholds, learning rates, and decay schedules for UniTriSplat to accommodate the unique gradient distributions inherent in the spherical domain (Sec. 3.2). We evaluate UniTriSplat using benchmarks covering multiple input FoV regimes: Mip-NeRF 360 [2] for perspective; ScanNet++ [39] and FIORD [13] for fish-eye; and 360Roam [16], OmniBlender [7], and Ricoh360 [7] for omnidirectional FoVs. All models are trained on a single NVIDIA RTX 4090D GPU. We report standard metrics including PSNR, SSIM, and LPIPS [40]. As traditional planar metrics can be biased against spherical representations due to resampling, we project baseline results onto the HEALPix grid to ensure a fair comparison via HEALPix-SSIM (HSSIM) (Sec. 4.1). 
+
+Multi-FoV evaluation. To assess UniTriSplat across diverse camera mod-els, we evaluate it over a broad range of FoVs, including perspective, fisheye, UniTriSplat 11  
+
+> Fig. 6: Qualitative Results of Multi-FoV Evaluation. We compare UniTriSplat with camera-specific baselines across diverse camera models and FoVs. From top to bottom, the four rows show results on selected scenes from Mip-NeRF 360, ScanNet++, FIORD, and 360Roam, respectively. UniTriSplat maintains stable rendering quality, with better performance on fisheye and omnidirectional images. Additional results are provided in the supplementary material.
+
+and omnidirectional imaging. Each camera setting is evaluated on representa-tive benchmarks against the corresponding projection-specific 3DGS baselines. This evaluates whether unified spherical rasterization maintains reconstruction quality across different projection distortion and spherical coverage. 
+
+Cross-camera validation. To verify that the learned 3D Gaussians main-tain consistency across diverse projections, we train on omnidirectional data and render perspective and fisheye views at multiple FoVs using our HEALPix rasterizer. We define the original camera orientation as the front direction. For Ricoh360, OmniBlender, and 360Roam, respectively, we render front-facing fish-eye views with FoVs of 120 ◦, 180 ◦, and 240 ◦, and perspective views with FoVs of 
+
+45 ◦, 60 ◦, and 90 ◦ facing backward, rightward, and leftward. Ground-truth views are generated through sphere-to-plane sampling. 
+
+5.2 Results, Evaluation and Discussion Multi-FoV Evaluation. The quantitative results in Tab. 1 demonstrate that UniTriSplat maintains stable and competitive performance across multiple cam-era models and FoVs. On perspective inputs, UniTriSplat outperforms vanilla 12 Y. Zhu et al. 
+
+Table 2: Quantitative Results of Cross-camera Validation. Given Gaussian scenes reconstructed from omnidirectional inputs, we evaluate perspective (Pp.) and fisheye (Fe.) rendering using camera-specific rasterizers and our unified rasterizer. Blue and light blue indicate the best and second-best results. Our method demon-strates consistent cross-camera generalization across diverse projection models.                                                                                                                                                                 
+
+> Pp. from 3DGS Pp. from Ours Fe. from OP43DGS Fe. from Ours Dataset Method PSNR ↑SSIM ↑LPIPS ↓PSNR ↑SSIM ↑LPIPS ↓PSNR ↑SSIM ↑LPIPS ↓PSNR ↑SSIM ↑LPIPS ↓
+> Ricoh360 ODGS 12.27 0.502 0.704 17.59 0.602 0.511 19.32 0.647 0.318 22.52 0.707 0.294 OP43DGS 12.71 0.487 0.787 18.81 0.693 0.440 25.69 0.881 0.190 19.60 0.639 0.302 OmniGS 22.67 0.804 0.165 22.77 0.724 0.304 24.17 0.783 0.252 21.08 0.684 0.335
+> Ours 16.30 0.521 0.681 29.01 0.864 0.144 17.95 0.581 0.408 27.66 0.893 0.147
+> OmniBlender ODGS 15.30 0.516 0.609 20.40 0.623 0.379 21.70 0.724 0.205 22.98 0.811 0.315 OP43DGS 15.63 0.560 0.566 20.76 0.646 0.363 29.51 0.880 0.137 20.01 0.631 0.326 OmniGS 22.44 0.720 0.313 21.18 0.685 0.337 21.03 0.726 0.218 23.65 0.832 0.293
+> Ours 22.54 0.759 0.262 28.17 0.834 0.168 31.33 0.905 0.128 31.94 0.916 0.134
+> 360Roam ODGS 18.26 0.709 0.391 23.65 0.759 0.333 20.28 0.650 0.426 20.74 0.683 0.404 OP43DGS 18.50 0.720 0.390 23.61 0.766 0.326 21.44 0.701 0.368 21.09 0.689 0.385 OmniGS 18.75 0.731 0.389 23.55 0.773 0.319 22.03 0.729 0.327 22.40 0.741 0.299
+> Ours 22.02 0.765 0.333 24.70 0.786 0.304 23.87 0.809 0.276 23.99 0.815 0.261
+
+3DGS [23] and remains competitive with OP43DGS [19]. While spherical-to-planar resampling slightly reduces the sharpness, UniTriSplat achieves the best HSSIM, indicating improved structural consistency. In addition, UniTriSplat per-forms particularly well on severely distorted fisheye inputs. On the ultra-wide-FoV FIORD [13] dataset, UniTriSplat improves PSNR by approximately 3 dB over the baselines, indicating that spherical-grid representations are inherently well suited to spherical imaging geometry. On ScanNet++ [39], UniTriSplat also consistently improves all reconstruction metrics over Fisheye-GS [29], while the larger gain on FIORD suggests that spherical rasterization is effective under more severe distortion. On omnidirectional benchmarks, UniTriSplat achieves state-of-the-art performance on 360Roam [16] while remaining competitive on Ricoh360 [7] and OmniBlender [7]. On the evaluated omnidirectional datasets, UniTriSplat maintains competitive training efficiency and records the shortest training time on 360Roam. Further efficiency analysis across input resolutions is provided in the supplementary material. Although OP43DGS supports multiple camera models, it is less competitive on the evaluated wide-FoV fisheye and om-nidirectional datasets. This suggests that its camera-specific tangent-plane for-mulation is less robust under severe projection distortion. Moreover, UniTriSplat consistently achieves the best HSSIM across all datasets, demonstrating effective optimization over spherical geometry. The qualitative results in Fig. 6 show that, by restricting HEALPix raster-ization to the target FoV, UniTriSplat supports training and rendering across varying FoVs. On fisheye data, UniTriSplat produces fewer artifacts than the baselines, indicating that uniform spherical tessellation facilitates more accurate optimization under spherical projection. A similar effect is observed for omnidi-rectional images, where UniTriSplat better preserves polar details, such as the ceiling structures, which are degraded by the baselines. Although resampling from the sphere to the perspective plane slightly reduces sharpness, UniTriSplat UniTriSplat 13  
+
+> Fig. 7: The Qualitative Results of Cross-camera Validation. We evaluate ren-derings across different FoVs against GT images across three scenes (top to bottom: Pillar, Chair, Center). Our unified method maintains superior rendering quality and consistent geometric fidelity across heterogeneous cameras.
+
+produces cleaner boundaries at narrow FoVs, with fewer spike-shaped artifacts, and maintains consistent fidelity across the image. 
+
+Cross-camera Validation. Table 2 reveals a strong interaction between scene optimization and the rasterizer used for image synthesis. Camera-specific rasterizers generally perform best when applied to Gaussian representations op-timized with their native projection model, but their performance can degrade substantially when transferred across camera models. In contrast, UniTriSplat maintains more consistent synthesis quality across perspective and fisheye pro-jections, particularly for scenes optimized using its unified spherical rasterizer. These results suggest that HEALPix-based optimization reduces projection-specific coupling between the learned Gaussians and the camera model. UniTriSplat generally achieves higher perspective-rendering quality than the vanilla 3DGS across the evaluated scenes. In fisheye synthesis, our rasterizer achieves competitive results across the evaluated scenes, except when OP43DGS renders the Gaussian representation optimized with its own rasterization pipeline. 14 Y. Zhu et al.  
+
+> Fig. 8: The illustration of Tile Query Methods and the Qualitative Results of the Ablation Study. The ‘classroom’ scene is reported here. DFS stands for depth-first search [9]. Comparison of NESTED quadtree traversal and RING sequential scan demonstrates quality-efficiency trade-offs across different query resolutions.
+
+Notably, while OP43DGS is constrained by specific camera models and FoV lim-itations such as a sub-180 ◦ range or the requirement for symmetric horizontal and vertical FoVs, UniTriSplat is camera-agnostic and handles arbitrary con-figurations. These results validate the effectiveness of our unified rasterization principle, demonstrating robust cross-camera generalization. Qualitative results in Fig. 7 further substantiate these observations. Perspec-tive crops synthesized by UniTriSplat exhibit higher fidelity with fewer geometric artifacts compared to vanilla 3DGS. A remaining challenge is observed in the Ricoh360 outdoor dataset, where OP43DGS rendering of our scenes shows ar-tifacts in the sky regions, indicating a potential area for future optimization in handling unbounded backgrounds. Collectively, these results demonstrate that our unified spherical rasterization effectively decouples scene representation from camera-specific geometry, ensuring robust cross-camera generalization. 
+
+5.3 Ablation Study 
+
+We conduct ablation experiments on OmniBlender to analyze the contribution of each component in UniTriSplat. Table 3 summarizes the results, where R denotes RING Sequential Scan, D denotes NESTED Quadtree Traversal (Sec. 3.3), and 
+
+×1, ×2, ×4 indicate search depths at 1×, 2×, and 4× the original tile resolution, respectively. The first four rows of the left column reveal that quadtree search on denser HEALPix grids improves reconstruction quality at the expense of time UniTriSplat 15 
+
+Table 3: Ablation study on the OmniBlender dataset. We evaluate the impact of tile query strategies and optimization components. R denotes RING Sequential Scan, 
+
+D denotes NESTED Quadtree Traversal (Sec. 3.3), and ×n indicates the search depth relative to the tile resolution. The highlighted configuration R ( ×4) is selected as our default for its optimal performance-efficiency trade-off.                                   
+
+> Tile Query PSNR ↑SSIM ↑Time (min) Optimization PSNR ↑SSIM ↑Time (min)
+> R ( ×4)32.57 0.905 28.2 Full Pipeline (Ref.) 32.57 0.905 28.2 D ( ×4)33.64 0.916 49.1 w/o HSSIM 26.42 0.721 21.7 D ( ×2)26.49 0.778 37.6 w/o Density Control 24.83 0.732 33.0 D ( ×1)20.36 0.631 18.8 w/ Final Pruning 28.27 0.847 20.2
+
+efficiency. RING Sequential Scan on denser grids achieves competitive metrics while maintaining high efficiency, and is therefore adopted as the default tile query module in UniTriSplat. As illustrated in Fig. 8, low-density deep search produces severe aliasing artifacts. Furthermore, removing either HSSIM or Den-sity Control degrades performance across all reconstruction metrics, confirming the necessity of both modules. Final pruning substantially reduces the train-ing time by removing redundant Gaussians. However, the resulting reduction in model capacity limits the achievable reconstruction quality, leading to lower metrics. We therefore exclude final pruning from our default configuration. 
+
+## 6 Conclusion 
+
+UniTriSplat introduces a unified 3DGS framework that reformulates rasteriza-tion on the equal-area HEALPix spherical tessellation, effectively mitigating the geometric distortions inherent in traditional planar projections. By decoupling spherical rasterization from camera-specific projection implementations, our ap-proach enables model-agnostic synthesis for perspective, fisheye, and omnidi-rectional cameras within a single, consistent architecture. Leveraging a CUDA-accelerated rasterizer and a HEALPix-aware SSIM loss, UniTriSplat maintains stable reconstruction quality across diverse camera models and FoVs while en-abling consistent cross-camera synthesis. Limitations include aliasing when re-sampling from HEALPix to planar images at lower resolutions, and minor pro-jection errors from the EWA [43] splatting approximation. Future work will focus on refining rendering fidelity by addressing resampling aliasing and exploring ad-vanced hierarchical acceleration structures tailored for the HEALPix topology. 
+
+## Acknowledgements 
+
+This work was partially supported by a grant from the Research Grants Council of the Hong Kong Special Administrative Region, China (Project No. HKUST 16202323), an internal grant from HKUST (R9429), the Frontier Technology Research for Joint Institutes with Industry (FTRIS) Project at HKUST (Project No. FTRIS-25-056), and an internal grant from Beijing Institute of Technology. 16 Y. Zhu et al. 
+
+## References 
+
+1. Bai, J., Huang, L., Guo, J., Gong, W., Li, Y., Guo, Y.: 360-gs: Layout-guided panoramic gaussian splatting for indoor roaming. In: 2025 International Conference on 3D Vision (3DV). pp. 1042–1053. IEEE (2025) 2. Barron, J.T., Mildenhall, B., Verbin, D., Srinivasan, P.P., Hedman, P.: Mip-nerf 360: Unbounded anti-aliased neural radiance fields. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 5470–5479 (2022) 3. Carlsson, O., Gerken, J.E., Linander, H., Spieß, H., Ohlsson, F., Petersson, C., Persson, D.: Heal-swin: A vision transformer on the sphere. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 6067– 6077 (2024) 4. Chen, S.E.: Quicktime vr: An image-based approach to virtual environment navi-gation. In: Proceedings of the 22nd annual conference on Computer graphics and interactive techniques. pp. 29–38 (1995) 5. Cheng, X., Subramaniam, A., Wu, S., Brenowitz, N.: cuhpx: Gpu-accelerated differentiable spherical harmonic transforms on healpix grids. arXiv preprint arXiv:2510.01785 (2025) 6. Cho, S., Jung, R., Kwon, J.: Spherical transformer. arXiv preprint arXiv:2202.04942 (2022) 7. Choi, C., Kim, S.M., Kim, Y.M.: Balanced spherical grid for egocentric view syn-thesis. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 16590–16599 (2023) 8. Coors, B., Condurache, A.P., Geiger, A.: Spherenet: Learning spherical represen-tations for detection and classification in omnidirectional images. In: Proceedings of the European conference on computer vision (ECCV). pp. 518–533 (2018) 9. Cormen, T.H., Leiserson, C.E., Rivest, R.L., Stein, C.: Introduction to algorithms. MIT press (2022) 10. Deng, Y., Xian, W., Yang, G., Guibas, L., Wetzstein, G., Marschner, S., Debevec, P.: Self-calibrating gaussian splatting for large field-of-view reconstruction. In: Pro-ceedings of the IEEE/CVF International Conference on Computer Vision. pp. 25124–25133 (2025) 11. Gorski, K.M., Hivon, E., Banday, A.J., Wandelt, B.D., Hansen, F.K., Reinecke, M., Bartelmann, M.: Healpix: A framework for high-resolution discretization and fast analysis of data distributed on the sphere. The Astrophysical Journal 622 (2), 759–771 (2005) 12. Greene, N.: Environment mapping and other applications of world projections. IEEE computer graphics and Applications 6(11), 21–29 (1986) 13. Gunes, U., Turkulainen, M., Ren, X., Solin, A., Kannala, J., Rahtu, E.: Fiord: A fisheye indoor-outdoor dataset with lidar ground truth for 3d scene reconstruc-tion and benchmarking. In: Scandinavian Conference on Image Analysis. pp. 3–17. Springer (2025) 14. Guo, X., Xu, Y., Huang, H., Yeung, S.K.: 360dvo: Deep visual odometry for monoc-ular 360-degree camera. IEEE Robotics and Automation Letters 11 (3), 3079–3086 (2026) 15. Huang, H., Chen, Y., Li, L., Cheng, H., Braud, T., Zhao, Y., Yeung, S.K.: Sc-omnigs: Self-calibrating omnidirectional gaussian splatting. In: The Thirteenth In-ternational Conference on Learning Representations (2025) UniTriSplat 17 16. Huang, H., Chen, Y., Zhang, T., Yeung, S.K.: 360roam: Real-time indoor roaming using geometry-aware 360 ◦ radiance fields. arXiv preprint arXiv:2208.02705 (2022) 17. Huang, H., Liu, C., Zhu, Y., Cheng, H., Braud, T., Yeung, S.K.: 360loc: A dataset and benchmark for omnidirectional visual localization with cross-device queries. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recog-nition. pp. 22314–22324 (2024) 18. Huang, H., Xu, Y., Chen, Y., Yeung, S.K.: 360vot: A new benchmark dataset for omnidirectional visual object tracking. In: Proceedings of the IEEE/CVF Interna-tional Conference on Computer Vision. pp. 20566–20576 (2023) 19. Huang, L., Bai, J., Guo, J., Li, Y., Guo, Y.: On the error analysis of 3d gaussian splatting and an optimal projection strategy. In: European conference on computer vision. pp. 247–263. Springer (2024) 20. Ito, S., Takama, N., Ito, K., Chen, H.T., Aoki, T.: Erpgs: Equirectangular image rendering enhanced with 3d gaussian regularization. In: 2025 IEEE International Conference on Image Processing (ICIP). pp. 2850–2855. IEEE (2025) 21. Jiang, Y., Yu, C., Xie, T., Li, X., Feng, Y., Wang, H., Li, M., Lau, H., Gao, F., Yang, Y., Jiang, C.: Vr-gs: A physical dynamics-aware interactive gaussian splatting system in virtual reality. arXiv preprint arXiv:2401.16663 (2024) 22. Kageyama, A., Sato, T.: “yin-yang grid”: An overset grid in spherical geometry. Geochemistry, Geophysics, Geosystems 5(9) (2004) 23. Kerbl, B., Kopanas, G., Leimkühler, T., Drettakis, G., et al.: 3d gaussian splatting for real-time radiance field rendering. ACM Trans. Graph. 42 (4), 139–1 (2023) 24. Krachmalnicoff, N., Tomasi, M.: Convolutional neural networks on the healpix sphere: a pixel-based algorithm and its application to cmb data analysis. Astron-omy & Astrophysics 628 , A129 (2019) 25. Lee, S., Chung, J., Huh, J., Lee, K.M.: Odgs: 3d scene reconstruction from om-nidirectional images with 3d gaussian splattings. Advances in Neural Information Processing Systems 37 , 57050–57075 (2024) 26. Lee, S., Chung, J., Kim, K., Huh, J., Lee, G., Lee, M., Lee, K.M.: Omnisplat: Taming feed-forward 3d gaussian splatting for omnidirectional images with ed-itable capabilities. In: Proceedings of the Computer Vision and Pattern Recogni-tion Conference. pp. 16356–16365 (2025) 27. Li, J., Hahlbohm, F., Scholz, T., Eisemann, M., Tauscher, J.P., Magnor, M.: Spags: Fast and accurate 3d gaussian splatting for spherical panoramas. In: Computer Graphics Forum. vol. 44, p. e70171. Wiley Online Library (2025) 28. Li, L., Huang, H., Yeung, S.K., Cheng, H.: Omnigs: Fast radiance field recon-struction using omnidirectional gaussian splatting. In: 2025 IEEE/CVF Winter Conference on Applications of Computer Vision (WACV). pp. 2260–2268. IEEE (2025) 29. Liao, Z., Chen, S., Fu, R., Wang, Y., Su, Z., Luo, H., Ma, L., Xu, L., Dai, B., Li, H., et al.: Fisheye-gs: Lightweight and extensible gaussian splatting module for fisheye cameras. arXiv preprint arXiv:2409.04751 (2024) 30. Ren, S., Wen, T., Fang, Y., Lu, B.: Fastgs: Training 3d gaussian splatting in 100 seconds. arXiv preprint arXiv:2511.04283 (2025) 31. Sadourny, R., Arakawa, A., Mintz, Y.: Integration of the nondivergent barotropic vorticity equation with an icosahedral-hexagonal grid for the sphere. Monthly Weather Review 96 (6), 351–356 (1968) 32. Shin, C., Cho, W.O., Kim, S.J.: Seam360gs: Seamless 360deg gaussian splatting from real-world omnidirectional images. In: Proceedings of the IEEE/CVF Inter-national Conference on Computer Vision. pp. 28970–28979 (2025) 18 Y. Zhu et al. 33. Snyder, J.P.: Flattening the earth: two thousand years of map projections. Univer-sity of Chicago Press (1997) 34. Tu, X., Radl, L., Steiner, M., Steinberger, M., Kerbl, B., De la Torre, F.: Vrsplat: Fast and robust gaussian splatting for virtual reality. Proceedings of the ACM on Computer Graphics and Interactive Techniques 8(1), 1–22 (2025) 35. Van Brummelen, G.: Heavenly mathematics: The forgotten art of spherical trigonometry. Princeton University Press (2012) 36. Wang, Z., Bovik, A.C., Sheikh, H.R., Simoncelli, E.P.: Image quality assessment: from error visibility to structural similarity. IEEE transactions on image processing 
+
+13 (4), 600–612 (2004) 37. Wu, Q., Esturo, J.M., Mirzaei, A., Moenne-Loccoz, N., Gojcic, Z.: 3dgut: Enabling distorted cameras and secondary rays in gaussian splatting. In: Proceedings of the Computer Vision and Pattern Recognition Conference. pp. 26036–26046 (2025) 38. Yan, Y., Lin, H., Zhou, C., Wang, W., Sun, H., Zhan, K., Lang, X., Zhou, X., Peng, S.: Street gaussians: Modeling dynamic urban scenes with gaussian splatting. In: ECCV (2024) 39. Yeshwanth, C., Liu, Y.C., Nießner, M., Dai, A.: Scannet++: A high-fidelity dataset of 3d indoor scenes. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 12–22 (2023) 40. Zhang, R., Isola, P., Efros, A.A., Shechtman, E., Wang, O.: The unreasonable effectiveness of deep features as a perceptual metric. In: Proceedings of the IEEE conference on computer vision and pattern recognition. pp. 586–595 (2018) 41. Zhao, Q., Zhu, C., Dai, F., Ma, Y., Jin, G., Zhang, Y.: Distortion-aware cnns for spherical images. In: IJCAI. pp. 1198–1204 (2018) 42. Zhou, H., Shao, J., Xu, L., Bai, D., Qiu, W., Liu, B., Wang, Y., Geiger, A., Liao, Y.: Hugs: Holistic urban 3d scene understanding via gaussian splatting. In: Proceed-ings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR). pp. 21336–21345 (June 2024) 43. Zwicker, M., Pfister, H., Van Baar, J., Gross, M.: Ewa volume splatting. In: Pro-ceedings Visualization, 2001. VIS’01. pp. 29–538. IEEE (2001) UniTriSplat 19 
+
+# UniTriSplat: A Unified 3D Gaussian Splatting Framework with Uniform Spherical Rasterization for Universal Cameras 
+
+## — Supplementary Material — 7 Supplementary Experimental Details 
+
+This section provides additional details of the datasets and evaluation protocols used in the multi-FoV experiments. We first summarize the benchmark cover-age, then describe the common HEALPix-based computation of HSSIM and the treatment of stitching artifacts in omnidirectional images. 
+
+7.1 Datasets and Evaluation Coverage 
+
+The selected datasets cover perspective, fisheye, and omnidirectional imaging, with FoVs ranging from conventional perspective views to complete omnidirec-tional coverage. They also combine real and synthetic scenes, indoor and outdoor environments, and different image resolutions. This diversity allows us to evalu-ate whether the same spherical rasterization framework remains effective under changes in camera geometry, scene content, and acquisition conditions. Mip-NeRF 360 contains both bounded indoor scenes and unbounded outdoor scenes. ScanNet++ provides calibrated indoor fisheye images, whereas FIORD contains challenging ultra-wide FoV indoor and outdoor scenes. Ricoh360, 360Roam, and OmniBlender complement these datasets with real outdoor omnidirectional scenes, high-resolution real indoor omnidirectional scenes, and synthetic omni-directional scenes, respectively. Table 4 shows the summary of the datasets we use in the multi-FoV evaluation. 
+
+7.2 Fair HSSIM Evaluation 
+
+HSSIM serves two distinct roles in our framework: it is used as a spherical struc-tural loss for UniTriSplat and as a common evaluation metric for all methods. Although optimizing the HSSIM loss improves UniTriSplat under this metric, the baselines similarly optimize standard SSIM in their native image domains. Moreover, the variant without the HSSIM loss still improves standard SSIM over the baselines on many scenes, indicating that the reconstruction gains do not solely result from optimizing the evaluation metric. HSSIM is included to mea-sure structural fidelity on uniformly sampled spherical geometry, where planar SSIM is affected by projection-dependent pixel density. For a camera model C, let Π−1 
+
+> C
+
+: S2 → R2 map a spherical direction to its image coordinate. Each HEALPix pixel q corresponds to a unit direction 
+
+sq ∈ S2. Given a rendered image Im 
+
+> C
+
+from method m and its ground truth 20 Y. Zhu et al. 
+
+Table 4: Datasets used in the multi-FoV evaluation. Resolution is reported as width × height after preprocessing. FoV denotes horizontal × vertical field of view. The scene count refers to the subset used in our evaluation.                                                                   
+
+> Camera Dataset Resolution FoV Scenes Environment Source
+> Perspective Mip-NeRF 360 [2] 1237 ×822 52 ◦×36 ◦–
+> 68 ◦×47 ◦9Indoor/Outdoor Real Fisheye ScanNet++ [39] 1752 ×1168 127 ◦×85 ◦7Indoor Real FIORD [13] 3264 ×3264 120 ◦×120 ◦–
+> 170 ◦×170 ◦7Indoor/Outdoor Real Omnidirectional Ricoh360 [7] 1920 ×960 360 ◦×180 ◦12 Outdoor Real 360Roam [16] 6080 ×3040 360 ◦×180 ◦11 Indoor Real OmniBlender [7] 2000 ×1000 360 ◦×180 ◦8Indoor/Outdoor Synthetic
+
+GC , we construct their HEALPix representations using the same projection and interpolation: 
+
+Im 
+
+> H
+
+(q) = Im
+
+> C
+
+ Π−1 
+
+> C
+
+(sq ) , GH(q) = GC
+
+ Π−1 
+
+> C
+
+(sq ) . (8) Only directions that project into the valid camera domain are retained through a visibility mask 
+
+MC (q) = 1Π−1 
+
+> C
+
+(sq ) ∈ D C
+
+ , (9) where DC is the valid image region determined by the camera model and FoV. The local HEALPix-SSIM value hq is computed over the spherical neighborhood 
+
+NH(q) using the boundary-aware kernels described in the main paper. The final score is the masked average 
+
+HSSIM( Im 
+
+> C
+
+, G C ) = 
+
+P 
+
+> q
+
+MC (q) hq (Im 
+
+> H
+
+, G H)
+
+P 
+
+> q
+
+MC (q) . (10) All baseline and UniTriSplat outputs therefore undergo the same camera-to-sphere mapping, visibility masking, interpolation, and HSSIM computation. This protocol isolates structural quality on the sphere from the nonuniform sampling of the original image projection. 
+
+7.3 Preprocessing of Omnidirectional Images 
+
+Commercial 360 ◦ cameras commonly form an omnidirectional image by calibrat-ing, warping, and blending images from multiple fisheye lenses. This upstream imaging process may introduce seam discontinuities, exposure differences, or local geometric misalignment. For datasets that provide processed omnidirec-tional images, we use the released stitched frames directly. For raw dual-fisheye captures, standard preprocessing first maps both lenses to a common spherical coordinate system using the calibrated camera parameters, applies photometric correction in overlapping regions, and blends the overlap before conversion to an equirectangular image. The resulting omnidirectional images are used consis-tently for pose estimation, training, and evaluation by all methods. UniTriSplat 21 
+
+Table 5: Cross-resolution evaluation on 360Roam. Ours(H) and Ours(L) use the HEALPix subdivision levels immediately above and below the target input pixel count, respectively. Blue and light blue denote the best and second-best results within each resolution.                                                                                                                                                      
+
+> Resolution Method Reconstruction Runtime Resources
+> PSNR ↑SSIM ↑LPIPS ↓HSSIM ↑Train (min) ↓
+> Render (ms) ↓
+> Static GPU Mem. (MB) ↓
+> Peak GPU Mem. (MB) ↓
+> Avg. #Gaussians ↓
+> 6080 ×3040
+> ODGS 20.72 0.722 0.383 0.685 247.6 70.44 1740.2 17176.6 598872 OP43DGS 21.04 0.732 0.376 0.686 330.7 83.21 1867.9 15560.9 683659 OmniGS 21.48 0.741 0.369 0.710 122.6 23.65 848.4 5983.3 465993
+> Ours(H) 22.53 0.759 0.346 0.733 324.4 92.01 1216.4 8926.4 521740
+> Ours(L) 21.82 0.747 0.353 0.724 102.1 40.80 1035.5 7037.7 454153
+> 3040 ×1520
+> ODGS 22.43 0.736 0.353 0.701 67.1 32.79 1092.1 10482.3 1025384 OP43DGS 23.10 0.783 0.305 0.737 150.0 51.22 842.3 6158.2 779652 OmniGS 23.61 0.793 0.299 0.752 33.5 15.33 582.0 3724.8 768071
+> Ours(H) 24.37 0.811 0.276 0.795 97.8 38.25 1176.4 9826.1 932404
+> Ours(L) 23.99 0.798 0.283 0.778 50.4 30.96 713.8 4812.5 705181
+> 1520 ×760
+> ODGS 22.93 0.758 0.254 0.711 30.3 19.67 826.9 6217.1 1342318 OP43DGS 23.51 0.774 0.230 0.756 65.1 31.87 635.2 3924.7 1063944 OmniGS 25.05 0.809 0.187 0.763 20.6 11.09 438.6 2478.5 791826 Ours(H) 26.10 0.827 0.167 0.821 46.7 25.50 895.5 5843.6 1101735
+> Ours(L) 23.84 0.796 0.198 0.775 25.2 10.46 541.0 3186.9 943072
+
+UniTriSplat does not contain a dedicated seam-removal module. Stitching artifacts arise from the physical multi-lens capture and preprocessing pipeline rather than the 3DGS rasterization model. Handling such hardware-specific arti-facts is therefore outside the main scope of this work. Our objective is to provide a unified rasterizer for the processed perspective, fisheye, and omnidirectional images. More advanced calibration and seam-aware preprocessing can be incor-porated independently in future work. 
+
+## 8 Additional Evaluation 
+
+We supplement the multi-FoV results with a controlled cross-resolution evalua-tion on 360Roam. This experiment analyzes how the discrete HEALPix hierarchy affects reconstruction quality, runtime, and resource consumption as the input resolution changes. 
+
+8.1 Cross-Resolution Protocol 
+
+We construct three image scales from the high-resolution 360Roam dataset: 
+
+6080 × 3040 , 3040 × 1520 , and 1520 × 760 . All methods use the same train/test split, calibrated camera poses, SfM initialization, 30,000 optimization iterations, and a single NVIDIA GeForce RTX 4090 D GPU. The baseline methods retain their official optimization settings, while UniTriSplat uses the spherical-domain learning-rate and densification scaling described in Sec. 10.3. The final-pruning variant is not used in any reported result. HEALPix supports only discrete subdivision levels. We therefore evaluate two adjacent configurations. Ours(H) selects the HEALPix level immediately above 22 Y. Zhu et al.  
+
+> Fig. 9: Qualitative cross-resolution comparison. From top to bottom, the Office, Lab, and Cafe scenes from 360Roam are evaluated at decreasing input resolutions. The enlarged regions emphasize texture and polar details. Ours(H) preserves fine structures more consistently, whereas the lower HEALPix level may lose high-frequency details after sphere-to-image resampling.
+
+the target input pixel count, while Ours(L) selects the level immediately be-low it. Ours(H) prioritizes sampling density and reconstruction quality; Ours(L) reduces the number of sampled spherical pixels and targets a better efficiency– quality trade-off. Training time measures the complete 30,000-iteration optimiza-tion, and rendering time is averaged over the test views. Static GPU memory is measured after model initialization, whereas peak memory records the maximum allocated GPU memory during training. The number of Gaussians is averaged over the evaluated scenes after training. 
+
+8.2 Cross-Resolution Results 
+
+As shown in Tab. 5, Ours(H) achieves the best reconstruction metrics at all three resolutions, confirming that a denser HEALPix level increases representation ca-pacity. Ours(L) provides a different operating point: it remains competitive at medium and high resolutions while reducing the number of sampled spherical pixels. At 6080 × 3040 , Ours(L) completes training in 102.1 minutes, compared with 122.6 minutes for OmniGS, and uses the fewest Gaussians among all meth-ods. Its static and peak GPU memory are higher than OmniGS but substantially lower than ODGS and OP43DGS. The efficiency gain of Ours(L) at the highest resolution is associated with ap-proximately 31 .9% fewer sampled pixels than the matched equirectangular grid, UniTriSplat 23  
+
+> Fig. 10: Qualitative comparison on FIORD using fisheye training inputs. UniTriSplat is compared with OP43DGS, Fisheye-GS, and 3DGUT.
+
+which offsets the CUDA overhead of HEALPix indexing and sphere-to-image sampling. This benefit is resolution-dependent rather than universal. At lower resolutions, the fixed indexing and resampling costs account for a larger fraction of runtime, and the lower HEALPix level may lose high-frequency information during sphere-to-image sampling. This explains why Ours(L) is less accurate than OmniGS at 1520 × 760 , whereas Ours(H) recovers the missing detail by us-ing the next subdivision level. Ours(L) nevertheless attains the lowest rendering latency at this scale. The qualitative comparisons in Fig. 9 support the quantitative results. In the high-resolution Office scene, Ours(H) preserves carpet texture that is smoothed by the baseline. In the Cafe scene, it retains fine ceiling structures near the 24 Y. Zhu et al.  
+
+> Fig. 11: Qualitative comparison on ScanNet++ using fisheye training inputs. Uni-TriSplat is compared with Fisheye-GS.
+
+viewing poles even after downsampling. These observations are consistent with the equal-area sampling of HEALPix, which avoids the strong polar oversampling of equirectangular images. At the same time, the softer output of Ours(L) at low resolution exposes the remaining limitation of sphere-to-image interpolation. 
+
+8.3 Efficiency Limitations and Future Work 
+
+The generality of spherical rasterization introduces overhead that is absent from camera-specific planar pipelines. HEALPix indexing, spherical tile queries, and the final sphere-to-image sampling require additional CUDA operations. These costs are amortized for high-resolution omnidirectional inputs, where equal-area sampling removes substantial polar redundancy, but they are more visible for low-resolution or narrow-FoV images. Future work will simplify HEALPix in-dexing and search, improve sphere-to-planar reconstruction filters, and develop UniTriSplat 25  
+
+> Fig. 12: Qualitative comparison on Mip-NeRF 360 using perspective training inputs. UniTriSplat is compared with vanilla 3DGS and OP43DGS using the pinhole model.
+
+specialized low-level GPU kernels. These optimizations target lower overhead without changing the unified camera-model formulation. 
+
+## 9 Additional Qualitative Results 
+
+This section provides additional qualitative comparisons for fisheye and per-spective training inputs and for cross-camera rendering of Gaussian scenes re-constructed by vanilla 3DGS. 
+
+9.1 Fisheye Image Inputs 
+
+For fisheye training, we compare UniTriSplat with Fisheye-GS and OP43DGS on two datasets. Moreover, we also compare with 3DGUT on the FIORD dataset. Fisheye-GS and OP43DGS incorporate fisheye projection into EWA splatting, whereas UniTriSplat optimizes the scene on the common HEALPix sphere. We use the equidistant fisheye model for all methods. For datasets calibrated with polynomial distortion models, the input images are undistorted and reprojected using the provided calibration before training. We also modify the OP43DGS fisheye rasterizer to accept explicit camera intrinsics rather than deriving focal length only from a symmetric FoV. As shown in Figs. 10 and 11, UniTriSplat produces fewer floating artifacts and better preserves local structures under strong fisheye distortion. The difference is most visible on FIORD, whose ultra-wide FoV covers regions close to and beyond the hemisphere boundary. ScanNet++ contains a smaller FoV and more accurate pose registration; on these indoor scenes, the improvements are concentrated around fine structures and image boundaries. The FIORD Night scene remains more challenging because low illumination and severe distortion reduce feature-matching accuracy and degrade the SfM poses. 
+
+9.2 Perspective Image Inputs 
+
+For perspective training, we compare UniTriSplat with vanilla 3DGS and OP43DGS on Mip-NeRF 360. The spherical representation provides stable Gaussian foot-prints near image boundaries, but the final resampling from the HEALPix sphere 26 Y. Zhu et al.  
+
+> Fig. 13: Fisheye rendering of vanilla-3DGS models trained on Mip-NeRF 360, com-pared with OP43DGS and Fisheye-GS.
+
+to a perspective image can reduce sharpness. This effect is more visible for narrow-FoV images because they have a higher angular resolution than panoramic inputs at the same image resolution. In Fig. 12, UniTriSplat recovers scene geometry consistently and produces fewer thin, spike-shaped artifacts near image boundaries. In contrast, its out-put is slightly softer than vanilla 3DGS and OP43DGS in some high-frequency regions. The equal-area spherical representation avoids the strong stretching of projected Gaussian footprints near perspective-image boundaries, while the re-maining blur results from interpolation between spherical and planar samples. Improving this resampling step is an important direction for future work. 
+
+9.3 Cross-Camera Validation on Vanilla 3DGS Models 
+
+We further evaluate cross-camera rendering on Gaussian scenes reconstructed by vanilla 3DGS from perspective images. Without retraining the Gaussian repre-sentation, we use different rasterizers to synthesize fisheye and omnidirectional views. This experiment separates the compatibility of the rasterizer from the optimization procedure used to obtain the Gaussian scene. The first rows of Fig. 13 show that UniTriSplat preserves fine details when converting perspective-trained scenes to fisheye views. The indoor examples also contain fewer floating artifacts near image boundaries. In the omnidirectional comparisons of Fig. 14, UniTriSplat retains fine structures in the enlarged re-gions despite the incomplete spherical coverage of the original perspective train-ing images. These results show that the HEALPix rasterizer can be applied UniTriSplat 27  
+
+> Fig. 14: Omnidirectional rendering of vanilla-3DGS models trained on Mip-NeRF 360, compared with OmniGS and ODGS.
+
+to Gaussian scenes reconstructed by an external perspective pipeline and can synthesize camera models not used during their optimization. 
+
+## 10 Implementation Details 
+
+This section details the implementation of the UniTriSplat framework. Sec-tion 10.1 presents a unified camera modeling strategy that ensures compati-bility across arbitrary FoV inputs, offering broader support for camera models than prior 3DGS methods. Section 10.2 elaborates on the HEALPix-based ras-terization, covering grid resolution scaling, dynamic memory management, and algorithmic pseudocode. Finally, Section 10.3 discusses hyperparameter tuning for Gaussian optimization within the radian domain on the HEALPix grid. 
+
+10.1 Compatibility with Any FoV Input 
+
+Our approach accommodates perspective, fisheye, and omnidirectional projec-tions by adopting a FoV-based camera modeling strategy, thereby enabling seam-less adaptation to any input FoV. All camera models share the same Gaussian-to-HEALPix rasterization process. Only the camera-to-sphere mapping and the valid spherical region change during image synthesis. This design decouples spherical scene representation from camera-specific projection and enables per-spective, fisheye, and omnidirectional rendering within a single rasterization framework. For partial-FoV cameras, we restrict computation to HEALPix pixels inside the visible spherical region defined by the camera intrinsics and horizontal and vertical FoVs. The rendered spherical samples are then interpolated onto the target image plane. We next describe the camera-to-sphere mappings used for perspective, fisheye, and omnidirectional images. 28 Y. Zhu et al. 
+
+Table 6: Resolution hierarchy in HEALPix rendering. Given an input image of size 
+
+W × H covering a solid angle Ωin , the HEALPix resolution is selected to match the average solid angle per input pixel. The default configuration uses the nearest HEALPix order, while kL and kH denote the adjacent lower and higher orders used in the cross-resolution evaluation. 
+
+Parameter Symbol Definition 
+
+Input resolution W × H Image dimensions Visible solid angle Ωin Solid angle covered by the camera FoV Continuous target N ∗
+
+> side
+
+r 4πW H 
+
+12 Ωin 
+
+Default HEALPix order k round(log 2 N ∗
+
+> side
+
+)
+
+Lower / higher orders kL, k H ⌊log 2 N ∗
+
+> side
+
+⌋ , ⌈log 2 N ∗
+
+> side
+
+⌉
+
+HEALPix side resolution Nside 2k
+
+Total spherical samples Npix 12 N 2side = 12 · 4k
+
+Tile order kt k − log 2 B
+
+Full-sphere tile count Ntile 12 · 4kt = 12 ( Nside /B )2
+
+Tile size B 16 (16 × 16 HEALPix samples) 
+
+Perspective (Pinhole): We adopt the standard pinhole camera model used in vanilla 3DGS. Given image dimensions W × H and field of view FoV x, the focal length is fx = W/ (2 tan( FoV x/2)) (similarly for fy ), with principal point 
+
+(cx, c y ) = ( W/ 2, H/ 2) .For a pixel (u, v ), we compute normalized coordinates x = ( u − cx)/f x,
+
+y = ( v − cy )/f y , then obtain the viewing direction d = ( x, y, 1) ⊤/∥(x, y, 1) ∥. The spherical coordinates are: 
+
+ω = arctan 2( dx, d z ), ϕ = arcsin( dy ) (11) where ω ∈ [−π, π ) and ϕ ∈ [−π/ 2, π/ 2] .
+
+Fisheye (Anisotropic Equidistant): The classical equidistant fisheye model is isotropic, using a single FoV parameter w such that the incident angle ψ = w·r
+
+where r is the normalized radial distance. However, this restricts the valid region to a circle inscribed within the image, wasting pixels in rectangular sensors. We extend this to an anisotropic equidistant model with independent horizontal and vertical FoV parameters (wx, w y ), where w = FoV /180 . This allows the valid re-gion to form an ellipse that better utilizes the full image area, enabling higher effective resolution for the same sensor size. Given image dimensions W × H and requiring the valid region to be tangent to the image boundary, we set focal lengths fx = W/π , fy = H/π , with principal point (cx, c y ) = ( W/ 2, H/ 2) .For a pixel (u, v ), we first compute normalized coordinates mx = ( u − cx)/f x,
+
+my = ( v − cy )/f y , then obtain the radial distance rm =
+
+q
+
+m2 
+
+> x
+
++ m2 
+
+> y
+
+and azimuth angle γ = arctan 2( my , m x), which measures the angular direction of the pixel relative to the principal point. The key to anisotropic projection is the direction-UniTriSplat 29 
+
+dependent FoV factor: 
+
+weff (γ) = 
+
+q
+
+(wx cos γ)2 + ( wy sin γ)2 (12) which interpolates between wx (horizontal, γ = 0 ) and wy (vertical, γ = π/ 2)based on the azimuthal direction. The incident angle from the optical axis is then 
+
+ψ = rm·weff (γ), yielding the 3D viewing direction d = (sin ψ cos γ, sin ψ sin γ, cos ψ)⊤
+
+in camera coordinates. Finally, the spherical coordinates are: 
+
+ω = arctan 2( dx, d z ), ϕ = arcsin( dy ) (13) The valid imaging region is defined by the following elliptical constraint: 
+
+(u − cx)2
+
+a2 + (v − cy )2
+
+b2 ≤ 1, (14) where the semi-axes a and b are parameterized as: 
+
+a = fx
+
+π
+
+2 , b = fy
+
+π
+
+2 . (15) Specifically, when wx = wy = 1 , Eq. (14) reduces to a standard 180 ◦ isotropic fisheye. For configurations where wx = wy > 1, the model accommodates super-hemispherical imaging exceeding 180 ◦.
+
+Omnidirectional: For a full 360 ◦ × 180 ◦ panoramic image of size W × H,each pixel (u, v ) maps directly to spherical coordinates ω = 2 πu/W − π and 
+
+ϕ = π/ 2 − πv/H , yielding direction d = (cos ϕ sin ω, sin ϕ, cos ϕ cos ω)⊤.
+
+Unified Spherical Rendering: Regardless of the input camera model, all pixels are first projected to spherical coordinates (ω, ϕ ) using the respec-tive projection equations described above. Our method then renders directly in HEALPix space, which provides an equal-area tessellation of the sphere with 
+
+Npix = 12 × N 2 
+
+> side
+
+pixels covering the full 4π steradians. This unified spherical representation enables seamless handling of arbitrary FoV inputs within a single rendering framework. 
+
+10.2 Implementation of the HEALPix-based Rasterization 
+
+Algorithm 1 shows the pipeline of the HEALPix-based 3D Gaussian rasteri-zation. The forward pass follows the three-stage pipeline of standard 3DGS, adapted for HEALPix grids. Stage 1 (preprocessing) transforms Gaussians to camera space and computes arc-length covariances via Eq. (2) as described in Sec. 3.2. Stage 3 (rendering) performs per-pixel alpha compositing using great-circle distances per Eq. (6). We focus here on Stage 2: tile assignment strategies. 
+
+Stage 2: Tile Query Methods. We provide two tile query algorithms exploiting HEALPix’s dual indexing schemes. 
+
+NESTED Quadtree Traversal. Algorithm 2 shows the pipeline of the NESTED quadtree traversal. We adapt the classical query-pixel algorithm from 30 Y. Zhu et al. 
+
+Algorithm 1 HEALPix-Based 3D Gaussian Rasterization 
+
+Require: Gaussians G = {(μi, si, qi, o i, ci)}Pi=1 , view V = [ W | b], HEALPix pixel order k, tile size B = 2 b
+
+Ensure: HEALPix image I ∈ RNpix ×3, Npix = 12 · 4k
+
+1: kt ← k − b ▷ HEALPix order of the rendering tiles 
+
+// Preprocessing (parallel over Gaussians) 
+
+2: for i = 1 , . . . , P in parallel do 
+
+3: ˜μi ← Wμi + b; (ωi, ϕ i) ← Π( ˜ μi); ρi ← ∥ ˜μi∥2
+
+4: Σ3D,i ← Ri diag( s2 
+
+> i
+
+) R⊤ 
+
+> i
+
+, where Ri = QuatToMat (qi)
+
+5: Ji ← ∂Π (t)
+
+∂t t= ˜ μi
+
+; Sϕi ← diag(cos ϕi, 1) 
+
+6: Σarc ,i ← Sϕi JiWΣ3D,i W⊤J⊤ 
+
+> i
+
+S⊤
+
+> ϕi
+
+7: rs,i ← 3pλmax (Σarc ,i )
+
+8: end for // Tile assignment and front-to-back sorting 
+
+9: for i = 1 , . . . , P in parallel do 
+
+10: Ti ← QueryDisc (ωi, ϕ i, r s,i , k t) ▷ NESTED or RING mode 
+
+11: for each t ∈ T i do 
+
+12: Emit pair (( t, ρ i), i ) ▷ Tile-depth key and Gaussian index 
+
+13: end for 
+
+14: end for 
+
+15: Sort pairs lexicographically by tile index and increasing radial depth 
+
+16: Identify per-tile ranges [start t, end t) in the sorted Gaussian-index array 
+
+// Parallel rendering 
+
+17: for each pixel p ∈ { 0, . . . , N pix − 1} in parallel do 
+
+18: (ωp, ϕ p) ← Nest2Lonlat (p, k ); t ← AncestorTile (p, k t)
+
+19: T ← 1; C ← 0
+
+20: for j = start t to end t − 1 do 
+
+21: i ← gaussian_id [j]
+
+22: d ← SphericalOffset (( ωp, ϕ p), (ωi, ϕ i)) 
+
+23: αi ← oi exp 
+
+
+
+− 12 d⊤Σ−1arc ,i d
+
+
+
+24: C ← C + T α ici; T ← T (1 − αi)
+
+25: if T < ϵ then 
+
+26: break 
+
+27: end if 
+
+28: end for 
+
+29: I[p] ← C
+
+30: end for 
+
+the HEALPix [11], which performs depth-first search (DFS) through HEALPix’s hierarchical NESTED structure. Starting from the 12 base quadrilaterals, each node is classified into zones based on its distance to the query disc center: zone 3 (fully inside), zone 2 (center inside), zone 1 (partially overlapping), or zone 0 (fully outside). Subtrees in zone 0 are pruned; zones 2–3 are added to results; zone 1 nodes are recursively subdivided. To integrate this into our GPU rasterization pipeline, we search at a finer resolution N fact side = fact · Nside (where fact is typically 4 or 8) to handle boundary cases precisely, then map results back to tile resolution. This achieves O(K +log N fact side ) time per Gaussian but requires O(log N fact side ) stack memory per thread. 
+
+RING Sequential Scan. Algorithm 3 shows the pipeline of the RING se-quential scan. This method exploits HEALPix’s RING ordering, which arranges pixels along iso-latitude rings characterized by z = cos ϑ where ϑ is the colati-tude. Given a spherical disc with center (ωc, ϕ c) and radius rs:1. Compute z-bounds: zmin = cos( ϕc − rs + π
+
+2 ), zmax = cos( ϕc + rs + π
+
+2 )
+
+2. Convert to ring indices ir, min , ir, max using HEALPix ring formulas UniTriSplat 31 
+
+Algorithm 2 QueryDiscNested : Quadtree Traversal        
+
+> Require: Disc center (ω, ϕ ), radius rs, tile order k, refinement f
+> Ensure: Overlapping tile indices T
+
+1: kmax ← k + log 2 f ; stack ← { (p, 0) : p ∈ [0 , 11] }; T ← ∅ 
+
+2: while stack ̸ = ∅ do 
+
+3: Pop (p, o ); d ← Haversine (( ω, ϕ ), Pix2Lonlat (p, o )) 
+
+4: z ← Classify (d, r s, PixRad (o))  ▷ 0:out, 1:partial, 2+:overlap 
+
+5: if z = 0 then continue  ▷ Prune 
+
+6: else if z ≥ 2 and o ≥ k then T ← T ∪ {⌊ p/ 4o−k ⌋} 
+
+7: else if o < k max then Push (4 p + c, o + 1) for c ∈ { 0, 1, 2, 3}
+
+8: else T ← T ∪ {⌊ p/ 4o−k ⌋} 
+
+9: end if 
+
+10: end while 
+
+11: return T
+
+3. For each ring ir , analytically solve for the longitude half-width via Eq. (5) 4. Enumerate pixels within the (ωc − ∆ω, ω c + ∆ω ) range on each ring This achieves O(K) time with O(1) memory and better GPU cache coherence due to sequential ring access. RING offers approximately 1.7× speedup over NESTED with marginal quality loss, as detailed in Sec. 5.3. 
+
+10.3 Training Parameter Scaling 
+
+The gradient dynamics of our method differ from the pinhole model due to the discrepancy in the projection domain. Specifically, the pinhole projection Jacobian scales with the focal length f as Jpixel ∝ f /z , whereas the spherical counterpart is governed by Jrad ∝ 1/r . Given that typical focal lengths f range from 500 to 1000 , the spherical Jacobian magnitude is attenuated by several orders of magnitude. According to the chain rule, ∂L/∂ μ3D = ( ∂L/∂ μ2D) · J,this reduction directly suppresses the 3D position gradients. To compensate for this gradient decay and ensure robust convergence, we scale the position learning rate upward by approximately one order of magnitude. Conversely, the densification threshold—which governs adaptive Gaussian splitting—requires a downward recalibration to account for reduced gradient accumulation in the HEALPix domain. This phenomenon stems from three primary factors: (i) sparse effective sampling when the HEALPix resolution is coarser than the input imagery; (ii) diminished per-Gaussian activation fre-quency in scenarios where training views provide only partial spherical coverage; and (iii) the cos 2 ϕ metric distortion that attenuates gradient contributions near the poles. Consequently, we lower the densification threshold to maintain a split-ting sensitivity consistent with vanilla 3DGS. 
+
+## Supplementary References 
+
+44. Barron, J.T., Mildenhall, B., Verbin, D., Srinivasan, P.P., Hedman, P.: Mip-nerf 360: Unbounded anti-aliased neural radiance fields. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition. pp. 5470–5479 (2022) 32 Y. Zhu et al. 
+
+Algorithm 3 QueryDiscRing : RING Sequential Scan 
+
+Require: Disc center (ω, ϕ ), radius rs, tile order k
+
+Ensure: Overlapping tile indices T
+
+1: Nside ← 2k ; zc ← sin ϕ; T ← ∅ 
+
+2: ϕmin ← max( −π/ 2, ϕ − rs); ϕmax ← min( π/ 2, ϕ + rs)
+
+3: zmin ← sin ϕmin ; zmax ← sin ϕmax 
+
+4: (ir, min , i r, max ) ← ZtoRingRange (zmin , z max , N side )
+
+5: for ir = ir, min to ir, max do 
+
+6: (zr , n r , ω 0) ← RingInfo (ir )
+
+7: δ ← pmax(0 , 1 − z2 
+
+> c
+
+)pmax(0 , 1 − z2 
+
+> r
+
+)
+
+8: if δ < ϵ then  ▷ Disc center or ring at a pole 
+
+9: if zczr ≥ cos rs then 
+
+10: Add all nr pixels in ring ir to T
+
+11: end if 
+
+12: continue 
+
+13: end if 
+
+14: cω ← (cos rs − zczr )/δ 
+
+15: if cω ≤ − 1 then 
+
+16: Add all nr pixels in ring ir to T ▷ Full ring 
+
+17: else if cω < 1 then 
+
+18: ∆ω ← arccos(clamp( cω , −1, 1)) 
+
+19: ip, min ←
+
+ (ω − ∆ω − ω0)nr
+
+2π
+
+
+
+20: ip, max ←
+
+ (ω + ∆ω − ω0)nr
+
+2π
+
+
+
+21: for ip = ip, min to ip, max do 
+
+22: T ← T ∪ { Ring2Nest (ir , mod( ip, n r )) }
+
+23: end for 
+
+24: end if 
+
+25: end for 
+
+26: return T
+
+45. Gunes, U., Turkulainen, M., Ren, X., Solin, A., Kannala, J., Rahtu, E.: Fiord: A fisheye indoor-outdoor dataset with lidar ground truth for 3d scene reconstruc-tion and benchmarking. In: Scandinavian Conference on Image Analysis. pp. 3–17. Springer (2025) 46. Yeshwanth, C., Liu, Y.C., Nießner, M., Dai, A.: Scannet++: A high-fidelity dataset of 3d indoor scenes. In: Proceedings of the IEEE/CVF International Conference on Computer Vision. pp. 12–22 (2023)
