@@ -1,0 +1,493 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-01T21:09:32.630546+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 10,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2606.31556v1",
+      "source": "arxiv",
+      "title": "AugSplat: Radiance Field-Informed Gaussian Splatting for Sparse-View Settings",
+      "abstract": "Generating high-quality novel views at real-time frame rates remains a central challenge in 3D vision, particularly in sparse-view scenarios. Neural radiance fields have demonstrated robust reconstruction from limited observations, but their reliance on volumetric rendering leads to high computational cost and slow inference. In contrast, Gaussian Splatting methods achieve real-time rendering through rasterization, but their optimization is highly sensitive to the quality of the initial geometry. This sensitivity becomes especially problematic in sparse-view settings, where limited observations often lead to incomplete or noisy point-cloud reconstructions. In this work, we present AugSplat, a simple framework for improving Gaussian Splatting in sparse-view regimes using radiance-field-based view augmentation. We first train a radiance field on the sparse input views and use it to synthesize additional images from nearby novel viewpoints, increasing the effective view-space coverage available for supervision. These synthetic views are then used as auxiliary supervision during Gaussian Splatting optimization. We study two variants: Staged AugSplat, which uses synthetic views for an initial optimization phase before switching to real images, and Dual AugSplat, which jointly trains on real and synthetic views with a decaying synthetic loss weight. Experiments on sparse-view mip-NeRF 360 scenes show that AugSplat improves reconstruction quality over standard Gaussian Splatting. Staged AugSplat achieves the strongest average performance, while Dual AugSplat provides a closely performing formulation that keeps real-image supervision active throughout training, and both variants preserve real-time rendering at inference.",
+      "authors": [
+        "Lorenzo Lazzaroni",
+        "Riccardo Bollati",
+        "Daniel Barath",
+        "Michael Niemeyer",
+        "Keisuke Tateno"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T12:12:21+00:00",
+      "link": "https://arxiv.org/pdf/2606.31556v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "combines neural radiance fields and Gaussian splatting for sparse-view novel view synthesis",
+      "llm_evidence_cn": "结合神经辐射场和高斯溅射实现稀疏视角新视角合成",
+      "llm_evidence": "结合神经辐射场和高斯溅射实现稀疏视角新视角合成",
+      "canonical_evidence": "结合神经辐射场和高斯溅射实现稀疏视角新视角合成",
+      "llm_tldr_en": "AugSplat uses radiance field knowledge to improve Gaussian splatting initialization for sparse-view novel view synthesis, achieving high quality and real-time rendering.",
+      "llm_tldr_cn": "该工作针对稀疏视角下高斯溅射对初始几何敏感的局限，提出AugSplat框架，利用预训练NeRF的辐射场知识引导高斯初始化，兼顾了NeRF的鲁棒重建和高斯溅射的实时渲染。在多个数据集上验证了其在稀疏设置下质量和效率的优越性。",
+      "llm_tldr": "该工作针对稀疏视角下高斯溅射对初始几何敏感的局限，提出AugSplat框架，利用预训练NeRF的辐射场知识引导高斯初始化，兼顾了NeRF的鲁棒重建和高斯溅射的实时渲染。在多个数据集上验证了其在稀疏设置下质量和效率的优越性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.31585v1",
+      "source": "arxiv",
+      "title": "DPPE: Rethinking Camera-Based Positional Encoding for Scaling Multi-View Transformers",
+      "abstract": "The remarkable scalability of Transformers has expanded their application to 3D computer vision, where camera-aware positional encoding is crucial for providing spatial cues in multi-view geometry. Recent advancements have established the practice of using camera parameters -- such as extrinsics or projection matrices -- as relative positional encoding into the query, key, and value vectors of the attention mechanism. However, when scaling up the training recipe of novel view synthesis (NVS) models with the camera-based positional encoding, we observe a significant issue: model performance stagnates in the late stages of training.   In this paper, we investigate the cause of the performance bottleneck when scaling up and demonstrate that storing rotation and translation given by the positional encoding in the same dimensions of the value vector causes indeterminacy in their independent identification, hindering training scalability. To address this, we propose Decoupled Pose Positional Encoding (DPPE), a novel camera-based positional encoding that explicitly decouples rotation and translation. Extensive evaluations on NVS tasks demonstrate that DPPE enables stable long-term training even in scaled-up training setup. Furthermore, it exhibits superior generalization performance in extrapolation settings, such as handling an increased number of viewpoints and zoom-in scenarios.",
+      "authors": [
+        "Shun Kenney",
+        "Teppei Suzuki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-30T12:38:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.31585v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "investigates camera-based positional encoding for novel view synthesis transformers",
+      "llm_evidence_cn": "研究基于相机的位置编码以改进新视角合成Transformer",
+      "llm_evidence": "研究基于相机的位置编码以改进新视角合成Transformer",
+      "canonical_evidence": "研究基于相机的位置编码以改进新视角合成Transformer",
+      "llm_tldr_en": "Identifies a performance bottleneck in scaling novel view synthesis models with camera-based positional encoding and proposes DPPE to overcome it.",
+      "llm_tldr_cn": "该研究发现在大规模训练新视角合成模型时，基于相机的位置编码会导致后期性能停滞，分析了瓶颈成因并提出DPPE方法改进。通过重新设计位置编码机制，有效缓解了训练后期性能饱和问题，推动了NVS模型的可扩展性。",
+      "llm_tldr": "该研究发现在大规模训练新视角合成模型时，基于相机的位置编码会导致后期性能停滞，分析了瓶颈成因并提出DPPE方法改进。通过重新设计位置编码机制，有效缓解了训练后期性能饱和问题，推动了NVS模型的可扩展性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.28144v1",
+      "source": "arxiv",
+      "title": "Monocular Avatar Reconstruction via Cascaded Diffusion Priors and UV-Space Differentiable Shading",
+      "abstract": "Reconstructing high-fidelity, relightable 3D avatars from a single in-the-wild image is a challenging ill-posed problem, primarily hindered by the scarcity of high-quality PBR data and the complexity of disentangling illumination from intrinsic materials. In this paper, we present a data-efficient framework that leverages the robust priors of a unified pre-trained diffusion backbone to sequentially address texture completion, delighting, and material decomposition. Unlike existing methods that rely on fragmented pipelines or extensive proprietary datasets, we utilize cascaded Low-Rank Adaptations (LoRAs) to adapt the strong generative prior of the diffusion model for each sub-task in UV space. Specifically, we first employ an Inpainting LoRA to complete missing UV textures caused by occlusion, leveraging the model's semantic understanding to generate semantically and photometrically coherent details. Subsequently, a Light-Homogenization LoRA and a novel Cross-Intrinsic Attention mechanism are introduced to remove baked-in lighting and collaboratively synthesize pixel-aligned PBR maps (Albedo, Normal, Roughness, Specular, and Displacement). To ensure physical plausibility, we impose a UV-space differentiable BRDF shading loss during the decomposition stage, forcing the generative process to adhere to the rendering equation without the artifacts typical of rasterization-based supervision. Extensive experiments demonstrate that our method, trained on fewer than 100 real 3D scans, generates comprehensive, 4K-resolution PBR assets with superior realism and generalization compared to state-of-the-art methods, and all training code and model weights will be released upon acceptance.",
+      "authors": [
+        "Hong Li",
+        "Minqi Meng",
+        "Yanjun Liang",
+        "Chongjie Ye",
+        "Houyuan Chen",
+        "Weiqing Xiao",
+        "Xianda Guo",
+        "Guojun Lei",
+        "Xuhui Liu",
+        "Chaojie Yang",
+        "Yanlun Peng",
+        "Hao Zhao",
+        "Baochang Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-26T14:41:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.28144v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular 3D avatar reconstruction from a single image",
+      "llm_evidence_cn": "单张图像进行三维化身重建",
+      "llm_evidence": "单张图像进行三维化身重建",
+      "canonical_evidence": "单张图像进行三维化身重建",
+      "llm_tldr_en": "A cascaded diffusion prior framework recovers high-fidelity relightable 3D avatars from a single in-the-wild image using LoRA adapters in UV space.",
+      "llm_tldr_cn": "针对单张野外图像重建高保真可重光照三维化身的难题，提出级联扩散先验框架，在UV空间中利用LoRA适配器依次完成纹理补全、去光照和材质分解。该方法数据高效，无需大量专有数据集。实验展示了高质量的重建和重光照结果。",
+      "llm_tldr": "针对单张野外图像重建高保真可重光照三维化身的难题，提出级联扩散先验框架，在UV空间中利用LoRA适配器依次完成纹理补全、去光照和材质分解。该方法数据高效，无需大量专有数据集。实验展示了高质量的重建和重光照结果。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.29303v2",
+      "source": "arxiv",
+      "title": "Occlusion-Robust Multi-Object Decoupling for Physics-Based Robotic Interaction",
+      "abstract": "We propose a mask-free method for lossless multi-object 3D reconstruction from sparse and occluded real-world views, enabling physically plausible robotic interaction via Material Point Method (MPM) simulation. Our key insight is that object coupling stems from occlusion and limited viewpoints, which we address by formulating multi-object decoupling as a sparse-view reconstruction problem. Using 3D Gaussian Splatting as base representation, we first obtain coarse instance partitions with a SAM2-trained segmentation field. Rather than relying on masks, we reconstruct fragmented geometries by leveraging a joint Score Distillation Sampling (SDS) process, which integrates reference-view supervision with novel-view synthesis guided by 2D and 3D diffusion priors to enforce both texture fidelity and 3D consistency. Furthermore, we incorporate geometry-aware priors such as intra-object and inter-object similarity to regularize geometric reasoning. Experimental results demonstrate that our method produces complete, simulation-ready 3D objects without requiring manual masks, enabling realistic dynamic interactions on both synthetic, robotic and real-world datasets.",
+      "authors": [
+        "Xin Dong",
+        "Lihan Zhang",
+        "Tianru Dai",
+        "Wenfeng Deng",
+        "Yansong Tang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-28T09:50:46+00:00",
+      "link": "https://arxiv.org/pdf/2606.29303v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "occlusion-robust multi-object reconstruction using 3DGS and SDS for novel view synthesis",
+      "llm_evidence_cn": "使用3DGS和SDS进行遮挡鲁棒的多物体重建和新视角合成",
+      "llm_evidence": "使用3DGS和SDS进行遮挡鲁棒的多物体重建和新视角合成",
+      "canonical_evidence": "使用3DGS和SDS进行遮挡鲁棒的多物体重建和新视角合成",
+      "llm_tldr_en": "A mask-free method decouples multi-objects from sparse occluded views using 3DGS and joint SDS, enabling physically plausible interaction via MPM simulation.",
+      "llm_tldr_cn": "针对稀疏遮挡视角下多物体重建时物体粘连问题，提出无掩码方法。以3D高斯溅射为基础，通过SAM2分割场获得粗糙实例划分，再联合SDS过程利用参考视图监督和新视角合成重建分离几何。实验在物理交互仿真中验证了有效性。",
+      "llm_tldr": "针对稀疏遮挡视角下多物体重建时物体粘连问题，提出无掩码方法。以3D高斯溅射为基础，通过SAM2分割场获得粗糙实例划分，再联合SDS过程利用参考视图监督和新视角合成重建分离几何。实验在物理交互仿真中验证了有效性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.30608v2",
+      "source": "arxiv",
+      "title": "UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image",
+      "abstract": "Articulated 3D objects are essential for interactive environments in embodied AI, robotics, and virtual reality, but reconstructing their structure and motion from sparse observations remains challenging. Existing approaches remain largely constrained by lack of supervised data or lack the priors needed to reliably recover articulation, hidden geometry, and internal object structure. We present the first debate-driven agentic approach to articulated 3D object reconstruction from text or image inputs that both grounds articulation reasoning in concrete motion and exposes the occluded geometry revealed under articulation. High-level agents reason about object semantics and motion using knowledge from vision-language and video models, while low-level agents estimate articulation parameters and interaction points; together, they engage in a two-round structured debate that first exploits global--local disagreement and then grounds the agents in freely generated video. The same video prior, conditioned on the agreed articulation, then drives each part through its motion to expose occluded interiors and geometry that cannot be inferred from a single static view. By combining agentic reasoning with a video generative prior, our approach jointly infers articulation and reconstructs complete 3D articulated objects, producing high-fidelity geometry, internal structure, and motion-consistent states beyond directly observed surfaces.",
+      "authors": [
+        "Mohamed el Amine Boudjoghra",
+        "Ivan Laptev",
+        "Angela Dai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T17:44:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.30608v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "zero-shot reconstruction of articulated 3D objects from text or image",
+      "llm_evidence_cn": "从文本或图像零样本重建带关节三维物体",
+      "llm_evidence": "从文本或图像零样本重建带关节三维物体",
+      "canonical_evidence": "从文本或图像零样本重建带关节三维物体",
+      "llm_tldr_en": "UnfoldArt uses a debate-driven agentic approach with vision-language and video models to recover articulated 3D objects with motion from text or image inputs.",
+      "llm_tldr_cn": "针对从稀疏观测重建带关节3D物体结构运动的问题，提出首个辩论驱动代理方法UnfoldArt，利用视觉语言和视频模型推理语义和运动，暴露关节下的遮挡几何。该方法无需监督数据，可从文本或单张图像零样本重建完整带关节3D物体。",
+      "llm_tldr": "针对从稀疏观测重建带关节3D物体结构运动的问题，提出首个辩论驱动代理方法UnfoldArt，利用视觉语言和视频模型推理语义和运动，暴露关节下的遮挡几何。该方法无需监督数据，可从文本或单张图像零样本重建完整带关节3D物体。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.30861v1",
+      "source": "arxiv",
+      "title": "Editable Physically-based Reflections in Raytraced Gaussian Radiance Fields",
+      "abstract": "Radiance fields such as 3D Gaussian Splatting allow real-time rendering of scenes captured from photos. They also reconstruct most specular reflections with high visual quality, but typically model them with \"fake\" reflected geometry, using primitives behind the reflector. Our goal is to correctly reconstruct the reflector and the reflected objects such as to make specular reflections editable. We present a proof of concept which exploits promising learning-based methods to extract diffuse and specular buffers from photos, as well as geometry and BRDF buffers. Our method builds on three key components. First, by using diffuse and specular buffers of input training views, we optimize a diffuse version of the scene and use path tracing to efficiently generate physically based specular reflections. Second, we present a specialized training method that allows this process to converge. Finally, we present a fast ray tracing algorithm for 3D Gaussian primitives that enables efficient multi-bounce reflections. Our method reconstructs reflectors and reflected objects, including those not seen in the input images, in a unique scene representation. Our solution allows real-time, consistent editing of captured scenes with specular reflections, including multi-bounce effects, changing roughness, and more. We mainly show results using ground truth buffers from synthetic scenes, and also preliminary results in real scenes with currently imperfect learning-based buffers. Code and data are available at: https://repo-sam.inria.fr/nerphys/editable-gaussian-reflections/",
+      "authors": [
+        "Yohan Poirier-Ginter",
+        "Jeffrey Hu",
+        "Jean-François Lalonde",
+        "George Drettakis"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR"
+      ],
+      "published": "2026-06-29T19:47:38+00:00",
+      "link": "https://arxiv.org/pdf/2606.30861v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "editable reflections in raytraced Gaussian radiance fields for novel view synthesis",
+      "llm_evidence_cn": "基于光线追踪高斯辐射场的可编辑反射新视图合成",
+      "llm_evidence": "基于光线追踪高斯辐射场的可编辑反射新视图合成",
+      "canonical_evidence": "基于光线追踪高斯辐射场的可编辑反射新视图合成",
+      "llm_tldr_en": "Proposes a method for editable physically-based reflections in raytraced Gaussian radiance fields, correctly reconstructing reflector and reflected objects from photos.",
+      "llm_tldr_cn": "针对现有3D高斯泼溅将镜面反射建模为虚假几何，导致反射不可编辑的问题，提出一种基于光线追踪的物理反射方法。通过从训练视图中提取漫反射和镜面反射缓存，优化场景的漫反射版本，再利用路径追踪高效合成可编辑的物理反射。该方法在保持实时渲染的同时，使反射组件可独立编辑，显著提升了辐射场反射的真实性和可操控性，为高质量场景编辑提供了新方案。",
+      "llm_tldr": "针对现有3D高斯泼溅将镜面反射建模为虚假几何，导致反射不可编辑的问题，提出一种基于光线追踪的物理反射方法。通过从训练视图中提取漫反射和镜面反射缓存，优化场景的漫反射版本，再利用路径追踪高效合成可编辑的物理反射。该方法在保持实时渲染的同时，使反射组件可独立编辑，显著提升了辐射场反射的真实性和可操控性，为高质量场景编辑提供了新方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.31258v1",
+      "source": "arxiv",
+      "title": "WarpHammer: Densifying Scene Warps with 3D Object Priors for Extreme View Synthesis",
+      "abstract": "Projection-conditioned novel view synthesis (NVS) warps an explicit 3D reconstruction of the input view into the target camera and conditions a generator on the warped rendering. This works well for small viewpoint changes but degrades sharply under large orbital motion: the warp becomes sparse around the orbited object, where hidden surfaces dominate the new view and mirror-like artifacts emerge, causing the generator to lose both pixel content and the implicit camera cue carried by the warp. We introduce WarpHammer, a training-free framework that resolves this failure mode by augmenting the warped scene with an explicit 3D reconstruction of the object obtained from a native 3D generative prior (e.g., SAM3D). The reconstructed object adds missing foreground surfaces and occludes background points that should no longer be visible, restoring both appearance and camera cues without fine-tuning the base model. The same explicit object representation further unlocks a capability current NVS pipelines do not support: incorporating auxiliary views of the object from sources outside the target scene, for example, a casual snapshot of a car paired with a manufacturer studio shot of the same model. We process the reference and auxiliary images jointly with a pretrained multi-view geometry foundation model, which predicts a unified point cloud that we fuse into the 3D object reconstruction. This yields substantially more faithful geometry than single-image reconstruction, without requiring user-provided camera poses for the auxiliary views. On five benchmarks, WarpHammer produces stable novel views at viewpoint deviations where strong baselines collapse, and is the first scene-level NVS method that can naturally fuse auxiliary, pose-unknown object views from an external source.",
+      "authors": [
+        "Michael Green",
+        "Gavriel Habib",
+        "Dvir Samuel",
+        "Tal Berkovitz Shalev",
+        "Issar Tzachor",
+        "Rami Ben-Ari",
+        "Or Litany"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T07:33:46+00:00",
+      "link": "https://arxiv.org/pdf/2606.31258v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Novel view synthesis with 3D object priors",
+      "llm_evidence_cn": "使用3D物体先验的新视角合成",
+      "llm_evidence": "使用3D物体先验的新视角合成",
+      "canonical_evidence": "使用3D物体先验的新视角合成",
+      "llm_tldr_en": "WarpHammer augments warped novel view synthesis with explicit 3D object reconstruction from generative priors to handle extreme view changes, improving quality under large orbital motion.",
+      "llm_tldr_cn": "针对投影条件新视角合成在大轨道运动下退化严重的问题，本文提出无训练框架WarpHammer，通过从3D生成先验获得的目标显式重建结果来稠密化场景扭曲，增补缺失内容，从而在极端视角变化下保持图像质量和相机线索，显著优于基线方法。",
+      "llm_tldr": "针对投影条件新视角合成在大轨道运动下退化严重的问题，本文提出无训练框架WarpHammer，通过从3D生成先验获得的目标显式重建结果来稠密化场景扭曲，增补缺失内容，从而在极端视角变化下保持图像质量和相机线索，显著优于基线方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.30677v1",
+      "source": "arxiv",
+      "title": "DANTE-W: Diffuse Albedo Neural Texturing in the Wild",
+      "abstract": "Classical mesh texturing techniques blend captured multi-view images directly, which inevitably suffer from baked-in shading and casted shadows that compromise visual fidelity during relighting. To circumvent this issue, we present a neural texturing framework, namely DANTE-W, to enable high-fidelity diffuse albedo texture recovery from unstructured image collections for large-scale, in-the-wild scenes, which integrates seamlessly with traditional 3D reconstruction pipelines. Given a reconstructed mesh and its surface parameterization, our method fuses view-space generative albedo priors into a coherent texture space via an expressive neural representation, while substantially enhancing fine-grained textural details through physically principled neural rendering. To comprehensively evaluate our method, we curate a benchmark dataset featuring diverse, fine-grained textures, comprising both real-world in-the-wild scenes and synthetic objects. Extensive experiments verify the effectiveness of our approach in reconstructing accurate albedo textures and boosting relighting fidelity. Project page: dante-wild.github.io.",
+      "authors": [
+        "Guangyu Wang",
+        "Tianheng Lu",
+        "Ruqi Huang",
+        "Lu Fang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-06-26T09:45:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.30677v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "neural texturing for 3D models from multi-view images, integrates with reconstruction pipelines",
+      "llm_evidence_cn": "从多视角图像进行神经纹理化，集成到重建管线中",
+      "llm_evidence": "从多视角图像进行神经纹理化，集成到重建管线中",
+      "canonical_evidence": "从多视角图像进行神经纹理化，集成到重建管线中",
+      "llm_tldr_en": "DANTE-W is a neural texturing framework that recovers high-fidelity diffuse albedo textures from unstructured multi-view images for 3D reconstruction pipelines.",
+      "llm_tldr_cn": "传统纹理映射将多视角图像直接混合，导致阴影和光照残留问题。DANTE-W提出一种神经纹理化框架，从非结构化图像集合中恢复高保真漫反射纹理，通过视图空间生成先验融合和物理渲染增强细节。该方法可无缝集成到现有3D重建管线中，为大规模室外场景提供更真实的纹理映射。",
+      "llm_tldr": "传统纹理映射将多视角图像直接混合，导致阴影和光照残留问题。DANTE-W提出一种神经纹理化框架，从非结构化图像集合中恢复高保真漫反射纹理，通过视图空间生成先验融合和物理渲染增强细节。该方法可无缝集成到现有3D重建管线中，为大规模室外场景提供更真实的纹理映射。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.30352v1",
+      "source": "arxiv",
+      "title": "FastPano3D: Feed-Forward Indoor Panoramic 3D Reconstruction from a Single Image",
+      "abstract": "Recent advances in 3D scene reconstruction have highlighted the intricate trade-offs among rendering quality, inference efficiency, and data dependency. To address the challenge of rapidly reconstructing detailed 3D indoor scenes from minimal input, we introduce FastPano3D, an end-to-end framework that directly generates renderable 3D Gaussian representations from a single panoramic image. Unlike perspective-based methods, panoramic images inherently suffer from equirectangular projection distortions and spatially non-uniform feature distributions, making direct feed-forward Gaussian generation particularly challenging. In contrast to existing Gaussian Splatting based methods that rely on multi-view supervision or per-scene optimization, FastPano3D employs a lightweight feature encoder, adaptive Gaussian sampling, and a point-cloud-guided refinement strategy to achieve efficient and accurate scene generation without any test-time optimization. Our approach reconstructs high-fidelity 3D scenes within seconds, achieving up to 156 times faster inference than prior state-of-the-art methods such as Pano2Room, while using only half the parameters. Extensive experiments demonstrate that FastPano3D delivers rendering quality comparable to NeRF- and 3DGS-based reconstructions, establishing a new benchmark for rapid, single-view 3D scene inference.",
+      "authors": [
+        "Jianqiang Li",
+        "Liumei Zhang",
+        "Wenjia Guo",
+        "Tianlong Feng",
+        "Yongzhi Liao",
+        "Di Lu",
+        "Hanchi Ren",
+        "Jingjing Deng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T14:23:12+00:00",
+      "link": "https://arxiv.org/pdf/2606.30352v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "single panoramic image to 3D Gaussian representation, general 3D reconstruction theme",
+      "llm_evidence_cn": "从单张全景图重建3D高斯表示，属于广义3D重建主题",
+      "llm_evidence": "从单张全景图重建3D高斯表示，属于广义3D重建主题",
+      "canonical_evidence": "从单张全景图重建3D高斯表示，属于广义3D重建主题",
+      "llm_tldr_en": "FastPano3D is an end-to-end feed-forward framework that generates renderable 3D Gaussian representations from a single panoramic image, enabling fast indoor reconstruction.",
+      "llm_tldr_cn": "该工作针对从极简输入快速重建3D室内场景的需求，提出FastPano3D，直接从单张全景图前馈生成3D高斯表示。针对全景图畸变和特征分布不均设计专用模块，避免多视角监督或逐场景优化。实验证明其能高效生成高质量室内场景重建，为实时应用提供可能。",
+      "llm_tldr": "该工作针对从极简输入快速重建3D室内场景的需求，提出FastPano3D，直接从单张全景图前馈生成3D高斯表示。针对全景图畸变和特征分布不均设计专用模块，避免多视角监督或逐场景优化。实验证明其能高效生成高质量室内场景重建，为实时应用提供可能。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.31637v1",
+      "source": "arxiv",
+      "title": "Intrinsic decomposition and editing of 3D Gaussian splats",
+      "abstract": "Intrinsic decomposition which expresses image colors as the product of diffuse albedo and shading, possibly augmented with view-dependent residuals has a long history in image editing as it enables the modification of object colors and textures without altering lighting. We extend intrinsic decomposition to radiance fields represented with Gaussian splatting by proposing solutions to three key aspects of such decomposition. First, we describe how to model the intrinsic decomposition as independent sets of Gaussian primitives, which allows each set to adapt to the characteristics of the layer it represents. Second, we present an optimization procedure guided by data-driven predictions to disentangle multi-view photographs of a scene into the aforementioned intrinsic sets. Finally, we provide an editing workflow where users modify the texture of planar surfaces simply by modifying the albedo of that surface in one image. Capturing this edit within the intrinsic radiance field allows re-rendering of the edited scene with plausible lighting under arbitrary viewpoints.",
+      "authors": [
+        "Alexandre Lanvin",
+        "Jeffrey Hu",
+        "Simon Lucas",
+        "Adrien Bousseau",
+        "George Drettakis"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.AI"
+      ],
+      "published": "2026-06-30T13:20:44+00:00",
+      "link": "https://arxiv.org/pdf/2606.31637v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Intrinsic decomposition of radiance fields (3D Gaussian splats) for editing",
+      "llm_evidence_cn": "对辐射场（3D高斯泼溅）进行本征分解以支持编辑",
+      "llm_evidence": "对辐射场（3D高斯泼溅）进行本征分解以支持编辑",
+      "canonical_evidence": "对辐射场（3D高斯泼溅）进行本征分解以支持编辑",
+      "llm_tldr_en": "Intrinsic decomposition of 3D Gaussian splats separates albedo, shading, and view-dependent effects, enabling editing of object colors and textures without altering lighting in radiance fields.",
+      "llm_tldr_cn": "本文首次将本征分解扩展到3D高斯泼溅表示的辐射场中，通过将高斯原语分解为漫反射反照率、漫反射着色、镜面着色和视角依赖残差等独立集合，并利用数据驱动指导优化，实现了在不改变光照的情况下编辑物体颜色和纹理，为辐射场编辑提供了新方案。",
+      "llm_tldr": "本文首次将本征分解扩展到3D高斯泼溅表示的辐射场中，通过将高斯原语分解为漫反射反照率、漫反射着色、镜面着色和视角依赖残差等独立集合，并利用数据驱动指导优化，实现了在不改变光照的情况下编辑物体颜色和纹理，为辐射场编辑提供了新方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.31979v1",
+      "source": "arxiv",
+      "title": "Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings",
+      "abstract": "Structure from Motion (SfM) systems traditionally struggle with planar scenes, where standard epipolar geometry-based methods become degenerate. Rather than viewing planar surfaces as a limitation, we propose a unified framework that leverages them as a source of geometric constraints. Our key insight is that each planar surface visible across multiple views provides an independent estimate of relative camera poses through homography decomposition. By aggregating estimates from multiple planes or even from a single dominant plane we achieve robust pose recovery in scenarios where traditional methods fail. We introduce a novel graph-based approach that constructs a pose-graph from homography estimates and employs spectral embedding to identify and filter unreliable edges. Our method maps homography-based pose estimates onto the real line based on their geometric and visual consistency, enabling efficient extraction of a maximally consistent spanning tree for pose recovery. This approach naturally handles both highly planar scenes, such as indoor sports arenas, and general $3$D environments. We demonstrate superior performance on basketball court imagery where existing methods struggle, while matching or exceeding state-of-the-art results on unconstrained outdoor scenes from the IMC Phototourism benchmark.",
+      "authors": [
+        "Gabi Pragier",
+        "Matan Karklinsky",
+        "David Ungarish",
+        "Avi Ben-Cohen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T17:18:27+00:00",
+      "link": "https://arxiv.org/pdf/2606.31979v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Structure from Motion for 3D reconstruction from multiple images",
+      "llm_evidence_cn": "从多张图像进行运动恢复结构以重建3D模型",
+      "llm_evidence": "从多张图像进行运动恢复结构以重建3D模型",
+      "canonical_evidence": "从多张图像进行运动恢复结构以重建3D模型",
+      "llm_tldr_en": "Planar-SfM improves SfM by leveraging planar surfaces as geometric constraints via homography decomposition and graph-based pose estimation, enabling robust 3D reconstruction from multiple images even in degenerate planar scenes.",
+      "llm_tldr_cn": "针对传统运动恢复结构在平面场景中退化的局限性，本文提出Planar-SfM，通过单应性分解从多个视角的平面区域中独立估计相机位姿，并构建位姿图进行谱嵌入以滤除不一致估计，从而在传统方法失败的场景下实现鲁棒的3D重建，展示了利用平面作为几何约束的有效性。",
+      "llm_tldr": "针对传统运动恢复结构在平面场景中退化的局限性，本文提出Planar-SfM，通过单应性分解从多个视角的平面区域中独立估计相机位姿，并构建位姿图进行谱嵌入以滤除不一致估计，从而在传统方法失败的场景下实现鲁棒的3D重建，展示了利用平面作为几何约束的有效性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2606.32036v1",
+      "source": "arxiv",
+      "title": "PointSplat: Compact Gaussian Splatting via Human-Centric Prediction",
+      "abstract": "Producing 3D human representations from input views on the fly is essential for immersive live streaming systems, where representation compactness is as critical as high fidelity given limited computational power and transmission bandwidth. Although recent feed-forward reconstruction methods achieve impressive quality through the view-centric prediction of 3D representations, they repeatedly encode the same subject content across multiple views, leading to significant inter-view redundancy. Our key insight is to perform predictions directly in 3D space, enabling the network to learn and produce a highly compact representation. To this end, we propose PointSplat, a novel human-centric approach that directly infers Gaussian primitives from an input point set. The proposed method first estimates a coarse geometric proxy and performs ray casting to prune redundant points and establish explicit 2D--3D correspondences. Subsequently, it employs a Point-Image Transformer to fuse appearance and geometry features, predicting Gaussian attributes in a single forward pass. This design restricts predictions to foreground regions of interest, substantially reducing the total number of Gaussians while improving novel-view rendering quality. Extensive experiments demonstrate that PointSplat achieves higher efficiency and quality while exhibiting strong robustness to variations in view count and image resolution across multiple datasets.",
+      "authors": [
+        "Yujie Guo",
+        "Yudong Jin",
+        "Lingteng Qiu",
+        "Zehong Shen",
+        "Zhen Xu",
+        "Jing Zhang",
+        "Xianchao Shen",
+        "Hujun Bao",
+        "Sida Peng",
+        "Xiaowei Zhou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T17:59:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.32036v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "directly infers Gaussian primitives from point clouds for compact 3D human representation",
+      "llm_evidence_cn": "从点云直接推断高斯原语，实现紧凑的3D人体表示",
+      "llm_evidence": "从点云直接推断高斯原语，实现紧凑的3D人体表示",
+      "canonical_evidence": "从点云直接推断高斯原语，实现紧凑的3D人体表示",
+      "llm_tldr_en": "PointSplat predicts Gaussian primitives directly from point clouds in 3D space, reducing inter-view redundancy for compact human-centric 3D reconstruction.",
+      "llm_tldr_cn": "该工作针对多视角人体重建中的冗余问题，提出PointSplat方法，直接在3D空间从点云预测高斯原语，避免了逐视角编码的冗余。实验表明在保持高保真度的同时显著降低了表示紧凑性，适用于实时流媒体。",
+      "llm_tldr": "该工作针对多视角人体重建中的冗余问题，提出PointSplat方法，直接在3D空间从点云预测高斯原语，避免了逐视角编码的冗余。实验表明在保持高保真度的同时显著降低了表示紧凑性，适用于实时流媒体。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}

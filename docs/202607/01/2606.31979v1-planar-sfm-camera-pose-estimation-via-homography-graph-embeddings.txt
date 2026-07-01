@@ -1,0 +1,316 @@
+Title: Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings
+
+URL Source: https://arxiv.org/pdf/2606.31979v1
+
+Published Time: Wed, 01 Jul 2026 01:39:00 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 
+
+Gabi Pragier ∗, Matan Karklinsky ∗, David Ungarish ∗, and Avi Ben-Cohen 
+
+Amazon Prime Video Live Events 
+
+{gabipragier,davidunga}@gmail.com {mtn,avibc}@amazon.com 
+
+> ∗
+
+Equal contribution 
+
+Abstract. Structure from Motion (SfM) systems traditionally struggle with planar scenes, where standard epipolar geometry-based methods become degenerate. Rather than viewing planar surfaces as a limitation, we propose a unified framework that leverages them as a source of ge-ometric constraints. Our key insight is that each planar surface visible across multiple views provides an independent estimate of relative cam-era poses through homography decomposition. By aggregating estimates from multiple planes or even from a single dominant plane we achieve robust pose recovery in scenarios where traditional methods fail. We in-troduce a novel graph-based approach that constructs a pose-graph from homography estimates and employs spectral embedding to identify and filter unreliable edges. Our method maps homography-based pose esti-mates onto the real line based on their geometric and visual consistency, enabling efficient extraction of a maximally consistent spanning tree for pose recovery. This approach naturally handles both highly planar scenes, such as indoor sports arenas, and general 3D environments. We demon-strate superior performance on basketball court imagery where existing methods struggle, while matching or exceeding state-of-the-art results on unconstrained outdoor scenes from the IMC Phototourism benchmark. 
+
+Keywords: Structure from Motion · Homography Decomposition · Pla-nar Scenes · Camera Pose Estimation. 
+
+## 1 Introduction 
+
+Structure from Motion (SfM) is fundamental to computer vision, enabling 3Dscene reconstruction from multiple viewpoints [14, 22, 28, 30]. Its applications span augmented reality [18], 3D reconstruction [5, 26, 29], SLAM [4, 20], and modern neural rendering techniques [12, 19]. A significant limitation of existing SfM systems is their difficulty handling scenes that are dominated by a single planar surface. In such cases, the standard approach of estimating camera poses through epipolar geometry is subject to a two-parameter ambiguity [9], resulting in a multifold solution space. Consequently, the estimation of the epipolar ge-ometry becomes ill-posed and is prone to arbitrary determination by outlier cor-respondence. This is particularly problematic in many real-world applications,  
+
+> arXiv:2606.31979v1 [cs.CV] 30 Jun 2026 2G. Pragier et al.
+
+such as sports broadcasting in indoor arenas or architectural documentation, where large planar surfaces are common. While planar surfaces are often viewed as a challenge for SfM, we argue they present an opportunity. Even in general scenes, decomposing the environment into multiple planar segments offers distinct advantages. Each planar surface provides an independent estimate of relative camera poses through homography decomposition, and observing multiple planes offers complementary constraints that enable more robust pose recovery. By leveraging multiple such independent estimates, we can achieve more robust camera pose recovery than methods rely-ing on point-based epipolar geometry alone. Our key insight is that by treating scenes as collections of planar surfaces, whether they actually contain one plane, multiple planes, or general 3D structure, we can develop a unified approach that handles all cases effectively. We achieve this through three main contributions: 
+
+– An embedding framework that filters unreliable homography-based pose es-timates, enabling camera motion recovery even in challenging single-plane scenarios where traditional methods struggle. 
+
+– A multi-plane aware pose estimation strategy that leverages independent estimates from different planar regions to enhance accuracy, even in general 
+
+3D scenes. 
+
+– Comprehensive evaluation demonstrating superior performance both on pla-nar scenes where traditional methods struggle, and on general scenes where our approach matches or exceeds state-of-the-art results. 
+
+## 2 Related Work 
+
+Conventional SfM pipelines typically follow a multi-stage process: feature de-tection across images [6, 7, 16] followed by feature matching across pairs [2, 15, 27, 31], and then estimation of relative camera poses (two-view geometry). Ad-ditional views are then incrementally registered in a sequential manner, which is prone for drift and error accumulation. A global optimization step, typically bundle adjustment [33], refines camera parameters and 3D point coordinates jointly. However, due to the non-convexity of this optimization, the accuracy of the final solution strongly depends on the quality of the initial estimates. To better handle structured environments, several methods have incorporated prior geometric knowledge. For example, [8] proposed a RANSAC-based scheme that exploits known planar structures by operating over camera trajectories. Simi-larly, [24] introduced a mechanism for filtering out degenerate images based on scene priors. Nonetheless, these sequential pipelines remain prone to local min-ima and often fail to reach globally optimal solutions. Recently, learning-based approaches have formulated SfM as a differentiable process [32, 35], achieving state-of-the-art performance. Despite this progress, these methods lack explicit enforcement of multi-view geometric constraints, which can limit their accuracy in planar scenes. Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 3Input Images    
+
+> Detection Matching Homography Estimation Pose-graph Pruning Pose Estimation
+> (1) (2) (3) (4)
+
+Fig. 1. Method Overview: Our pipeline processes input images through four main stages: (1) feature detection and matching, (2) homography-based pose-graph construc-tion, (3) graph pruning via real-line embedding, and (4) camera pose recovery. 
+
+## 3 Method 
+
+3.1 Setting 
+
+The input consists of a set of n images capturing a scene containing one or more planar surfaces, where the number of surfaces is unknown. The underlying cam-eras are assumed to be calibrated, that is with known intrinsic matrices which specify the focal length and principal point parameters. The goal is to recover the camera poses (Ri, c i) ∈ SE (3) , i = 1 , . . . , n , where Ri and ci represent the orientation and position, respectively, of the i-th camera. We denote the relative pose between cameras i and j by (Rij , c ij ) ∈ SE (3) , where Rij = Rj RTi is their relative orientation and cij ∝ Rj (ci − cj ) is their relative position. In addition, we denote by nπ ∈ S2 the unit-length normal vector to the planar surface π.
+
+3.2 Overview 
+
+Our method processes the input images in several stages, as illustrated in Fig-ure 1. First, we construct a pose-graph where edges represent homographies estimated between image pairs (Section 3.3). Each homography, when arising from a genuine planar surface, provides both the relative pose between the cor-responding cameras and the surface normal through decomposition. To handle potentially erroneous homographies, we develop a two-stage filter-ing approach. We first compute similarity scores between homographies based on their geometric and visual consistency (Section 3.4). These scores incorporate both image-space evidence and structural validation against essential matrix-based estimates. We then use these scores to embed the multi-edges of our pose-graph onto the real line, allowing us to identify and retain only the most consistent set of edges (Section 3.5). Finally, we recover camera poses using the filtered pose-graph (Section 3.6). We first consolidate multiple homography-based estimates within each retained edge into a single relative pose estimate. We then recover camera orientations by propagating through a spanning tree, and positions by extending to a bi-connected graph and solving a global optimization problem. 
+
+3.3 Homography Pose-Graph 
+
+Based on matched feature points between image pairs, we estimate kij ≥ 0
+
+homographies {Hqij }q=kij  
+
+> q=1
+
+for each image pair (i, j ), where each homography 4 G. Pragier et al. 
+
+corresponds to a plane visible in both images. We represent the scene as a pose-graph G = ( V, E ), an undirected multigraph where each node i ∈ V represents a camera pose to be determined, and we connect nodes i and j with kij edges whenever we find homographies between their images. A key property of homographies is that, given calibrated cameras, each ho-mography Hij between images i and j of a plane π can be decomposed [17] into 
+
+Hij 7 → (Rij , c ij , n ij ), (1) where nij = Rinπ , and with (Rij , c ij ) being precisely the relative pose defined in Section 3.1 and is invariant to π. Thus, when Hqij arises from a genuine pla-nar surface (rather than erroneous feature correspondences), its decomposition provides both the underlying relative pose and the plane normal expressed in camera i’s coordinate system. We next describe how to account for homographies arising from incorrect correspondences. 
+
+3.4 Edge Similarity Score 
+
+While each homography decomposition (Eq. 1) provides an estimate of relative camera pose, not all decompositions are reliable. However, since a spanning tree of the pose-graph G suffices to recover camera poses, we can afford to be selective and retain only the most reliable edges. To identify these, we develop an embedding-based approach that maps each multi-edge onto the real line, allowing us to utilize spanning tree algorithms while accounting for geometric and visual consistency. The key insight is that reliable homographies induced by the same physi-cal surface should exhibit consistent geometric and visual properties. We cap-ture this consistency through a similarity matrix S ∈ R|E|×| E|, where each entry Sij,lm represents the expected consistency between incident multi-edges 
+
+eij , e lm ∈ E:
+
+Sij,lm =
+
+> kij
+
+X
+
+> q=1
+> klm
+
+X
+
+> q′=1
+
+P q,q ′
+
+> ij,lm
+
+η(nqij , n q′
+
+> lm
+
+). (2) Here, η(na, n b) = exp  − arccos 2  nTa nb
+
+ measures the angular similarity be-tween surface normals, and P q,q ′ 
+
+> ij,lm
+
+represents the probability ( P 
+
+> q,q ′
+
+P q,q ′ 
+
+> ij,lm
+
+= 1 )that homographies Hqij and Hq′ 
+
+> lm
+
+are not erroneous and correspond to the same physical surface. This probability is computed by combining image-space evi-dence and structural validation. Specifically, for any two homographies Hqij and 
+
+Hq′ 
+
+> lm
+
+we define: 
+
+P q,q ′ 
+
+> ij,lm
+
+∝ O (Hqij , H q′
+
+> lm
+
+)wqij wq′
+
+> lm
+
+, (3) where O(Hqij , H q′
+
+> lm
+
+) which counts the number of feature points that are inliers in both homographies, provides image-space evidence for whether the two homogra-phies correspond to the same physical surface. The confidence scores wqij provide Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 5
+
+structural evidence for the validity of each homography by measuring its agree-ment with an independently estimated orientation. Specifically, these scores are defined using the angular similarity between the relative orientation Rqij obtained from the homography decomposition (Eq. 1) and a plane-independent auxiliary orientation Reij estimated from the decomposition of the essential-matrix [9] be-tween images i and j. Specifically, 
+
+wqij ∝ exp  −ϵ2  Rqij , R eij 
+
+ , (4) where 
+
+ϵ(Ra, R b) = arccos 
+
+ trace (RTa Rb) − 12
+
+
+
+is the geodesic distance on SO (3) .
+
+3.5 Pose-Graph Embedding and Pruning 
+
+To recover camera poses, we need a spanning tree of the pose-graph G. How-ever, not all edges are equally reliable since some homographies may arise from incorrect correspondences or degenerate configurations. Our goal is to identify a spanning tree whose edges are mutually consistent, corresponding to valid ho-mographies from compatible planar surfaces. To achieve this, we first embed the multi-edges onto the real line (using the similarity matrix S from Eq. 2) by solving 
+
+h = arg min 
+
+> ˜h∈R|E|
+
+X
+
+> ij,lm ∈E
+
+˜hij − ˜hlm 
+
+2
+
+Sij,lm 
+
+subject to ˜hT D˜h = 1 ,
+
+(5) where D is the diagonal matrix of row sums of S. This formulation encour-ages similar edges (those with high Sij,lm ) to be embedded close together, while the constraint ensures a non-trivial solution that accounts for edge importance through D. The optimal solution is given by the eigenvector associated with the second-smallest eigenvalue of I − D−1S [1], as the eigenvector of the smallest eigenvalue, namely the constant vector, is uninformative for our purpose. With the embedding h established, and since its scale is arbitrary, we define an inconsistency measure for any spanning tree ˜T of the pose-graph G as the magnitude of the support of its embedding max ij,lm ∈E( ˜T ) |hij −hlm |. The optimal spanning tree is then obtained by solving: 
+
+T = arg min  
+
+> ˜T⊆G
+
+(
+
+max  
+
+> ij,lm ∈E( ˜T)
+
+|hij − hlm |
+
+)
+
+, (6) whose solution T is given by the minimum-range-spanning-tree of the weighted graph G whose weights are given by the embedding h obtained from Eq. 5. The step-by-step process for determining the minimum-range-spanning-tree T is outlined in Algorithm 1, provided in Appendix A. 6 G. Pragier et al. 
+
+3.6 Pose Estimation 
+
+Given the minimal-range spanning tree T , we next describe how to recover the camera poses. A key advantage of our approach is that any relative pose (Rij , c ij )
+
+is invariant to the underlying plane (as noted in Eq. 1). This invariance enables us to leverage multiple planar regions within each multi-edge to enhance accu-racy: when multiple homographies are estimated between the same image pair, whether from distinct physical planes in a general 3D scene or from different segmentations of a single dominant plane, their decompositions provide inde-pendent estimates of the same underlying relative pose. By aggregating these estimates, we effectively reduce noise and improve robustness. Specifically, we consolidate the multiple pose estimates within each edge eij 
+
+in T into a single estimate ( ˆRij , ˆcij ) by projecting their confidence-weighted averages (weights defined in Eq. 4) onto SO (3) and S2, respectively: 
+
+ˆRij = ΠSO (3) 
+
+X
+
+> q
+
+wqij Rqij 
+
+!
+
+, ˆcij = ΠS2
+
+X
+
+> q
+
+wqij cqij 
+
+!
+
+. (7) Camera orientations ˆRi are then recovered by setting one camera’s orientation to the identity matrix and propagating through T using the estimates ˆRij . For the task of recovering camera positions from relative positions to be well-posed, the underlying graph must exhibit parallel rigidity, a property we empirically found to be equivalent in many cases to the graph being bi-connected (meaning that if any one node were to be removed the graph will still remain connected). As no tree is bi-connected, the spanning tree T is inadequate for determining the camera positions. We therefore extend T to a bi-connected graph by iteratively adding edges that minimize embedding inconsistency. Finally, using the recov-ered orientations, we transform each relative position as ˆc′ 
+
+> ij
+
+= ˆRTj ˆcij to obtain 
+
+ˆc′ 
+
+> ij
+
+∝ ci − cj , from which absolute positions are recovered using least-unsquared-deviations [21]. 
+
+## 4 Experiments 
+
+4.1 Datasets and Setup 
+
+We evaluated our method on two datasets (i) The Overtime Elite (OTE) bas-ketball arena dataset consisting of 46 calibrated cameras positioned around a basketball court (Figure 2), representing a real-world sports broadcasting sce-nario, and (ii) the IMC Phototourism dataset [11] with 8 outdoor scenes captured under unconstrained conditions. We used SuperPoint [6] for feature extraction, and SuperGlue [27] for feature matching. For OTE, we matched each image with its two nearest neighbors from each side, exploiting the ordered camera ar-rangement. For IMC, we performed exhaustive pairwise matching. We compared against GLOMAP [23] for OTE, and against both classical methods (COLMAP, PixSfM [28, 14]) and learning-based methods (VGGSfM, DFSfM [34, 10]) for IMC. Following [14, 27], we report the area under curve (AUC) of relative orien-tation errors. Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 7
+
+Fig. 2. OTE Dataset . Top: Camera placements and poses visualized from two views. Bottom: Example images, captured by three cameras. 
+
+4.2 Results 
+
+For OTE, our method outperforms GLOMAP at 3◦ and 5◦ thresholds while remaining competitive at 1◦, demonstrating the advantage of our planar-aware approach on basketball court scenes, see Table 1. On IMC, we achieve state-of-the-art performance across all thresholds, see Table 2, showing that our method is capable at generalizing well to unconstrained, non-planar scenes. 
+
+Table 1. Camera pose estimation results on the OTE dataset. Our method achieves better accuracy than GLOMAP at the 3◦ and 5◦ thresholds, with comparable perfor-mance at 1◦.
+
+Method AUC@1 ◦ AUC@3 ◦ AUC@5 ◦
+
+GLOMAP [23] 67.45 84.72 91.12 Ours 67.39 86.55 95.55 
+
+4.3 Ablation Study 
+
+We evaluated the impact of our method’s two key components confidence scor-ing (Section 3.4) and graph pruning (Section 3.5) on the OTE dataset. To disable confidence scoring we assigned random weights to homographies, and to disable 8 G. Pragier et al. 
+
+Table 2. Camera pose estimation results on the IMC dataset [11]. Table reproduced from [34], with the last row ("Ours") added. 
+
+Method AUC@3 ◦ AUC@5 ◦ AUC@10 ◦
+
+DeepSFM 10.27 19.36 31.35 PoseDiffusion 12.31 23.17 36.82 COLMAP (SIFT+NN) 23.58 32.66 44.79 PixSfM (SIFT + NN) 25.54 34.80 46.73 PixSfM (LoFTR) 44.06 56.16 69.61 PixSfM (SP + SG) 45.19 57.22 70.47 DFSfM (LoFTR) 46.55 58.74 72.19 VGGSfM w/o Joint 38.23 51.60 68.35 VGGSfM 45.23 58.89 73.92 Ours 49.11 60.32 76.10 
+
+pruning we replaced the minimum range spanning tree with a random spanning tree. We averaged the results over 100 random seeds. The results, shown in Table 3, demonstrate that both components are cru-cial and complementary. Without pruning (second row in Table 3), the underly-ing graph structure remains unreliable regardless of the weights used. Without proper confidence scores (third row in Table 3), pruning alone provides some benefit but falls short of the full method. The dramatic performance drop when either component is disabled highlights their effectiveness in filtering outliers and reinforcing reliable estimates. 
+
+Table 3. Ablation study results on the OTE dataset. Disabling either component leads to significant accuracy drops, demonstrating their complementary roles in outlier rejection. 
+
+Pruning Conf. Scores AUC@1 ◦ AUC@3 ◦ AUC@5 ◦
+
+✓ ✓ 67.39 86.55 95.55 
+
+✗ ✓ 3.303 11.566 17.909 
+
+✓ ✗ 0.808 3.636 6.263 
+
+✗ ✗ 0.434 2.646 4.910 
+
+## 5 Summary 
+
+We presented Planar-SfM, a Structure from Motion framework that leverages planar surfaces as geometric constraints rather than viewing them as a limi-tation. We constructed a pose-graph from homography estimates between im-age pairs, where each homography provides an independent estimate of relative Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 9
+
+camera pose through decomposition. To filter unreliable estimates, we applied a spectral embedding approach that maps edges onto the real line based on geometric and visual consistency, enabling extraction of a maximally consis-tent spanning tree for pose recovery. We demonstrated superior performance on basketball court imagery where traditional epipolar geometry-based meth-ods struggle, while matching or exceeding state-of-the-art results on the IMC Phototourism benchmark for general outdoor scenes. 
+
+## References 
+
+1. Belkin, M., Niyogi, P.: Laplacian eigenmaps for dimensionality reduction and data representation. Neural Computation 15 (6), 1373–1396 (2003) 2. Brachmann, E., Rother, C.: Neural-Guided RANSAC: Learning where to sample model hypotheses. In: IEEE International Conference on Computer Vision (ICCV). pp. 4321–4330. IEEE (2019) 3. Camerini, P.M.: The min-max spanning tree problem and some extensions. In-formation Processing Letters 7(1), 10 (1978). https://doi.org/10.1016/0020-0190(78)90030-3 4. Campos, C., Elvira, R., Gómez Rodríguez, J.J., Montiel, J.M.M., Tardós, J.D.: ORB-SLAM3: An accurate open-source library for visual, visual-inertial, and mul-timap SLAM. IEEE Transactions on Robotics (2021) 5. Choy, C.B., Xu, D., Gwak, J., Chen, K., Savarese, S.: 3D R2N2: A unified approach for single and multi-view 3D object reconstruction. In: European Conference on Computer Vision (ECCV). pp. 628–644. Springer (2016) 6. DeTone, D., Malisiewicz, T., Rabinovich, A.: SuperPoint: Self-supervised interest point detection and description. In: Proceedings of the IEEE Conference on Com-puter Vision and Pattern Recognition (CVPR) Workshops. pp. 224–236 (2018) 7. Dusmanu, M., Rocco, I., Pajdla, T., Pollefeys, M., Sivic, J., Torii, A., Sattler, T.: D2-Net: A trainable cnn for joint description and detection of local features. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (2019) 8. Fischler, M.A., Bolles, R.C.: Random sample consensus: a paradigm for model fit-ting with applications to image analysis and automated cartography. In: Readings in computer vision. pp. 726–740. Morgan Kaufmann (1981) 9. Hartley, R., Zisserman, A.: Multiple view geometry in computer vision. Cambridge university press (2003) 10. He, X., Sun, J., Wang, Y., Peng, S., Huang, Q., Bao, H., Zhou, X.: Detector-free structure from motion. In: Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. pp. 21594–21603 (2024) 11. Jin, Y., Mishkin, D., Mishchuk, A., Matas, J., Fua, P., Yi, K.M., Trulls, E.: Image Matching across Wide Baselines: From Paper to Practice. International Journal of Computer Vision (2020) 12. Kerbl, B., Kopanas, G., Leimkühler, T., Drettakis, G.: 3D gaussian splatting for real-time radiance field rendering. ACM Trans. Graph. 42 (4) (July 2023), https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/ 13. Kruskal, J.B.: On the shortest spanning subtree of a graph and the traveling salesman problem. Proceedings of the American Mathematical society 7(1), 48–50 (1956) 10 G. Pragier et al. 14. Lindenberger, P., Sarlin, P.E., Larsson, V., Pollefeys, M.: Pixel-perfect structure-from-motion with featuremetric refinement. In: IEEE/CVF Conference on Com-puter Vision and Pattern Recognition (CVPR). pp. 4002–4011 (2021) 15. Lindenberger, P., Sarlin, P.E., Pollefeys, M.: LightGlue: Local feature matching at light speed. In: IEEE International Conference on Computer Vision (ICCV) (2023) 16. Lowe, D.G.: Distinctive image features from scale-invariant keypoints. Interna-tional Journal of Computer Vision 60 (2), 91–110 (2004) 17. Ma, Y., Kosecká, J., Soatto, S., Sastry, S.S.: An Invitation to 3-D Vision: From Images to Models. Springer (2004) 18. Marchand, E., Uchiyama, H., Spindler, F.: Pose estimation for augmented reality: A hands-on survey. IEEE Transactions on Visualization and Computer Graphics 
+
+22 (12), 2633–2651 (2016) 19. Mildenhall, B., Srinivasan, P.P., Tancik, M., Barron, J.T., Ramamoorthi, R., Ng, R.: Nerf: Representing scenes as neural radiance fields for view synthesis. In: Eu-ropean Conference on Computer Vision (ECCV) (2020) 20. Mur-Artal, R., Montiel, J.M.M., Tardós, J.D.: ORB-SLAM: A versatile and accu-rate monocular SLAM system. IEEE Transactions on Robotics 31 (5), 1147–1163 (2015) 21. Özyeşil, O., Singer, A., Basri, R.: Stable camera motion estimation using convex programming. SIAM Journal on Imaging Sciences 8(2), 1261–1287 (2015) 22. Özyeşil, O., Voroninski, V., Basri, R., Singer, A.: A survey of structure from motion. Acta Numerica 26 , 305–364 (2017) 23. Pan, L., Barath, D., Pollefeys, M., Schönberger, J.L.: Global Structure-from-Motion Revisited. In: European Conference on Computer Vision (ECCV) (2024) 24. Pollefeys, M., Verbiest, F., Van Gool, L.: Surviving dominant planes in uncali-brated structure and motion recovery. In: European Conference on Computer Vi-sion (ECCV). pp. 837–851. Springer (2002) 25. Prim, R.C.: Shortest connection networks and some generalizations. The Bell Sys-tem Technical Journal 36 (6), 1389–1401 (1957) 26. Rezende, D.J., Eslami, S.M.A., Mohamed, S., Battaglia, P., Jaderberg, M., Heess, N.: Unsupervised learning of 3D structure from images. In: Advances in Neural Information Processing Systems (NIPS). pp. 4996–5004 (2016) 27. Sarlin, P.E., DeTone, D., Malisiewicz, T., Rabinovich, A.: SuperGlue: Learning feature matching with graph neural networks. In: IEEE/CVF Conference on Com-puter Vision and Pattern Recognition (CVPR). pp. 4937–4946 (2020) 28. Schönberger, J.L., Frahm, J.M.: Structure-from-motion revisited. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (2016) 29. Schonberger, J.L., Zheng, E., Frahm, J.M., Pollefeys, M.: Pixelwise view selection for unstructured multi-view stereo. In: European Conference on Computer Vision (ECCV). pp. 501–518. Springer (2016) 30. Snavely, N., Seitz, S.M., Szeliski, R.: Photo Tourism: exploring photo collections in 3D. In: ACM Trans. Graph. vol. 25, pp. 835–846. ACM (2006) 31. Sun, J., Shen, Z., Wang, Y., Bao, H., Zhou, X.: LoFTR: Detector-free local feature matching with transformers. In: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (2021) 32. Teed, Z., Deng, J.: DeepV2D: Video to depth with differentiable structure from motion. In: International Conference on Learning Representations (2020) 33. Triggs, B., McLauchlan, P.F., Hartley, R.I., Fitzgibbon, A.W.: Bundle adjust-ment—a modern synthesis. In: International workshop on vision algorithms. pp. 298–372. Springer (2000) Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings 11 34. Wang, J., Karaev, N., Rupprecht, C., Novotny, D.: Vggsfm: Visual geometry grounded deep structure from motion. In: Proceedings of the IEEE/CVF con-ference on computer vision and pattern recognition. pp. 21686–21697 (2024) 35. Zhou, H., Ummenhofer, B., Brox, T.: DeepTAM: Deep tracking and mapping with convolutional neural networks. International Journal of Computer Vision 128 (3), 756–769 (2020) 
+
+## Appendix A Finding the Minimum Range Spanning Tree 
+
+Algorithm 1 below for finding the minimum range spanning tree of a weighted undirected graph is the solution of Eq. 6. The idea behind the algorithm for deter-mining such a tree is that there must be an edge weight that is the smallest among all edge weights in the tree. Thus, by fixing a minimum edge weight threshold and constructing a minimum-spanning-tree [13] that excludes edges with weights below this threshold, we can effectively obtain a minimum-bottleneck-spanning-tree which is a spanning tree in which the heaviest edge is as light as possible. This is because any minimum-spanning-tree is required to contain the edge with the lightest weight in the graph [25]. The validity of this method stems from the fact that any minimum-spanning-trees is also a minimum-bottleneck-spanning-tree [3], ensuring that the resulting tree will have the lightest possible maximum edge weight. 
+
+Algorithm 1 Minimum Range Spanning Tree 
+
+1: Input: undirected weighted graph G = ( V, E, W = h)
+
+2: Sort edges in increasing order of weight h1, . . . , h |E|
+
+3: for i = 1 , . . . , |E| − (|V | − 1) do 
+
+4: Gi ←  V, E = {ei, . . . , e |E|}, W = {hi, . . . , h |E|}
+
+5: if Gi is not connected then break 
+
+6: end if 
+
+7: Ti ← minimum-spanning-tree (Gi) ▷ [13] 8: di ← max h∈E(Ti){h} − hi
+
+9: end for 
+
+10: i∗ ← arg min i{di}
+
+11: Output: Ti∗ ▷ T i∗ is the solution of Eq. 6
