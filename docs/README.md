@@ -6,65 +6,44 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-02
-- 运行时间：2026-07-02 20:17:00 UTC
+- 最新运行日期：2026-07-03
+- 运行时间：2026-07-03 21:01:51 UTC
 - 运行状态：成功
-- 本次总论文数：15
+- 本次总论文数：8
 - 精读区：6
-- 速读区：9
+- 速读区：2
 
 ### 今日简报（AI）
-今日聚焦多视图全景与长序列实例感知的3D重建突破，两篇精读论文均达9.0分。值得关注的方向：CasaMaestro实现房屋尺度全景重建，LIST3R提升实例级长序列重建精度。建议优先精读这两篇高分论文，速读部分可关注残缺物体修复和单张图片全景重建。
-- 详情：[/202607/02/README](/202607/02/README)
+今日精选8篇论文，精读6篇，其中《Argus》与《InvSplat》以9.0高分领跑。最值得关注的是室内场景3D重建与逆前馈场景散点两大方向。下一步建议优先阅读精读论文，并留意速读中关于可扩展视图分区及文本生成激光雷达场景的新思路。
+- 详情：[/202607/03/README](/202607/03/README)
 
 ### 精读区论文标签
-1. [CasaMaestro: Multi-View Panoramas for House-Scale 3D Reconstruction](/202607/02/2606.31086v1-casamaestro-multi-view-panoramas-for-house-scale-3d-reconstruction)  
+1. [Argus: Metric Panoramic 3D Reconstruction for Indoor Scenes](/202607/03/2606.30047v2-argus-metric-panoramic-3d-reconstruction-for-indoor-scenes)  
    标签：评分：9.0/10、query:d-recon
-   evidence：多视角全景图用于3D重建
-2. [LIST3R: Long-sequence Instance-aware 3D Reconstruction](/202607/02/2607.00375v1-list3r-long-sequence-instance-aware-3d-reconstruction)  
+   evidence：从多图像进行度量全景3D重建
+2. [InvSplat: Inverse Feed-Forward Scene Splatting](/202607/03/2607.02301v1-invsplat-inverse-feed-forward-scene-splatting)  
    标签：评分：9.0/10、query:d-recon
-   evidence：从长视频序列进行实例感知的三维重建
-3. [SuperFlex: Deformable Superquadrics for Point Cloud Decomposition](/202607/02/2607.01015v1-superflex-deformable-superquadrics-for-point-cloud-decomposition)  
+   evidence：前馈逆渲染用于新视角合成，使用3D高斯表示
+3. [Learning Spectral and Polarimetric Clues for One-to-Multimodal Novel View Synthesis](/202607/03/2607.02372v1-learning-spectral-and-polarimetric-clues-for-one-to-multimodal-novel-view-synthesis)  
    标签：评分：9.0/10、query:d-recon
-   evidence：使用超二次曲面进行点云分解和重建
-4. [World from Motion: Generative Dynamic Gaussian Reconstruction from Monocular Video](/202607/02/2607.01202v1-world-from-motion-generative-dynamic-gaussian-reconstruction-from-monocular-video)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：动态3D高斯重建用于新视图合成
-5. [Structured-Li-GS: Structured 3D Gaussians Splatting with LiDAR Incorporation and Spatial Constraints](/202607/02/2606.27509v1-structured-li-gs-structured-3d-gaussians-splatting-with-lidar-incorporation-and-spatial-constraints)  
+   evidence：利用光谱和偏振线索的神经渲染新视角合成
+4. [FastPano3D: Feed-Forward Indoor Panoramic 3D Reconstruction from a Single Image](/202607/03/2606.30352v1-fastpano3d-feed-forward-indoor-panoramic-3d-reconstruction-from-a-single-image)  
    标签：评分：8.0/10、query:d-recon
-   evidence：结构化3D高斯泼溅结合LiDAR实现高质量点云重建
-6. [One Video, One World: Turning Monocular Video into Physical 4D Scenes](/202607/02/2606.31388v1-one-video-one-world-turning-monocular-video-into-physical-4d-scenes)  
+   evidence：从单张全景图像前馈式三维重建
+5. [Bridging 3D Gaussians and Semantic Occupancy for Comprehensive Open-Vocabulary Scene Understanding from Unposed Images](/202607/03/2607.01633v1-bridging-3d-gaussians-and-semantic-occupancy-for-comprehensive-open-vocabulary-scene-understanding-from-unposed-images)  
    标签：评分：8.0/10、query:d-recon
-   evidence：从单目视频重建实例级4D网格场景，等同于从多帧图像重建3D模型
+   evidence：从无位姿图像进行3D场景理解，结合高斯和占据场
+6. [PointDiT: Pixel-Space Diffusion for Monocular Geometry Estimation](/202607/03/2607.02515v1-pointdit-pixel-space-diffusion-for-monocular-geometry-estimation)  
+   标签：评分：8.0/10、query:d-recon
+   evidence：使用扩散模型从单目图像估计几何生成3D点图
 
 ### 速读区论文标签
-1. [Restore3D: Breathing Life into Broken Objects with Shape and Texture Restoration](/202607/02/2607.00522v1-restore3d-breathing-life-into-broken-objects-with-shape-and-texture-restoration)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：使用多视图图像进行破损物体形状和纹理恢复
-2. [Improving Sparse-View 3DGS Generalization via Flat Minima Optimization](/202607/02/2607.00885v1-improving-sparse-view-3dgs-generalization-via-flat-minima-optimization)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：通过平坦最小值优化提升3D高斯溅射的新视图合成泛化
-3. [FastPano3D: Feed-Forward Indoor Panoramic 3D Reconstruction from a Single Image](/202607/02/2606.30352v1-fastpano3d-feed-forward-indoor-panoramic-3d-reconstruction-from-a-single-image)  
+1. [Diversity-aware View Partitioning for Scalable VGGT](/202607/03/2607.01885v1-diversity-aware-view-partitioning-for-scalable-vggt)  
    标签：评分：7.0/10、query:d-recon
-   evidence：从单张全景图前馈式3D重建
-4. [Planar-SfM: Camera Pose Estimation via Homography Graph Embeddings](/202607/02/2606.31979v2-planar-sfm-camera-pose-estimation-via-homography-graph-embeddings)  
-   标签：评分：7.0/10、query:d-recon
-   evidence：利用单应性图嵌入进行运动恢复结构
-5. [EPO: Boosting 3D Foundation Models with Edge-based Pose Optimization](/202607/02/2607.00579v1-epo-boosting-3d-foundation-models-with-edge-based-pose-optimization)  
-   标签：评分：7.0/10、query:d-recon
-   evidence：基于边缘的位姿优化提升从多图像重建的3D基础模型精度
-6. [Pano2World: End-to-End 3D Generation via Unified Multi-View Sequences](/202607/02/2607.00832v1-pano2world-end-to-end-3d-generation-via-unified-multi-view-sequences)  
-   标签：评分：7.0/10、query:d-recon
-   evidence：从单张全景图端到端生成多视图序列的3D场景
-7. [Anatomy-Grounded Synthetic Coronary Angiography for Geometry-Informed Multi-View Matching](/202607/02/2606.28474v1-anatomy-grounded-synthetic-coronary-angiography-for-geometry-informed-multi-view-matching)  
+   evidence：通过多样性感知视图分区实现多视图重建可扩展性
+2. [T2LDM++: A Self-Conditioned Representation Guided Diffusion Model for Realistic Text-to-LiDAR Scene Generation](/202607/03/2606.30147v1-t2ldm-a-self-conditioned-representation-guided-diffusion-model-for-realistic-text-to-lidar-scene-generation)  
    标签：评分：6.0/10、query:d-recon
-   evidence：多视图匹配用于3D冠状动脉重建
-8. [Streaming Gaussian Encoding for 4D Panoptic Occupancy Tracking](/202607/02/2606.30754v1-streaming-gaussian-encoding-for-4d-panoptic-occupancy-tracking)  
-   标签：评分：6.0/10、query:d-recon
-   evidence：流式高斯编码用于从多视图图像持续表示场景
-9. [Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models](/202607/02/2607.01222v1-ink3d-sculpting-3d-assets-with-extremely-complex-textures-via-video-generative-models)  
-   标签：评分：6.0/10、query:d-recon
-   evidence：利用视频生成模型重建具有复杂纹理的3D资产
+   evidence：文本到LiDAR场景生成产生点云
 
 
 <div class="dpr-home-promo-card">
