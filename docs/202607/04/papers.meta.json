@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-04",
+  "date": "2026-07-04",
+  "generated_at": "2026-07-04T21:10:33",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/04/2607.01633v1-bridging-3d-gaussians-and-semantic-occupancy-for-comprehensive-open-vocabulary-scene-understanding-from-unposed-images",
+      "section": "deep",
+      "title_en": "Bridging 3D Gaussians and Semantic Occupancy for Comprehensive Open-Vocabulary Scene Understanding from Unposed Images",
+      "authors": "Hu Zhu, Bohan Li, Xianda Guo, Yanlun Peng, Zheng Zhu, Xin Jin, Wenjun Zeng, Chang Wen Chen",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01633v1",
+      "score": "9.0",
+      "evidence": "无位姿语义高斯框架，支持新视角合成",
+      "tldr": "针对稀疏无位姿图像的三维场景理解，现有高斯泼溅方法在未观测区域约束弱的问题，提出COVScene框架。该框架通过可微体积提升将可渲染高斯原语与密集语义占用场耦合，结合几何Transformer和多任务解码，同时支持新视图合成、开放词汇语义查询和语义占用预测。在ScanNet和ScanNet++上，COVScene在保持渲染质量的同时提升了开放词汇分割和语义占用预测，无需直接体素级监督。",
+      "tags": "query:d-recon",
+      "abstract_en": "Comprehensive 3D scene understanding from sparse, unposed images requires a model to recover renderable geometry, open-vocabulary semantics, and free/occupied 3D space without relying on external camera calibration. Recent feed-forward Gaussian methods improve pose-free reconstruction and semantic rendering, but their Gaussian primitives are mainly optimized through image-space objectives and remain weakly constrained in unobserved regions. We propose \\textit{COVScene}, a pose-free semantic Gaussian framework that couples renderable Gaussian primitives with a dense semantic occupancy field through differentiable volumetric lifting. Instead of converting Gaussians to voxels only at evaluation time, COVScene lifts the predicted semantic Gaussians inside the training computation graph, so volumetric regularization provides gradients to Gaussian opacity, geometry, and semantic features. The framework combines a semantic-aware Geometry Transformer, multi-task Gaussian decoding, geometric foundation distillation, and occupancy entropy regularization to support novel view synthesis, open-vocabulary semantic querying, and semantic occupancy prediction within a single representation. Experiments on ScanNet and ScanNet++ show that COVScene maintains competitive rendering quality, improves open-vocabulary segmentation, and achieves stronger semantic occupancy prediction than the self-supervised baseline without direct voxel-level supervision.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/04/2607.02301v1-invsplat-inverse-feed-forward-scene-splatting",
+      "section": "deep",
+      "title_en": "InvSplat: Inverse Feed-Forward Scene Splatting",
+      "authors": "Polina Karpikova, Wenjing Bian, Haofei Xu, Hendrik Lensch, Andreas Geiger",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.02301v1",
+      "score": "9.0",
+      "evidence": "前向逆渲染实现新视角合成，使用3D高斯表示",
+      "tldr": "逆渲染旨在从多视图图像恢复3D几何与物理材质，现有优化方法保真度高但需逐场景拟合，耗时且难以泛化；学习方法多视角不一致且缺乏显式3D表示，导致新视角渲染不稳定。本文提出InvSplat，一种前馈多视图逆渲染框架，集成材质估计先验与3D重建骨干，直接预测携带反照率、金属度、粗糙度等物理参数的结构化3D高斯表示，实现单次前向推理。在合成与真实数据集上，该方法在多视角一致性、材质恢复精度及新视角渲染稳定性上显著优于2D基线，并支持物理重光照与逼真的视角相关效果。该工作为高效可泛化的逆渲染开辟了新路径。",
+      "tags": "query:d-recon",
+      "abstract_en": "Inverse rendering aims to recover both 3D geometry and physically meaningful material properties from images, enabling applications such as relighting and novel view synthesis. Optimization-based methods achieve high fidelity but require costly per-scene fitting, while image-space learning-based approaches often suffer from multi-view inconsistencies and lack an explicit 3D representation for stable novel view rendering. We present a feed-forward multi-view reconstruction framework for inverse rendering that directly predicts a structured 3D Gaussian representation with intrinsic material attributes. Each Gaussian primitive is parameterized by mean, normal, opacity, rotation, scale, albedo, metallic, and roughness, enabling a disentangled and physically grounded scene representation. Our model integrates priors from a material estimation network with a multi-view 3D reconstruction backbone, allowing joint prediction of geometry and reflectance parameters in a single forward pass. Experiments on synthetic and real-world datasets demonstrate improved multi-view consistency compared to 2D baselines, accurate material recovery, and stable novel view rendering. Our representation further supports physically-based relighting and more faithful modeling of view-dependent effects compared to existing RGB-based feed-forward reconstruction methods. Our project webpage is: $\\href{https://poliik.github.io/invsplat/}{\\text{https://poliik.github.io/invsplat/}}$.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/04/2607.01885v1-diversity-aware-view-partitioning-for-scalable-vggt",
+      "section": "quick",
+      "title_en": "Diversity-aware View Partitioning for Scalable VGGT",
+      "authors": "Jinsoo Park, Donggyu Choi, Ahyun Seo, Minsu cho, Jeany Son",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01885v1",
+      "score": "7.0",
+      "evidence": "面向可扩展多视图几何变换器的视图划分，提升重建质量",
+      "tldr": "VGGT等几何变压器通过全局注意力联合推理多视图效果好，但注意力二次复杂度限制了大视图集扩展，且冗余视图会稀释几何信号。本文提出无需训练的即插即用框架，将视图按视觉不相似性和空间分散性划分为多样性感知的均衡块，减少了注意力冗余。实验表明，该方法在相机位姿估计、多视图深度预测和3D重建上性能提升，同时降低内存和延迟。该框架可作为现有VGGT变体的补充，实现可扩展的多视图重建而不牺牲几何保真度。",
+      "tags": "query:d-recon",
+      "abstract_en": "Geometry transformers such as VGGT achieve strong performance by jointly reasoning over multiple views with global attention. However, scaling them to large view collections remains challenging due to the quadratic cost of attention. Moreover, our empirical analysis reveals that the reconstruction quality in VGGT is sensitive to the distribution of viewpoints. Simply increasing the number of views without sufficient viewpoint diversity can even degrade performance, as redundant views introduce highly similar tokens that dilute informative geometric signals in the attention mechanism. Motivated by this observation, we propose a training-free and plug-and-play VGGT inference framework that organizes views into diversity-aware balanced chunks. The chunks are constructed through combinatorial graph partitioning over visual dissimilarity and spatial dispersion. This view organization allows the transformer to focus attention on geometrically informative views while reducing redundant attention interactions. To estimate spatial dispersion without full pose estimation, we approximate spatial relationships via a soft pose propagation strategy based on visual similarity from a small set of seed frames. Extensive experiments demonstrate improved performance in camera pose estimation, multi-view depth prediction, and 3D reconstruction while reducing memory usage and inference latency. Our framework also complements existing VGGT variants, enabling scalable multi-view reconstruction without sacrificing geometric fidelity.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/04/2607.00498v1-robust-3d-alignment-of-generative-reconstructions-via-partial-monocular-observations",
+      "section": "quick",
+      "title_en": "Robust 3D Alignment of Generative Reconstructions via Partial Monocular Observations",
+      "authors": "Yuchen Zhang, Luanyuan Dai, Yiwei Wang, Xiwei Xu, Jianing Zhang, Johnny. r. zhang, Xianhui Meng, Yanbiao Ma, Jiayi Ma, Xiaoshuai Hao",
+      "date": "2026-07-01",
+      "pdf": "https://arxiv.org/pdf/2607.00498v1",
+      "score": "6.0",
+      "evidence": "将生成式3D重建与单目观测对齐",
+      "tldr": "针对生成式3D重建与部分单目观测对齐中的尺度模糊和几何幻觉问题，传统配准无效。本文提出无训练的可解释几何对齐框架，通过显式尺度因子和粗到细策略恢复度量尺度。引入幻觉滤波抑制异常值，在GenPMOAlign基准上实现稳定精确配准，显著超越经典和基于学习的基线。该基准和方法将推动生成式到部分单目观测对齐研究。",
+      "tags": "query:d-recon",
+      "abstract_en": "Aligning generative 3D reconstructions with partial monocular observations is a critical but under-explored challenge in computer vision. This task is inherently ill-posed due to severe asymmetries between noisy, sparse monocular inputs and dense generative priors, whose scale ambiguity and geometric hallucinations, combined with the lack of initial overlap, render traditional registration pipelines ineffective. To resolve these issues, we propose a training-free and interpretable geometric alignment framework that grounds generative 3D priors via a 3D similarity transformation (Sim(3)), which can recover accurate metric scale and pose. Specifically, we introduce an explicit scale factor to resolve metric ambiguity and employ a coarse-to-fine alignment strategy, leveraging geometry-aware descriptors for robust initialization and a decoupled closed-form solver for precision refinement. In addition, we introduce a Hallucination Filtering operation to effectively suppress outliers caused by hallucinated geometry. To evaluate alignment performance under these extreme conditions, we introduce GenPMOAlign--Where2Place, a rigorous benchmark specifically designed for Generative-to-Partial Monocular Observational Alignment. Experiments demonstrate that our method achieves stable and accurate registration, substantially outperforming both classical geometric pipelines and state-of-the-art learning-based baselines. Code and the benchmark will be publicly released.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
