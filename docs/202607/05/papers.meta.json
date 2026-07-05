@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-05",
+  "date": "2026-07-05",
+  "generated_at": "2026-07-05T21:08:08",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/05/2607.01222v1-ink3d-sculpting-3d-assets-with-extremely-complex-textures-via-video-generative-models",
+      "section": "deep",
+      "title_en": "Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models",
+      "authors": "Yue Han, Chong Li, Zhening Liu, Cong Huang, Fang Deng, Yong Liu, Fangyun Wei, Yan Lu",
+      "date": "2026-07-01",
+      "pdf": "https://arxiv.org/pdf/2607.01222v1",
+      "score": "8.0",
+      "evidence": "利用视频模型生成复杂纹理的3D资产",
+      "tldr": "现有3D生成模型因缺乏大规模纹理训练数据，难以从参考图像重现复杂纹理。Ink3D框架先重建白色网格几何，再通过条件视频生成模型OrbitPainter生成多视角扫描视频，最后用TextureOptimizer神经烘焙模块整合观测并修正不一致。该方法实现了比以往更丰富逼真的纹理生成，通过解耦几何与纹理合成并利用视频先验，显著提升了3D资产的纹理质量。",
+      "tags": "query:d-recon",
+      "abstract_en": "Recent 3D generative models can synthesize high-quality geometry but often struggle to reproduce intricate textures from reference images, largely due to the scarcity of large-scale 3D training data with rich surface appearance. In contrast, visual generative models are trained on datasets several orders of magnitude larger and excel at modeling complex visual patterns. Motivated by this gap, we introduce Ink3D, a framework that bridges 3D generation with large-scale video generative models to synthesize extremely complex textures. Ink3D first reconstructs a white-mesh geometry using an off-the-shelf 3D generation model. It then employs OrbitPainter, a conditional video generative model, to produce dense orbit-scan videos capturing object appearance across viewpoints. To convert these views into coherent textures, we introduce TextureOptimizer, a neural baking module that integrates dense multi-view observations while mitigating geometry inconsistencies arising from video generation. By decoupling geometry and texture synthesis and leveraging large-scale pretrained video priors, Ink3D enables significantly richer and more faithful texture generation than prior approaches.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/05/2607.01708v1-consistent-scene-understanding-in-3d-gaussian-splatting-via-multi-cue-mask-refinement",
+      "section": "quick",
+      "title_en": "Consistent Scene Understanding in 3D Gaussian Splatting via Multi-Cue Mask Refinement",
+      "authors": "Hyunjoon Park, Donghyeon Cho",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.01708v1",
+      "score": "7.0",
+      "evidence": "利用多视图一致性改进3D高斯泼溅的场景重建",
+      "tldr": "针对三维高斯溅射场景理解中因依赖2D分割模型导致的掩码碎片化和跨视图不一致问题，提出多线索掩码精炼框架。通过提取语义、几何、结构等多维线索，设计复合合并分数整合碎片掩码，并建立全局一致的跨视图身份匹配，将视图片段转化为连贯3D基元。实验在显著提升跨视图一致性与分割稳定性的同时，保持高保真光度重建，为下游编辑任务提供可靠支撑。",
+      "tags": "query:d-recon",
+      "abstract_en": "Reliable instance-level scene understanding is a fundamental prerequisite for object-level interactions and high-fidelity 3D representations. While current methods often leverage 2D foundation segmentation models to obtain these priors, their 2D-centric design typically yields fragmented masks and inconsistent predictions across different views. To address these issues, we propose a novel framework that produces consistent 2D instance masks to guide the optimization of 3D Gaussian Splatting (3DGS) feature fields. Our framework consists of three main stages. (1) Multi-Cue Extraction that generates synergistic semantic, geometric, and structural priors from input images. (2) Multi-Cue-Guided Mask Merging process that consolidates fragmented masks using a composite merge score derived from semantic, depth, and edge cues. (3) Cross-View Mask Matching that establishes globally consistent identity assignments across all viewpoints. By transforming viewpoint-specific segments into coherent 3D primitives, our approach enables stable 3D instance segmentation and effective downstream editing tasks. Experiments demonstrate that our method significantly improves cross-view consistency and segmentation stability over existing baselines while maintaining high-fidelity photometric reconstruction.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

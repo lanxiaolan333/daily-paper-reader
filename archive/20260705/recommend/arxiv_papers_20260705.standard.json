@@ -1,0 +1,95 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-05T21:06:19.116254+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.01222v1",
+      "source": "arxiv",
+      "title": "Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models",
+      "abstract": "Recent 3D generative models can synthesize high-quality geometry but often struggle to reproduce intricate textures from reference images, largely due to the scarcity of large-scale 3D training data with rich surface appearance. In contrast, visual generative models are trained on datasets several orders of magnitude larger and excel at modeling complex visual patterns. Motivated by this gap, we introduce Ink3D, a framework that bridges 3D generation with large-scale video generative models to synthesize extremely complex textures. Ink3D first reconstructs a white-mesh geometry using an off-the-shelf 3D generation model. It then employs OrbitPainter, a conditional video generative model, to produce dense orbit-scan videos capturing object appearance across viewpoints. To convert these views into coherent textures, we introduce TextureOptimizer, a neural baking module that integrates dense multi-view observations while mitigating geometry inconsistencies arising from video generation. By decoupling geometry and texture synthesis and leveraging large-scale pretrained video priors, Ink3D enables significantly richer and more faithful texture generation than prior approaches.",
+      "authors": [
+        "Yue Han",
+        "Chong Li",
+        "Zhening Liu",
+        "Cong Huang",
+        "Fang Deng",
+        "Yong Liu",
+        "Fangyun Wei",
+        "Yan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T17:56:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.01222v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D asset generation with complex textures using video models",
+      "llm_evidence_cn": "利用视频模型生成复杂纹理的3D资产",
+      "llm_evidence": "利用视频模型生成复杂纹理的3D资产",
+      "canonical_evidence": "利用视频模型生成复杂纹理的3D资产",
+      "llm_tldr_en": "Introduces Ink3D, a framework that first reconstructs white-mesh geometry via off-the-shelf 3D model, then uses OrbitPainter, a conditional video generative model, to synthesize dense orbit-scan videos for texturing, achieving extremely complex textures.",
+      "llm_tldr_cn": "现有3D生成模型因训练数据缺乏难以复制精细纹理。本文提出Ink3D，先使用现成3D生成模型重建白色网格，再通过条件视频生成模型OrbitPainter生成轨道扫描视频，为目标物体赋予极其复杂的纹理。该方法借助大规模视频生成先验，在纹理细节上远超现有方法，同时保持了几何质量。",
+      "llm_tldr": "现有3D生成模型因训练数据缺乏难以复制精细纹理。本文提出Ink3D，先使用现成3D生成模型重建白色网格，再通过条件视频生成模型OrbitPainter生成轨道扫描视频，为目标物体赋予极其复杂的纹理。该方法借助大规模视频生成先验，在纹理细节上远超现有方法，同时保持了几何质量。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.01708v1",
+      "source": "arxiv",
+      "title": "Consistent Scene Understanding in 3D Gaussian Splatting via Multi-Cue Mask Refinement",
+      "abstract": "Reliable instance-level scene understanding is a fundamental prerequisite for object-level interactions and high-fidelity 3D representations. While current methods often leverage 2D foundation segmentation models to obtain these priors, their 2D-centric design typically yields fragmented masks and inconsistent predictions across different views. To address these issues, we propose a novel framework that produces consistent 2D instance masks to guide the optimization of 3D Gaussian Splatting (3DGS) feature fields. Our framework consists of three main stages. (1) Multi-Cue Extraction that generates synergistic semantic, geometric, and structural priors from input images. (2) Multi-Cue-Guided Mask Merging process that consolidates fragmented masks using a composite merge score derived from semantic, depth, and edge cues. (3) Cross-View Mask Matching that establishes globally consistent identity assignments across all viewpoints. By transforming viewpoint-specific segments into coherent 3D primitives, our approach enables stable 3D instance segmentation and effective downstream editing tasks. Experiments demonstrate that our method significantly improves cross-view consistency and segmentation stability over existing baselines while maintaining high-fidelity photometric reconstruction.",
+      "authors": [
+        "Hyunjoon Park",
+        "Donghyeon Cho"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T05:00:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.01708v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves 3D Gaussian splatting using multi-view consistency for scene reconstruction",
+      "llm_evidence_cn": "利用多视图一致性改进3D高斯泼溅的场景重建",
+      "llm_evidence": "利用多视图一致性改进3D高斯泼溅的场景重建",
+      "canonical_evidence": "利用多视图一致性改进3D高斯泼溅的场景重建",
+      "llm_tldr_en": "Proposes a framework to refine 2D instance masks with multi-view consistency for guiding 3D Gaussian splatting optimization.",
+      "llm_tldr_cn": "针对2D分割模型在多视图中生成碎片化且不一致掩码的问题，提出多线索引导的掩码合并框架，通过语义、几何和结构先验，优化3D高斯泼溅的特征场，实现一致的场景理解。",
+      "llm_tldr": "针对2D分割模型在多视图中生成碎片化且不一致掩码的问题，提出多线索引导的掩码合并框架，通过语义、几何和结构先验，优化3D高斯泼溅的特征场，实现一致的场景理解。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
