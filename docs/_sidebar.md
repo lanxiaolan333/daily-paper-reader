@@ -1,6 +1,9 @@
 * <a class="dpr-sidebar-root-link" href="#/">首页</a>
 * <a class="dpr-sidebar-root-link dpr-sidebar-noactive-link" href="javascript:void(0)" data-dpr-hash="#/tutorial/README">使用教程</a>
 * Daily Papers
+  * 2026-07-06 <!--dpr-date:20260706-->
+    * 速读区
+      * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/06/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video" data-sidebar-item="{&quot;title&quot;: &quot;Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video&quot;, &quot;score&quot;: &quot;7.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;d-recon&quot;}], &quot;evidence&quot;: &quot;通过渐进式3DGS优化从单目视频重建4D动物模型&quot;}">Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video</a>
   * 2026-07-05 <!--dpr-date:20260705-->
     * 精读区
       * <a class="dpr-sidebar-item-link dpr-sidebar-item-structured" href="#/202607/05/2607.01222v1-ink3d-sculpting-3d-assets-with-extremely-complex-textures-via-video-generative-models" data-sidebar-item="{&quot;title&quot;: &quot;Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models&quot;, &quot;link&quot;: &quot;https://arxiv.org/abs/2607.01222v1-ink3d-sculpting-3d-assets-with-extremely-complex-textures-via-video-generative-models&quot;, &quot;score&quot;: &quot;8.0&quot;, &quot;tags&quot;: [{&quot;kind&quot;: &quot;query&quot;, &quot;label&quot;: &quot;d-recon&quot;}], &quot;evidence&quot;: &quot;利用视频模型生成复杂纹理的3D资产&quot;}">Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models</a>

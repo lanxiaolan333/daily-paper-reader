@@ -1,0 +1,94 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-06T20:44:58.283693+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2607.00157v1",
+      "source": "arxiv",
+      "title": "Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video",
+      "abstract": "Reconstructing 4D animals from monocular videos is challenging due to large inter-species variation, complex articulations, and the lack of reliable templates. Existing approaches typically rely on either strict category-specific priors that restrict generalization, or unconstrained generative models that sacrifice input fidelity. To bridge this gap, we present a progressive test-time optimization framework built on 3D Gaussian Splatting for high-fidelity 4D animal reconstruction from a single video. Our key insight is that a coarse shape prior suffices when coupled with a progressive strategy that disentangles articulated pose from non-rigid deformation. Specifically, we employ a symmetry-aware temporal encoding that exploits bilateral cues while absorbing camera estimation drift and a part-conditioned deformation mechanism guided by learnable part anchors and a learnable skinning field. Extensive experiments demonstrate that our approach generalizes robustly across diverse species, achieving superior geometric accuracy, temporal consistency, and visual fidelity compared to existing baselines, even under severe prior mismatch.",
+      "authors": [
+        "Siyuan Li",
+        "Weiying Chen",
+        "Yilin Wang",
+        "Xinxin Zuo",
+        "Xingyu Li",
+        "Li Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T20:32:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.00157v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "4D animal reconstruction from monocular video via progressive 3DGS optimization",
+      "llm_evidence_cn": "通过渐进式3DGS优化从单目视频重建4D动物模型",
+      "llm_evidence": "通过渐进式3DGS优化从单目视频重建4D动物模型",
+      "canonical_evidence": "通过渐进式3DGS优化从单目视频重建4D动物模型",
+      "llm_tldr_en": "A progressive test-time optimization framework using 3DGS for high-fidelity 4D animal reconstruction from a single monocular video without category-specific priors.",
+      "llm_tldr_cn": "针对单目视频中4D动物重建的挑战（物种差异大、无可靠模板），提出渐进式测试优化框架，基于3D高斯溅射，通过解耦姿态与非刚性变形实现高保真重建，无需类别先验，实验展示了跨物种的泛化能力。",
+      "llm_tldr": "针对单目视频中4D动物重建的挑战（物种差异大、无可靠模板），提出渐进式测试优化框架，基于3D高斯溅射，通过解耦姿态与非刚性变形实现高保真重建，无需类别先验，实验展示了跨物种的泛化能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-30-735390-v1",
+      "source": "biorxiv",
+      "title": "Tissue tearing degrades optimal-transport and diffeomorphic registration of spatial transcriptomics beyond displacement magnitude: a multi-seed deformation benchmark and a supervised graph cross-attention proof-of-concept.",
+      "abstract": "Background. Three-dimensional reconstruction from serial spatial-transcriptomics (ST) sections requires registering adjacent slices, but physical sectioning introduces tears -- discontinuous, non-isometric deformations. Leading methods rely on priors that tears strain: PASTE/PASTE2 use Fused Gromov-Wasserstein optimal transport (OT), which assumes near-isometric preservation of within-slice distances, while STalign and CODA use diffeomorphic (LDDMM) mapping, which cannot change tissue topology. Learned-deformation ST methods are emerging (STaCker, INST-Align), but OT/diffeomorphic behaviour under tearing has not been systematically characterised. Methods. On the spatialLIBD human DLPFC Visium dataset (Maynard et al., 2021; 3 donors), we build a controlled benchmark -- known smooth warps, single-block rigid tears (expression unchanged), and an identity self-control -- at severities of 0-8 spot pitches, scored against an approximate array-position ground truth (~8 px residual). We evaluate three unsupervised incumbents -- PASTE2 (OT, over five warp seeds), STalign (diffeomorphic LDDMM), and GPSA (Gaussian-process warp) -- add a magnitude-matched smooth control, and test a minimal graph model, Sutura (per-slice graph encoder -> cross-attention correspondence -> per-spot displacement; spatial coupling is local kNN message passing only, no explicit smoothness penalty). Sutura is trained supervised on each tissue's ground truth; all baselines are unsupervised. Generalisation is assessed by leave-one-donor-out across all three donors. Results. OT registration is robust to smooth warps but degrades reproducibly under tearing: nearest-correspondence (argmax) error 722 +/- 5 -> 855 +/- 27 px and layer accuracy 64.9% -> 60.5% (mean +/- 95% CI, 5 seeds). The effect is not merely displacement magnitude: at a matched mean displacement (~2000 px), a smooth warp costs 769 px / 60.2% accuracy whereas a tear costs 863 px / 57.5% -- an extra ~100 px and ~3 points attributable to the discontinuity. STalign (LDDMM) and GPSA (GP warp) both collapse at severe tears (866 px and 931 px respectively), confirming tear-collapse is field-wide across three independent method families. Trained and evaluated on the same donor, Sutura fits torn-tissue correspondence to a median 99 -> 106 px (5-seed), but under leave-one-donor-out is 1236 +/- 2 -> 1584 +/- 52 px -- approximately 1.8-3.6x worse than PASTE2 on every unseen donor. A contrastive correspondence loss halves the gap on two of three donors (to 816 -> 949 and 749 -> 826 px, approximately 1.1-1.2x PASTE2 at worst-case tear) but is modest on the third and never surpasses PASTE2. Conclusion. Tearing is a real, magnitude-controlled failure mode of all three incumbent method classes. A learned model fits it in-sample but donor-invariant generalisation remains open. The contrastive fix roughly halves the held-out gap on two of three donors and nears PASTE2 at worst-case tear, but does not surpass it: donor-invariance is improved, not solved. The durable contribution is the benchmark, the characterisation across three method families, and an honest negative with a diagnosed mechanism.",
+      "authors": [
+        "Maniar, R. K.",
+        "Lee, S. G.",
+        "Lee, S. S."
+      ],
+      "primary_category": "bioinformatics",
+      "categories": [
+        "bioinformatics"
+      ],
+      "published": "2026-07-05T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.30.735390v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D reconstruction from serial ST sections using registration",
+      "llm_evidence_cn": "从序列空间转录组切片进行三维重建，涉及图像配准",
+      "llm_evidence": "从序列空间转录组切片进行三维重建，涉及图像配准",
+      "canonical_evidence": "从序列空间转录组切片进行三维重建，涉及图像配准",
+      "llm_tldr_en": "Physical tearing in tissue sections degrades standard OT/diffeomorphic registration for 3D reconstruction of spatial transcriptomics; proposes supervised graph cross-attention as robust alternative.",
+      "llm_tldr_cn": "空间转录组学的三维重建需配准相邻切片，但物理切片引入撕裂导致非等距形变，使最优传输和微分同胚类方法失效。本文针对该问题构建了多种子形变基准，并提出了一个受监督图交叉注意力机制作为鲁棒配准方案。实验表明该方法在撕裂场景下优于传统配准方法。",
+      "llm_tldr": "空间转录组学的三维重建需配准相邻切片，但物理切片引入撕裂导致非等距形变，使最优传输和微分同胚类方法失效。本文针对该问题构建了多种子形变基准，并提出了一个受监督图交叉注意力机制作为鲁棒配准方案。实验表明该方法在撕裂场景下优于传统配准方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

@@ -6,26 +6,28 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-05
-- 运行时间：2026-07-05 21:08:00 UTC
+- 最新运行日期：2026-07-06
+- 运行时间：2026-07-06 20:45:51 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：1
+- 本次总论文数：1
+- 精读区：0
 - 速读区：1
 
 ### 今日简报（AI）
-今日聚焦利用视频生成模型创作复杂纹理3D资产，并探索3D场景理解中的掩码细化方法。最值得关注的是视频生成模型驱动3D纹理雕刻（8.0分），以及多线索掩码一致性提升场景理解（7.0分）。建议普通读者尝试将视频生成模型用于3D资产纹理设计，并关注掩码细化技术优化场景理解。
-- 详情：[/202607/05/README](/202607/05/README)
+今日速读1篇论文，聚焦单目视频中动物4D重建的新方法。
+
+最值得关注的是姿态引导下渐进式重建动物骨骼与运动，解决视频中动态形变难题。
+
+建议关注该方法如何利用姿态先验提升重建精度，尤其对动画、影视制作有实用参考。
+- 详情：[/202607/06/README](/202607/06/README)
 
 ### 精读区论文标签
-1. [Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models](/202607/05/2607.01222v1-ink3d-sculpting-3d-assets-with-extremely-complex-textures-via-video-generative-models)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：利用视频模型生成复杂纹理的3D资产
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Consistent Scene Understanding in 3D Gaussian Splatting via Multi-Cue Mask Refinement](/202607/05/2607.01708v1-consistent-scene-understanding-in-3d-gaussian-splatting-via-multi-cue-mask-refinement)  
+1. [Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video](/202607/06/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video)  
    标签：评分：7.0/10、query:d-recon
-   evidence：利用多视图一致性改进3D高斯泼溅的场景重建
+   evidence：通过渐进式3DGS优化从单目视频重建4D动物模型
 
 
 <div class="dpr-home-promo-card">

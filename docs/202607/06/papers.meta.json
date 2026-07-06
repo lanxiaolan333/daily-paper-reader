@@ -1,0 +1,39 @@
+{
+  "label": "2026-07-06",
+  "date": "2026-07-06",
+  "generated_at": "2026-07-06T20:45:57",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202607/06/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video",
+      "section": "quick",
+      "title_en": "Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video",
+      "authors": "Siyuan Li, Weiying Chen, Yilin Wang, Xinxin Zuo, Xingyu Li, Li Cheng",
+      "date": "2026-06-30",
+      "pdf": "https://arxiv.org/pdf/2607.00157v1",
+      "score": "7.0",
+      "evidence": "通过渐进式3DGS优化从单目视频重建4D动物模型",
+      "tldr": "从单目视频重建4D动物因物种差异大、关节复杂而困难。现有方法依赖严格类别先验或牺牲保真度的生成模型。本文提出渐进测试时优化框架，基于3D高斯溅射，解耦关节姿态与非刚性变形，通过对称感知时序编码和部分条件变形机制实现鲁棒重建。实验表明，该方法跨物种泛化性强，几何精度、时序一致性和视觉保真度均优于基线，即使先验严重不匹配也能保持高质量。",
+      "tags": "query:d-recon",
+      "abstract_en": "Reconstructing 4D animals from monocular videos is challenging due to large inter-species variation, complex articulations, and the lack of reliable templates. Existing approaches typically rely on either strict category-specific priors that restrict generalization, or unconstrained generative models that sacrifice input fidelity. To bridge this gap, we present a progressive test-time optimization framework built on 3D Gaussian Splatting for high-fidelity 4D animal reconstruction from a single video. Our key insight is that a coarse shape prior suffices when coupled with a progressive strategy that disentangles articulated pose from non-rigid deformation. Specifically, we employ a symmetry-aware temporal encoding that exploits bilateral cues while absorbing camera estimation drift and a part-conditioned deformation mechanism guided by learnable part anchors and a learnable skinning field. Extensive experiments demonstrate that our approach generalizes robustly across diverse species, achieving superior geometric accuracy, temporal consistency, and visual fidelity compared to existing baselines, even under severe prior mismatch.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/06/biorxiv-10-64898-2026-06-30-735390-v1-tissue-tearing-degrades-optimal-transport-and-diffeomorphic-registration-of-spatial-transcriptomics-beyond-displacement-magnitude-a-multi-seed-deformation-benchmark-and-a-supervised-graph-cross-attention-proof-of-concept",
+      "section": "quick",
+      "title_en": "",
+      "authors": "",
+      "date": "",
+      "pdf": "",
+      "score": "",
+      "evidence": "",
+      "tldr": "",
+      "tags": "",
+      "abstract_en": "Background. Three-dimensional reconstruction from serial spatial-transcriptomics (ST) sections requires registering adjacent slices, but physical sectioning introduces tears -- discontinuous, non-isometric deformations. Leading methods rely on priors that tears strain: PASTE/PASTE2 use Fused Gromov-Wasserstein optimal transport (OT), which assumes near-isometric preservation of within-slice distances, while STalign and CODA use diffeomorphic (LDDMM) mapping, which cannot change tissue topology. Learned-deformation ST methods are emerging (STaCker, INST-Align), but OT/diffeomorphic behaviour under tearing has not been systematically characterised. Methods. On the spatialLIBD human DLPFC Visium dataset (Maynard et al., 2021; 3 donors), we build a controlled benchmark -- known smooth warps, single-block rigid tears (expression unchanged), and an identity self-control -- at severities of 0-8 spot pitches, scored against an approximate array-position ground truth (~8 px residual). We evaluate three unsupervised incumbents -- PASTE2 (OT, over five warp seeds), STalign (diffeomorphic LDDMM), and GPSA (Gaussian-process warp) -- add a magnitude-matched smooth control, and test a minimal graph model, Sutura (per-slice graph encoder -> cross-attention correspondence -> per-spot displacement; spatial coupling is local kNN message passing only, no explicit smoothness penalty). Sutura is trained supervised on each tissue's ground truth; all baselines are unsupervised. Generalisation is assessed by leave-one-donor-out across all three donors. Results. OT registration is robust to smooth warps but degrades reproducibly under tearing: nearest-correspondence (argmax) error 722 +/- 5 -> 855 +/- 27 px and layer accuracy 64.9% -> 60.5% (mean +/- 95% CI, 5 seeds). The effect is not merely displacement magnitude: at a matched mean displacement (~2000 px), a smooth warp costs 769 px / 60.2% accuracy whereas a tear costs 863 px / 57.5% -- an extra ~100 px and ~3 points attributable to the discontinuity. STalign (LDDMM) and GPSA (GP warp) both collapse at severe tears (866 px and 931 px respectively), confirming tear-collapse is field-wide across three independent method families. Trained and evaluated on the same donor, Sutura fits torn-tissue correspondence to a median 99 -> 106 px (5-seed), but under leave-one-donor-out is 1236 +/- 2 -> 1584 +/- 52 px -- approximately 1.8-3.6x worse than PASTE2 on every unseen donor. A contrastive correspondence loss halves the gap on two of three donors (to 816 -> 949 and 749 -> 826 px, approximately 1.1-1.2x PASTE2 at worst-case tear) but is modest on the third and never surpasses PASTE2. Conclusion. Tearing is a real, magnitude-controlled failure mode of all three incumbent method classes. A learned model fits it in-sample but donor-invariant generalisation remains open. The contrastive fix roughly halves the held-out gap on two of three donors and nears PASTE2 at worst-case tear, but does not surpass it: donor-invariance is improved, not solved. The durable contribution is the benchmark, the characterisation across three method families, and an honest negative with a diagnosed mechanism.",
+      "source": "",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
