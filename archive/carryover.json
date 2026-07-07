@@ -1,12 +1,138 @@
 {
-  "generated_at": "2026-07-06T20:44:58.284231+00:00",
-  "updated_date": "20260706",
+  "generated_at": "2026-07-07T20:45:49.392256+00:00",
+  "updated_date": "20260707",
   "carryover_days": 9,
   "tag_states": {
     "d-recon": {
-      "updated_date": "20260706",
+      "updated_date": "20260707",
       "carryover_days": 9,
-      "items": []
+      "items": [
+        {
+          "id": "2607.05373v1",
+          "source": "arxiv",
+          "title": "PixWorld: Unifying 3D Scene Generation and Reconstruction in Pixel Space",
+          "abstract": "3D reconstruction and generation are commonly tackled by separate paradigms: pixel-based regression for reconstruction, and latent diffusion for generation. Recent works attempt to unify them in latent space, but with notable drawbacks: the diffusion objective is defined on latent features rather than the underlying 3D representation, and both branches suffer from information loss introduced by latent encoding, while requiring a pretrained Variational Autoencoder (VAE) or Representation Autoencoder (RAE). In this paper, we reformulate these two tasks under a unified pixel-space diffusion paradigm and introduce PixWorld, a single model that jointly addresses 3D reconstruction and generation. By supervising diffusion directly on rendered images, PixWorld removes the above limitations and aligns optimization with 3D scene fidelity. Beyond photometric and perceptual supervision that operates at the 2D image level and lacks 3D geometric awareness, we further introduce a geometry perception loss that aligns rendered views with their ground truth in the geometry-aware feature space of a pretrained 3D foundation model, providing 3D structural supervision. PixWorld consistently outperforms prior latent-space generation methods and matches state-of-the-art reconstruction methods, demonstrating the superiority of a unified pixel-space approach.",
+          "authors": [
+            "Sensen Gao",
+            "Zhaoqing Wang",
+            "Qihang Cao",
+            "Dongdong Yu",
+            "Changhu Wang",
+            "Jia-Wang Bian"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-06T17:51:00+00:00",
+          "link": "https://arxiv.org/pdf/2607.05373v1",
+          "tags": [
+            "keyword:d-recon",
+            "query:d-recon"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "unifies 3D reconstruction and generation in pixel space from images",
+          "llm_evidence_cn": "在像素空间统一三维重建与生成",
+          "llm_evidence": "在像素空间统一三维重建与生成",
+          "canonical_evidence": "在像素空间统一三维重建与生成",
+          "llm_tldr_en": "PixWorld unifies 3D reconstruction and generation under a pixel-space diffusion paradigm, supervising diffusion directly on rendered images to avoid information loss from latent encoding.",
+          "llm_tldr_cn": "三维重建与生成通常采用不同范式，潜空间统一方法存在信息损失。PixWorld提出像素空间扩散范式，直接在渲染图像上监督扩散过程，从而同时处理重建与生成任务。实验表明该方法在多种场景下均能产生高质量重建和生成结果。",
+          "llm_tldr": "三维重建与生成通常采用不同范式，潜空间统一方法存在信息损失。PixWorld提出像素空间扩散范式，直接在渲染图像上监督扩散过程，从而同时处理重建与生成任务。实验表明该方法在多种场景下均能产生高质量重建和生成结果。",
+          "llm_tags": [
+            "query:d-recon"
+          ],
+          "matched_query_tag": "query:d-recon",
+          "matched_query_text": "how to reconstruct 3D models from multiple images",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.05373v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.05356v1",
+          "source": "arxiv",
+          "title": "ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction",
+          "abstract": "Streaming 3D reconstruction relies on a compact recurrent scene state to process long image streams in linear time and bounded memory. However, repeated updates can gradually corrupt this state, causing reliable historical information to be overwritten by noisy or ambiguous observations. We introduce ReCal3R, a reliability-calibrated learning rate method for recurrent 3D reconstruction. Instead of directly applying a candidate learning rate, our method estimates state token reliability from the maintained scene state and uses it to calibrate a candidate learning rate derived from token alignment, state reconstruction residual, and recent update pressure. The resulting token-wise learning rate interpolates between a conservative base rate and the candidate rate, suppressing aggressive updates on unreliable tokens while preserving adaptation to informative frames. Applied to CUT3R as a training-free calibration rule, ReCal3R reaches strong performance on long sequences in pose, depth, and reconstruction quality, including a 3.7$\\times$ reduction in ATE, with comparable runtime and memory. Code is available at: https://github.com/Powertony102/ReCal3R.",
+          "authors": [
+            "Xinze Li",
+            "Yiyuan Wang",
+            "Pengxu Chen",
+            "Wentao Fan",
+            "Weifeng Su",
+            "Weisi Lin",
+            "Wentao Cheng"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-06T17:35:18+00:00",
+          "link": "https://arxiv.org/pdf/2607.05356v1",
+          "tags": [
+            "keyword:d-recon",
+            "query:d-recon"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "streaming 3D reconstruction from long image streams",
+          "llm_evidence_cn": "从长图像流进行流式三维重建",
+          "llm_evidence": "从长图像流进行流式三维重建",
+          "canonical_evidence": "从长图像流进行流式三维重建",
+          "llm_tldr_en": "ReCal3R introduces a reliability-calibrated learning rate method for recurrent 3D reconstruction from streaming images, preventing state corruption from noisy observations.",
+          "llm_tldr_cn": "流式三维重建中重复更新会逐渐破坏场景状态。ReCal3R通过估计状态令牌可靠性来校准学习率，在保守基率和候选率之间插值，从而保留可靠历史信息。实验表明该方法在多个流式重建任务上提高了稳定性与精度。",
+          "llm_tldr": "流式三维重建中重复更新会逐渐破坏场景状态。ReCal3R通过估计状态令牌可靠性来校准学习率，在保守基率和候选率之间插值，从而保留可靠历史信息。实验表明该方法在多个流式重建任务上提高了稳定性与精度。",
+          "llm_tags": [
+            "query:d-recon"
+          ],
+          "matched_query_tag": "query:d-recon",
+          "matched_query_text": "how to reconstruct 3D models from multiple images",
+          "matched_requirement_id": "req-3",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.05356v1",
+          "carry_days": 1
+        },
+        {
+          "id": "2607.05347v1",
+          "source": "arxiv",
+          "title": "WildSplat: Feedforward Gaussian Splatting from Unposed In-the-Wild Images",
+          "abstract": "While feedforward 3D reconstruction excels at efficient novel view synthesis, it typically falters when faced with scenes under varying illumination. To this end, we introduce WildSplat, the first feedforward 3D Gaussian Splatting framework capable of appearance-conditioned novel-view synthesis for unposed in-the-wild images. To handle inconsistent photometric conditions, we propose a dual-branch architecture that explicitly decouples geometry from appearance. The geometry branch extracts an appearance-invariant 3D structure and jointly predicts camera poses. To govern the rendering appearance, the appearance branch injects target appearance cues into the content features via a globally pre-modulated cross-attention mechanism. To further prevent feature entanglement, we introduce a joint multi-reference training strategy that stabilizes the training process. Extensive experiments show that WildSplat surpasses existing optimization-based and feedforward methods, achieving state-of-the-art performance in in-the-wild novel view synthesis and appearance editing from sparse inputs in a single forward pass.",
+          "authors": [
+            "Xiyu Zhang",
+            "Jingyu Zhuang",
+            "Hongjia Zhai",
+            "Zizheng Yan",
+            "Jinwei Chen",
+            "Guofeng Zhang",
+            "Qingnan Fan"
+          ],
+          "primary_category": "cs.CV",
+          "categories": [
+            "cs.CV"
+          ],
+          "published": "2026-07-06T17:29:44+00:00",
+          "link": "https://arxiv.org/pdf/2607.05347v1",
+          "tags": [
+            "keyword:d-recon",
+            "query:d-recon"
+          ],
+          "llm_score": 8.0,
+          "llm_evidence_en": "appearance-conditioned novel view synthesis from unposed in-the-wild images",
+          "llm_evidence_cn": "对未配准野外图像进行外观条件新视角合成",
+          "llm_evidence": "对未配准野外图像进行外观条件新视角合成",
+          "canonical_evidence": "对未配准野外图像进行外观条件新视角合成",
+          "llm_tldr_en": "Presents WildSplat, the first feedforward 3D Gaussian Splatting framework for appearance-conditioned novel view synthesis from unposed in-the-wild images, using dual-branch architecture to decouple geometry from appearance.",
+          "llm_tldr_cn": "针对喂入式3D重建在光照变化环境下合成质量下降的问题，提出WildSplat框架，通过双分支结构解耦几何和外观，几何分支提取光照不变结构并预测姿态，外观分支通过全局预调制交叉注意力控制渲染外观，在野外图像上实现高质量新视角合成。",
+          "llm_tldr": "针对喂入式3D重建在光照变化环境下合成质量下降的问题，提出WildSplat框架，通过双分支结构解耦几何和外观，几何分支提取光照不变结构并预测姿态，外观分支通过全局预调制交叉注意力控制渲染外观，在野外图像上实现高质量新视角合成。",
+          "llm_tags": [
+            "query:d-recon"
+          ],
+          "matched_query_tag": "query:d-recon",
+          "matched_query_text": "neural radiance field for novel view synthesis",
+          "matched_requirement_id": "req-2",
+          "selection_source": "carryover_cache",
+          "paper_id": "2607.05347v1",
+          "carry_days": 1
+        }
+      ]
     }
   }
 }

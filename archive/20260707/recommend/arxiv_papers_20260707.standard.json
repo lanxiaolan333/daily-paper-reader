@@ -1,0 +1,669 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-07T20:45:49.390944+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 14,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 14,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2607.03209v1",
+      "source": "arxiv",
+      "title": "Fast 3D Foundation Model Initialized Gaussian Splatting",
+      "abstract": "This paper introduces a fast method for high-quality 3D Gaussian Splatting (3DGS) reconstruction without traditional Structure-from-Motion (SfM). The proposed approach leverages 3D Foundation Models (3DFMs) for camera pose and point-cloud initialization, then jointly optimizes both camera poses and Gaussian primitives using a depth-guided loss function. This enables fast convergence even from rough initialization with as few as 50-60 input views. To further improve reconstruction quality in sparse-view scenarios, an MLP-based pose refinement module is introduced alongside depth-guided supervision from the foundation model. Extensive experiments on Mip-NeRF 360, Tanks and Temples, and RobustNeRF demonstrate that the proposed method achieves competitive reconstruction quality (23.61 dB PSNR, 0.19 LPIPS) while reducing training time to approximately three minutes per scene. The proposed method produces ready-to-use 3DGS models at a fraction of the time required by existing pipelines, making it suitable for near real-time applications in robotics, VR, and autonomous navigation.",
+      "authors": [
+        "Anurag Dalal",
+        "Daniel Hagen",
+        "Kjell G. Robbersmyr",
+        "Kristian Muri Knausgård"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-07-03T11:24:27+00:00",
+      "link": "https://arxiv.org/pdf/2607.03209v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "uses point cloud initialization from 3D foundation model",
+      "llm_evidence_cn": "使用3D基础模型进行点云初始化",
+      "llm_evidence": "使用3D基础模型进行点云初始化",
+      "canonical_evidence": "使用3D基础模型进行点云初始化",
+      "llm_tldr_en": "Proposes fast 3D Gaussian Splatting reconstruction without SfM by leveraging 3D foundation models for camera pose and point cloud initialization, achieving high quality with as few as 50-60 views.",
+      "llm_tldr_cn": "针对传统SfM初始化耗时问题，提出快速3DGS重建方法，利用3D基础模型初始化相机姿态和点云，联合优化姿态和高斯基元。在多个数据集上仅50-60张视图实现高质量重建，大幅降低初始化时间。",
+      "llm_tldr": "针对传统SfM初始化耗时问题，提出快速3DGS重建方法，利用3D基础模型初始化相机姿态和点云，联合优化姿态和高斯基元。在多个数据集上仅50-60张视图实现高质量重建，大幅降低初始化时间。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03765v1",
+      "source": "arxiv",
+      "title": "Sparse-View Surface Reconstruction using Gaussian Splatting through High-Confidence Depth Propagation with Normal Priors",
+      "abstract": "3D reconstruction from sparse views is a challenging task in 3D computer vision. Recent studies on 3D Gaussian Splatting (3DGS) have achieved remarkable results with sparse views in novel view synthesis, yet reconstructing high-quality geometric surfaces from sparse views remains a challenge, due to the limited geometry clues and the discreteness of Gaussians. In this paper, we propose a novel 3DGS-based method for high-fidelity surface reconstruction from sparse views. Our key insight is to introduce a normal-guided depth propagation approach, which can extend depth information from high-confidence regions to constrain the depth in low-confidence areas. Additionally, we propose an abnormal depth edge-aware regularization to address depth discontinuities caused by the discreteness of Gaussians. Extensive experiments on DTU and Tanks-and-Temples datasets demonstrate that our method outperforms the state-of-the-art methods in sparse view surface reconstruction. Project page: https://hanl2010.github.io/DP-GS.",
+      "authors": [
+        "Liang Han",
+        "Bangcai Wei",
+        "Junsheng Zhou",
+        "Yu-Shen Liu",
+        "Zhizhong Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T08:33:40+00:00",
+      "link": "https://arxiv.org/pdf/2607.03765v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sparse-view surface reconstruction using Gaussian splatting with depth propagation",
+      "llm_evidence_cn": "基于高斯溅射的稀疏视角表面重建，结合深度传播",
+      "llm_evidence": "基于高斯溅射的稀疏视角表面重建，结合深度传播",
+      "canonical_evidence": "基于高斯溅射的稀疏视角表面重建，结合深度传播",
+      "llm_tldr_en": "3DGS-based method for high-fidelity surface reconstruction from sparse views using normal-guided depth propagation.",
+      "llm_tldr_cn": "该论文针对稀疏视角下3D高斯溅射重建几何表面困难的问题，提出法线引导的深度传播策略，将高置信度区域的深度信息扩展到低置信度区域，同时检测异常深度边缘，实现高质量表面重建，在稀疏视角下取得了优越的几何精度。",
+      "llm_tldr": "该论文针对稀疏视角下3D高斯溅射重建几何表面困难的问题，提出法线引导的深度传播策略，将高置信度区域的深度信息扩展到低置信度区域，同时检测异常深度边缘，实现高质量表面重建，在稀疏视角下取得了优越的几何精度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04169v1",
+      "source": "arxiv",
+      "title": "Neural LiDAR Bundle Adjustment",
+      "abstract": "Recent research has achieved remarkable novel view rendering and scene reconstruction results with Neural Radiance Field (NeRF), including extensions to the LiDAR modality. Few studies have, however, explored the key design differences between RGB NeRFs and LiDAR NeRFs, particularly considering their underlying working principles. In this work, we provide both theoretical and empirical evidence suggesting that the density of volume sampling plays a significant role in LiDAR NeRF. Based on this finding, we propose a novel Neural LiDAR Bundle Adjustment (NeLD-BA) algorithm, which is tailored using efficient volume sampling of LiDAR rays for joint optimization of LiDAR map and poses. Extensive experiments are performed using the Newer College and FusionPortable datasets to demonstrate the proposed NeLD-BA's state-of-the-art performance in multi-view point cloud registration and 3D mapping. We will open-source our code for the community.",
+      "authors": [
+        "Chin Yung Anson Hon",
+        "Kaicheng Zhang",
+        "Sen Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-05T08:16:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.04169v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "neural radiance field (NeRF) for LiDAR novel view synthesis and scene reconstruction",
+      "llm_evidence_cn": "针对LiDAR的神经辐射场新视角合成与场景重建",
+      "llm_evidence": "针对LiDAR的神经辐射场新视角合成与场景重建",
+      "canonical_evidence": "针对LiDAR的神经辐射场新视角合成与场景重建",
+      "llm_tldr_en": "Neural LiDAR Bundle Adjustment proposes a NeRF-based method for joint optimization of LiDAR map and poses, focusing on efficient volume sampling for LiDAR rays.",
+      "llm_tldr_cn": "现有NeRF扩展到LiDAR时忽略了RGB与LiDAR NeRF的本质差异。本文提出NeLD-BA，针对LiDAR射线设计高效体素采样策略，联合优化地图和位姿。在Newer College等数据集上验证了方法的有效性，显著提升了LiDAR场景重建精度。",
+      "llm_tldr": "现有NeRF扩展到LiDAR时忽略了RGB与LiDAR NeRF的本质差异。本文提出NeLD-BA，针对LiDAR射线设计高效体素采样策略，联合优化地图和位姿。在Newer College等数据集上验证了方法的有效性，显著提升了LiDAR场景重建精度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.04898v1",
+      "source": "arxiv",
+      "title": "3DMPE: 3D Multi-Perspective Embedding",
+      "abstract": "We study 3D point cloud reconstruction from multiple partially observed 2D projections. Given two or more projections of an unknown 3D point cloud, together with cross-view point correspondences and visibility information, our goal is to recover a consistent 3D configuration when different views contain different subsets of points. We propose 3D Multi-Perspective Embedding (3DMPE), an optimization-based, training-free method that reconstructs the 3D point cloud and, in the variable-projection setting, jointly estimates the projection maps. 3DMPE extends Multi-Perspective Simultaneous Embedding to accommodate missing points and incomplete pairwise distance information across views. We consider both fixed-projection and variable-projection settings. Unlike learning-based reconstruction methods that infer shape from raw images and often depend on training data, 3DMPE operates on geometric observations with established correspondences and does not require category-specific training. Experiments on ShapeNet and Pix3D evaluate reconstruction quality using Chamfer Distance, Earth Mover Distance, and RMSE-Optimize-Align (ROA), and examine the effects of initialization, the number of views, point visibility, and several noise regimes, including noisy distances and erroneous correspondences. The results demonstrate that 3DMPE can effectively reconstruct point clouds from partial multi-view geometric observations.",
+      "authors": [
+        "Vahan Huroyan",
+        "Md Rahat-uz-Zaman",
+        "Stephen Kobourov"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.CG"
+      ],
+      "published": "2026-07-06T10:28:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.04898v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "point cloud reconstruction from multiple 2D projections",
+      "llm_evidence_cn": "从多个2D投影重建3D点云",
+      "llm_evidence": "从多个2D投影重建3D点云",
+      "canonical_evidence": "从多个2D投影重建3D点云",
+      "llm_tldr_en": "Optimization-based method for 3D point cloud reconstruction from multiple partially observed projections.",
+      "llm_tldr_cn": "该论文针对从多个部分可见的2D投影重建3D点云的问题，提出3DMPE优化方法，扩展了多视角同时嵌入以处理缺失点和跨视图不完全距离信息，无需训练即可重建一致3D点云，并支持变量投影设置。",
+      "llm_tldr": "该论文针对从多个部分可见的2D投影重建3D点云的问题，提出3DMPE优化方法，扩展了多视角同时嵌入以处理缺失点和跨视图不完全距离信息，无需训练即可重建一致3D点云，并支持变量投影设置。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.30047v3",
+      "source": "arxiv",
+      "title": "Argus: Metric Panoramic 3D Reconstruction for Indoor Scenes",
+      "abstract": "Metric feed-forward 3D reconstruction for panoramic data remains under-explored due to the lack of large-scale panoramic RGB-D training data. We present Realsee3D, a hybrid dataset of 10K indoor scenes (1K real, 9K synthetic) with 299K panoramic viewpoints and precise metric annotations, and Argus, a feed-forward network trained on it for metric panoramic 3D reconstruction. In the sparse unordered capture setting of Realsee3D, a poorly chosen coordinate anchor can cause global pose drift. Argus addresses this with a learned covisibility module that selects the geometrically optimal reference view to anchor the metric world frame. To further improve multi-task learning, we decompose the bidirectional pixel-to-world mapping into interpretable sub-steps with per-step supervision and cross-coordinate joint constraints, reinforcing geometric consistency across prediction branches. On the Realsee3D benchmark, Argus achieves state-of-the-art metric performance in camera pose estimation, depth estimation, and point cloud reconstruction. Project page: https://argus-paper.realsee.ai.",
+      "authors": [
+        "Xi Li",
+        "Linyuan Li",
+        "Yan Wu",
+        "Tong Rao",
+        "Kai Zhang",
+        "Xinchen Hui",
+        "Cihui Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T09:39:17+00:00",
+      "link": "https://arxiv.org/pdf/2606.30047v3",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "metric panoramic 3D reconstruction from multiple views",
+      "llm_evidence_cn": "从多视角进行度量全景3D重建",
+      "llm_evidence": "从多视角进行度量全景3D重建",
+      "canonical_evidence": "从多视角进行度量全景3D重建",
+      "llm_tldr_en": "Presents a dataset and feed-forward network for metric panoramic 3D reconstruction with covisibility-guided reference selection.",
+      "llm_tldr_cn": "针对全景数据度量3D重建缺乏训练数据的问题，构建Realsee3D混合数据集，并提出Argus前馈网络，通过可学习的共视模块选择最优参考帧，实现精确的度量全景3D重建。",
+      "llm_tldr": "针对全景数据度量3D重建缺乏训练数据的问题，构建Realsee3D混合数据集，并提出Argus前馈网络，通过可学习的共视模块选择最优参考帧，实现精确的度量全景3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.00832v2",
+      "source": "arxiv",
+      "title": "Pano2World: End-to-End 3D Generation via Unified Multi-View Sequences",
+      "abstract": "A single panorama captures the full visual sphere from one camera center, yet confines users to looking around in place without enabling true scene exploration. Converting a single panorama into a persistent, renderable 3D representation for free-viewpoint navigation has attracted growing interest; existing methods either adopt iterative per-view completion that propagates inpainting results to update the underlying geometry, leading to progressive error accumulation and cumbersome multi-step pipelines, or leverage the temporal consistency priors of video generation models, yet the continuous-trajectory constraint intrinsic to such models limits their flexibility in covering scenes from multiple directions simultaneously. We present Pano2World, which takes a single indoor panorama as input and directly outputs a persistent, explorable 3D Gaussian scene. Given the source panorama, Pano2World first reconstructs a coarse 3D Gaussian proxy and renders it at adaptively sampled nearby poses to obtain geometrically aligned guidance panoramas; a panoramic diffusion model then jointly denoises all target views via View-Aware Attention Routing, where each target view simultaneously receives geometric constraints from its corresponding guidance panorama and global semantic guidance from the source panorama, naturally enforcing cross-view consistency. To avoid the information loss incurred by decoding the multi-view hidden features formed during joint denoising back to the pixel domain via VAE, we introduce Latent Feature Adapter, a geometry-aware bridge module that directly distills these hidden features into a scene latent, subsequently decoded into the final 3D Gaussian scene. Experiments demonstrate that Pano2World significantly outperforms existing methods on the multi-position panoramic novel-view synthesis benchmark.",
+      "authors": [
+        "Zhenjia Li",
+        "Jinrang Jia",
+        "Yifeng Shi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-01T11:54:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.00832v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "converts a single panorama into a 3D representation via unified multi-view sequences",
+      "llm_evidence_cn": "通过统一多视角序列将单个全景图转换为3D表示",
+      "llm_evidence": "通过统一多视角序列将单个全景图转换为3D表示",
+      "canonical_evidence": "通过统一多视角序列将单个全景图转换为3D表示",
+      "llm_tldr_en": "Presents Pano2World, which takes a single panorama as input and generates a persistent 3D representation for free-viewpoint navigation by leveraging video generation priors and multi-view consistency.",
+      "llm_tldr_cn": "针对从单张全景图生成可自由漫游3D表示的问题，提出Pano2World，利用视频生成先验和多视角一致性，端到端生成连贯多视角序列并重建显式3D表示，消除渐进误差积累，实现更灵活的视角覆盖。",
+      "llm_tldr": "针对从单张全景图生成可自由漫游3D表示的问题，提出Pano2World，利用视频生成先验和多视角一致性，端到端生成连贯多视角序列并重建显式3D表示，消除渐进误差积累，实现更灵活的视角覆盖。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.03771v1",
+      "source": "arxiv",
+      "title": "City-Level 3D Surface Reconstruction with Viewpoint Orientation Partitioning and Scene Completion",
+      "abstract": "Multi-view 3D surface reconstruction is a longstanding challenge in computer vision. Although recent large-scale reconstruction methods based on 3D Gaussian Splatting (3DGS) achieve impressive novel-view synthesis, producing high-quality surfaces over large scenes remains difficult, due to complex geometry, long optimization, and limited memory. In this paper, we propose a novel yet simple partitioning method to efficiently and faithfully reconstruct large-scale scene surfaces. Our key insight lies in a scene partitioning method based on viewpoint orientation. This partitioning approach ensures that views with similar orientations are jointly involved for more accurate depth estimations, leading to precise surface reconstructions and balanced computation on multiple GPUs in parallel. In addition, we propose a strategy to detect and repair missing regions in the initial point cloud caused by sparse viewpoints or insufficient textures, thereby further improving the geometric quality. Extensive experiments on the GauU-Scene, MatrixCity, and UrbanScene3D datasets demonstrate that our method outperforms the state-of-the-art approaches in surface reconstruction for large-scale scenes. Project page: https://hanl2010.github.io/VOP-GS.",
+      "authors": [
+        "Liang Han",
+        "Wenyuan Zhang",
+        "Junsheng Zhou",
+        "Yu-Shen Liu",
+        "Zhizhong Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T08:44:12+00:00",
+      "link": "https://arxiv.org/pdf/2607.03771v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "large-scale novel-view synthesis using 3D Gaussian Splatting",
+      "llm_evidence_cn": "使用3D高斯泼溅的大规模新视角合成",
+      "llm_evidence": "使用3D高斯泼溅的大规模新视角合成",
+      "canonical_evidence": "使用3D高斯泼溅的大规模新视角合成",
+      "llm_tldr_en": "Proposes viewpoint orientation partitioning for city-level 3D surface reconstruction with 3DGS, improving depth estimation and surface accuracy.",
+      "llm_tldr_cn": "该文针对大规模多视图表面重建中复杂几何和长优化时间的问题，提出基于视点方向分割的场景划分方法，将相似朝向的视图联合处理以提升深度估计精度，最终利用3D高斯泼溅实现高质量城市级表面重建，在新视角合成和几何精度上取得显著改进。",
+      "llm_tldr": "该文针对大规模多视图表面重建中复杂几何和长优化时间的问题，提出基于视点方向分割的场景划分方法，将相似朝向的视图联合处理以提升深度估计精度，最终利用3D高斯泼溅实现高质量城市级表面重建，在新视角合成和几何精度上取得显著改进。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.01222v1",
+      "source": "arxiv",
+      "title": "Ink3D: Sculpting 3D Assets with Extremely Complex Textures via Video Generative Models",
+      "abstract": "Recent 3D generative models can synthesize high-quality geometry but often struggle to reproduce intricate textures from reference images, largely due to the scarcity of large-scale 3D training data with rich surface appearance. In contrast, visual generative models are trained on datasets several orders of magnitude larger and excel at modeling complex visual patterns. Motivated by this gap, we introduce Ink3D, a framework that bridges 3D generation with large-scale video generative models to synthesize extremely complex textures. Ink3D first reconstructs a white-mesh geometry using an off-the-shelf 3D generation model. It then employs OrbitPainter, a conditional video generative model, to produce dense orbit-scan videos capturing object appearance across viewpoints. To convert these views into coherent textures, we introduce TextureOptimizer, a neural baking module that integrates dense multi-view observations while mitigating geometry inconsistencies arising from video generation. By decoupling geometry and texture synthesis and leveraging large-scale pretrained video priors, Ink3D enables significantly richer and more faithful texture generation than prior approaches.",
+      "authors": [
+        "Yue Han",
+        "Chong Li",
+        "Zhening Liu",
+        "Cong Huang",
+        "Fang Deng",
+        "Yong Liu",
+        "Fangyun Wei",
+        "Yan Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T17:56:39+00:00",
+      "link": "https://arxiv.org/pdf/2607.01222v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reconstructs geometry then generates texture for 3D assets",
+      "llm_evidence_cn": "先重建几何再生成纹理的3D资产制作",
+      "llm_evidence": "先重建几何再生成纹理的3D资产制作",
+      "canonical_evidence": "先重建几何再生成纹理的3D资产制作",
+      "llm_tldr_en": "Combines off-the-shelf 3D reconstruction with video generative model to synthesize complex textures for 3D assets.",
+      "llm_tldr_cn": "该文针对现有3D生成模型难以复现复杂纹理的问题，提出Ink3D框架，先利用现成3D生成模型重建白色网格几何，再通过条件视频生成模型OrbitPainter生成密集轨道扫描视频，从中提取纹理并映射到几何上，实现了对极复杂纹理的高质量3D资产生成。",
+      "llm_tldr": "该文针对现有3D生成模型难以复现复杂纹理的问题，提出Ink3D框架，先利用现成3D生成模型重建白色网格几何，再通过条件视频生成模型OrbitPainter生成密集轨道扫描视频，从中提取纹理并映射到几何上，实现了对极复杂纹理的高质量3D资产生成。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31077v1",
+      "source": "arxiv",
+      "title": "AnyMatch: Supercharging Universal Multi-Modal Image Matching with Large-Scale Single-View Images",
+      "abstract": "Multi-modal image matching is essential for visual localization and multi-sensor fusion, but it is hindered by the scarcity of large-scale training data with precise geometric annotations. Existing real-world datasets suffer from prohibitive costs, limited scene diversity, and errors in SfM-MVS pipelines, while synthetic methods struggle to maintain 3D geometric consistency or achieve photorealistic appearance. To address this, we propose AnyMatch, a novel framework that leverages abundant, easily accessible single-view images at minimal cost to generate rich multi-modal training data. AnyMatch integrates monocular depth estimation, 3D reprojection, diffusion-based inpainting, and crossmodal image translation to synthesize multi-view, multi-modal image pairs with 3D geometric fidelity. Crucially, our method provides annotations that strictly adhere to 3D geometric consistency through explicit 3D reprojection, avoiding SfM-MVS error accumulation. Furthermore, AnyMatch offers strong scalability, enabling controllable scene diversity and annotation difficulty via adjustable input and camera parameters. We construct Any-syn, a large-scale synthetic multi-modal dataset using AnyMatch. Experimental results show that matching networks (e.g., LoFTR, EDM, RoMa) fine-tuned on Any-syn achieve substantial performance gains on multi-modal benchmarks, exhibiting superior generalization and robustness compared to models trained on existing data.",
+      "authors": [
+        "Meng Yang",
+        "Zizhuo Li",
+        "Linfeng Tang",
+        "Fan Fan",
+        "Jiayi Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T03:06:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.31077v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses photogrammetry-like pipeline for training data generation",
+      "llm_evidence_cn": "使用类似摄影测量的流水线生成训练数据",
+      "llm_evidence": "使用类似摄影测量的流水线生成训练数据",
+      "canonical_evidence": "使用类似摄影测量的流水线生成训练数据",
+      "llm_tldr_en": "Proposes AnyMatch to generate multi-modal training data from single-view images using depth estimation and 3D reprojection, improving image matching.",
+      "llm_tldr_cn": "该文针对多模态图像匹配中训练数据昂贵的问题，提出AnyMatch框架，利用单视图图像结合单目深度估计、3D重投影、扩散修复和跨模态翻译生成大量多模态配对数据，有效提升了匹配性能并保持了3D几何一致性。",
+      "llm_tldr": "该文针对多模态图像匹配中训练数据昂贵的问题，提出AnyMatch框架，利用单视图图像结合单目深度估计、3D重投影、扩散修复和跨模态翻译生成大量多模态配对数据，有效提升了匹配性能并保持了3D几何一致性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03855v1",
+      "source": "arxiv",
+      "title": "PRISM3D: Probabilistic Refinement and Robust Initialization for Physically Consistent Scene Modeling under Extreme Motion Blur",
+      "abstract": "We address the inverse problem of blind 3D scene reconstruction from extremely motion-blurred images, a scenario where traditional Structure-from-Motion (SfM) pipelines fail. Existing approaches typically circumvent this bottleneck by relying on impractical sharp-image supervision. In this work, we introduce PRISM3D, a unified framework enabling robust reconstruction directly from severely degraded inputs. To overcome the lack of a reliable starting point, we propose a Robust Initialization strategy utilizing deep dense tracking method (VGGSfM) to recover global topology where feature matching fails. To the best of our knowledge, we are the first to effectively leverage this paradigm to bootstrap 3D Gaussian Splatting from extreme motion blur. However, while robust, this initialization yields sparse and noisy geometry that causes deterministic optimization to diverge. To resolve this, we propose a coupled solution driven by probability and physics: we adopt a probabilistic formulation for geometric densification via Markov Chain Monte Carlo (MCMC) to robustly populate the sparse priors, while simultaneously modeling physical image formation via continuous Bezier Trajectories. Furthermore, while PRISM3D establishes a highly robust standalone pipeline, the availability of complementary event streams offers an opportunity to push the reconstruction fidelity further. To exploit this, we introduce PRISM3D-E, a multi-modal (RGB + Events) extension that seamlessly integrates high-temporal-resolution events as structural priors to maximize geometric recovery. Because existing datasets lack paired event streams under such severe degradation, we concurrently contribute the PRISM3D-E Benchmark to facilitate rigorous evaluation. Extensive experiments demonstrate that both our standalone RGB framework and its multi-modal extension establish new state-of-the-art performance.",
+      "authors": [
+        "Gopi Raju Matta",
+        "Reddypalli Trisha",
+        "Vemunuri Divya Madhuri",
+        "Kaushik Mitra"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T12:45:11+00:00",
+      "link": "https://arxiv.org/pdf/2607.03855v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D scene reconstruction from extreme motion blur",
+      "llm_evidence_cn": "从极端运动模糊图像中重建3D场景",
+      "llm_evidence": "从极端运动模糊图像中重建3D场景",
+      "canonical_evidence": "从极端运动模糊图像中重建3D场景",
+      "llm_tldr_en": "Robust framework for blind 3D reconstruction from extremely motion-blurred images using dense tracking initialization.",
+      "llm_tldr_cn": "该论文针对传统SfM无法处理极端运动模糊图像的问题，提出PRISM3D框架，利用深度密集跟踪方法恢复全局拓扑作为鲁棒初始化，并结合概率细化实现物理一致的场景重建，从而在严重退化的输入下实现可靠的3D重建。",
+      "llm_tldr": "该论文针对传统SfM无法处理极端运动模糊图像的问题，提出PRISM3D框架，利用深度密集跟踪方法恢复全局拓扑作为鲁棒初始化，并结合概率细化实现物理一致的场景重建，从而在严重退化的输入下实现可靠的3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02568v1",
+      "source": "arxiv",
+      "title": "MAGE: View-guided Point Cloud Completion with Efficient Modality Alignment and Adaptive Geometry Enhancement",
+      "abstract": "View-based point cloud completion aims to recover a complete 3D shape from a partial point cloud, guided by a single-view image. However, existing approaches often suffer from limited performance due to weak modality alignment and limited self-geometry enhancement. To overcome these challenges, we propose a unified geometry-aware framework that integrates efficient modality alignment and adaptive geometry enhancement, mainly to address cross-modal geometric inconsistency of view-guided point cloud completion. Specifically, we propose a geometry-aware modality alignment by integrating a shared self-attention Transformer and cross-modality reconstruction supervision, which aims to bring features of the image and point cloud close to each other in a shared latent space describing the 3D object. To enhance the perception of global shape and local geometric details, we propose an adaptive geometry-aware self-attention module, which simultaneously considers local geometry-aware attention computation and the spatially-variant feature fusion. In addition, we apply a geometry-perceptive anchor refinement module to reorganize the anchor points (representing a local region of the shape) under appropriate supervision, further boosting the completion performance of our method. Extensive experiments on both synthetic and real-world datasets demonstrate that our method achieves superior performance over existing approaches. Our code will be available at https://github.com/weizequan/MAGE.",
+      "authors": [
+        "Weize Quan",
+        "Zhengwei Wu",
+        "Kai Wang",
+        "Dong-Ming Yan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T05:25:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.02568v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "point cloud completion guided by a single view image",
+      "llm_evidence_cn": "基于单视角图像引导的点云补全",
+      "llm_evidence": "基于单视角图像引导的点云补全",
+      "canonical_evidence": "基于单视角图像引导的点云补全",
+      "llm_tldr_en": "MAGE proposes a geometry-aware framework for view-guided point cloud completion, integrating efficient modality alignment and adaptive geometry enhancement.",
+      "llm_tldr_cn": "视图引导的点云补全面临弱模态对齐和几何增强不足的问题。MAGE通过共享自注意力Transformer和跨模态重建监督实现几何感知对齐，并引入自适应几何增强模块。实验表明该方法显著提升了补全精度和跨模态一致性。",
+      "llm_tldr": "视图引导的点云补全面临弱模态对齐和几何增强不足的问题。MAGE通过共享自注意力Transformer和跨模态重建监督实现几何感知对齐，并引入自适应几何增强模块。实验表明该方法显著提升了补全精度和跨模态一致性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.31077v2",
+      "source": "arxiv",
+      "title": "AnyMatch: Supercharging Universal Multi-Modal Image Matching with Large-Scale Single-View Images",
+      "abstract": "Multi-modal image matching is essential for visual localization and multi-sensor fusion, but it is hindered by the scarcity of large-scale training data with precise geometric annotations. Existing real-world datasets suffer from prohibitive costs, limited scene diversity, and errors in SfM-MVS pipelines, while synthetic methods struggle to maintain 3D geometric consistency or achieve photorealistic appearance. To address this, we propose AnyMatch, a novel framework that leverages abundant, easily accessible single-view images at minimal cost to generate rich multi-modal training data. AnyMatch integrates monocular depth estimation, 3D reprojection, diffusion-based inpainting, and crossmodal image translation to synthesize multi-view, multi-modal image pairs with 3D geometric fidelity. Crucially, our method provides annotations that strictly adhere to 3D geometric consistency through explicit 3D reprojection, avoiding SfM-MVS error accumulation. Furthermore, AnyMatch offers strong scalability, enabling controllable scene diversity and annotation difficulty via adjustable input and camera parameters. We construct Any-syn, a large-scale synthetic multi-modal dataset using AnyMatch. Experimental results show that matching networks (e.g., LoFTR, EDM, RoMa) fine-tuned on Any-syn achieve substantial performance gains on multi-modal benchmarks, exhibiting superior generalization and robustness compared to models trained on existing data.",
+      "authors": [
+        "Meng Yang",
+        "Zizhuo Li",
+        "Linfeng Tang",
+        "Fan Fan",
+        "Jiayi Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T03:06:58+00:00",
+      "link": "https://arxiv.org/pdf/2606.31077v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "multi-modal image matching enabling 3D reconstruction pipelines",
+      "llm_evidence_cn": "多模态图像匹配，为3D重建流水线提供支撑",
+      "llm_evidence": "多模态图像匹配，为3D重建流水线提供支撑",
+      "canonical_evidence": "多模态图像匹配，为3D重建流水线提供支撑",
+      "llm_tldr_en": "Framework generating rich multi-modal training data from single-view images to improve image matching for reconstruction.",
+      "llm_tldr_cn": "该论文针对多模态图像匹配训练数据稀缺的问题，提出AnyMatch框架，利用单视图图像通过单目深度估计、3D重投影和扩散模型生成大量匹配数据，显著提升了SfM-MVS等重建流水线中多模态图像匹配的性能。",
+      "llm_tldr": "该论文针对多模态图像匹配训练数据稀缺的问题，提出AnyMatch框架，利用单视图图像通过单目深度估计、3D重投影和扩散模型生成大量匹配数据，显著提升了SfM-MVS等重建流水线中多模态图像匹配的性能。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03891v1",
+      "source": "arxiv",
+      "title": "BAT3R: Bootstrapping Articulated 3D Reconstruction from 2D Image Collections",
+      "abstract": "3D reconstruction of articulated objects from a single image is challenging because large training datasets with paired image and 3D supervision are difficult to obtain. Recent point map-based methods achieve strong performance but rely on synthetic datasets rendered from manually created articulated 3D assets with carefully curated pose distributions. While camera viewpoints can be easily sampled, generating realistic object articulations remains costly and labor-intensive. We propose a training framework that reduces this requirement by leveraging unannotated 2D images collections with only a single rigged canonical mesh per category. Starting from a weak 3D shape predictor trained on canonical-pose renders, we iteratively estimate object articulation and camera pose by fitting the mesh to predicted point maps. The recovered articulations and viewpoints are then used to render updated synthetic training data, progressively improving the predictor. Despite using substantially weaker 3D supervision, our models achieve performance comparable with DualPM, which requires manually curated articulated training datasets.",
+      "authors": [
+        "Jakub Zadrozny",
+        "Oisin Mac Aodha",
+        "Hakan Bilen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T14:15:21+00:00",
+      "link": "https://arxiv.org/pdf/2607.03891v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D reconstruction of articulated objects from 2D images",
+      "llm_evidence_cn": "从2D图像重建铰接物体3D模型",
+      "llm_evidence": "从2D图像重建铰接物体3D模型",
+      "canonical_evidence": "从2D图像重建铰接物体3D模型",
+      "llm_tldr_en": "Bootstraps articulated 3D reconstruction from 2D image collections without paired 3D supervision, using a single rigged mesh per category.",
+      "llm_tldr_cn": "该文针对铰接物体3D重建缺乏成对图像-3D数据的问题，提出BAT3R训练框架，仅利用每类一个绑定的标准网格和大量未标注2D图像，通过迭代估计物体关节姿态和形状，逐步提升预测器能力，在无需人工标注关节的情况下实现了铰接物体的高质量3D重建。",
+      "llm_tldr": "该文针对铰接物体3D重建缺乏成对图像-3D数据的问题，提出BAT3R训练框架，仅利用每类一个绑定的标准网格和大量未标注2D图像，通过迭代估计物体关节姿态和形状，逐步提升预测器能力，在无需人工标注关节的情况下实现了铰接物体的高质量3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02707v1",
+      "source": "arxiv",
+      "title": "VLRC: Vision-Language Reprojection Consistency as a scalable signal for better feed-forward 3D pretraining",
+      "abstract": "Feed-forward 3D models are commonly trained using either expensive geometric supervision or self-supervised photometric objectives, both of which provide incomplete learning signals. We introduce Vision-Language Reprojection Consistency (VLRC), a scalable auxiliary objective that exploits frozen vision-language representations as semantic multi-view supervision. Given a predicted 3D reconstruction, VLRC reprojects dense vision-language features across views and enforces feature consistency between corresponding image locations, requiring no additional 3D annotations. The objective integrates seamlessly with both self-supervised monocular reconstruction and supervised-pretrained feed-forward 3D models during unlabeled adaptation. By aligning geometry with language-grounded features, VLRC not only improves depth and camera estimation but also enables more coherent multi-view semantic fusion for open-vocabulary 3D scene understanding. Experiments on indoor and outdoor benchmarks demonstrate consistent gains in 3D reconstruction accuracy and zero-shot open-vocabulary 3D semantic segmentation.",
+      "authors": [
+        "Marwane Hariat",
+        "David Filliat",
+        "Antoine Manzanera"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T18:49:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.02707v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves feed-forward 3D reconstruction pretraining with vision-language consistency",
+      "llm_evidence_cn": "利用视觉语言一致性提升前馈3D重建预训练",
+      "llm_evidence": "利用视觉语言一致性提升前馈3D重建预训练",
+      "canonical_evidence": "利用视觉语言一致性提升前馈3D重建预训练",
+      "llm_tldr_en": "Introduces VLRC auxiliary objective using frozen vision-language features for multi-view consistency during 3D pretraining.",
+      "llm_tldr_cn": "该文针对前馈3D模型训练信号不足的问题，提出视觉语言重投影一致性（VLRC）辅助目标，在预测的3D重建上跨视角重投影密集视觉语言特征并强制一致性，无需额外3D标注，显著提升了无监督和预训练模型的3D重建性能，展示了语义多视图监督的有效性。",
+      "llm_tldr": "该文针对前馈3D模型训练信号不足的问题，提出视觉语言重投影一致性（VLRC）辅助目标，在预测的3D重建上跨视角重投影密集视觉语言特征并强制一致性，无需额外3D标注，显著提升了无监督和预训练模型的3D重建性能，展示了语义多视图监督的有效性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04256v1",
+      "source": "arxiv",
+      "title": "AdaptiveSplat:Texture Aware Controllable 3D Gaussian Allocation for Feed-Forward Reconstruction",
+      "abstract": "Current feed-forward 3D reconstruction methods predict pixel aligned Gaussian primitives, resulting in highly redundant representations. A natural solution is to prune the redundant Gaussians, but naive pruning introduces severe artifacts and often requires inference time fine-tuning, breaking the feed-forward paradigm. Based on previous works, high frequency regions require more Gaussian primitives, while low frequency regions can be represented with significantly fewer primitives. Motivated by this, we propose a novel approach to explicitly control the number of Gaussians by leveraging local texture information. Our approach achieves this through three key components: (1) texture estimation to capture spatial variation in scene detail, (2) texture-aware pruning that removes redundant Gaussians from low frequency regions, and (3) an adaptive Gaussian head that predicts the modified attributes of the retained primitives without breaking the feed-forward paradigm. Experiments on RE10K, ACID, DL3DV, Tanks and Temples, and DTU demonstrate the effectiveness of our approach, while ablation studies validate the contributions of its key components.",
+      "authors": [
+        "Badrinath Singhal",
+        "Srihari K G",
+        "Sreehari Iyer",
+        "Ankit Dhiman",
+        "Venkatesh Babu Radhakrishnan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-05T12:12:59+00:00",
+      "link": "https://arxiv.org/pdf/2607.04256v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "feed-forward 3D reconstruction with adaptive Gaussian allocation",
+      "llm_evidence_cn": "自适应高斯分配的前馈3D重建",
+      "llm_evidence": "自适应高斯分配的前馈3D重建",
+      "canonical_evidence": "自适应高斯分配的前馈3D重建",
+      "llm_tldr_en": "Controls Gaussian primitive count based on local texture for efficient feed-forward 3D reconstruction.",
+      "llm_tldr_cn": "针对现有前馈重建方法高斯冗余的问题，提出AdaptiveSplat，利用局部纹理信息控制高斯数量，在保留高频细节的同时减少冗余，实现高效的端到端3D重建。",
+      "llm_tldr": "针对现有前馈重建方法高斯冗余的问题，提出AdaptiveSplat，利用局部纹理信息控制高斯数量，在保留高频细节的同时减少冗余，实现高效的端到端3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.02712v1",
+      "source": "arxiv",
+      "title": "Global Pose Control for Generative View Synthesis in Normalized Object Coordinate Space",
+      "abstract": "Novel View Synthesis (NVS) enables the generation of unseen views of a scene from a single or multiple images, allowing users to freely explore an object from any viewpoint. Despite the recent impressive qualitative improvements of generative models for this task, existing methods struggle to provide global and intuitive control of target viewpoints because they either use input-relative camera poses or are limited to generating sparse global views. This lack of global pose control severely limits the number of downstream tasks potentially enabled by NVS. To address this limitation, we propose a novel approach for precise camera control in a customizable Normalized Object Coordinate Space (NOCS), requiring single or few unposed images. Our method operates solely on the absolute camera pose of the target view in NOCS, eliminating the need for a relative world frame or camera poses of the input images. Unlike previous methods that treat NVS as a standalone generation task, we formulate it as an image editing problem and build upon state-of-the-art editing models to leverage their superior generalization capability. Camera information is injected as dedicated camera tokens via an in-context multi-modal conditioning strategy. To alleviate the inherent ambiguity of NOCS, we incorporate text descriptions that explicitly define the object's canonical coordinate frame, which also enhances generalization to unseen object categories. Furthermore, we curate a high-quality dataset with consistently aligned orientations and corresponding NOCS text definitions. Extensive experiments demonstrate that our method robustly generates novel views with accurate and consistent orientations from arbitrary unposed images across diverse categories, achieving state-of-the-art image quality and fidelity.",
+      "authors": [
+        "Zhibing Li",
+        "Amogh Gupta",
+        "Behnoosh Parsa",
+        "Dan Casas"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T18:56:22+00:00",
+      "link": "https://arxiv.org/pdf/2607.02712v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "novel view synthesis with global pose control",
+      "llm_evidence_cn": "具有全局姿态控制的新视角合成",
+      "llm_evidence": "具有全局姿态控制的新视角合成",
+      "canonical_evidence": "具有全局姿态控制的新视角合成",
+      "llm_tldr_en": "Generative view synthesis method enabling precise camera control in normalized object coordinate space from few images.",
+      "llm_tldr_cn": "该论文针对现有新视角合成方法缺乏全局直观视角控制的问题，提出在归一化对象坐标空间中实现精确相机控制的生成方法，仅需单张或少量无位姿图像即可生成任意视角图像，为下游任务提供了更灵活的视角操控能力。",
+      "llm_tldr": "该论文针对现有新视角合成方法缺乏全局直观视角控制的问题，提出在归一化对象坐标空间中实现精确相机控制的生成方法，仅需单张或少量无位姿图像即可生成任意视角图像，为下游任务提供了更灵活的视角操控能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05243v1",
+      "source": "arxiv",
+      "title": "GUSH3R: Everyone Everywhere All at Once as Gaussians",
+      "abstract": "Reconstructing dynamic human-scene environments from monocular videos is a challenging problem that requires jointly modeling scene geometry, camera motion, and non-rigid human dynamics while enabling photorealistic rendering. Recent feed-forward methods can efficiently predict geometry, but they are often limited to non-photorealistic representations such as point clouds and meshes, or they fail to handle non-rigid objects, particularly dynamic humans. To fill this gap, we present GUSH3R (Gaussian-Unified Scene Human 3D Reconstruction), a feed-forward framework for online dynamic human-scene reconstruction. From a monocular human-scene video, our method reconstructs dynamic humans (everyone) and static scenes (everywhere) in a single forward pass (all at once) as 3D Gaussian Splatting (3DGS) primitives (as gaussians), which are geometrically consistent and capable of novel view synthesis. Experiments on monocular human-scene datasets demonstrate that our approach achieves competitive novel view synthesis quality while significantly improving inference efficiency compared to optimization-based methods.",
+      "authors": [
+        "Keito Abe",
+        "Kaede Shiohara",
+        "Takashi Otonari",
+        "Toshihiko Yamasaki"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T15:53:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.05243v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reconstructs dynamic human-scene from monocular video",
+      "llm_evidence_cn": "从单目视频重建动态人-场景环境",
+      "llm_evidence": "从单目视频重建动态人-场景环境",
+      "canonical_evidence": "从单目视频重建动态人-场景环境",
+      "llm_tldr_en": "GUSH3R reconstructs dynamic humans and static scenes from monocular videos in a single forward pass as 3D Gaussians, enabling photorealistic rendering.",
+      "llm_tldr_cn": "从单目视频重建动态人-场景环境极具挑战性。GUSH3R提出前馈框架，一次性将动态人体和静态场景同时重建为3D高斯表示，支持逼真渲染。实验在多个数据集上展示了高质量的重建和渲染效果。",
+      "llm_tldr": "从单目视频重建动态人-场景环境极具挑战性。GUSH3R提出前馈框架，一次性将动态人体和静态场景同时重建为3D高斯表示，支持逼真渲染。实验在多个数据集上展示了高质量的重建和渲染效果。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
