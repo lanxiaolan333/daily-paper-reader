@@ -1,0 +1,370 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-08T21:06:38.118737+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 5,
+    "quick_skim_target": 11,
+    "quick_selected": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2607.05347v1",
+      "source": "arxiv",
+      "title": "WildSplat: Feedforward Gaussian Splatting from Unposed In-the-Wild Images",
+      "abstract": "While feedforward 3D reconstruction excels at efficient novel view synthesis, it typically falters when faced with scenes under varying illumination. To this end, we introduce WildSplat, the first feedforward 3D Gaussian Splatting framework capable of appearance-conditioned novel-view synthesis for unposed in-the-wild images. To handle inconsistent photometric conditions, we propose a dual-branch architecture that explicitly decouples geometry from appearance. The geometry branch extracts an appearance-invariant 3D structure and jointly predicts camera poses. To govern the rendering appearance, the appearance branch injects target appearance cues into the content features via a globally pre-modulated cross-attention mechanism. To further prevent feature entanglement, we introduce a joint multi-reference training strategy that stabilizes the training process. Extensive experiments show that WildSplat surpasses existing optimization-based and feedforward methods, achieving state-of-the-art performance in in-the-wild novel view synthesis and appearance editing from sparse inputs in a single forward pass.",
+      "authors": [
+        "Xiyu Zhang",
+        "Jingyu Zhuang",
+        "Hongjia Zhai",
+        "Zizheng Yan",
+        "Jinwei Chen",
+        "Guofeng Zhang",
+        "Qingnan Fan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:29:44+00:00",
+      "link": "https://arxiv.org/pdf/2607.05347v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "feedforward Gaussian Splatting for novel view synthesis from unposed in-the-wild images",
+      "llm_evidence_cn": "从无姿态野外图像进行前馈高斯泼溅新视图合成",
+      "llm_evidence": "从无姿态野外图像进行前馈高斯泼溅新视图合成",
+      "canonical_evidence": "从无姿态野外图像进行前馈高斯泼溅新视图合成",
+      "llm_tldr_en": "WildSplat is the first feedforward 3D Gaussian Splatting framework for appearance-conditioned novel-view synthesis from unposed in-the-wild images, using a dual-branch architecture to decouple geometry and appearance.",
+      "llm_tldr_cn": "前馈3D重建通常无法处理光照变化剧烈的野外场景。WildSplat首次提出一种前馈3D高斯泼溅框架，能够从无姿态的野外图像进行外观条件的新视图合成。其双分支架构显式解耦几何与外观：几何分支提取外观不变的3D结构并预测相机姿态；外观分支通过全局预调制交叉注意力注入目标外观。该方法在多个野外数据集上实现了鲁棒的新视图合成，突破了前馈方法的环境限制。",
+      "llm_tldr": "前馈3D重建通常无法处理光照变化剧烈的野外场景。WildSplat首次提出一种前馈3D高斯泼溅框架，能够从无姿态的野外图像进行外观条件的新视图合成。其双分支架构显式解耦几何与外观：几何分支提取外观不变的3D结构并预测相机姿态；外观分支通过全局预调制交叉注意力注入目标外观。该方法在多个野外数据集上实现了鲁棒的新视图合成，突破了前馈方法的环境限制。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03612v1",
+      "source": "arxiv",
+      "title": "SAF3R: Dynamic Sparse Attention for Feed-Forward 3D Reconstruction Transformers",
+      "abstract": "Feed-forward 3D reconstruction (F3R) transformers have recently achieved remarkable success. However, scaling them to long image sequences remains challenging, as the quadratic complexity of cross-view global attention quickly becomes the dominant computational bottleneck. While recent efforts attempt to improve efficiency through compressed or sparse attention, they fail to fully exploit the inherent sparsity and dynamic behavior of global attention. In this work, we present a comprehensive analysis of global attention across multiple F3R transformers and reveal that attention patterns are highly heterogeneous, dynamic, and extremely sparse across layers and attention heads. Motivated by these findings, we propose SAF3R, a training-free dynamic sparse attention framework tailored to F3R transformers. SAF3R integrates tailored sparse attention mechanisms with offline head profiling and an efficient online adaptation strategy to match input-dependent attention behaviors. Extensive experiments demonstrate that SAF3R achieves high sparsity ratios while preserving camera pose estimation and 3D reconstruction quality, translating into substantial end-to-end speedup on F3R transformers compared to existing methods. Code is available at https://github.com/jndeng/SAF3R",
+      "authors": [
+        "Jianing Deng",
+        "Yuanzhe Li",
+        "Jialu Wang",
+        "Song Wang",
+        "Tianlong Chen",
+        "Huanrui Yang",
+        "Jingtong Hu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-03T22:01:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.03612v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dynamic sparse attention for feed-forward 3D reconstruction transformers",
+      "llm_evidence_cn": "用于前馈3D重建Transformer的动态稀疏注意力",
+      "llm_evidence": "用于前馈3D重建Transformer的动态稀疏注意力",
+      "canonical_evidence": "用于前馈3D重建Transformer的动态稀疏注意力",
+      "llm_tldr_en": "SAF3R introduces a training-free dynamic sparse attention mechanism for feed-forward 3D reconstruction transformers, exploiting heterogeneity and sparsity of attention patterns to reduce quadratic complexity.",
+      "llm_tldr_cn": "前馈3D重建Transformer在长图像序列上面临全局注意力的二次复杂度瓶颈。本文通过分析发现注意力模式具有高度异质性和稀疏性，提出SAF3R，一种无需训练的动态稀疏注意力机制。该机制自适应地选择重要注意力项，大幅降低计算开销，同时保持重建质量。实验证明，SAF3R在多个数据集上实现了与全注意力相当的性能，但效率显著提升。",
+      "llm_tldr": "前馈3D重建Transformer在长图像序列上面临全局注意力的二次复杂度瓶颈。本文通过分析发现注意力模式具有高度异质性和稀疏性，提出SAF3R，一种无需训练的动态稀疏注意力机制。该机制自适应地选择重要注意力项，大幅降低计算开销，同时保持重建质量。实验证明，SAF3R在多个数据集上实现了与全注意力相当的性能，但效率显著提升。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.03819v1",
+      "source": "arxiv",
+      "title": "CGGS: Consistency-Augmented Geometric Gaussian Splatting for Ego-centric 3D Scene Generation",
+      "abstract": "Challenges remain in ego-centric 3D scene generation due to limited view overlap and the dominant influence of individual perspectives on scene interpretation. These factors hinder the creation of viewpoint-consistent and semantically aligned visual content, as well as the construction of accurate geometric structures. In this paper, we propose CGGS, a text-to-3D framework aiming to enhance 3D-content-awareness and address geometric distortions in ego-centric scene generation. Firstly, the Ego-centric Generator is proposed by fine-tuning a Multi-View Latent Diffusion Model with consistency-augmented loss to generate consistent, high-fidelity 2D content aligned with textual descriptions. Then, Layout Decorator leverages optical flow and point-track correspondence to estimate depth, therefore producing dense point clouds as coarse layouts from the ego-centric 2D priors. Building on this initialization, Geometric Refiner is proposed to enhance 3D Gaussian reconstruction via an entropy-based Mutual Information Depth Loss (MID) combined with a hierarchical optimization scheme for improving visual quality and geometric structure. Comprehensive experiments demonstrate that \\textcolor{softred}{CGGS} outperforms previous methods in generating coherent and accurate text-driven 3D scenes. Project page: https://cggs-26.github.io/cggs26/.",
+      "authors": [
+        "Zhenyu Sun",
+        "Xiaohan Zhang",
+        "Qi Liu",
+        "Huan Wang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T11:06:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.03819v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "multi-view consistency and 3D scene generation from text, related to reconstructing 3D from multiple views",
+      "llm_evidence_cn": "多视图一致性和文本驱动3D场景生成，与从多视图重建3D相关",
+      "llm_evidence": "多视图一致性和文本驱动3D场景生成，与从多视图重建3D相关",
+      "canonical_evidence": "多视图一致性和文本驱动3D场景生成，与从多视图重建3D相关",
+      "llm_tldr_en": "CGGS uses consistency-augmented multi-view diffusion and geometric Gaussian splatting for text-to-3D ego-centric scene generation, enhancing viewpoint consistency and geometric accuracy.",
+      "llm_tldr_cn": "针对ego-centric 3D场景生成中视图重叠少、几何扭曲问题，提出CGGS框架。通过微调多视图潜扩散模型并引入一致性增强损失，生成与文本对齐的高保真2D内容；再结合几何高斯泼溅构建准确3D结构。实验表明在保持语义对齐的同时显著改善几何质量，为文本到3D生成提供新思路。",
+      "llm_tldr": "针对ego-centric 3D场景生成中视图重叠少、几何扭曲问题，提出CGGS框架。通过微调多视图潜扩散模型并引入一致性增强损失，生成与文本对齐的高保真2D内容；再结合几何高斯泼溅构建准确3D结构。实验表明在保持语义对齐的同时显著改善几何质量，为文本到3D生成提供新思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05373v1",
+      "source": "arxiv",
+      "title": "PixWorld: Unifying 3D Scene Generation and Reconstruction in Pixel Space",
+      "abstract": "3D reconstruction and generation are commonly tackled by separate paradigms: pixel-based regression for reconstruction, and latent diffusion for generation. Recent works attempt to unify them in latent space, but with notable drawbacks: the diffusion objective is defined on latent features rather than the underlying 3D representation, and both branches suffer from information loss introduced by latent encoding, while requiring a pretrained Variational Autoencoder (VAE) or Representation Autoencoder (RAE). In this paper, we reformulate these two tasks under a unified pixel-space diffusion paradigm and introduce PixWorld, a single model that jointly addresses 3D reconstruction and generation. By supervising diffusion directly on rendered images, PixWorld removes the above limitations and aligns optimization with 3D scene fidelity. Beyond photometric and perceptual supervision that operates at the 2D image level and lacks 3D geometric awareness, we further introduce a geometry perception loss that aligns rendered views with their ground truth in the geometry-aware feature space of a pretrained 3D foundation model, providing 3D structural supervision. PixWorld consistently outperforms prior latent-space generation methods and matches state-of-the-art reconstruction methods, demonstrating the superiority of a unified pixel-space approach.",
+      "authors": [
+        "Sensen Gao",
+        "Zhaoqing Wang",
+        "Qihang Cao",
+        "Dongdong Yu",
+        "Changhu Wang",
+        "Jia-Wang Bian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:51:00+00:00",
+      "link": "https://arxiv.org/pdf/2607.05373v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "unifies 3D reconstruction and generation in pixel space via diffusion",
+      "llm_evidence_cn": "通过像素空间扩散统一3D重建与生成",
+      "llm_evidence": "通过像素空间扩散统一3D重建与生成",
+      "canonical_evidence": "通过像素空间扩散统一3D重建与生成",
+      "llm_tldr_en": "PixWorld unifies 3D reconstruction and generation under a pixel-space diffusion paradigm, supervising diffusion directly on rendered images to avoid latent information loss.",
+      "llm_tldr_cn": "3D重建和生成通常采用不同的范式（回归 vs 潜在扩散），且潜在编码存在信息损失。本文提出PixWorld，在像素空间统一这两个任务，将扩散过程直接监督于渲染图像。该模型能同时进行3D重建和生成，无需预训练VAE，避免了潜在表示的信息瓶颈。实验表明，PixWorld在重建和生成任务上均达到先进水平，实现了真正的任务统一。",
+      "llm_tldr": "3D重建和生成通常采用不同的范式（回归 vs 潜在扩散），且潜在编码存在信息损失。本文提出PixWorld，在像素空间统一这两个任务，将扩散过程直接监督于渲染图像。该模型能同时进行3D重建和生成，无需预训练VAE，避免了潜在表示的信息瓶颈。实验表明，PixWorld在重建和生成任务上均达到先进水平，实现了真正的任务统一。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.02693v1",
+      "source": "arxiv",
+      "title": "Property-Constrained 3D Porous Media Reconstruction from 2D Images via Conditional Generative Adversarial Networks",
+      "abstract": "This study presents a conditional Generative Adversarial Network (cGAN) framework for generating 3D porous media volumes with controlled porosity, trained exclusively on 2D thin section images. The key innovation lies in combining property-conditioned generation with 2D-to-3D reconstruction, eliminating the need for expensive 3D training data while maintaining control over petrophysical properties. The framework employs a hybrid architecture with a 3D generator and 2D discriminator, where multi-axis slice extraction enables learning 3D-consistent structures from 2D training data. Porosity labels are extracted using an Enhanced U-Net segmentation model. The methodology was demonstrated on two carbonate samples with different lithologies: dolomite-anhydrite and pure dolomite. Results show that the framework successfully generates realistic 3D volumes capturing lithological features such as anhydrite inclusions and fine crystalline textures. Porosity control achieved an $R^2$ of 0.93, with mean absolute errors of 0.019 and 0.010 for the heterogeneous and homogeneous samples, respectively.",
+      "authors": [
+        "Ali Sadeghkhani",
+        "Brandon Bennett",
+        "Arash Rabbani"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG",
+        "physics.geo-ph"
+      ],
+      "published": "2026-07-02T18:34:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.02693v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reconstructs 3D porous media volumes from 2D images using cGAN, relevant to 3D reconstruction from multiple images",
+      "llm_evidence_cn": "使用cGAN从2D图像重建3D多孔介质体积，相关于从多张图像重建3D模型",
+      "llm_evidence": "使用cGAN从2D图像重建3D多孔介质体积，相关于从多张图像重建3D模型",
+      "canonical_evidence": "使用cGAN从2D图像重建3D多孔介质体积，相关于从多张图像重建3D模型",
+      "llm_tldr_en": "Proposes a cGAN framework that reconstructs 3D porous media with controlled porosity from 2D thin sections, using a 3D generator and 2D discriminator.",
+      "llm_tldr_cn": "针对3D多孔介质重建需要昂贵3D训练数据的问题，提出条件GAN框架，仅用2D薄片图像训练，通过3D生成器和2D判别器的混合架构，结合多轴切片提取实现3D一致结构学习。该方法能生成具有可控孔隙度的3D体积，并在碳酸盐样本上验证了有效性，拓展了2D到3D重建的应用。",
+      "llm_tldr": "针对3D多孔介质重建需要昂贵3D训练数据的问题，提出条件GAN框架，仅用2D薄片图像训练，通过3D生成器和2D判别器的混合架构，结合多轴切片提取实现3D一致结构学习。该方法能生成具有可控孔隙度的3D体积，并在碳酸盐样本上验证了有效性，拓展了2D到3D重建的应用。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05392v1",
+      "source": "arxiv",
+      "title": "SynCity 3000: Bootstrapping Scene-Scale 3D Diffusion",
+      "abstract": "We present SynCity 3000, a framework for generating 3D scenes that are globally coherent while enabling fine-grained layout control. Building on the ability of current image-to-3D generators to produce complex 3D assets from a single image, we extend this capability to the scale of entire scenes by adapting the generator to be applicable as a convolutional operator. We achieve this by fine-tuning the model on scene-like data generated by a new synthetic data engine, which we propose to address the scarcity of 3D scene data for training. The convolutional generator is then applied to a dimetric image of the entire scene, generated from the user prompt, resulting in 3D scenes of arbitrary size and complexity. Across diverse prompts and layouts, SynCity 3000 produces large, coherent, and detailed scenes, addressing the shortcomings of prior approaches to 3D scene generation.",
+      "authors": [
+        "Paul Engstler",
+        "Iro Laina",
+        "Christian Rupprecht",
+        "Andrea Vedaldi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:59:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.05392v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generates large-scale 3D scenes from text using diffusion, related to 3D reconstruction theme",
+      "llm_evidence_cn": "利用扩散从文本生成大规模3D场景，与3D重建主题相关",
+      "llm_evidence": "利用扩散从文本生成大规模3D场景，与3D重建主题相关",
+      "canonical_evidence": "利用扩散从文本生成大规模3D场景，与3D重建主题相关",
+      "llm_tldr_en": "SynCity 3000 bootstraps scene-scale 3D diffusion by adapting an image-to-3D generator as a convolutional operator, enabling arbitrary-sized 3D scene generation.",
+      "llm_tldr_cn": "大规模3D场景生成面临训练数据稀缺和全局一致性问题。本文提出SynCity 3000框架，将现有图像到3D生成器用卷积方式适用于场景尺度：通过合成数据引擎生成场景训练数据微调模型，再对用户提示生成的等角图像应用卷积式生成器得到任意大小场景。实验表明生成场景在全局一致性和布局控制上优于现有方法。SynCity 3000为3D场景生成提供了可扩展方案，与用户对3D重建技术的需求相关。",
+      "llm_tldr": "大规模3D场景生成面临训练数据稀缺和全局一致性问题。本文提出SynCity 3000框架，将现有图像到3D生成器用卷积方式适用于场景尺度：通过合成数据引擎生成场景训练数据微调模型，再对用户提示生成的等角图像应用卷积式生成器得到任意大小场景。实验表明生成场景在全局一致性和布局控制上优于现有方法。SynCity 3000为3D场景生成提供了可扩展方案，与用户对3D重建技术的需求相关。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02707v2",
+      "source": "arxiv",
+      "title": "VLRC: Vision-Language Reprojection Consistency as a scalable signal for better feed-forward 3D pretraining",
+      "abstract": "Feed-forward 3D models are commonly trained using either expensive geometric supervision or self-supervised photometric objectives, both of which provide incomplete learning signals. We introduce Vision-Language Reprojection Consistency (VLRC), a scalable auxiliary objective that exploits frozen vision-language representations as semantic multi-view supervision. Given a predicted 3D reconstruction, VLRC reprojects dense vision-language features across views and enforces feature consistency between corresponding image locations, requiring no additional 3D annotations. The objective integrates seamlessly with both self-supervised monocular reconstruction and supervised-pretrained feed-forward 3D models during unlabeled adaptation. By aligning geometry with language-grounded features, VLRC not only improves depth and camera estimation but also enables more coherent multi-view semantic fusion for open-vocabulary 3D scene understanding. Experiments on indoor and outdoor benchmarks demonstrate consistent gains in 3D reconstruction accuracy and zero-shot open-vocabulary 3D semantic segmentation.",
+      "authors": [
+        "Marwane Hariat",
+        "David Filliat",
+        "Antoine Manzanera"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T18:49:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.02707v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves feed-forward 3D reconstruction via vision-language consistency across multiple views",
+      "llm_evidence_cn": "通过跨视角视觉-语言一致性提升前馈3D重建质量",
+      "llm_evidence": "通过跨视角视觉-语言一致性提升前馈3D重建质量",
+      "canonical_evidence": "通过跨视角视觉-语言一致性提升前馈3D重建质量",
+      "llm_tldr_en": "VLRC introduces vision-language reprojection consistency as a scalable auxiliary objective for feed-forward 3D pretraining, improving reconstruction without extra 3D annotations.",
+      "llm_tldr_cn": "前馈3D模型训练常依赖昂贵的几何监督或自监督光度损失，信号不完整。本文提出VLRC辅助目标，利用冻结的视觉-语言模型提供语义多视图监督：将预测的3D重建投影到多个视图并强制特征一致性。该方法无需额外3D标注，可无缝集成到自监督或监督预训练中。实验表明显著提升单目和稀疏视图重建质量。VLRC为利用语义信息优化3D表示提供了可扩展方案。",
+      "llm_tldr": "前馈3D模型训练常依赖昂贵的几何监督或自监督光度损失，信号不完整。本文提出VLRC辅助目标，利用冻结的视觉-语言模型提供语义多视图监督：将预测的3D重建投影到多个视图并强制特征一致性。该方法无需额外3D标注，可无缝集成到自监督或监督预训练中。实验表明显著提升单目和稀疏视图重建质量。VLRC为利用语义信息优化3D表示提供了可扩展方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.03819v2",
+      "source": "arxiv",
+      "title": "CGGS: Consistency-Augmented Geometric Gaussian Splatting for Ego-centric 3D Scene Generation",
+      "abstract": "Challenges remain in ego-centric 3D scene generation due to limited view overlap and the dominant influence of individual perspectives on scene interpretation. These factors hinder the creation of viewpoint-consistent and semantically aligned visual content, as well as the construction of accurate geometric structures. In this paper, we propose CGGS, a text-to-3D framework aiming to enhance 3D-content-awareness and address geometric distortions in ego-centric scene generation. Firstly, the Ego-centric Generator is proposed by fine-tuning a Multi-View Latent Diffusion Model with consistency-augmented loss to generate consistent, high-fidelity 2D content aligned with textual descriptions. Then, Layout Decorator leverages optical flow and point-track correspondence to estimate depth, therefore producing dense point clouds as coarse layouts from the ego-centric 2D priors. Building on this initialization, Geometric Refiner is proposed to enhance 3D Gaussian reconstruction via an entropy-based Mutual Information Depth Loss (MID) combined with a hierarchical optimization scheme for improving visual quality and geometric structure. Comprehensive experiments demonstrate that CGGS outperforms previous methods in generating coherent and accurate text-driven 3D scenes. Project page: [https://cggs-26.github.io/cggs26/](https://cggs-26.github.io/cggs26/).",
+      "authors": [
+        "Zhenyu Sun",
+        "Xiaohan Zhang",
+        "Qi Liu",
+        "Huan Wang"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.AI"
+      ],
+      "published": "2026-07-04T11:06:41+00:00",
+      "link": "https://arxiv.org/pdf/2607.03819v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "generates consistent 3D scenes from multiple views using Gaussian splatting",
+      "llm_evidence_cn": "使用高斯溅射从多视角生成一致性3D场景",
+      "llm_evidence": "使用高斯溅射从多视角生成一致性3D场景",
+      "canonical_evidence": "使用高斯溅射从多视角生成一致性3D场景",
+      "llm_tldr_en": "CGGS generates consistent 3D scenes from text by fine-tuning a multi-view diffusion model with consistency loss and using Gaussian splatting for geometry.",
+      "llm_tldr_cn": "针对第一人称视角场景生成中视角重叠少、几何畸变的问题，提出CGGS文本到3D框架。通过微调多视角潜在扩散模型并加入一致性损失生成高质量2D内容，再结合高斯溅射构建几何结构。实验表明在保持视角一致性和几何准确性方面优于现有方法。CGGS为大规模3D场景生成提供了新思路。",
+      "llm_tldr": "针对第一人称视角场景生成中视角重叠少、几何畸变的问题，提出CGGS文本到3D框架。通过微调多视角潜在扩散模型并加入一致性损失生成高质量2D内容，再结合高斯溅射构建几何结构。实验表明在保持视角一致性和几何准确性方面优于现有方法。CGGS为大规模3D场景生成提供了新思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05356v1",
+      "source": "arxiv",
+      "title": "ReCal3R: Reliability-Calibrated Learning Rates for Streaming 3D Reconstruction",
+      "abstract": "Streaming 3D reconstruction relies on a compact recurrent scene state to process long image streams in linear time and bounded memory. However, repeated updates can gradually corrupt this state, causing reliable historical information to be overwritten by noisy or ambiguous observations. We introduce ReCal3R, a reliability-calibrated learning rate method for recurrent 3D reconstruction. Instead of directly applying a candidate learning rate, our method estimates state token reliability from the maintained scene state and uses it to calibrate a candidate learning rate derived from token alignment, state reconstruction residual, and recent update pressure. The resulting token-wise learning rate interpolates between a conservative base rate and the candidate rate, suppressing aggressive updates on unreliable tokens while preserving adaptation to informative frames. Applied to CUT3R as a training-free calibration rule, ReCal3R reaches strong performance on long sequences in pose, depth, and reconstruction quality, including a 3.7$\\times$ reduction in ATE, with comparable runtime and memory. Code is available at: https://github.com/Powertony102/ReCal3R.",
+      "authors": [
+        "Xinze Li",
+        "Yiyuan Wang",
+        "Pengxu Chen",
+        "Wentao Fan",
+        "Weifeng Su",
+        "Weisi Lin",
+        "Wentao Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:35:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.05356v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "streaming 3D reconstruction with reliability-calibrated learning rates",
+      "llm_evidence_cn": "基于可靠性校准学习率的流式3D重建",
+      "llm_evidence": "基于可靠性校准学习率的流式3D重建",
+      "canonical_evidence": "基于可靠性校准学习率的流式3D重建",
+      "llm_tldr_en": "ReCal3R introduces a reliability-calibrated learning rate method for recurrent streaming 3D reconstruction, preventing state corruption by calibrating updates based on token reliability.",
+      "llm_tldr_cn": "流式3D重建依赖紧凑的循环场景状态处理长图像序列，但重复更新可能污染状态。本文提出ReCal3R，一种可靠性校准的学习率方法，通过估计状态标记的可靠性来调整候选学习率。该方法在多个流式重建数据集上显著提升了重建稳定性与准确性，有效防止了历史信息被噪声覆盖，使得流式3D重建更加可靠。",
+      "llm_tldr": "流式3D重建依赖紧凑的循环场景状态处理长图像序列，但重复更新可能污染状态。本文提出ReCal3R，一种可靠性校准的学习率方法，通过估计状态标记的可靠性来调整候选学习率。该方法在多个流式重建数据集上显著提升了重建稳定性与准确性，有效防止了历史信息被噪声覆盖，使得流式3D重建更加可靠。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
