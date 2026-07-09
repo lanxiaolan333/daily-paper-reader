@@ -1,0 +1,433 @@
+Title: Efficient Compression of Structured and Unstructured Volumes via Learned 3D Gaussian Representation
+
+URL Source: https://arxiv.org/pdf/2607.01164v1
+
+Published Time: Thu, 02 Jul 2026 01:27:35 GMT
+
+Number of Pages: 11
+
+Markdown Content:
+# Efficient Compression of Structured and Unstructured Volumes via Learned 3D Gaussian Representation 
+
+Landon Dyken, Sharmistha Chakrabarti, Nathan Debardeleben, Steve Petruzza, Qi Wu, Will Usher, Sidharth Kumar 
+
+Fig. 1: Volume rendering of the 17.9 GB unstructured Impact dataset with a custom transfer function using the ground truth and our 1024 × compressed model, at 4K samples per pixel. Our method encodes both scalar field and domain geometry using 3D Gaussians, allowing up to 135 × higher compression ratios than previously possible. 
+
+Abstract —Recent work has shown that implicit neural representations (INRs) can be trained to effectively compress structured and unstructured volume data, allowing for direct data querying with a reduced memory footprint. However, as existing INRs for unstructured volumes do not encode geometry, they require partial mesh storage for later sampling, limiting achievable compression. At the same time, novel view synthesis methods have shown that explicit collections of 3D Gaussians can be used to accurately visualize volume data. In this work, we introduce an explicit model for volume data compression based on 3D Gaussian primitives. We reinterpret collections of 3D Gaussians as an explicit representation of a volume’s scalar field and use a sampling strategy that reconstructs scalar values at spatial locations through weighted aggregation of intersecting Gaussians. We develop optimized CUDA-accelerated pipelines for structured and unstructured model sampling, loss functions that encourage scalar field continuity of our models, and a novel sampling-error based densification strategy. Our explicit formulation naturally encodes domain geometry, eliminating the need for mesh storage in unstructured volumes and introducing significantly higher compression opportunities. Compared to existing INRs, we demonstrate that our explicit model achieves competitive reconstruction quality with significant training speedups on structured volumes, while markedly outperforming in all metrics on unstructured volumes. 
+
+Index Terms —Volume data compression, 3D Gaussian splatting, unstructured volume data. 
+
+1 INTRODUCTION 
+
+Modern HPC systems have enabled scientific simulations to generate massive volumetric datasets, regularly reaching gigabytes to terabytes for storing a single simulation timestep. While simulations use adaptive mesh refinement (AMR) [3, 4, 7, 9, 10, 21] or unstructured meshes [3, 12, 32, 33] to more efficiently utilize limited memory budgets, output volumes remain large. Effectively using these datasets for end user tasks is difficult, as they exceed the memory of client systems, necessitating further use of HPC resources. While traditional compression methods can greatly reduce data size, they require decompressing some or all of the data before it can be used. This leads to latency and added memory usage, which prohibit the use of the compressed model for many tasks. In contrast, directly queryable models offer compression that does not require decompression before sampling the data. A family of methods that has become popular for this use case is the creation of scene representation networks (SRNs), also called implicit neural representations (INRs) [25, 45, 46, 49], which approximate volume data with neural networks that learn an implicit function from input 3D positions to output scalar values. While most approaches for volume visualization have targeted only structured grid data, there have also been extensions to unstructured volumes [24, 39], by clustering data points and training separate SRNs to represent each cluster. This strategy results in a compressed model of the scalar field contained in an unstructured mesh, but does not encode any information about the geometry of the mesh itself. As a result, some uncompressed mesh geometry must be stored alongside the model for downstream tasks, setting a hard cap on achievable compression ratios. We find this in contrast with recent work in traditional compression, which shows that the majority of memory to be saved in unstructured volume compression comes from reduction of the connectivity information, 
+
+> arXiv:2607.01164v1 [cs.LG] 1 Jul 2026
+
+rather than the vertices of the unstructured volume [28, 43]. At the same time, a separate family of methods has explored ap-plying novel view synthesis (NVS) techniques to volume visualiza-tion [2, 11, 42, 50, 51] to render datasets within small memory and compute footprints. Instead of creating a compressed representation of a volume dataset directly, these methods train a model from rendered images of a dataset, producing a representation that can infer renderings with unseen camera viewpoints, lighting parameters, and even transfer functions applied. Generally, while these models can produce accu-rate images, their applications are constrained to a specific rendering method. Additionally, training times for novel view synthesis models are typically much longer than those of SRNs [11, 46, 51]. In this work, we take inspiration from volume encoding Gaussians (VEG) [11], a novel view synthesis method in which 3D Gaussian splat-ting (3DGS) [18] was improved for volume visualization by replacing attached color properties with scalar values per Gaussian. We adapt this representation for direct compression of volume data by creating a novel inference pipeline that uses VEG to reconstruct volume samples in 3D space, rather than images in 2D space. Output is computed through averaging the values of 3D Gaussians intersecting a sample location, effectively treating the collection of Gaussians as a representa-tion of the volume’s underlying scalar field. By using fewer Gaussians than data points in the ground truth, our models can represent a dataset using a fraction of the original memory, while being able to be directly sampled as if they were the original data. Our method differs from existing learning-based compressors in that we uniquely build an explicit model, rather than an implicitly defined neural network, which has several advantages. First, using our CUDA-accelerated sampling algorithms, our training process is faster than existing INR-based methods while maintaining reconstruction quality. Second, our model has completely dynamic memory allocation; Gaus-sians can be added or removed in order to best adapt to the compression goal and dataset being represented. We utilize this by presenting a novel densification strategy which places new primitives at positions with high sampling error during training. This technique improves reconstruction quality, particularly for unstructured volumes where spatial complexity is highly varied. Finally, our model can directly define the domain of a scalar field with the geometry of 3D Gaussians. For unstructured volumes, previous work required storing a mesh’s exterior surface for arbitrary sampling [24, 39], as only data points were compressed. For the datasets in our evaluation, this storage limits real effective compression ratios to between 7 − 24 ×. By introducing some lossiness in domain representation, our method is able to create arbitrarily small compressed models. Our contributions are as follows: 1. An explicit trained model for volume data compression with CUDA-accelerated sampling for structured and unstructured data. This model outperforms the fastest INR on training time by an average 1.52 ×, while reaching reconstruction quality equivalent to models that are much slower to train. 2. A sampling-error based densification strategy that improves recon-struction quality, especially for unstructured volumes. Compared to unstructured INRs, our method has 1.60 × higher PSNR and is 6.97 × faster to train across compression ratios and datasets. 3. The first model for unstructured volume compression that re-moves the need to store any mesh geometry. At the same model sizes, this method achieves 1.43 × higher quality and 4.53 × faster training times than previous work while demonstrating effective compression ratios up to 135 × higher than previously possible. 
+
+2 RELATED WORK 
+
+Although our work does not use a neural network, it targets the same use cases as work on neural representations for volume data, which we review in Section 2.1. Section 2.2 reviews prior work on NVS techniques for volume visualization, as these provide inspiration for our technique. 
+
+2.1 Neural Representations for Volume Data 
+
+Prior work has proven neural representations greatly effective for vol-ume compression and visualization tasks, as shown in the recent survey by Wang and Han [44]. These representations use neural networks to estimate a volume’s scalar field, which can allow for faster sampling, lowered memory footprint, and more interactive rendering than usage of the original volume. Early work by Griffin et al. [14] proposed a deep convolutional autoencoder network for compressed rendering of multi-variate time-varying volume data. After the success of SIREN’s [38] implicit neural representation for general images and 3D shapes, Lu et al. created Neurcomp [25] to adapt the method for volume data compression. Weiss et al. developed fV-SRN [45] using dense-grid encoding [41] to support interactive rendering of volume data with their neural representation. Wu et al. then utilized multi-resolution hash en-coding [30] and algorithmic improvements to rendering to further build on fV-SRN’s performance with InstantVNR [47]. Wurster et al. [49] created a method using adaptively placed multi-grids for their SRN (AMGSRN), then improved its speed and memory footprint with fused CUDA kernels and compression-aware training [48]. Han et al. [16] used a mixture-of-experts framework to divide spatiotemporal fields for time-varying volume compression. While the methods reviewed so far have only been applied to structured volumes, there is recent work in extending neural representations to unstructured volume data. Liu et al. [24] presented UGINR, which used k-means clustering to separate groups of data points in an unstructured volume, then compressed each with a separate network. Son et al. [39] then proposed MCINR, which extended this method through meta-learning across clusters. While our method produces a learned model for volume compression, it utilizes an explicit set of Gaussian primitives rather than a neural representation. Our model is unique in having full control of memory allocation in space via adaptive densification of 3D Gaussians. This benefits datasets with empty space or varying feature density, and maps especially well to the complexity of unstructured volumes. Our method also skips the expensive k-means clustering steps of MCINR and UGINR, and provides the opportunity to encode all mesh geometry, which greatly limits compression ratios in their cases. 
+
+2.2 Novel View Synthesis for Volume Visualization 
+
+As they are trained on sets of images rather than data directly, novel view synthesis methods have the capability to render volumes while having compute and memory costs not tied to the data size. Early work by Berger et al. [8] showed that pre-trained generative adversarial networks can synthesize volume rendering and transfer function explo-ration. Yao et al. [51] proposed a hybrid approach where a network is trained from a small number of rendered images to reconstruct pre-shaded volumetric scenes. VisNeRF [50] presented a radiance field representation that allows for NVS of volume data with interactive rendering parameter control. Because of its popularity for general NVS, recent work has explored 3D Gaussian splatting (3DGS) [18] for volume visualization. This work involves representing a 3D scene as a set of 3 dimensional Gaussians with colors and opacities, that can then be projected into 2D and blended to render an image. As this rendering is differentiable, the set of Gaussians can be optimized from training images to reconstruct the scene accurately, while the explicit model of 3D Gaussians allows for fast rendering. Han et al. [17] recently used distributed 3DGS [52] for visualization of large scientific datasets. iVR-GS [42] adapted 3DGS to volume visualization by implementing Blinn-Phong lighting, editable Gaussian colors, and composed sets of Gaussians to represent a volumetric scene at multiple transfer functions. Dyken et al. [11] built on this by introducing volume encoding Gaus-sians (VEG), which achieve better performance on transfer functions unseen during training by removing color and opacity per Gaussian, replacing them with scalar values that learn the volume more directly. Our method utilizes the VEG representation, but applies it to volume compression rather than novel view synthesis. This use case allows our models to be used for any task that the original volume data could be used for, rather than only rendering in a specific configuration. We also find our world-space training pipeline to be much faster than image-space training, with the original VEG benchmarks [11] taking 10-20 Structured Volume  Unstructured Volume 
+
+> NO
+> VALUE Fig. 2: Visualization of sampling for structured (left) and unstructured (right) volumes. Structured volumes define scalar fields over a regular grid, while unstructured volumes must define an explicit geometry.
+
+minutes on the Chameleon, RBL, and Mito datasets compared to less than a minute for ours. To avoid ambiguity, we hereafter refer to the original rendering-oriented formulation as image-space VEG (I-VEG) and to our direct-query formulation as world-space VEG (W-VEG). 
+
+3 PRELIMINARIES 
+
+In this section, we first give background on volume data types (Sec-tion 3.1), then review the VEG representation (Section 3.2), and how we adapt it to volume sampling. Finally, we present a brief demonstra-tion on how image-space VEG (I-VEG) models [11] fail to generalize to volume reconstruction (Section 3.3). 
+
+3.1 Volume Types 
+
+A structured volume is defined by a set of scalar values on a regular grid, with neighboring points assumed to be connected by cells. Any point in space can be interpolated from surrounding grid points. The geometry of a structured volume is implicit; only the data values need to be stored. In contrast, unstructured volume data requires explicit storage of the geometry over which the scalar field is defined. Given a position in space, a test is performed to determine what cell in the volume, if any, contains it, before interpolating between that cell’s vertices to find the scalar value at that position. A comparison of sampling structured and unstructured volume data is shown in Figure 2. Both structured and unstructured volume data can be defined as functions that map positions in a subset of 3-dimensional space to values in a scalar field, i.e. Φ : Ω ⊂ R3 → R, (x, y, z) 7 → v = Φ(x, y, z).They differ in that, while the domain of a structured volumetric function is easily defined by its origin and bounds, the domain of an unstructured volumetric function has no set structure; the function can be defined over any region matching the unstructured volume’s geometry. In addition, the complexity of this function is not uniform with respect to spatial area, as points in an unstructured volume can have arbitrary spacing. 
+
+3.2 Volume Encoding Gaussians 
+
+Volume encoding Gaussians are defined as 3-dimensional Gaussian distributions, which differ from traditional 3D Gaussians [18] by param-eterizing each Gaussian with trainable scalar values and weights, rather than colors and opacities. I-VEG [11] also attach lighting parameters, which we exclude from this work due to targeting volume sampling rather than direct rendering. This leaves the parameter list for each world-space volume encoding Gaussian (W-VEG) as the mean position (μi), scaling and rotation matrices defining the 3D covariance matrix (Si, Ri), value representing the volume’s scalar field ( vi), and weight (wi). I-VEG modeled direct volume rendering by first applying transfer functions and weighting to compute per-Gaussian color ( ci) and opacity (αi), then splatting them through projection of their 3D covariance matrix into 2D image space. By then α-blending the splatted Gaussians in front-to-back order, they approximate the emission-absorption model for raymarching-based volume rendering, accumulating the contribu-tion of N Gaussians per pixel with the equation: 23.0 PSNR     
+
+> 19.8 PSNR
+> Ground Truth Sampled I -VEG Splatted I -VEG
+> Fig. 3: "Chameleon" and "Vortex" I-VEG models from Dyken et al [11], with splat-based renders using their method. To assess performance for volume reconstruction, we sample each model to a 512 3grid. We present volumetric PSNR comparing sampled volumes to the ground truth, as well as renders using Pyvista, and find poor reconstruction quality.
+
+P =
+
+> N
+
+# ∑
+
+> i=0
+
+ci · αi ·
+
+> i−1
+
+# ∏
+
+> j=0
+
+(1 − α j) (1) In this work, we target volume reconstruction, and so build a new inference method for approximating volume samples in 3D space, rather than rendering images. To accomplish this, we use normalized Gaussian kernel regression: given the N Gaussians intersecting a point 
+
+p = ( x, y, z), we perform estimation of the value of the scalar function 
+
+φ at that point as the weighted average: 
+
+Φ(p) = ∑Ni=0 wi · vi · Gi(p)
+
+∑Ni=0 wi · Gi(p) (2) Where each Gi is the 3-dimensional Gaussian kernel defined as: 
+
+Gi(p) = e− 12 (p−μi)⊤R⊤   
+
+> iS−2
+> iRi(p−μi)
+
+(3) with R⊤ 
+
+> i
+
+S−2 
+
+> i
+
+Ri being the inverse of the i-th Gaussian’s 3D covariance matrix. We multiply by the learnable weight parameter wi to provide a distance-independent way for Gaussians’ influence to be scaled up or down. Similarly to the weight parameter in previous work [11], this provides the training process direct control to reduce the effect of Gaussians that contribute negatively to reconstruction, as well as increase the importance of useful Gaussians. 
+
+3.3 Testing Image-Trained VEG 
+
+To motivate our development of a world-space VEG training method for volume compression, we evaluate sampling of models produced by image-based training. We obtained the "Chameleon" and "Vortex" I-VEG models from Dyken et al. [11], and sampled them onto a 512 3
+
+regular grid using our inference method (Equation 2). Figure 3 presents the resulting volumes rendered with PyVista, alongside reconstruction quality as volumetric PSNR. The I-VEG models give low PSNR values of 19.8 and 23.0, respectively, showing that models learned through image-space training can not be immediately used for accurate sam-pling. Basic interventions of scaling Gaussian extents and weights by different factors did not improve reconstruction quality. 
+
+4 STRUCTURED VOLUME RECONSTRUCTION 
+
+In this section, we present our method for training W-VEG for struc-tured volume reconstruction. We first detail our CUDA-accelerated sampling algorithm, which adapts the tile-based 2D rasterizer of Kerbl and Kopanas et al. [18] to Gaussian-sample intersection testing (Sec-tion 4.1). Next, we introduce our training pipeline and discuss the 3D Gaussians                                                                                        
+
+> Ground
+> Truth
+> Forward
+> Pass
+> 3D Gaussians After Applying
+> Gradients
+> Compute Loss
+> Write Gaussian -Block Intersections
+> 05
+> 24 29
+> 01
+> 23
+> 19 20 25 26 21 22 27 28 1237892348910
+> 00001111222222333333
+> 1223347889910 19 20 21 22 25 26 27 28
+> 22323322323300110011
+> Block ID
+> Gaussian ID
+> Sort By Block
+> Estimate Samples
+> 05
+> 24 29
+> Per Block
+> Load Gaussians 88
+> 23
+> Per Cell
+> Use loaded Gaussians to
+> estimate scalar function
+> Sample Output
+> Per Block
+> Load cell data
+> Per Gaussian -Block
+> Intersection
+> Accumulate Gradients
+> Forward Operations Backpropagation
+> 0.0 1.0
+> Find Gaussian
+> Bounding Boxes
+> Sample
+> Output Backward
+> Pass
+
+Structured 
+
+Volume 
+
+Sampling 
+
+A B C
+
+D E  
+
+> Block ID
+> Gaussian ID
+> Accumulate gradients
+> from each cell
+> Atomic add to Gaussian
+> 88
+> 23
+
+Fig. 4: An illustration of our sampling algorithm on a 10 × 12 structured dataset, showing forward (A,B,C) and backward (D,E) passes. (A) For a given set of Gaussians (0,1,2,3), we compute AABBs in blocks ( 2 × 2 cells here). (B) We use AABBs to write each Gaussian-block intersection as a pair of [Block ID, Gaussian ID], which are then sorted by block. (C) Samples are computed by loading intersected Gaussians per block, then having each cell estimate the dataset’s scalar function with Equation 2. (D) The first step of the backward pass is to compute loss as the difference between the ground truth and sample output. Partial derivatives of loss with respect to each sample are then given to our compute gradients kernel. (E) This kernel is launched per Gaussian-block intersection using the same list as (C), grouped by block ID. Each block loads cell data cooperatively, then each Gaussian in the block computes and sums partial gradients from the cells it contributed to, before atomically adding this sum to its global gradients. We show how gradients could improve the Gaussians for the next iteration. For simplicity, this figure treats 0-valued cells as empty space. 
+
+techniques necessary to facilitate optimization of W-VEG models that can accurately represent structured volumes (Section 4.2). 
+
+4.1 Structured Volume Implementation 
+
+Our implementation for structured volume sampling extends 3DGS to voxel rasterization onto a regular 3D grid, which allows for computing scalar values at output sample locations with Equation 2. We illustrate our rasterization method in Figure 4. The steps of this rasterization involve finding Gaussian bounding boxes (Figure 4A, Section 4.1.1), writing Gaussian-block intersections (Figure 4B, Section 4.1.2), and estimating samples (Figure 4C, Section 4.1.3). This process is differen-tiable, with a custom backward pass to accumulate Gaussian gradients from computed loss (Figure 4D-E, Section 4.1.4). 
+
+4.1.1 Finding Gaussian Bounding Boxes 
+
+To reconstruct samples for each cell in a regular grid, the sampling kernel needs to sum all relevant Gaussian-cell intersections. While it would be possible to test every Gaussian-cell intersection, the influence of a Gaussian is effectively zero for most of the volume due to exponen-tial dropoff around the mean. Instead, we first find Gaussian bounding boxes and write which cells these boxes intersect, allowing each cell to only test against Gaussians in its intersection list. Furthermore, because neighboring cells are likely to intersect the same Gaussians, we replace the per-cell intersection lists with intersection lists for blocks of neigh-boring cells without drastically increasing the sizes of the lists. This both reduces the total number of intersections and improves memory usage in the sampling kernel by allowing blocks to collaboratively load Gaussians into shared memory. To compute bounding boxes, we launch one thread per Gaussian, and use its rotation and scaling matrices to compute the ellipsoid around the Gaussian’s mean where its influence is the cutoff ( τ1) for considering a sample to be reconstructed. For our evaluation, we set τ1 = 0.01 as a solid tradeoff between reducing unnecessary intersections and maintaining accuracy. We convert this ellipsoid to an axis-aligned bounding box (AABB) in blocks of the structured grid, and write the AABB along with number of blocks intersected as output. To reduce redundant computation in the sampling kernel, we also precompute each Gaussian’s inverse 3D covariance matrix (conic) here. 
+
+4.1.2 Writing Gaussian-Block Intersections 
+
+Several small kernels are needed to organize the Gaussian-block in-tersections for the sampling kernel. First, a prefix sum is run on the array storing the number of intersected blocks per Gaussian, giving the indices to write intersections for each Gaussian as well as the total number of intersections. Next, we write out the Gaussian and block IDs for each intersection using the computed AABBs. Unlike the tile-based rasterizer from 3DGS [18] which parallelizes this step over Gaussians, our method parallelizes over total intersections, using a binary search and indexing to find which Gaussian and block it cor-responds to respectively. Individual Gaussians intersect many more cells in 3D rasterization than pixels in 2D rasterization, with far greater variance in count, leading to poor workload balance with their method. Finally, we sort the Gaussian and block IDs by block ID and write out the indices of each block’s list of intersections, giving the input needed for the sampling kernel. Because the order of Gaussians within a block’s list is irrelevant, we experimented with replacing this sort-based method with atomically counting and writing Gaussians, but this led to worse performance. 
+
+4.1.3 Estimating Samples 
+
+The final kernel in our forward algorithm estimates the samples for each cell c. This is done by launching a thread for each cell in the grid, organized into thread blocks according to the blocks of the volume. Each thread block cooperatively loads a batch of Gaussians from its in-tersection list into shared memory, specifically means, values, weights, and conics. Threads use these to compute contributions from Gaussians to its cell’s accumulated influence ( Ic += wi · Gi(p)) and accumulated weighted value ( Vc += vi · wi · Gi(pc)), where pc is the sample location. Once all Gaussians in a block have been processed, each thread checks that Ic is greater than the cutoff τ1, and if so writes its sample output as 
+
+Vc = Vc 
+
+> Ic
+
+along with Ic.
+
+4.1.4 Accumulating Gaussian Gradients 
+
+The forward output is a grid of samples, which can be compared to ground truth samples of the volume data to evaluate loss. Once loss is computed, Pytorch automatically computes partial derivatives with respect to the sample output, which are passed to our backward pass kernels. The first kernel performs the backward operation of the sample estimation kernel, backpropagating gradients from each cell to the Gaussians that influenced its output. While the simplest method would be to mimic the forward pass in launching a thread for each cell in the grid, this approach leads to high atomic contention as every cell a Gaussian influenced atomically adds its partials to the Gaussian’s global gradients. Instead, we use the list from the forward pass to assign threads to each Gaussian-block intersection, and group them by block ID. In the kernel, each block cooperatively loads the data for its cells ( Ic,
+
+Vc, dL dI c , dL dV c ) into shared memory, then each thread computes and sums gradients from these cells for its respective Gaussian, before atomically adding the sum to the Gaussian’s global gradients. This effectively Ground Truth  
+
+> 3DGS
+> 0.0 1.0
+> Relocation
+> L1 Loss
+
+## A
+
+## B
+
+## C      
+
+> Position Gradient 3D Gaussians
+> MCMC
+> Error
+> Based
+> Ground Truth 3D Gaussians
+> Ground Truth 3D Gaussians
+> Result
+> Result
+> Result Fig. 5: Illustration of densification strategies on different example struc-tured volume datasets. (A) 3DGS densification, in which Gaussians with large positional gradients are duplicated. (B) Markov Chain Monte Carlo (MCMC) densification, in which Gaussians with weight below a cutoff are relocated to Gaussians with high weight. (C) Our sample-error-based densification, in which Gaussians are created at the location of the k
+> highest error samples during training ( k=2in this example).
+
+reduces atomic operations by a factor of the volume block size. Our approach is similar to recent work in optimizing 3DGS’s tile-based rasterizer through per-splat parallelized gradient computation [15, 26]. Over the entire sampling pipeline, a block size of 32 (split into 4, 4, 2 over x, y, z) gives best performance for our use cases. 
+
+4.2 Structured Volume Training 
+
+With our fast differentiable sampling engine, training proceeds through successive iterations of sampling a set of W-VEG, computing loss against ground truth results, then backpropagating gradients to the pa-rameters of each Gaussian ( μi, Si, Ri, vi, wi). We use sigmoid activation functions for vi and wi to constrain them within [0, 1) for stability, a normalization activation for Ri, and an exponential activation for Si.We apply a soft norm cap to scales to reduce workload imbalance that occurs with Gaussians of wildly different sizes. We use L1 reconstruc-tion loss between model and ground truth samples. To initialize our models, we use the strategy of Dyken et al. [11], converting a portion of a volume’s vertices to isotropic W-VEG with the same scalar values, initial weights of 0.01, and scales dependent on the density of surround-ing points. In Section 4.2.1, we discuss methods for density control of W-VEG during training, and in Section 4.2.2 we discuss how to ensure W-VEG models cover a volume’s full domain. 
+
+4.2.1 Densification 
+
+An important aspect of training 3D Gaussian models is properly adapt-ing the density of Gaussians throughout space, referred to as the densi-fication and pruning strategy. This process involves adding Gaussians to under-reconstructed or empty areas (densification), and removing unnecessary or loss-increasing Gaussians (pruning). While there is much recent work on improving densification, the original pruning strategy from Kerbl and Kopanas et al. [18], which periodically re-moves Gaussians below a chosen opacity threshold τ2, is still popular. We adapt this for our work by simply replacing the opacity threshold with a weight threshold (set to 0.005, matching previous work). We experiment with three densification strategies: an adapted version of the gradient heuristic method from 3DGS [18], an extension based on Markov Chain Monte Carlo (MCMC) sampling [19], and our sample-error-based strategy inspired by pixel-error-based methods [37]. The original 3DGS method densifies when a Gaussian’s view-space positional gradients are above a chosen threshold. There are no view-space gradients in our case, and so we adapt this by using world-space 3D  
+
+> Gaussians
+> Ground
+> Truth
+> False Negative False Positive
+> NO
+> VALUE
+> NO
+> VALUE
+
+# A B
+
+> Fig. 6: Illustration of how we define false negative (A) and false positive (B) samples in a W-VEG model for an example unstructured volume. (A) False negative samples intersect no Gaussians in the model and are undefined, even though they are given a value in the original volume. (B) False positive samples intersect Gaussians in the model, but are undefined in the original volume. We introduce loss terms in our training process to minimize the occurrence of both of these model failures.
+
+positional gradients instead. The next method, MCMC, treats a set of 3D Gaussians as MCMC samples drawn from an underlying distribu-tion representing the scene. It then rewrites densification and pruning as a state transition of MCMC samples by relocating Gaussians with opacity below τ2 to target Gaussians chosen through multinomial sam-pling of opacity values. The relocated Gaussians inherit the properties of target Gaussians, except for opacity and scale. These are modi-fied to minimize the difference between rendering outcomes before and after densification, preserving the continuity of MCMC sample state probability. In our 3D sampling context, we replace the usage of opacity with weight. We select the new parameters of relocated Gaussians to minimize the difference in the output of the scalar func-tion φ , considering our set of W-VEG to be MCMC samples of the volume’s true scalar field. All parameters of relocated Gaussians are inherited from targets, except for weight, which is divided by the new number of Gaussians at that position, ensuring Equation 2 is exactly equal before and after densification. When MCMC densification is used, noise must be added to gradient updates to encourage exploration and prevent identical Gaussians optimizing in lockstep. The last strategy we present is sample-error-based densification. This method is conceptually simple; after computing reconstruction loss between estimated samples and the ground truth, we add new Gaussians with means at the positions of the k highest error samples. These new Gaussians are given parameters in the same way as initial-ization, with values corresponding to the ground truth samples. All three densification strategies are illustrated in Figure 5 and evaluated in Section 6.3. We follow the popular convention of applying densification every 100 iterations of training after iteration 500. Because we target volume compression, we limit densification to adding only the number of Gaussians that leads to the desired compression ratio. Densification still continues throughout training, though, as pruning opens up slots for new Gaussians to be created. 
+
+4.2.2 Preventing False Negatives 
+
+In contrast to SRNs, a challenge of training W-VEG models is ensuring the entire domain of a volume’s scalar field is represented. Because the set of W-VEG is explicit, it is possible for there to be positions within the volume that do not intersect any Gaussians with influence above τ1.Similarly to samples outside an unstructured volume’s geometry (as in Figure 2), the model’s output for the scalar field at these positions is undefined. When positions give defined results in sampling from the original volume but not from the corresponding W-VEG model, we call the W-VEG samples false negatives. We show this for an example model in Figure 6A. Because the training process optimizes Gaussian parameters based on reconstruction loss of samples it contributed to, it cannot directly solve this error, since there are no Gaussians influencing 0.0  1.0     
+
+> Sample Positions Create BVH 3D Gaussians Estimate Samples Sample Output
+> Per Gaussian
+> Compute bounding box
+> Use box to traverse BVH and find
+> intersected leaf nodes
+> Per Sample in Leaf
+> Compute
+> Atomically add to sample outputs
+> and
+> AB
+> Ground Truth Fig. 7: An illustration of our sampling algorithm on a 16 cell unstructured dataset, where a sample is taken at each cell center. (A) We first create a BVH containing the given set of positions to sample. This involves splitting the BVH into two nodes by the spatial median each level, then finding the minimal bounding box for each set of positions. We stop splitting while there are still multiple elements in the leaf nodes (4 in this example). (B) We launch a warp of threads for each Gaussian, and compute its AABB. The threads perform a cooperative traversal of the BVH, querying with the AABB, until reaching a leaf node. At this point, threads operate on separate sample positions within the leaf node, compute the Gaussian’s influence and value on that position, then atomically add to the sample’s output. The threads then continue the traversal, hitting every sample position the AABB intersects. After, each sample normalizes its output by dividing its accumulated value by accumulated influence to estimate Equation 2.
+
+the false negative positions. To overcome this difficulty, we introduce several training techniques. First, when computing Gi(p) for a cell, always choosing the cell center as p causes models to overfit to these sample locations. Instead, we select a random position in each cell every iteration of training to encourage models to reconstruct space more continuously. Second, when using sample-error-based densification, we include false negative positions as the top priority for adding new W-VEG. Finally, we intro-duce a false negative loss term that penalizes accumulated influence from dropping close to the cutoff threshold. For a set of samples defined in the volume D, this term is: 
+
+D− = {d ∈ D | Id < (1 + ε) · τ1}
+
+LFN = λFN · ∑d∈D− (( 1 + ε) · τ1 − Id )
+
+|D−|
+
+(4) With proper choice of λFN , this term effectively prevents Gaussians from removing their influence on a sample position if it would cause that position to become a false negative. 
+
+5 UNSTRUCTURED VOLUME RECONSTRUCTION 
+
+In this section, we describe how we extend the method from Section 4 to unstructured volume reconstruction. The training process proceeds similarly to Section 4.2, iteratively optimizing W-VEG from samples taken in 3D space, with the same densification strategies. However, there are two challenges when moving to unstructured volumes. First, the data points of an unstructured volume are spread irregu-larly throughout space. While the previous voxel rasterization method (Section 4.1) works for taking samples along a regular grid, it is un-able to perform sampling for a set of positions with varying spatial density. To address this, we create a separate differentiable sampling algorithm which uses a Bounding Volume Hierarchy (BVH) for in-tersection testing, allowing for estimation of a set of samples at any positions (Section 5.1). Second, the domain of the scalar function 
+
+φ for an unstructured volume is more complex, as it can be defined arbitrarily by the volume’s geometry. When sampling, an intersection test is needed against the exterior surface of the volume to determine whether a position is inside, before it can be given a value. This is not a problem in structured volumes as we can freely cull all samples outside of the volume’s min and maxes. Now, we also need to consider the possibility of false positive samples, or positions that give defined results in sampling from a W-VEG model but not from the original volume. We show this for an example model in Figure 6B and discuss our solutions in Section 5.2. 
+
+5.1 Unstructured Volume Implementation 
+
+Our implementation for unstructured volume sampling replaces block-based rasterization with BVH construction and traversal for Gaussian-sample intersection testing. We illustrate our method in Figure 7, con-sisting of two steps: creating the sample position BVH (Figure 7A, Sec-tion 5.1.1) and using it to estimate samples (Figure 7B, Section 5.1.2). Building a BVH over Gaussians and querying with sample positions is less performant due to Gaussian overlap and the number of samples being far greater than the number of Gaussians in our use cases. 
+
+5.1.1 Creating BVH 
+
+In order to sum all Gaussian-sample intersections, a method is needed to cull the intersection pairs where the Gaussian has little to no influence. To do this, we first create a BVH over the input sample positions, allowing us to later query the tree with each Gaussian and efficiently compute output for only meaningful intersections. For BVH creation, we use the CUDA-accelerated builder of cuBQL [1], treating each sample position as a 0-volume primitive and using the adaptive spatial median node splitting strategy. Although this can increase the number of unnecessary intersections checked, we allow leaf nodes in the tree to contain many primitives, as it leads to faster BVH creation time and improved parallelism during sample estimation. In our evaluation, we present results using 256 primitives per leaf. 
+
+5.1.2 Estimating Samples 
+
+To query the sample position BVH, we first need to find each Gaussian’s AABB using the same preprocessing kernel as Section 4.1.1, although now the bounding boxes are created in world space rather than volume blocks. After, the sample estimation kernel is launched with a warp of threads for each Gaussian, which then perform a cooperative traversal of the BVH. This greatly reduces warp divergence, since even nearby Gaussians take different paths during BVH traversal. As the tree was built with many positions per leaf node, when the warp of threads encounters a leaf, each thread can independently compute output for a subset of positions, atomically adding to those positions’ global output. This parallelizes the work of each Gaussian, which may have a large number of intersections to compute, while minimizing the heavy cost of redundant BVH traversal that would come from a multiple pass approach towards parallelization. After traversal is completed for each Gaussian, a small kernel is launched to normalize sample output by dividing accumulated values by accumulated influence. After loss is computed, the backward pass to compute Gaussian gradients proceeds much the same as the forward sample estimation. The sample BVH is reused, and a warp of threads is again launched per Gaussian to perform a cooperative traversal. Threads now compute partial gradients from the subset of samples in each leaf it is responsible for, accumulating them into a local sum. After traversal is done, a warp-wide reduction is performed to compute the Gaussian’s final gradients. 
+
+5.2 Preventing False Positives 
+
+A difficulty in extending volume representations to unstructured vol-umes is the need to encode the volume’s domain. Previous work [24,39] assumes samples will only be taken inside the unstructured volume, effectively requiring its exterior surface to be stored for any applica-tions that require arbitrary sampling or intersection testing, such as visualization. This greatly limits either the usability of the model, or its maximum compression rate, since a dataset’s cell information typically has a large memory footprint. Nevertheless, we do support this method of building an unstructured volume representation for W-VEG models, W-VEG IVNR 20k IVNR 200k AMGSRN Dataset Ratio PSNR Time PSNR Time PSNR Time PSNR Time Vertebra 1024 × 37.44 2 37.29 10 37.56 101 38.23 120 256 × 39.19 4 39.20 11 39.65 105 39.45 108 64 × 41.98 6 40.98 15 41.52 153 41.92 120 Miranda 1024 × 31.45 7 31.63 12 32.73 116 32.20 149 256 × 37.36 11 37.77 17 40.76 166 36.42 221 64 × 42.98 35 39.16 36 43.22 355 42.71 213 Chameleon 1024 × 44.01 6 41.78 11 42.98 112 43.65 133 256 × 47.86 15 46.84 16 48.40 157 46.29 180 64 × 49.74 49 48.02 31 50.50 310 47.76 176 Richtmyer 1024 × 26.53 9 22.65 19 23.40 188 27.38 840 256 × 28.61 51 23.67 48 25.45 454 29.38 863 64 × 29.83 140 24.10 90 26.91 859 31.12 896   
+
+> Table 1: Comparison of our models (W-VEG, trained until convergence), IVNR models (trained for 20k and 200k iterations), and AMGSRN models (trained for 30k iterations) on reconstruction quality (PSNR) and training time (in seconds) across datasets and compression ratios. Bold indicates best, underline indicates second best per metric.
+
+which we evaluate against previous work in Section 6. Training these models involves the same process as Section 4.2, where we iteratively compute loss using samples inside the unstructured volume. Because our method uses the explicit geometry of 3D Gaussians to represent a volume, it naturally defines the domain of the volume as the areas in space within the influence of one or more Gaussians. This allows us to remove the need for storing the geometry of an unstruc-tured volume, as the model encodes the volume’s domain directly. In order to train our models for this, we use the false negative loss term above, as well as a false positive loss term which penalizes Gaussians for influencing positions in space that are not defined by the original volume. For a set of samples undefined in the volume U, this term is: 
+
+U+ = {u ∈ U | Iu ≥ τ1} LFP = λFP · ∑u∈U+ Iu
+
+|U+| (5) In practice, this term greatly reduces the number of false positives, but can lead to an increase in false negatives as Gaussians must now learn to precisely match the spatial domain of the volume rather than extending out past cell boundaries. In order to represent a volume while minimizing both false positives and false negatives, more W-VEG are needed to achieve the same reconstruction quality as in the surface storage method. As shown in Section 6.2 though, this tradeoff is necessary to enable high compression ratios, as surface storage is prohibitively expensive. 
+
+6 EVALUATION 
+
+We evaluate the performance of our method in terms of reconstruction quality (PSNR) and training time on sets of both structured (Section 6.1) and unstructured volume (Section 6.2) datasets. We compare against state-of-the-art INRs for both, and present results at multiple com-pression ratios for each dataset. We additionally include a study of different densification strategies (Section 6.3). Unless otherwise stated, we use the Adam optimizer [20] with experimentally chosen learning rates of 0.0025 for values, 0.025 for weights, 0.001 for scaling, 0.0001 for rotations, and 0.00016 for means. We apply a soft cap of 0.02 to scales, except for extremely small models where we increase the cap to 0.04. We initialize all models with 1/5th the Gaussians that will be in the final model, use our error-based densification strategy with 
+
+k = 1/5th the final number of Gaussians, and end training when the target compression ratio is reached and average loss has not decreased in a 500 iteration stretch. We conduct a short hyperparameter scan for 
+
+λFN and λFP for each dataset, as optimal values depend on data size and complexity. For all training, including comparison works, we use a workstation with an NVIDIA A100 GPU. We report in-memory model sizes, ignoring file compression for all measurements. Ground Truth  W-VEG Model  Loss  W-VEG Density 
+
+Miranda 
+
+Richtmyer   
+
+> Fig. 8: Renderings of ground truth, 1024 ×compressed W-VEG models, loss, and W-VEG density for Miranda and Richtmyer datasets. While loss and W-VEG density are spatially uniform for the Miranda model, they are heavily clustered on the mixing surface of the Richtmyer model, due to our method’s explicit nature and adaptive density control during training.
+
+6.1 Structured Volume Evaluation 
+
+Experimental Setup We first present results of our method for sev-eral structured volume datasets gathered from the Open SciVis reposi-tory [22]. The size of each dataset is included in the appendix. Before training, these were resampled to floating point and normalized in value range and dimensions to [0, 1]. Each training step, we compare 128 3
+
+uniform samples from the W-VEG model and ground truth volume. For structured INR comparison, we use state-of-the-art methods for static volumes with regard to training time in order to show the speed of our explicit model. We use the fully CUDA-based implementation of InstantVNR (IVNR) [47], as well as improved AMGSRN [48], with tiny-cuda-nn [29] for fused CUDA kernels. We note that, while our training pipeline is implemented in Python with PyTorch, training speed could be increased further with a native CUDA pipeline. For comparison models, we conduct a scan on encoding configurations to achieve target compression ratios, and include these in the appendix. When possible, we keep configurations as close to those presented in the original work as we can. We follow the evaluation of each paper in creating models: for InstantVNR, we present models trained for both 20k and 200k iterations, where each iteration uses a batch of 65 , 535 randomly chosen samples, and for AMGSRN, we present models trained for 30k iterations with a batch size of 131 , 072 . We do not use compression for AMGSRN models, and so disable compression-aware loss according to their recommendation. 
+
+Results We present results for this comparison in Table 1, with all models trained for compression ratios of 1024, 256, and 64 × for each dataset. Averaging all benchmarks, IVNR 200k, AMGSRN, and our method achieve remarkably similar PSNRs of 37.76, 38.04, and 38.08 respectively, while IVNR 20k trails at 36.09. At the same time, our method achieves average speedups of 1.52, 14.91, and 17.48 × against IVNR 20k, IVNR 200k, and AMGSRN, showing the superior speed to quality tradeoff of W-VEG models. Individual training steps for our models were slower in most cases due to our much larger batch size, but they took between only 1000 and 4000 steps to reach convergence, resulting in faster overall training times for all but the 256 and 64 ×
+
+Richtmyer models and the 64 × Chameleon model with IVNR 20k. Our model dynamically assigns memory to areas of high detail through adaptive densification of W-VEG, meaning our models should excel on sparser datasets that include empty space or large variations in feature density. We do find this result when comparing against IVNR 200k, as our method outperforms in PSNR on the Richtmyer dataset, where complexity is clustered on the mixing surface, while losing on the Miranda dataset, where complexity is uniform throughout. To illus-trate this complexity difference, we present ParaView [5] renderings of ground truths, 1024 × compressed W-VEG model reconstructions, and loss, along with the models’ Gaussian density rendered with Super-Dataset Model CR UGINR Real W-VEG Real W-VEG+S Real PSNR Time (s) CR PSNR Time (s) CR PSNR Time (s) CR FP % RBL 64 × 42.83 24 8.6× 78.94 16 8.6× 67.28 24 64 × 4.81 256 × 30.58 23 9.6× 78.37 15 9.6× 62.94 22 256 × 8.43 1024 × 20.72 24 9.8× 75.63 15 9.8× 58.57 28 1024 × 21.55 Mito 64 × 37.84 31 16 .6× 77.07 16 16 .6× 58.68 23 64 × 2.97 256 × 28.80 31 20 .5× 67.57 15 20 .5× 55.88 20 256 × 4.09 1024 × 23.15 33 22 .0× 58.14 13 22 .0× 52.58 19 1024 × 10.40 SF1 64 × 42.73 73 17 .3× 56.73 20 17 .3× 53.14 29 64 × 1.08 256 × 35.55 75 21 .7× 53.62 18 21 .7× 50.20 26 256 × 3.13 1024 × 27.05 74 23 .2× 47.49 17 23 .2× 45.45 25 1024 × 8.85 Valley 64 × 39.20 525 14 .8× 45.69 21 14 .8× 43.17 32 64 × 4.34 256 × 37.08 508 17 .9× 40.53 16 17 .9× 39.38 21 256 × 6.89 1024 × 34.32 520 18 .9× 35.83 11 18 .9× 34.75 27 1024 × 6.93 Earthquake 64 × 51.98 1456 6.9× 55.96 92 6.9× 54.82 146 64 × 4.75 256 × 50.61 1435 7.5× 52.77 37 7.5× 50.85 71 256 × 6.42 1024 × 45.97 1488 7.6× 47.13 19 7.6× 44.11 23 1024 × 10.30 Impact 64 × OOM OOM OOM 48.44 462 14 .4× 48.33 446 64 × 5.33 256 × OOM OOM OOM 46.75 144 17 .4× 46.86 135 256 × 8.51 1024 × OOM OOM OOM 44.82 46 18 .3× 44.77 47 1024 × 15.10 
+
+> Table 2: Comparison of UGINR, our models trained to encode only scalar fields (W-VEG), and our models trained to encode both scalar fields and volume domain (W-VEG+S). Model compression ratios (CR) to the original volume are given, as well as real compression ratios which include exterior surface storage for models which do not encode domain. OOM means the model was not able to train due to memory constraints.
+
+splat [40], for Miranda and Richtmyer in Figure 8. AMGSRN models also perform well for the Richtmyer dataset, likely due to their use of adaptive feature grids which fit to regions of high error during training. 
+
+6.2 Unstructured Volume Evaluation 
+
+Experimental Setup We next study the performance of our method on a set of unstructured volumes, all of which come from published sources (RBL, Mito, SF1 [36], Valley [6], Earthquake [28], Impact [35]). We give the size of datasets with regard to unstructured volume points, cells, total size, and size of the exterior surface of the mesh in the appendix. For models that require samples to only be taken inside the unstructured volume’s domain, exterior surfaces must be stored along with the models to support arbitrary sampling. While the memory foot-prints of these surfaces are much smaller than the datasets themselves, they heavily limit compression, as a surface only 1/20 th the size of the data limits the possible compression ratio to only 20 ×.For comparing against unstructured volume INRs, we reached out to the authors of MCINR [39], but their codebase is not available publicly and their paper only evaluates private datasets, so we present results only against UGINR [24]. We match their default training parameters and architecture in almost all cases, using a batch size of 16 , 384 points and training for 75 passes over the number of data points in the volume. We perform k-means clustering over data point positions, rather than values, in order to support sampling without prior knowledge of a sample position’s value range. We experimented with different numbers of clusters for our chosen datasets, and found the 20 clusters that MCINR uses to perform better than the 75 of UGINR, so we present those models here. The time to generate k-means clustering is not included in our UGINR training time results. We present two kinds of models for our own method: one in which we follow the approach of INRs and do not encode the unstructured vol-ume domain, necessitating exterior surface storage, and one in which we do, removing this requirement. We refer to these two types of models as W-VEG and W-VEG+S (Surface) respectively. For W-VEG models, we follow our structured volume approach by not using false positive loss (Section 5.2), and train using batches of 128 3 samples taken at random positions within the volume corresponding to point density. For W-VEG+S models, we include false positive loss and train using the same sampling as W-VEG models, but replace 1/5th of sam-ples in each batch with random positions just outside the volume. These are taken on the exterior surface jittered by a random amount along the faces’ normals. This allows our false positive loss to encourage Gaussians’s influence to remain within the domain, using positions that can be arbitrarily close to the volume without being inside. To evaluate the W-VEG+S models on domain encoding, we choose hyperparam-eters so that our models infer a negligible amount of false negatives (< 0.001% ), then compute false positive (FP) percentage by sampling a million undefined points in the same way as above and reporting what percentage are mistakenly defined in the VEG model. We evaluate PSNR by taking samples inside every cell of a volume. We list model compression ratios as if the exterior surface does not need to be stored, but also present "Real CR", which gives the compression ratio using the sum of the model and surface for UGINR and W-VEG models. 
+
+Quantitative Results We present quantitative results in Table 2. UGINR and W-VEG metrics show our method achieves the best perfor-mance for both reconstruction quality and training time on all datasets studied when encoding only the scalar field. For smaller datasets (RBL, Mito, SF1), W-VEG achieves a massive average 33.81 PSNR increase, while maintaining a significantly faster training time. As datasets become large (Valley, Earthquake), UGINR uses more samples for training, so the PSNR improvement lowers to a still substantial 3.13, but UGINR’s training time explodes to make W-VEG an average 34 .9×
+
+faster. UGINR was unable to run for the large Impact dataset. Additionally, by allowing some lossiness on reconstructing the un-structured volume domain, W-VEG+S models can drastically increase real compression ratios (average of 18 ×, maximum of 135 ×) by re-moving the need to store an exterior surface for intersection testing. This comes with only marginally worsened reconstruction quality and training time compared to W-VEG, especially for the largest datasets where models had high numbers of Gaussians. Training times still outperformed UGINR for all benchmarks except RBL, and PSNR was better for all except Earthquake at 1024 × compression. We found the domain encoding accuracy (measured in false positive percentage) to follow directly from the complexity of the mesh’s exterior relative to its size, such as the poor FP % for RBL which consists of a very simple scalar field defined on a complex geometry. 
+
+Qualitative Results We additionally include a visual comparison of UGINR, W-VEG, and W-VEG+S models by integrating them into the NerfAcc [23]-accelerated volume renderer of AMGSRN [48]. We extend their renderer with the ability to discard samples outside an unstructured volume’s domain by intersection testing with its exterior Fig. 9: Neural volume rendering using samples taken from UGINR, W-VEG, and W-VEG+S models at 1024 × model compression ratios for Earthquake and Mito, with and without intersection testing with the datasets’ exterior surfaces. W-VEG+S models are the only method able to produce accurate samples without intersection testing, removing the need for surface storage and enabling a real 1024 × compression ratio. 
+
+Dataset Metric 3DGS MCMC Ours Miranda PSNR 35.88 33.97 36.58 
+
+Time 22 35 19 
+
+Chameleon PSNR 45.74 41.53 47.86 
+
+Time 22 37 15 
+
+Earthquake PSNR 43.79 46.97 52.25 
+
+Time 107 105 83 
+
+Earthquake+S PSNR 42.23 38.84 50.85 
+
+Time 94 113 71 
+
+FP% 6.60 9.95 6.42 
+
+Impact PSNR 46.53 44.61 48.74 
+
+Time 356 326 202 
+
+Impact+S PSNR 46.89 45.27 48.16 
+
+Time 311 290 188 
+
+FP% 5.17 9.38 5.54 
+
+> Table 3: Comparison of 3DGS, MCMC, and our error-based densification strategy on reconstruction quality (PSNR) and time (in seconds).
+
+surface. We present rendering results from each method’s 1024 × Mito and Earthquake models in Figure 9, both with and without surface testing. Each render uses 1, 024 samples per pixel, at a resolution of 1, 024 × 1, 024 , using the matplotlib "coolwarm" colormap and linear opacity map. We render ground truth images using samples taken from the original volume, and compute image-based PSNR and SSIM for model renders. For both datasets, W-VEG+S models alone achieve rea-sonable quality when rendering without surface testing. This validates our method’s ability to represent an unstructured volume without any mesh storage, enabling previously impossible compression ratios. 
+
+6.3 Densification 
+
+In this section, we compare the three densification strategies outlined in Section 4.2.1 on two structured (Miranda, Chameleon) and two unstructured (Earthquake, Impact) datasets. We compare by creating models at 256 × compression, trained using the various densification strategies for exactly 4000 iterations. For unstructured volumes, we present both W-VEG and W-VEG+S models. We report results in Table 3. These results show that our error-based densification strategy leads to the highest reconstruction quality for every dataset, with a larger gap to other methods on the unstructured datasets. Overall, 3DGS leads to the second best accuracy, with MCMC trailing behind. Additionally, the two non-error-based densification strategies add significant training overhead due to expensive gradient noise and multinomial sampling operations in MCMC, and CPU-GPU synchronization in 3DGS. 
+
+7 CONCLUSION 
+
+We have proposed a method to effectively train an explicit 3D Gaussian model for structured and unstructured volume data compression. With our efficient sampling algorithms, loss functions which improve domain encoding, and error-based densification strategy, our representation outperforms state-of-the-art neural methods on training time, with equal reconstruction quality to models that are much slower. Our model performs exceptionally well for unstructured volume data, where it outperforms on quality and training time compared to existing methods. Due to our model’s unique ability to encode mesh geometry, we remove previous work’s limiting hard cap on compression ratios and enable model sizes that are a fraction of what was previously possible. Our method has several potential areas for future work, including a natural extension to time-varying and multivariate datasets. Notably, we do not implement any of the wealth of literature on compressing 3DGS models for storage on disk [13, 31, 34]. Another improvement could be development of a loss function based on signed distance fields (SDF) for more accurate representation of unstructured volume domains, although our initial experimentation found SDF evaluation to be prohibitively expensive during training. Finally, while our models support arbitrary sampling and thus any visualization task, we leave a thorough investigation of accuracy for specific operations to future work. Implementing a rendering engine designed specifically to sample from our models could lead to interesting algorithmic improvements, as recent work in image-trained 3D Gaussian models has shown ray tracing 3D Gaussians to be a promising extension [27]. REFERENCES 
+
+[1] cuBQL: A CUDA BVH Build and Query Library. 
+
+https://github.com/NVIDIA/cuBQL . 6 [2] K. Ai, K. Tang, and C. Wang. NLI4VolVis: Natural language interaction for vol-ume visualization via llm multi-agents and editable 3d gaussian splatting. IEEE Transactions on Visualization and Computer Graphics (IEEE VIS 2025) , 32(1), 2026. Preprint available at https://arxiv.org/abs/2507.12621 . 2 [3] W. K. Anderson, R. T. Biedron, J.-R. Carlson, J. M. Derlaga, B. Diskin, C. T. Druyor Jr, P. A. Gnoffo, D. P. Hammond, K. E. Jacobson, W. T. Jones, et al. Fun3d manual: 14.1. 2024. 1 [4] D. Arndt, W. Bangerth, D. Davydov, T. Heister, L. Heltai, M. Kronbichler, M. Maier, J.-P. Pelteret, B. Turcksin, and D. Wells. The deal.ii finite element library: Design, features, and insights. Computers & Mathematics with Applications , 81:407–422, 2021. Development and Application of Open-source Software for Problems with Numerical PDEs. doi: 10.1016/j.camwa.2020.02.022 1 [5] U. Ayachit. The ParaView Guide: A Parallel Visualization Application . Kitware, Inc., Clifton Park, NY, USA, 2015. 7 [6] D. Banesh, R. Linn, and J. Patchett. Vorticity-driven lateral spread ensemble data set. Dataset documentation (PDF), Oct. 2021. Accessed 2026-03-05. 8 [7] M. Berger and P. Colella. Local adaptive mesh refinement for shock hydrodynamics. 
+
+Journal of Computational Physics , 82(1):64–84, 1989. doi: 10.1016/0021-9991(89) 90035-1 1 [8] M. Berger, J. Li, and J. A. Levine. A Generative Model for Volume Rendering . 
+
+IEEE Transactions on Visualization & Computer Graphics , 25(04):1636–1650, Apr. 2019. doi: 10.1109/TVCG.2018.2816059 2 [9] C. Burstedde, L. C. Wilcox, and O. Ghattas. p4est: Scalable algorithms for parallel adaptive mesh refinement on forests of octrees. SIAM J. Sci. Comput. ,33(3):1103–1133, 31 pages, May 2011. doi: 10.1137/100791634 1 [10] A. Dubey, K. Antypas, A. C. Calder, C. Daley, B. Fryxell, J. B. Gallagher, D. Q. Lamb, D. Lee, K. Olson, L. B. Reid, P. Rich, P. M. Ricker, K. M. Riley, R. Rosner, A. Siegel, N. T. Taylor, K. Weide, F. X. Timmes, N. Vladimirova, and J. ZuHone. Evolution of flash, a multi-physics scientific simulation code for high-performance computing. The International Journal of High Performance Computing Applications ,28(2):225–237, 2014. doi: 10.1177/1094342013505656 1 [11] L. Dyken, S. Andres, W. Usher, N. Debardeleben, S. Petruzza, and S. Kumar. Volume encoding gaussians: Transfer function-agnostic 3d gaussians for volume rendering. 
+
+IEEE Transactions on Visualization and Computer Graphics , 2026. To appear. 2, 3, 5[12] T. D. Economon, F. Palacios, S. R. Copeland, T. W. Lukaczyk, and J. J. Alonso. Su2: An open-source suite for multiphysics simulation and design. AIAA Journal ,54(3):828–846, 2016. doi: 10.2514/1.J053813 1 [13] Z. Fan, K. Wang, K. Wen, Z. Zhu, D. Xu, and Z. Wang. Lightgaussian: Unbounded 3d gaussian compression with 15x reduction and 200+ fps. In A. Globerson, L. Mackey, D. Belgrave, A. Fan, U. Paquet, J. Tomczak, and C. Zhang, eds., Advances in Neural Information Processing Systems , vol. 37, pp. 140138–140158. Curran Associates, Inc., 2024. doi: 10.52202/079017-4447 9 [14] W. Griffin, A. Godil, J. Bullard, J. Terrill, A. Varshney, and S. Jain. Compressed volume rendering using deep learning. Proceedings of the Large Scale Data Analysis and Visualization (LDAV) Symposium, Phoenix, AZ, 2017-10-02 2017. 2 [15] F. Hahlbohm, L. Franke, M. Eisemann, and M. Magnor. Faster-gs: Analyzing and improving gaussian splatting optimization, 2026. 5 [16] J. Han, K. Tang, and C. Wang. Moe-inr: Implicit neural representation with mixture-of-experts for time-varying volumetric data compression. IEEE Transactions on Visualization and Computer Graphics , 32(1):254–264, 2026. doi: 10.1109/TVCG. 2025.3633893 2 [17] M. Han, A. Sewell, J. Insley, J. Knowles, V. A. Mateevitsi, M. E. Papka, S. Petruzza, and S. Rizzi. Toward distributed 3d gaussian splatting for high-resolution isosurface visualization. In 2025 IEEE International Conference on eScience (eScience) , pp. 331–332, 2025. doi: 10.1109/eScience65000.2025.00056 2 [18] B. Kerbl, G. Kopanas, T. Leimkuehler, and G. Drettakis. 3d gaussian splatting for real-time radiance field rendering. ACM Trans. Graph. , 42(4), article no. 139, 14 pages, July 2023. doi: 10.1145/3592433 2, 3, 4, 5 [19] S. Kheradmand, D. Rebain, G. Sharma, W. Sun, Y.-C. Tseng, H. Isack, A. Kar, A. Tagliasacchi, and K. M. Yi. 3d gaussian splatting as markov chain monte carlo. In A. Globerson, L. Mackey, D. Belgrave, A. Fan, U. Paquet, J. Tomczak, and C. Zhang, eds., Advances in Neural Information Processing Systems , vol. 37, pp. 80965–80986. Curran Associates, Inc., 2024. doi: 10.52202/079017-2573 5 [20] D. P. Kingma and J. Ba. Adam: A method for stochastic optimization, 2017. 7 [21] C. C. Kiris, J. A. Housman, M. F. Barad, C. Brehm, E. Sozer, and S. Moini-Yekta. Computational framework for launch, ascent, and vehicle aerodynamics (lava). 
+
+Aerospace Science and Technology , 55:189–219, 2016. doi: 10.1016/j.ast.2016. 05.008 1 [22] P. Klacansky. Open scivis datasets, December 2017. 
+
+https://klacansky.com/open-scivis-datasets/ . 7 [23] R. Li, H. Gao, M. Tancik, and A. Kanazawa. Nerfacc: Efficient sampling accelerates nerfs. arXiv preprint arXiv:2305.04966 , 2023. 8 [24] K. Liu, C. Jiao, X. Gao, and C. Bi. Uginr: large-scale unstructured grid reduction via implicit neural representation. J. Vis. , 27(5):983–996, 14 pages, June 2024. doi: 10. 1007/s12650-024-01003-y 1, 2, 6, 8 [25] Y. Lu, K. Jiang, J. A. Levine, and M. Berger. Compressive neural representations of volumetric scalar fields. Computer Graphics Forum , 40(3):135–146, 2021. doi: 10. 1111/cgf.14295 1, 2 [26] S. S. Mallick, R. Goel, B. Kerbl, M. Steinberger, F. V. Carrasco, and F. De La Torre. Taming 3dgs: High-quality radiance fields with limited resources. In SIGGRAPH Asia 2024 Conference Papers , SA ’24, article no. 2, 11 pages. Association for Computing Machinery, New York, NY, USA, 2024. doi: 10.1145/3680528.3687694 5[27] N. Moenne-Loccoz, A. Mirzaei, O. Perel, R. de Lutio, J. Martinez Esturo, G. State, S. Fidler, N. Sharp, and Z. Gojcic. 3d gaussian ray tracing: Fast tracing of particle scenes. ACM Trans. Graph. , 43(6), article no. 232, 19 pages, Nov. 2024. doi: 10. 1145/3687934 9 [28] N. Morrical, A. Sahistan, U. Güdükbay, I. Wald, and V. Pascucci. Quick clusters: A gpu-parallel partitioning for efficient path tracing of unstructured volumetric grids. 
+
+IEEE Transactions on Visualization and Computer Graphics , 29(1):537–547, 2023. doi: 10.1109/TVCG.2022.3209418 2, 8 [29] T. Müller. tiny-cuda-nn, 4 2021. 7 [30] T. Müller, A. Evans, C. Schied, and A. Keller. Instant neural graphics primitives with a multiresolution hash encoding. ACM Trans. Graph. , 41(4), article no. 102, 15 pages, July 2022. doi: 10.1145/3528223.3530127 2 [31] S. Niedermayr, J. Stumpfegger, and R. Westermann. Compressed 3D Gaussian Splatting for Accelerated Novel View Synthesis . In 2024 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 10349–10358. IEEE Computer Society, Los Alamitos, CA, USA, June 2024. doi: 10.1109/CVPR52733. 2024.00985 9 [32] N. Offermans, A. Peplinski, O. Marin, and P. Schlatter. Adaptive mesh refinement for steady flows in Nek5000. Computers & Fluids , 2020. doi: 10.1016/j.compfluid. 2019.104352 1 [33] F. Palacios, J. Alonso, K. Duraisamy, M. Colonno, J. Hicken, A. Aranake, A. Campos, S. Copeland, T. Economon, A. Lonkar, T. Lukaczyk, and T. Taylor. Stanford Univer-sity Unstructured (SU^2): An open-source integrated computational environment for multi-physics simulation and design. In 51st AIAA Aerospace Sciences Meeting including the New Horizons Forum and Aerospace Exposition . American Institute of Aeronautics and Astronautics, 2013. doi: 10.2514/6.2013-287 1 [34] P. Papantonakis, G. Kopanas, B. Kerbl, A. Lanvin, and G. Drettakis. Reducing the memory footprint of 3d gaussian splatting. Proc. ACM Comput. Graph. Interact. Tech. , 7(1), article no. 16, 17 pages, May 2024. doi: 10.1145/3651282 9 [35] J. M. Patchett and G. R. Gisler. Deep water impact ensemble data set, 05 2017. doi: 10.25583/2588620 8 [36] B. Rathke, I. Wald, K. Chiu, and C. Brownlee. SIMD Parallel Ray Tracing of Homogeneous Polyhedral Grids. In Eurographics Symposium on Parallel Graphics and Visualization , 2015. doi: 10.2312/pgv.20151153 8 [37] S. Rota Bulò, L. Porzi, and P. Kontschieder. Revising densification in gaussian splatting. In Computer Vision – ECCV 2024: 18th European Conference, Milan, Italy, September 29–October 4, 2024, Proceedings, Part LXIII , 16 pages, p. 347–362. Springer-Verlag, Berlin, Heidelberg, 2024. doi: 10.1007/978-3-031-73036-8_20 5 [38] V. Sitzmann, J. N. P. Martel, A. W. Bergman, D. B. Lindell, and G. Wetzstein. Implicit neural representations with periodic activation functions, 2020. 2 [39] H. Son, J. Noh, S. Jeon, C. Wang, and W.-K. Jeong. Mc-inr: Efficient encoding of multivariate scientific simulation data using meta-learning and clustered implicit neural representations, 2025. 1, 2, 6, 8 [40] SuperSplat. https://github.com/playcanvas/supersplat . 8 [41] T. Takikawa, J. Litalien, K. Yin, K. Kreis, C. Loop, D. Nowrouzezahrai, A. Jacobson, M. McGuire, and S. Fidler. Neural Geometric Level of Detail: Real-time Rendering with Implicit 3D Shapes . In 2021 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 11353–11362. IEEE Computer Society, Los Alamitos, CA, USA, June 2021. doi: 10.1109/CVPR46437.2021.01120 2 [42] K. Tang, S. Yao, and C. Wang. ivr-gs: Inverse volume rendering for explorable visu-alization via editable 3d gaussian splatting. IEEE Transactions on Visualization and Computer Graphics , 31(6):3783–3795, 2025. doi: 10.1109/TVCG.2025.3567121 2 [43] I. Wald, N. Morrical, and S. Zellmann. A memory efficient encoding for ray tracing large unstructured data. IEEE Transactions on Visualization and Computer Graphics ,28(1):583–592, 2022. doi: 10.1109/TVCG.2021.3114869 2 [44] C. Wang and J. Han. Dl4scivis: A state-of-the-art survey on deep learning for scientific visualization. IEEE Transactions on Visualization and Computer Graphics ,29(8):3714–3733, 20 pages, Aug. 2023. doi: 10.1109/TVCG.2022.3167896 2 [45] S. Weiss, P. Hermüller, and R. Westermann. Fast neural representations for direct volume rendering. Computer Graphics Forum , 41(6):196–211, June 2022. doi: 10. 1111/cgf.14578 1, 2 [46] Q. Wu, D. Bauer, M. J. Doyle, and K.-L. Ma. Interactive Volume Visualization via Multi-Resolution Hash Encoding based Neural Representation. IEEE Transactions on Visualization and Computer Graphics , 2023. doi: 10.1109/TVCG.2023.3293121 1, 2 [47] Q. Wu, D. Bauer, M. J. Doyle, and K.-L. Ma. Interactive volume visualization via multi-resolution hash encoding based neural representation. IEEE Transactions on Visualization and Computer Graphics , 30(8):5404–5418, 2024. doi: 10.1109/TVCG. 2023.3293121 2, 7 [48] S. W. Wurster and H.-W. Shen. Amgsrn++: Improved adaptive srn for scientific visualization. In 2025 IEEE 18th Pacific Visualization Conference (PacificVis) , pp. 182–191, 2025. doi: 10.1109/PacificVis64226.2025.00024 2, 7, 8 [49] S. W. Wurster, T. Xiong, H.-W. Shen, H. Guo, and T. Peterka. Adaptively placed multi-grid scene representation networks for large-scale data visualization. IEEE Transactions on Visualization and Computer Graphics , 30(1):965–974, 2024. doi: 10.1109/TVCG.2023.3327194 1, 2 [50] S. Yao, Y. Lu, and C. Wang. ViSNeRF: Efficient Multidimensional Neural Ra-diance Field Representation for Visualization Synthesis of Dynamic Volumetric Scenes . In 2025 IEEE 18th Pacific Visualization Conference (PacificVis) , pp. 235– 245. IEEE Computer Society, Los Alamitos, CA, USA, Apr. 2025. doi: 10.1109/ PacificVis64226.2025.00029 2 [51] S. Yao and C. Wang. Revolve: Neural reconstruction of volumes for visualization enhancement of direct volume rendering. Computers & Graphics , 131:104295, 2025. doi: 10.1016/j.cag.2025.104295 2 [52] H. Zhao, H. Weng, D. Lu, A. Li, J. Li, A. Panda, and S. Xie. On scaling up 3d gaussian splatting training, 2024. 2 
+
+A DATASET INFORMATION 
+
+Dataset Dimensions Total Size Vertebra 512 × 512 × 512 537 MB Miranda 1024 × 1024 × 1024 4.29 GB Chameleon 1024 × 1024 × 1080 4.53 GB Richtmyer 2048 × 2048 × 1920 32.21 GB 
+
+Table 4: Structured volume datasets sorted by total size. 
+
+Points Cells Total Surface Dataset M MB M MB MB MB RBL 0.7 14 3.9 159 174 18 Mito 1.0 19 5.5 227 246 11 SF1 2.5 49 14 .0 573 622 26 Valley 18 .3 512 17 .9 664 1180 61 Earthquake 51 .5 823 47 .8 3490 4310 561 Impact 176 .4 2820 247 .5 15 100 17 930 961 
+
+Table 5: Unstructured volume datasets and their exterior surfaces, sorted by total size. Counts are in millions (M); sizes are in megabytes (MB). 
+
+In Table 4, we give information for each dataset used in our struc-tured evaluation,. In Table 5, we describe the datasets used in our unstructured evaluation with regard to unstructured volume points, cells, total size, and size of the exterior surface of the mesh. 
+
+B MODEL CONFIGURATIONS 
+
+In this section, we list the network configurations used for the struc-tured dataset comparison models discussed in Section 6.1. We list the configurations for AMGSRN models in Table 6 and for InstantVNR models in Table 7. Dataset 1024 × 256 × 64 ×
+
+Vertebra Features ( F) 2 1 4Grids ( G) 16 16 16 Grid Shape 16 3 32 3 32 3
+
+Layers ( L) 2 2 2Nodes per Layer 64 64 64 Miranda Features ( F) 1 4 2Grids ( G) 32 32 32 Grid Shape 32 3 32 3 64 3
+
+Layers ( L) 2 2 2Nodes per Layer 64 64 64 Chameleon Features ( F) 1 4 2Grids ( G) 32 32 32 Grid Shape 32 3 32 3 64 3
+
+Layers ( L) 2 2 2Nodes per Layer 64 64 64 Richtmyer Features ( F) 1 4 2Grids ( G) 32 32 32 Grid Shape 64 3 64 3 128 3
+
+Layers ( L) 2 2 2Nodes per Layer 64 64 64 
+
+Table 6: AMGSRN configurations for structured datasets. 
+
+Dataset 1024 × 256 × 64 ×
+
+Vertebra Neurons 64 64 64 Hidden Layers 2 2 2Levels ( L) 4 5 12 Features per Level 4 4 4Hashmap Size (log 2 T ) 17 17 17 Base Resolution 4 4 4Miranda Neurons 64 64 64 Hidden Layers 3 3 3Levels ( L) 5 6 12 Features per Level 4 8 8Hashmap Size (log 2 T ) 19 19 19 Base Resolution 4 4 4Chameleon Neurons 64 64 64 Hidden Layers 3 3 3Levels ( L) 5 8 9Features per Level 4 4 8Hashmap Size (log 2 T ) 19 19 20 Base Resolution 4 4 4Richtmyer Neurons 64 64 64 Hidden Layers 5 5 5Levels ( L) 6 12 13 Features per Level 8 8 8Hashmap Size (log 2 T ) 19 20 22 Base Resolution 4 4 4
+
+Table 7: InstantVNR configurations for structured datasets.

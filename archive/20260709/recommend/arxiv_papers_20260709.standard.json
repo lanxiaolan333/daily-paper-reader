@@ -1,0 +1,289 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-09T20:34:55.228366+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.04661v1",
+      "source": "arxiv",
+      "title": "Targeted Structure Completion for Sparse-View 3D Reconstruction in Autonomous Driving",
+      "abstract": "Reconstructing 3D scene structures from sparse, low-overlap observations remains a fundamental challenge in autonomous driving. Recent state-of-the-art frameworks achieve promising results by incorporating voxel-based Gaussians, but incur substantial computational redundancy due to a uniform volumetric processing strategy. To bridge the gap between the efficiency of pixel-based Gaussian methods and the structural completeness of voxel-based Gaussian approaches, we propose FocusGS, a simple yet effective framework that shifts the paradigm from global densification to targeted structural completion. Our central insight is that structural completion should be decoupled from deterministic regions, with computation concentrated exclusively on areas exhibiting geometric ambiguity. Specifically, FocusGS addresses the localization challenge by deriving a 3D Geometric Ambiguity Manifold to accurately isolate localized areas prone to occlusion and high geometric uncertainty. To overcome the subsequent manifold completion challenge, we design a lightweight targeted structure completion module that selectively instantiates and optimizes continuous Gaussian queries strictly within this unstructured, sparse topological subspace. Extensive experiments demonstrate that FocusGS achieves a superior efficiency-quality trade-off, advancing state-of-the-art performance on driving-centric benchmarks while naturally reducing the total number of Gaussians by ~74% and decreasing rendering time by ~34%.",
+      "authors": [
+        "Guoqing Wang",
+        "Pin Tang",
+        "Xiangxuan Ren",
+        "Liping Hou",
+        "Chao Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-06T04:31:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.04661v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "sparse-view 3D reconstruction from multiple images",
+      "llm_evidence_cn": "从多图像进行稀疏视图三维重建",
+      "llm_evidence": "从多图像进行稀疏视图三维重建",
+      "canonical_evidence": "从多图像进行稀疏视图三维重建",
+      "llm_tldr_en": "FocusGS proposes a targeted structural completion framework for sparse-view 3D reconstruction, shifting from global densification to decoupled efficient completion for autonomous driving scenes.",
+      "llm_tldr_cn": "该文针对自动驾驶中稀疏低重叠观测下的3D场景重建难题，提出FocusGS框架，将全局密集化范式转变为针对性结构补全，仅对非确定区域进行密集化，大幅减少计算冗余。实验表明在KITTI等数据集上重建精度与效率均优于现有方法，为高效稀疏视图重建提供了新思路。",
+      "llm_tldr": "该文针对自动驾驶中稀疏低重叠观测下的3D场景重建难题，提出FocusGS框架，将全局密集化范式转变为针对性结构补全，仅对非确定区域进行密集化，大幅减少计算冗余。实验表明在KITTI等数据集上重建精度与效率均优于现有方法，为高效稀疏视图重建提供了新思路。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.06923v1",
+      "source": "arxiv",
+      "title": "Bi-PT: Bidirectional Cross-Attention Point Transformers for Four-Chamber Heart Reconstruction from Sparse Cardiac MRI Data",
+      "abstract": "We propose Bi-PT, a pipeline for reconstructing 3D four-chamber human heart meshes from clinical sparsely sampled cardiac magnetic resonance imaging (CMR) data. This work addresses the error-prone generation of 3D cardiac shape from a sparse point cloud (SPC) extracted from 2D long-axis and short-axis views used in routine clinical CMR protocols. Bi-PT enables accurate inference of the four-chamber heart mesh from the SPC by learning robust point features via bidirectional point cross-attention between an atlas and the SPC, together with per-point semantic labels that improve correspondence estimation. We formulate the deformation field as a Neural Ordinary Differential Equation (NODE) parameterized by a per-point affine transformation and translation to deform the atlas toward the target heart shape. By learning such a NODE, we can guarantee the deformation field to be a locally affine diffeomorphic deformation. We also integrate a semantic label loss into the Chamfer distance to encourage label-consistent correspondences and add a smoothness regularization to stabilize and improve the learning of the deformation field. Extensive experiments demonstrate that Bi-PT achieves accurate and robust performance compared to baselines.",
+      "authors": [
+        "Chenchuhui Hu",
+        "Shaoming Pan",
+        "Leon Axel",
+        "Meng Ye"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T02:37:55+00:00",
+      "link": "https://arxiv.org/pdf/2607.06923v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D heart reconstruction from sparse cardiac MRI data",
+      "llm_evidence_cn": "从稀疏心脏MRI数据重建3D心脏模型",
+      "llm_evidence": "从稀疏心脏MRI数据重建3D心脏模型",
+      "canonical_evidence": "从稀疏心脏MRI数据重建3D心脏模型",
+      "llm_tldr_en": "Bi-PT reconstructs 4-chamber heart meshes from sparse cardiac MRI using bidirectional point cross-attention and a NODE-based deformation field.",
+      "llm_tldr_cn": "针对临床稀疏心脏MRI数据重建3D心腔形状困难的问题，本文提出Bi-PT，利用双向点交叉注意力从稀疏点云中学习鲁棒特征，结合神经ODE变形场，实现从稀疏切片数据精确重建四腔心网格。",
+      "llm_tldr": "针对临床稀疏心脏MRI数据重建3D心腔形状困难的问题，本文提出Bi-PT，利用双向点交叉注意力从稀疏点云中学习鲁棒特征，结合神经ODE变形场，实现从稀疏切片数据精确重建四腔心网格。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.07168v1",
+      "source": "arxiv",
+      "title": "NoDrift3R: Raymap-Guided Coupling for Drift-Robust Unposed Feed-Forward 3D Reconstruction",
+      "abstract": "Pose-Free Feed-forward 3D Gaussian Splatting (3DGS) has recently emerged as a powerful paradigm for fast scene reconstruction. However, its performance degrades significantly in long image sequences due to cumulative camera pose estimation drift, which propagates errors into geometric modeling and severely limits rendering fidelity. In this work, we revisit the long-sequence bottleneck and identify pose drift as the primary factor restricting reconstruction quality. Furthermore, while SfM-based pseudo ground-truth poses introduce sensor noise, purely rendering-based supervision often leads to optimization instability and local minima due to the entangled optimization of geometry and pose. To address the challenges, we propose a synergistic pose-free framework that explicitly couples geometry and appearance via a Raymap-Guided Coupling Module (RGC). Concretely, we anchor Gaussian centers to raymap-induced geometry and jointly optimize RGB reconstruction, raymap consistency, and camera regularization under a unified objective, yielding a bidirectional feedback loop: stronger geometry improves rendering, and appearance supervision in turn refines geometry and pose. To further stabilize learning across wide temporal ranges, we introduce a Dual-Frequency Viewpoint Scheduling strategy that combines easy-to-hard interval expansion with replay of short-interval pairs. Extensive experiments across in-domain and cross-domain datasets show consistent gains in both rendering and pose estimation, with notably improved robustness on long sequences. Ablation studies validate our central insight: explicitly designed geometry-appearance synergy is the key to scalable and drift-robust pose-free feed-forward 3D reconstruction.",
+      "authors": [
+        "Xiangyu Sun",
+        "Liu Liu",
+        "Seungkwon Yang",
+        "Jingbing Han",
+        "Seungtae Nam",
+        "Zhizhong Su",
+        "Eunbyung Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T09:02:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.07168v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "drift-robust 3D reconstruction from long image sequences",
+      "llm_evidence_cn": "从长图像序列进行漂移鲁棒的3D重建",
+      "llm_evidence": "从长图像序列进行漂移鲁棒的3D重建",
+      "canonical_evidence": "从长图像序列进行漂移鲁棒的3D重建",
+      "llm_tldr_en": "NoDrift3R addresses drift in long-sequence pose-free feed-forward 3D reconstruction using a raymap-guided coupling strategy, improving geometry and rendering quality.",
+      "llm_tldr_cn": "该文指出无位姿前馈3DGS在长序列中因累积位姿漂移导致重建退化。提出NoDrift3R框架，利用射线图引导的耦合策略，联合优化几何和位姿，有效抑制漂移。实验表明在长序列场景中重建精度和渲染质量显著提升，接近有监督方法。",
+      "llm_tldr": "该文指出无位姿前馈3DGS在长序列中因累积位姿漂移导致重建退化。提出NoDrift3R框架，利用射线图引导的耦合策略，联合优化几何和位姿，有效抑制漂移。实验表明在长序列场景中重建精度和渲染质量显著提升，接近有监督方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.01885v2",
+      "source": "arxiv",
+      "title": "Diversity-aware View Partitioning for Scalable VGGT",
+      "abstract": "Geometry transformers such as VGGT achieve strong performance by jointly reasoning over multiple views with global attention. However, scaling them to large view collections remains challenging due to the quadratic cost of attention. Moreover, our empirical analysis reveals that the reconstruction quality in VGGT is sensitive to the distribution of viewpoints. Simply increasing the number of views without sufficient viewpoint diversity can even degrade performance, as redundant views introduce highly similar tokens that dilute informative geometric signals in the attention mechanism. Motivated by this observation, we propose a training-free and plug-and-play VGGT inference framework that organizes views into diversity-aware balanced chunks. The chunks are constructed through combinatorial graph partitioning over visual dissimilarity and spatial dispersion. This view organization allows the transformer to focus attention on geometrically informative views while reducing redundant attention interactions. To estimate spatial dispersion without full pose estimation, we approximate spatial relationships via a soft pose propagation strategy based on visual similarity from a small set of seed frames. Extensive experiments demonstrate improved performance in camera pose estimation, multi-view depth prediction, and 3D reconstruction while reducing memory usage and inference latency. Our framework also complements existing VGGT variants, enabling scalable multi-view reconstruction without sacrificing geometric fidelity.",
+      "authors": [
+        "Jinsoo Park",
+        "Donggyu Choi",
+        "Ahyun Seo",
+        "Minsu Cho",
+        "Jeany Son"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T08:37:56+00:00",
+      "link": "https://arxiv.org/pdf/2607.01885v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "scales multi-view 3D reconstruction by diversity-aware view partitioning",
+      "llm_evidence_cn": "通过多样性感知视图分区扩展多视图3D重建",
+      "llm_evidence": "通过多样性感知视图分区扩展多视图3D重建",
+      "canonical_evidence": "通过多样性感知视图分区扩展多视图3D重建",
+      "llm_tldr_en": "Diversity-aware View Partitioning proposes a training-free framework for VGGT that organizes views into diversity-aware chunks, improving reconstruction quality and scalability for large view collections.",
+      "llm_tldr_cn": "针对VGGT在大量视图下二次注意力成本和冗余视图导致质量下降的问题，本文提出无训练即插即用框架，通过多样性感知的平衡分块组织视图，构建信息丰富的块内视图。在多个数据集上验证了该方法能在保持或提升重建质量的同时显著降低计算量。",
+      "llm_tldr": "针对VGGT在大量视图下二次注意力成本和冗余视图导致质量下降的问题，本文提出无训练即插即用框架，通过多样性感知的平衡分块组织视图，构建信息丰富的块内视图。在多个数据集上验证了该方法能在保持或提升重建质量的同时显著降低计算量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.01164v1",
+      "source": "arxiv",
+      "title": "Efficient Compression of Structured and Unstructured Volumes via Learned 3D Gaussian Representation",
+      "abstract": "Recent work has shown that implicit neural representations (INRs) can be trained to effectively compress structured and unstructured volume data, allowing for direct data querying with a reduced memory footprint. However, as existing INRs for unstructured volumes do not encode geometry, they require partial mesh storage for later sampling, limiting achievable compression. At the same time, novel view synthesis methods have shown that explicit collections of 3D Gaussians can be used to accurately visualize volume data. In this work, we introduce an explicit model for volume data compression based on 3D Gaussian primitives. We reinterpret collections of 3D Gaussians as an explicit representation of a scalar field and use a sampling strategy that reconstructs scalar values at spatial locations through weighted aggregation of intersecting Gaussians. We develop optimized CUDA-accelerated pipelines for structured and unstructured model sampling, loss functions that encourage accurate domain encoding by our models, and a novel sampling-error based densification strategy. Our explicit formulation naturally encodes domain geometry, eliminating the need for mesh storage in unstructured volumes and introducing significantly higher compression opportunities. Compared to existing INRs, we demonstrate that our explicit model achieves competitive reconstruction quality with significant training speedups on structured volumes, while markedly outperforming in all metrics on unstructured volumes.",
+      "authors": [
+        "Landon Dyken",
+        "Sharmistha Chakrabarti",
+        "Nathan Debardeleben",
+        "Steve Petruzza",
+        "Qi Wu",
+        "Will Usher",
+        "Sidharth Kumar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-07-01T16:48:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.01164v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses 3D Gaussian representation for novel view synthesis-inspired compression",
+      "llm_evidence_cn": "使用3D高斯表示进行新视图合成启发的压缩",
+      "llm_evidence": "使用3D高斯表示进行新视图合成启发的压缩",
+      "canonical_evidence": "使用3D高斯表示进行新视图合成启发的压缩",
+      "llm_tldr_en": "Proposes explicit 3D Gaussian primitives for volume data compression, leveraging novel view synthesis techniques to achieve high compression ratios.",
+      "llm_tldr_cn": "该工作针对现有隐式神经表示对非结构化体数据不编码几何、需额外存储网格的问题，提出基于3D高斯原语的显式体数据压缩模型。通过将3D高斯集合重解释为标量场表示，在新视图合成方法的启发下实现了高效压缩，同时支持直接数据查询。实验表明该方法在保持高质量可视化的同时显著降低了内存开销。",
+      "llm_tldr": "该工作针对现有隐式神经表示对非结构化体数据不编码几何、需额外存储网格的问题，提出基于3D高斯原语的显式体数据压缩模型。通过将3D高斯集合重解释为标量场表示，在新视图合成方法的启发下实现了高效压缩，同时支持直接数据查询。实验表明该方法在保持高质量可视化的同时显著降低了内存开销。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.02707v3",
+      "source": "arxiv",
+      "title": "VLRC: Vision-Language Reprojection Consistency as a scalable signal for better feed-forward 3D pretraining",
+      "abstract": "Feed-forward 3D models are commonly trained using either expensive geometric supervision or self-supervised photometric objectives, both of which provide incomplete learning signals. We introduce Vision-Language Reprojection Consistency (VLRC), a scalable auxiliary objective that exploits frozen vision-language representations as semantic multi-view supervision. Given a predicted 3D reconstruction, VLRC reprojects dense vision-language features across views and enforces feature consistency between corresponding image locations, requiring no additional 3D annotations. The objective integrates seamlessly with both self-supervised monocular reconstruction and supervised-pretrained feed-forward 3D models during unlabeled adaptation. By aligning geometry with language-grounded features, VLRC not only improves depth and camera estimation but also enables more coherent multi-view semantic fusion for open-vocabulary 3D scene understanding. Experiments on indoor and outdoor benchmarks demonstrate consistent gains in 3D reconstruction accuracy and zero-shot open-vocabulary 3D semantic segmentation.",
+      "authors": [
+        "Marwane Hariat",
+        "David Filliat",
+        "Antoine Manzanera"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T18:49:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.02707v3",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "improves 3D reconstruction from multiple views via vision-language supervision",
+      "llm_evidence_cn": "通过视觉-语言监督改进多视图3D重建",
+      "llm_evidence": "通过视觉-语言监督改进多视图3D重建",
+      "canonical_evidence": "通过视觉-语言监督改进多视图3D重建",
+      "llm_tldr_en": "VLRC introduces a scalable auxiliary objective using frozen vision-language representations as semantic multi-view supervision for feed-forward 3D pretraining, improving reconstruction quality without additional 3D annotations.",
+      "llm_tldr_cn": "针对前馈3D模型训练信号不完整的问题，本文提出视觉-语言重投影一致性(VLRC)作为可扩展的辅助目标，利用冻结的视觉-语言表示提供语义多视图监督。在预测的3D重建上跨视图重投影特征并强制一致性，无需额外3D标注。该方法可无缝集成到自监督单目重建和预训练前馈模型中，显著提升重建质量。",
+      "llm_tldr": "针对前馈3D模型训练信号不完整的问题，本文提出视觉-语言重投影一致性(VLRC)作为可扩展的辅助目标，利用冻结的视觉-语言表示提供语义多视图监督。在预测的3D重建上跨视图重投影特征并强制一致性，无需额外3D标注。该方法可无缝集成到自监督单目重建和预训练前馈模型中，显著提升重建质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05392v1",
+      "source": "arxiv",
+      "title": "SynCity 3000: Bootstrapping Scene-Scale 3D Diffusion",
+      "abstract": "We present SynCity 3000, a framework for generating 3D scenes that are globally coherent while enabling fine-grained layout control. Building on the ability of current image-to-3D generators to produce complex 3D assets from a single image, we extend this capability to the scale of entire scenes by adapting the generator to be applicable as a convolutional operator. We achieve this by fine-tuning the model on scene-like data generated by a new synthetic data engine, which we propose to address the scarcity of 3D scene data for training. The convolutional generator is then applied to a dimetric image of the entire scene, generated from the user prompt, resulting in 3D scenes of arbitrary size and complexity. Across diverse prompts and layouts, SynCity 3000 produces large, coherent, and detailed scenes, addressing the shortcomings of prior approaches to 3D scene generation.",
+      "authors": [
+        "Paul Engstler",
+        "Iro Laina",
+        "Christian Rupprecht",
+        "Andrea Vedaldi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:59:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.05392v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "extends single-image 3D reconstruction to scene-scale via convolutional diffusion",
+      "llm_evidence_cn": "通过卷积扩散将单图像3D重建扩展到场景级别",
+      "llm_evidence": "通过卷积扩散将单图像3D重建扩展到场景级别",
+      "canonical_evidence": "通过卷积扩散将单图像3D重建扩展到场景级别",
+      "llm_tldr_en": "SynCity 3000 adapts image-to-3D generators as convolutional operators to produce globally coherent 3D scenes from single images, enabling fine-grained layout control and arbitrary scene size.",
+      "llm_tldr_cn": "针对现有图像到3D生成器无法处理大规模场景的问题，本文提出SynCity 3000框架，通过微调生成器使其可作为卷积算子应用，从用户提示生成的二轴测图产生任意规模和大小的3D场景。使用合成数据引擎解决场景数据稀缺问题，在多种提示和布局下生成全局连贯的大尺度3D场景。",
+      "llm_tldr": "针对现有图像到3D生成器无法处理大规模场景的问题，本文提出SynCity 3000框架，通过微调生成器使其可作为卷积算子应用，从用户提示生成的二轴测图产生任意规模和大小的3D场景。使用合成数据引擎解决场景数据稀缺问题，在多种提示和布局下生成全局连贯的大尺度3D场景。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
