@@ -1,0 +1,531 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-10T20:45:30.950189+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2607.02711v1",
+      "source": "arxiv",
+      "title": "RayTun3R: Online Camera Adaptation in 3D Foundation Models",
+      "abstract": "Recent 3D foundation models, such as DUSt3R, MASt3R, VGGT, $π^3$, and Depth Anything 3, provide strong feed-forward depth and pose estimates on pinhole imagery, but degrade sharply under fisheye camera geometry. We show that this failure is partly caused by a pinhole camera bias in the positional encodings of pretrained 3D foundation models, and propose RayTun3R, a lightweight camera adaptation approach. It keeps the pretrained network fixed and adapts only lightweight components tied to token position and camera geometry. RayTun3R learns parameter-efficient residual corrections to absolute and rotary positional encodings, together with parameter-free tokenization and corrections to prediction-grid coordinates that remove residual pinhole assumptions. The resulting adapter contains only 10,752 trainable parameters and can be learned from a short temporal segment using geometric losses. Once adapted, RayTun3R transfers effectively to the remaining frames of the sequence without incurring additional runtime costs. Across diverse fisheye datasets with fields of view from $110^\\circ$ to $200^\\circ$, our adapter reduces rotation error by $2$-$12\\times$ relative to the unadapted model, outperforms LoRA while using $\\sim\\!14\\times$ fewer trainable parameters, improves pose over adaptation-free baselines while avoiding their multi-view inference cost, and remains competitive on depth accuracy.",
+      "authors": [
+        "Daniil Sinitsyn",
+        "Nikita Araslanov",
+        "Daniel Cremers"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-02T18:55:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.02711v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "adapts 3D foundation models to fisheye cameras, improving 3D reconstruction from multiple images",
+      "llm_evidence_cn": "适配3D基础模型至鱼眼相机，提升多视图3D重建性能",
+      "llm_evidence": "适配3D基础模型至鱼眼相机，提升多视图3D重建性能",
+      "canonical_evidence": "适配3D基础模型至鱼眼相机，提升多视图3D重建性能",
+      "llm_tldr_en": "RayTun3R adapts pretrained 3D foundation models to fisheye cameras by learning residual corrections to positional encodings, enabling robust depth and pose estimation under non-pinhole geometry.",
+      "llm_tldr_cn": "现有3D基础模型（如DUSt3R）在鱼眼图像上性能退化。本文提出RayTun3R，通过参数高效的位置编码残差修正和去像素化标记，使模型在线适应鱼眼相机几何，在保持前馈速度的同时显著提升深度与姿态估计精度，拓展了3D重建的相机适用范围。",
+      "llm_tldr": "现有3D基础模型（如DUSt3R）在鱼眼图像上性能退化。本文提出RayTun3R，通过参数高效的位置编码残差修正和去像素化标记，使模型在线适应鱼眼相机几何，在保持前馈速度的同时显著提升深度与姿态估计精度，拓展了3D重建的相机适用范围。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.05598v1",
+      "source": "arxiv",
+      "title": "SSA-3DGS: Unsupervised Removal of Screen-Space Artifacts for 3D Gaussian Splatting",
+      "abstract": "Novel View Synthesis (NVS) methods, such as 3D Gaussian Splatting (3DGS), rely heavily on the assumption of clean, multi-view consistent, posed input images. Real-world captures can violate this assumption due to screen-space artifacts-static occlusions fixed to the 2D image plane rather than to the 3D world. Common examples include physical sensor defects, environmental obstructions (such as rain or mud on the lens enclosure), capture obstructions (such as a thumb over the camera sensor or a dashboard visible in dashcam footage), and digital overlays (such as watermarks or UI elements). When present, they are erroneously baked into the 3D geometry as \"floaters\" or near-camera artifacts, degrading the quality of novel-view rendering. In this work, we propose SSA-3DGS, an unsupervised framework that jointly optimizes a 3D scene and a learnable 2D overlay to recover a clean 3D scene and the corrupting artifacts. By exploiting geometric consensus across views, our method effectively disentangles static artifacts from the 3D scene geometry without supervision or manual input. Across diverse synthetic corruptions and a self-captured real-world dataset, SSA-3DGS improves reconstruction fidelity by up to 9 dB PSNR over 3DGS trained on the same corrupted inputs, while faithfully preserving the corrupting artifact.",
+      "authors": [
+        "Kristof Overdulve",
+        "Lode Jorissen",
+        "Nick Michiels"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-06T19:51:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.05598v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unsupervised removal of screen-space artifacts for 3D Gaussian Splatting novel view synthesis",
+      "llm_evidence_cn": "无监督去除屏幕空间伪影提升3DGS新视角合成",
+      "llm_evidence": "无监督去除屏幕空间伪影提升3DGS新视角合成",
+      "canonical_evidence": "无监督去除屏幕空间伪影提升3DGS新视角合成",
+      "llm_tldr_en": "SSA-3DGS proposes an unsupervised method to detect and remove screen-space artifacts (e.g., watermarks, occlusions) that degrade 3D Gaussian Splatting novel view synthesis, improving rendering quality.",
+      "llm_tldr_cn": "3D高斯泼溅等新视角合成方法依赖干净多视角图像，但真实场景中的屏幕空间伪影（如污点、水印）会被错误地融入3D几何，降低渲染质量。本文提出SSA-3DGS无监督框架，自动检测并去除这类伪影，从而消除近相机浮动物体。实验证明，该方法有效提升了3DGS在真实捕捉数据上的新视角渲染质量，增强了鲁棒性。",
+      "llm_tldr": "3D高斯泼溅等新视角合成方法依赖干净多视角图像，但真实场景中的屏幕空间伪影（如污点、水印）会被错误地融入3D几何，降低渲染质量。本文提出SSA-3DGS无监督框架，自动检测并去除这类伪影，从而消除近相机浮动物体。实验证明，该方法有效提升了3DGS在真实捕捉数据上的新视角渲染质量，增强了鲁棒性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08769v1",
+      "source": "arxiv",
+      "title": "Geometry and Gradient-based Partitioning for Panoramic Outdoor Reconstruction",
+      "abstract": "Scaling 3D Gaussian Splatting (3DGS) to large outdoor scenes is costly in both data acquisition and computation. Adopting panoramic images with equirectangular projection (ERP) can reduce capture effort via their full $360^{\\circ}$ field of view, yet the resulting omnipresent visibility invalidates existing partitioning strategies that rely on local camera frustums, causing block-wise optimization to degenerate into global training. Thus, we propose PanoLOG, a two-stage coarse-to-fine framework equipped with a Geometry and Gradient-based Partitioning Strategy tailored for large-scale panoramic 3DGS reconstruction. In the global coarse stage, PanoLOG leverages sky-sphere modeling and panoramic monocular depth supervision for reliable geometry, while in the refinement stage, G$^2$PS builds adaptive bounding volumes via parallax-driven uncertainty and assigns cameras via gradient-based importance scoring. Furthermore, we construct Pano360, the first benchmark on large-scale panoramic dataset for outdoor scene reconstruction. Extensive experiments demonstrate that G$^2$PS achieves state-of-the-art rendering quality while maintaining scalable, block-parallel training. Our models, training code, and dataset are publicly available.",
+      "authors": [
+        "Weijian Chen",
+        "Weibo Yao",
+        "Yuhang Zhang",
+        "Xiaolin Tang",
+        "Guo Wang",
+        "Weijun Zhang",
+        "Xitong Gao",
+        "Yihao Chen",
+        "Hongde Qin",
+        "Lu Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.08769v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "novel-view synthesis and 3D surface reconstruction via 3DGS",
+      "llm_evidence_cn": "通过3D高斯溅射进行新颖视图合成和表面重建",
+      "llm_evidence": "通过3D高斯溅射进行新颖视图合成和表面重建",
+      "canonical_evidence": "通过3D高斯溅射进行新颖视图合成和表面重建",
+      "llm_tldr_en": "PanoLOG proposes geometry and gradient-based partitioning for large-scale panoramic 3DGS reconstruction, enabling efficient and faithful outdoor surface reconstruction from 360-degree images.",
+      "llm_tldr_cn": "将3D高斯溅射扩展到室外大场景面临数据采集和计算成本高的问题。本文提出PanoLOG，利用全景图像和几何梯度分区策略：先全局粗阶段通过天空球建模和深度监督获得可靠几何，再局部精化。在保持质量的同时大幅减少训练时间，实现大规模全景3D重建。",
+      "llm_tldr": "将3D高斯溅射扩展到室外大场景面临数据采集和计算成本高的问题。本文提出PanoLOG，利用全景图像和几何梯度分区策略：先全局粗阶段通过天空球建模和深度监督获得可靠几何，再局部精化。在保持质量的同时大幅减少训练时间，实现大规模全景3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08772v1",
+      "source": "arxiv",
+      "title": "Wat3R: Underwater 3D Geometry Learning without Annotations",
+      "abstract": "Estimating 3D geometry in underwater environments presents unique challenges due to light attenuation, scattering, and the absence of large-scale, high-quality 3D annotations. Pioneering methods rely on massive dense annotations that are impractical in underwater settings. In this paper, we propose Wat3R, a cross-domain semi-supervised learning framework designed to adapt feed-forward 3D reconstruction models from air to underwater scenes. Uniquely, our method eliminates the need for any annotated underwater data following a teacher-student architecture, that learns robust geometry representations merely on abundant unlabeled real underwater video footage. We also design a cross-view consistency loss that leverages geometric cues from other views to compensate for the information degradation in the current view caused by water attenuation and scattering. Furthermore, considering the lack of comprehensive evaluation benchmarks, we construct Water3D, a diverse dataset covering various water bodies and underwater scenarios, designed for geometric task evaluation. Experimental results demonstrate that Wat3R outperforms current state-of-the-art methods in underwater multi-view depth estimation and point cloud reconstruction. The dataset and code are available at https://github.com/LSXI7/Wat3R .",
+      "authors": [
+        "Jiangwei Ren",
+        "Xingyu Jiang",
+        "Zijie Song",
+        "Wei Xu",
+        "Hongkai Lin",
+        "Dingkang Liang",
+        "Xiang Bai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.08772v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "semi-supervised 3D reconstruction from underwater images",
+      "llm_evidence_cn": "无需标注的水下三维几何学习",
+      "llm_evidence": "无需标注的水下三维几何学习",
+      "canonical_evidence": "无需标注的水下三维几何学习",
+      "llm_tldr_en": "Wat3R adapts feed-forward 3D reconstruction models to underwater scenes via teacher-student learning on unlabeled video, using cross-view consistency for robust geometry.",
+      "llm_tldr_cn": "针对水下环境缺乏三维标注的问题，本文提出Wat3R跨域半监督学习框架。它通过教师-学生架构从未标记的水下视频中学习鲁棒的几何表示，并设计跨视角一致性损失以补偿水下退化。无需任何水下标注数据即可实现从空气到水下场景的三维重建迁移，大幅降低了水下三维建模的成本。",
+      "llm_tldr": "针对水下环境缺乏三维标注的问题，本文提出Wat3R跨域半监督学习框架。它通过教师-学生架构从未标记的水下视频中学习鲁棒的几何表示，并设计跨视角一致性损失以补偿水下退化。无需任何水下标注数据即可实现从空气到水下场景的三维重建迁移，大幅降低了水下三维建模的成本。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.03038v1",
+      "source": "arxiv",
+      "title": "OmniDS: Dual-Stream Context Fusion for Omnidirectional Depth from Fisheye Cameras",
+      "abstract": "Omnidirectional depth estimation from multi-fisheye camera rigs is complicated by visibility conflicts: wide baselines cause different cameras to observe different portions, or even different faces, of the same object, so aggregating their features into a unified equirectangular (ERP) representation under fixed projection produces ambiguous matching evidence near occlusion boundaries and thin structures. Although existing methods mitigate this by down-weighting unreliable views, they do not resolve the underlying discrepancy because context formation and cross-view fusion remain tied to rigid fisheye-to-ERP sampling. We present OmniDS, an iterative depth refinement framework that replaces rigid aggregation by combining dynamic context fusion with consensus-aware multi-view similarity. A dual-stream encoder pairs a lightweight CNN for geometric detail with a frozen DINOv3 for semantic priors; their features are reprojected into ERP space at each refinement step via learned view weighting and deformable cross-attention with geometric distortion bias. In parallel, a multi-view consensus volume captures global cross-camera agreement through group-wise correlation and feature variance, regularized by a 3D U-Net. For efficient deployment, we distill the dual-stream representation into a single MobileNet-based encoder. OmniDS achieves state-of-the-art performance on the OmniThings, OmniHouse, and Sunny benchmarks while maintaining competitive inference speed. Project page and codes are available at https://parkchaesong.github.io/omnids.",
+      "authors": [
+        "Chaesong Park",
+        "Jihyeon Hwang",
+        "Muyeol Sung",
+        "Jongwoo Lim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-03T07:31:20+00:00",
+      "link": "https://arxiv.org/pdf/2607.03038v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "omnidirectional depth estimation from multiple fisheye cameras, enabling 3D reconstruction",
+      "llm_evidence_cn": "从多鱼眼相机进行全方位深度估计，为三维重建提供深度信息",
+      "llm_evidence": "从多鱼眼相机进行全方位深度估计，为三维重建提供深度信息",
+      "canonical_evidence": "从多鱼眼相机进行全方位深度估计，为三维重建提供深度信息",
+      "llm_tldr_en": "OmniDS uses dual-stream context fusion to estimate omnidirectional depth from multi-fisheye camera rigs, addressing visibility conflicts and improving depth near occlusions.",
+      "llm_tldr_cn": "多鱼眼相机的深度估计因视角冲突而具有挑战性。本文提出OmniDS框架，利用双流上下文融合替代刚性聚合，动态结合上下文信息，在遮挡边界和薄结构处显著提升深度估计精度，为全方位3D重建提供更可靠的深度输入。",
+      "llm_tldr": "多鱼眼相机的深度估计因视角冲突而具有挑战性。本文提出OmniDS框架，利用双流上下文融合替代刚性聚合，动态结合上下文信息，在遮挡边界和薄结构处显著提升深度估计精度，为全方位3D重建提供更可靠的深度输入。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.04540v1",
+      "source": "arxiv",
+      "title": "SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control",
+      "abstract": "Geometry-conditioned 3D scene generation enables the creation of 3D environments from user-provided geometry, offering direct control over scene structure and object layout. To generate such 3D scenes, current methods commonly adopt a three-stage design that first defines a view schedule, then synthesizes multi-view observations along the scheduled views, and finally reconstructs a 3D representation from the generated images. However, defining the view schedule becomes a major bottleneck for outdoor scenes, where large, unstructured, and unbounded geometry makes it difficult to obtain views that provide sufficient coverage while supporting stable generation. To address this bottleneck, we present SceneFrom3D, a framework that automatically schedules views from outdoor input geometries. SceneFrom3D constructs a directed generation graph whose nodes represent anchor views and whose edges represent interpolation trajectories, defining which views to synthesize, which view pairs to interpolate, and in which order generation should proceed. Beyond automatic view scheduling, SceneFrom3D further improves controllability through object-level conditioning, assigning each object an identity image for appearance guidance and a geometry-adherence parameter for region-wise control over the input geometry. Experiments demonstrate that SceneFrom3D achieves state-of-the-art geometry-conditioned outdoor 3D scene generation, producing high-quality scenes with controllable object appearance and geometry adherence.",
+      "authors": [
+        "Geonung Kim",
+        "Jeongeun Park",
+        "Nuri Ryu",
+        "Di Liu",
+        "Sunghyun Cho"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-05T23:07:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.04540v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "geometry-conditioned 3D scene generation with view scheduling and reconstruction",
+      "llm_evidence_cn": "几何条件约束的三维场景生成，包含视角调度和重建",
+      "llm_evidence": "几何条件约束的三维场景生成，包含视角调度和重建",
+      "canonical_evidence": "几何条件约束的三维场景生成，包含视角调度和重建",
+      "llm_tldr_en": "Presents SceneFrom3D, a framework for generating outdoor 3D scenes from user-provided geometry, using view scheduling to obtain multi-view images for reconstruction.",
+      "llm_tldr_cn": "论文提出SceneFrom3D，一种从用户提供几何生成室外三维场景的框架。通过智能视角调度获取多视图观测，再重建为三维表示。有效解决了室外场景视角调度瓶颈，实现了物体级控制。在多个户外数据集上验证了生成和重建质量。",
+      "llm_tldr": "论文提出SceneFrom3D，一种从用户提供几何生成室外三维场景的框架。通过智能视角调度获取多视图观测，再重建为三维表示。有效解决了室外场景视角调度瓶颈，实现了物体级控制。在多个户外数据集上验证了生成和重建质量。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03822v1",
+      "source": "arxiv",
+      "title": "FDR-Occ: Factorized Dense Routing for Full-Spectrum 3D Occupancy Prediction",
+      "abstract": "Vision-based 3D occupancy prediction fundamentally relies on the 2D-to-3D view transformation. Current paradigms predominantly utilize explicit physical projection, which artificially restricts the routing matrix to strict, sparse camera rays. While computationally efficient, this imposes a severe Locality Bottleneck, preventing the network from constructing holistic contextual understanding and degrading sharply when camera extrinsics are unreliable or absent. To break this bottleneck, we abstract view transformation as unconstrained bipartite routing and propose Factorized Dense Routing (FDR). By approximating dense 2D-to-3D mixing through hierarchical tensor contractions, FDR guarantees a fully-global receptive field with tractable, sub-quadratic complexity. Crucially, the mandatory spatial contraction in dense routing exposes a fundamental Resolution-Context Trade-off. To address this, we introduce a Resolution-Context Decoupled Architecture. We factorize the 3D space into a global macroscopic topological anchor (via FDR) and precise local geometric planes (via explicit projection). This decoupling enables global semantic inference and exact surface localization to complement each other without mutual compromise. Extensive experiments demonstrate that our framework achieves state-of-the-art performance on the Occ3D-nuScenes and Occ3D-Waymo benchmarks. More notably, in an uncalibrated setting where physical extrinsics are withheld, our global routing internalizes the implicit multi-camera rig topology and exhibits substantially stronger structural robustness than physical-projection baselines under the same protocol.",
+      "authors": [
+        "Dubing Chen",
+        "Huan Zheng",
+        "Tianyi Yan",
+        "Yucheng Zhou",
+        "Runzhou Tao",
+        "Zhongying Qiu",
+        "Jianfei Yang",
+        "Jianbing Shen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T11:12:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.03822v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "2D-to-3D view transformation for occupancy prediction",
+      "llm_evidence_cn": "用于占用预测的2D到3D视图变换",
+      "llm_evidence": "用于占用预测的2D到3D视图变换",
+      "canonical_evidence": "用于占用预测的2D到3D视图变换",
+      "llm_tldr_en": "Proposes Factorized Dense Routing (FDR) for 3D occupancy prediction, replacing sparse camera rays with dense global routing via tensor contractions, overcoming locality bottlenecks.",
+      "llm_tldr_cn": "当前3D占用预测依赖显式物理投影，导致局部瓶颈且对相机外参敏感。本文提出因子化密集路由（FDR），将视图变换抽象为无约束二分路由，通过层次化张量收缩实现全局感受野。该方法在保持可计算性的同时提升上下文理解，突破传统投影的限制。",
+      "llm_tldr": "当前3D占用预测依赖显式物理投影，导致局部瓶颈且对相机外参敏感。本文提出因子化密集路由（FDR），将视图变换抽象为无约束二分路由，通过层次化张量收缩实现全局感受野。该方法在保持可计算性的同时提升上下文理解，突破传统投影的限制。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.05568v1",
+      "source": "arxiv",
+      "title": "Harnessing Generative Image Models for Training-Free Primitive Shape Abstraction",
+      "abstract": "Representing 3D shapes as compact sets of geometric primitives is fundamental to robotics, simulation, and scene understanding. Generative image models trained at scale have recently emerged as generalist visual learners that can identify and segment object parts directly in the image domain, across arbitrary categories and without task-specific training. Adapting such models to downstream tasks typically requires fine-tuning; we ask whether their pretrained capability can instead be harnessed directly, without any training, and answer affirmatively with a training-free harness. Our pipeline renders multi-view images of a 3D object, uses a vision-language model to analyze its semantic parts, prompts a generative image model to paint a color-coded part segmentation mask, reprojects it onto the geometry, and fits a superquadric primitive to each part via parameter optimization. The approach contains no learned parameters: it is category-agnostic and orientation-invariant, properties that previous learning-based models struggled with. Its accuracy ceiling rises with future generative-model improvements, which we confirm with a ground-truth segmentation study showing that part segmentation, not primitive fitting, is the current accuracy bottleneck. On HumanPrim and Toys4K, our method achieves the lowest Chamfer distance among all evaluated methods, using 5--9 primitives per object on average.",
+      "authors": [
+        "Gregor Kobsik",
+        "Tim Elsner",
+        "Leif Kobbelt"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-06T19:10:43+00:00",
+      "link": "https://arxiv.org/pdf/2607.05568v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "reconstruct 3D shapes as primitive abstractions from images",
+      "llm_evidence_cn": "从图像重建3D形状的基元抽象",
+      "llm_evidence": "从图像重建3D形状的基元抽象",
+      "canonical_evidence": "从图像重建3D形状的基元抽象",
+      "llm_tldr_en": "Harnesses pretrained generative image models for training-free primitive shape abstraction from multi-view images, using VLM to analyze semantic parts and generative model to color-code primitives.",
+      "llm_tldr_cn": "3D形状基元表示对机器人仿真至关重要，但传统方法需任务特定训练。本文提出无需训练的方法，利用预训练生成图像模型：多视图渲染后，通过视觉语言模型分析语义部分，引导生成模型绘制颜色编码基元，再反投影到3D。在多种类别上有效实现基元抽象，无需微调。",
+      "llm_tldr": "3D形状基元表示对机器人仿真至关重要，但传统方法需任务特定训练。本文提出无需训练的方法，利用预训练生成图像模型：多视图渲染后，通过视觉语言模型分析语义部分，引导生成模型绘制颜色编码基元，再反投影到3D。在多种类别上有效实现基元抽象，无需微调。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.03990v1",
+      "source": "arxiv",
+      "title": "InSpace: Structure-Aware 3D Indoor Scene Generation from a Single 360° Image",
+      "abstract": "Recent advances in single image-to-3D generation have enabled high-quality asset synthesis, yet extending these capabilities to indoor scene generation remains challenging. Existing methods focus on asset-level generation while neglecting the structural layout, which is essential for downstream applications and serves as the spatial anchor for grounding assets. However, a single image with a limited field of view lacks the spatial coverage to recover a coherent global layout. To this end, we use a 360° image represented in equirectangular projection (ERP) and propose InSpace, a structure-aware framework for 3D indoor scene generation. InSpace comprises three stages: (1) estimating partial scene geometry as spatial priors, (2) generating coarse scene structure with view-selective cross-attention, and (3) producing detailed layout and asset geometry with textures through a global-local hybrid attention, using flow matching. We also propose ERP-FRONT, a paired ERP-Image-to-3D indoor scene dataset based on 3D-FRONT. Experiments show that InSpace generates complete 3D indoor scenes with structural layout, along with separate textured assets from a single ERP image, achieving strong performance across 3D and 2D metrics. Project Page: https://kookie12.github.io/InSpace-Project-Page/",
+      "authors": [
+        "Gwanhyeong Koo",
+        "Hyunsu Kim",
+        "Youngji Kim",
+        "Taejae Lee",
+        "Siwoo Lim",
+        "Sunjae Yoon",
+        "Suyong Yeon",
+        "Chang D. Yoo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-04T19:16:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.03990v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D indoor scene reconstruction from a single 360-degree image",
+      "llm_evidence_cn": "从单张360°图像重建3D室内场景",
+      "llm_evidence": "从单张360°图像重建3D室内场景",
+      "canonical_evidence": "从单张360°图像重建3D室内场景",
+      "llm_tldr_en": "InSpace reconstructs 3D indoor scenes from a single 360-degree image by first estimating partial geometry, then generating coarse scene layout, and refining with assets, achieving structure-aware generation.",
+      "llm_tldr_cn": "单图像转3D方法通常面向资产而忽略场景结构布局。本文使用360°图像提出InSpace：估计部分几何作为空间先验，生成粗略场景布局，再填充细节资产。该方法利用全向视场恢复全局布局，生成结构感知的3D室内场景，无需多视图输入。",
+      "llm_tldr": "单图像转3D方法通常面向资产而忽略场景结构布局。本文使用360°图像提出InSpace：估计部分几何作为空间先验，生成粗略场景布局，再填充细节资产。该方法利用全向视场恢复全局布局，生成结构感知的3D室内场景，无需多视图输入。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.07905v1",
+      "source": "arxiv",
+      "title": "3D Reconstruction of deciduous Trees using low-cost UAV- and Crane-based Photogrammetry for Monitoring Shoot Elongation across entire Canopies",
+      "abstract": "Tree growth determines how much CO2 is sequestered from the atmosphere and temporarily stored in woody biomass. At the same time tree growth is affected by increasing temperatures, more frequent drought periods, late frosts and other extreme events associated with climate change. While continuous measurements of radial (secondary) tree growth using dendrometers are well established, monitoring of shoot elongation (primary growth) has largely been neglected because suitable measurement techniques are lacking. As a result, the effects of climate change on primary tree growth remain insufficiently understood. This work aims at reconstructing native deciduous trees in 3D as a basis for measuring and monitoring shoot elongation over entire tree canopies. Here we explored the use of low-cost UAV photogrammetry and of a multi-camera CraneCam system under real-world conditions. Data were collected in two study areas over an entire growing season. We present sensor evaluations, photogrammetric data acquisition and processing strategies. A special focus is placed on the analysis of the resulting photogrammetric 3D point clouds in terms of accuracy, resolution and completeness. Results demonstrate 3D point accuracies of 5-6 mm for entire trees using consumer-grade UAVs weighing less than 250 g and a 3D reconstruction completeness between 92% and 98% depending on the UAV type. The paper introduces a novel 3Dprinted ground-truth branch to evaluate the capability to reconstructing fine-detail structures such as thin tree shoots. Finally, we discuss operational challenges and initial experiments towards a skeletonization of entire trees based on photogrammetric point clouds.",
+      "authors": [
+        "Stephan Nebiker",
+        "Micha Tschanz",
+        "Nando Amport",
+        "Frederik Baumgarten"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-08T20:39:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.07905v1",
+      "tags": [
+        "keyword:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D tree reconstruction from UAV and crane photogrammetry",
+      "llm_evidence_cn": "利用无人机和起重机摄影测量进行树木三维重建",
+      "llm_evidence": "利用无人机和起重机摄影测量进行树木三维重建",
+      "canonical_evidence": "利用无人机和起重机摄影测量进行树木三维重建",
+      "llm_tldr_en": "A study using low-cost UAV and crane photogrammetry to reconstruct deciduous trees in 3D for monitoring shoot elongation.",
+      "llm_tldr_cn": "本研究利用低成本无人机和起重机摄影测量对落叶树木进行三维重建，以监测枝条伸长。该方法实现了低成本大规模树木生长监测，为气候变化影响研究提供了工具。",
+      "llm_tldr": "本研究利用低成本无人机和起重机摄影测量对落叶树木进行三维重建，以监测枝条伸长。该方法实现了低成本大规模树木生长监测，为气候变化影响研究提供了工具。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.04144v1",
+      "source": "arxiv",
+      "title": "Semantic-Guided Progressive Object Removal with Gaussian Splatting",
+      "abstract": "Removing unwanted objects from reconstructed 3D scenes is an important task in computer vision, supporting applications in AR/VR, robotics, and digital content creation. Existing methods typically complete the entire masked region in a single step and without effectively utilizing semantic information from other views, leading to difficulties in handling complex geometric details and textures. In this work, we propose a novel framework that integrates Semantic-guided Block Matching (SBM) and Region-Wise Progressive Refinement (RPR) for high-quality 3D object removal. First, we leverage DINOv2 to encode semantic guidance from multi-view observations, and the best match tokens are decoded to complete missing regions in the target view while maintaining cross-view consistency. Second, we introduce a RPR strategy that segments the target mask into multiple subregions and selectively refines those with poor visual quality. Our method is built upon Gaussian Splatting, ensuring high-fidelity scene reconstruction with efficient computation. Experimental results demonstrate that our approach outperforms existing Gaussian-based methods in terms of perceptual quality and coherence in 3D object removal.",
+      "authors": [
+        "Xianliang Huang",
+        "Chen Xiao",
+        "Yuanxiang Ni",
+        "Guanming Liu",
+        "Mingkai Liu",
+        "Dikai Fan",
+        "Xiao Liu",
+        "Hao Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-05T07:11:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.04144v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "uses Gaussian splatting for 3D scene manipulation, relevant to novel view synthesis",
+      "llm_evidence_cn": "使用高斯泼溅进行3D场景编辑，与新视角合成技术相关",
+      "llm_evidence": "使用高斯泼溅进行3D场景编辑，与新视角合成技术相关",
+      "canonical_evidence": "使用高斯泼溅进行3D场景编辑，与新视角合成技术相关",
+      "llm_tldr_en": "Proposes semantic-guided progressive object removal in 3D scenes using Gaussian splatting, leveraging DINOv2 for multi-view semantic guidance and region-wise refinement.",
+      "llm_tldr_cn": "3D场景中的物体移除需要精确处理几何和纹理细节。本文结合高斯泼溅表示，提出语义引导的块匹配和区域渐进细化，利用DINOv2从多视图编码语义，逐步完成缺失区域，在保持场景一致性的同时实现高质量物体移除，扩展了高斯泼溅在3D编辑中的应用。",
+      "llm_tldr": "3D场景中的物体移除需要精确处理几何和纹理细节。本文结合高斯泼溅表示，提出语义引导的块匹配和区域渐进细化，利用DINOv2从多视图编码语义，逐步完成缺失区域，在保持场景一致性的同时实现高质量物体移除，扩展了高斯泼溅在3D编辑中的应用。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-06-25-734685-v2",
+      "source": "biorxiv",
+      "title": "Apical3DTip: Elliptic Cross-section-based Reconstruction for the Embryo Initial Cell of Arabidopsis",
+      "abstract": "BackgroundCell geometry plays a central role in determining division orientation and body axis formation during early embryogenesis in Arabidopsis thaliana. However, quantitative analysis of dynamic three-dimensional (3D) morphology remains challenging because live-imaging studies often rely on two-dimensional (2D) projections, while existing 3D reconstruction approaches, including mesh-based methods, often lose the original orientation information relative to the ovule and require labor-intensive mesh correction. In addition, embryo positional fluctuation caused by floating in liquid medium and continuous growth makes it difficult to analyze temporal morphological changes within a common coordinate system.\n\nResultsWe developed a robust framework for quantitative 3D and four-dimensional (4D; 3D + time) analysis of embryo initial cell (apical cell) morphology. The method first establishes a standardized 3D coordinate system by normalizing cell orientation based on the bottom plane and the optical axis of the observation. Cell morphology is then reconstructed through ellipse-based approximation of serial cross-sections extracted from stacked imaging data, enabling accurate geometric characterization without the need for complex surface mesh reconstruction. To evaluate shape anisotropy, we quantified the apical cell shape in 3D. The framework further supports the characterization of volumetric features of subsequent division, providing a basis for quantifying 3D embryogenesis.\n\nConclusionOur framework provides a simple and noise-reduced approach for quantitative analysis of living cell morphology in 3D. We named the integrated method of combining coordinate normalization with elliptical cross-section-based reconstruction Apical3DTip. This method enables consistent comparison of cell shapes without extensive manual corrections. The method overcomes key limitations of 2D projection-based and mesh-dependent analyses and offers a practical platform for quantifying cell shape and daughter cell shapes in 3D. More broadly, it provides a quantitative foundation for exploring the relationship between cell geometry, morphodynamics, and developmental patterning in living plant embryos.",
+      "authors": [
+        "Nonoyama, T.",
+        "Kang, Z.",
+        "Hanaki, Y.",
+        "Itagaki, Y.",
+        "Matsumoto, H.",
+        "Kimata, Y.",
+        "Tsugawa, S.",
+        "Ueda, M."
+      ],
+      "primary_category": "plant biology",
+      "categories": [
+        "plant biology"
+      ],
+      "published": "2026-07-09T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.06.25.734685v2.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "3D reconstruction of plant embryo cells from microscopy images",
+      "llm_evidence_cn": "从显微镜图像重建拟南芥胚胎细胞的三维结构",
+      "llm_evidence": "从显微镜图像重建拟南芥胚胎细胞的三维结构",
+      "canonical_evidence": "从显微镜图像重建拟南芥胚胎细胞的三维结构",
+      "llm_tldr_en": "Apical3DTip uses elliptic cross-section fitting to reconstruct 3D morphology of Arabidopsis embryo initial cells from live imaging, preserving orientation and reducing labor.",
+      "llm_tldr_cn": "植物胚胎细胞的3D形态分析受限于2D投影和传统网格重建的缺陷。本文提出Apical3DTip方法，基于椭圆截面拟合从延时成像重建初始细胞的3D形态，保留相对于胚珠的原始方向，无需繁琐的网格校正，并实现时序形态变化分析，为发育生物学提供了高效3D定量工具。",
+      "llm_tldr": "植物胚胎细胞的3D形态分析受限于2D投影和传统网格重建的缺陷。本文提出Apical3DTip方法，基于椭圆截面拟合从延时成像重建初始细胞的3D形态，保留相对于胚珠的原始方向，无需繁琐的网格校正，并实现时序形态变化分析，为发育生物学提供了高效3D定量工具。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.05354v1",
+      "source": "arxiv",
+      "title": "Geometric Reciprocity: Unlocking Self-Supervision for Stereoscopic Video Generation",
+      "abstract": "Monocular-to-stereo conversion synthesizes stereoscopic content from 2D videos for immersive 3D experiences. In modern Depth-Image-Based Rendering (DIBR) approaches, stereo inpainting of disocclusions is the critical bottleneck. Training-based methods achieve superior quality but rely on scarce stereo pairs or synthetic data with domain gaps. We address this through the first self-supervised framework learning from monocular videos via cycle consistency. Our key contribution is the Geometric Reciprocity Theorem (GRT): under the nearest-neighbor DIBR formulation, the disocclusion mask when synthesizing a target view equals the mask of pixels lost when warping back from target to source, enabling analytical computation of test-time disocclusion masks directly from monocular images. This yields train-test consistency for the stated warping formulation, supporting self-supervised learning from unlimited monocular videos and substantial improvements over training-free and supervised state-of-the-art methods. Project page: https://visual-ai.github.io/grt/",
+      "authors": [
+        "Jingyi Lu",
+        "Kai Han"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-06T17:32:04+00:00",
+      "link": "https://arxiv.org/pdf/2607.05354v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "geometric reciprocity self-supervision for view synthesis in stereoscopic video generation",
+      "llm_evidence_cn": "几何互易自监督用于立体视频生成中的视点合成",
+      "llm_evidence": "几何互易自监督用于立体视频生成中的视点合成",
+      "canonical_evidence": "几何互易自监督用于立体视频生成中的视点合成",
+      "llm_tldr_en": "Geometric Reciprocity Theorem enables self-supervised learning of stereoscopic video generation from monocular videos via cycle consistency, analytically computing disocclusion masks.",
+      "llm_tldr_cn": "立体视频生成中，基于深度图像渲染的方法受限于稀有的立体训练数据。本文提出几何互易定理（GRT），利用单目视频的循环一致性实现自监督学习。GRT发现前向合成与后向变换的闭塞掩码等价，从而可解析计算测试时闭塞区域，无需人工标注。实验表明，该方法在无立体数据的情况下生成了高质量的立体视频。",
+      "llm_tldr": "立体视频生成中，基于深度图像渲染的方法受限于稀有的立体训练数据。本文提出几何互易定理（GRT），利用单目视频的循环一致性实现自监督学习。GRT发现前向合成与后向变换的闭塞掩码等价，从而可解析计算测试时闭塞区域，无需人工标注。实验表明，该方法在无立体数据的情况下生成了高质量的立体视频。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
