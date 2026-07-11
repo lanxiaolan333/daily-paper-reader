@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-11",
+  "date": "2026-07-11",
+  "generated_at": "2026-07-11T21:08:59",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/11/2607.03789v1-g2tam-geometry-grounded-track-anything-model",
+      "section": "deep",
+      "title_en": "G$^2$TAM: Geometry Grounded Track Anything Model",
+      "authors": "Chenming Zhu, Peizhou Cao, Jingli Lin, Wenbo Hu, Yunlong Ran, Jiangmiao Pang, Tai Wang, Xihui Liu",
+      "date": "2026-07-04",
+      "pdf": "https://arxiv.org/pdf/2607.03789v1",
+      "score": "8.0",
+      "evidence": "利用前馈3D重建从RGB图像中跟踪实例",
+      "tldr": "当前视频分割模型依赖显式外观记忆，面对大视角变化和长期遮挡时表现脆弱。为此，提出G^2TAM，利用前馈3D重建的空间一致性，将空间对齐的几何表示作为隐式记忆，并设计跨模态空间编码器融合视觉与文本提示。在构建的InsTrack数据集上，模型展现出强大的跨视图一致性和实例追踪能力。该方法实现了视频对象分割与空间重建的统一，为几何锚定的交互式空间推理奠定了新基础。",
+      "tags": "query:d-recon",
+      "abstract_en": "Human spatial understanding arises from jointly perceiving geometry and semantics, enabling consistent object identification and localization across viewpoints and time. Current video segmentation models depend on explicit object appearance memory banks for instance tracking, yet they remain vulnerable to large viewpoint changes and long-term occlusions. Leveraging the spatial consistency afforded by modern feed-forward 3D reconstruction models, we propose the Geometry Grounded Tracking Anything Model (G$^2$TAM), a unified framework for promptable instance tracking in 3D using only unordered RGB images or videos. G$^2$TAM employs spatially aligned geometric representations as implicit memory, ensuring stable instance identity and localization across frames and views. At its core is a cross-modal spatial encoder that integrates visual and textual prompts into a shared geometric space, enabling end-to-end spatial reconstruction and instance-consistent mask prediction. To support training and evaluation, we construct InsTrack, a large-scale dataset with a dedicated validation split for benchmarking. Extensive experiments show that G$^2$TAM delivers strong cross-view consistency, promptable instance spatial tracking, video object segmentation and spatial reconstruction, establishing a foundation for interactive, geometry-grounded spatial reasoning.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/11/biorxiv-10-64898-2026-06-25-734685-v1-apical3dtip-elliptic-cross-section-based-reconstruction-for-the-embryo-initial-cell-of-arabidopsis",
+      "section": "quick",
+      "title_en": "Apical3DTip: Elliptic Cross-section-based Reconstruction for the Embryo Initial Cell of Arabidopsis",
+      "authors": "Nonoyama, T., Kang, Z., Hanaki, Y., Itagaki, Y., Matsumoto, H., Kimata, Y., Tsugawa, S., Ueda, M.",
+      "date": "2026-07-09",
+      "pdf": "https://www.biorxiv.org/content/10.64898/2026.06.25.734685v1.full.pdf",
+      "score": "7.0",
+      "evidence": "从显微镜图像重建胚胎细胞的3D模型",
+      "tldr": "拟南芥胚胎早期顶细胞3D形态定量分析因活体成像依赖2D投影、现有3D重建丢失方位且需手动校正、胚胎浮动导致坐标系不一致而困难。Apical3DTip通过基于底面和观测光轴归一化建立标准化3D坐标系，并利用椭圆近似堆叠成像的连续横截面重建细胞几何，无需复杂网格。该方法成功量化了顶细胞3D形状各向异性，并支持后续分裂体积特征分析，有效降低了噪声。该框架克服了2D投影和网格依赖的局限，为探索植物胚胎细胞几何、形态动力学与发育模式的关系提供了定量平台。",
+      "tags": "query:d-recon",
+      "abstract_en": "BackgroundCell geometry plays a central role in determining division orientation and body axis formation during early embryogenesis in Arabidopsis thaliana. However, quantitative analysis of dynamic three-dimensional (3D) morphology remains challenging because live-imaging studies often rely on two-dimensional (2D) projections, while existing 3D reconstruction approaches, including mesh-based methods, often lose the original orientation information relative to the ovule and require labor-intensive mesh correction. In addition, embryo positional fluctuation caused by floating in liquid medium and continuous growth makes it difficult to analyze temporal morphological changes within a common coordinate system.\n\nResultsWe developed a robust framework for quantitative 3D and four-dimensional (4D; 3D + time) analysis of embryo initial cell (apical cell) morphology. The method first establishes a standardized 3D coordinate system by normalizing cell orientation based on the bottom plane and the optical axis of the observation. Cell morphology is then reconstructed through ellipse-based approximation of serial cross-sections extracted from stacked imaging data, enabling accurate geometric characterization without the need for complex surface mesh reconstruction. To evaluate shape anisotropy, we quantified the apical cell shape in 3D. The framework further supports the characterization of volumetric features of subsequent division, providing a basis for quantifying 3D embryogenesis.\n\nConclusionOur framework provides a simple and noise-reduced approach for quantitative analysis of living cell morphology in 3D. We named the integrated method of combining coordinate normalization with elliptical cross-section-based reconstruction Apical3DTip. This method enables consistent comparison of cell shapes without extensive manual corrections. The method overcomes key limitations of 2D projection-based and mesh-dependent analyses and offers a practical platform for quantifying cell shape and daughter cell shapes in 3D. More broadly, it provides a quantitative foundation for exploring the relationship between cell geometry, morphodynamics, and developmental patterning in living plant embryos.",
+      "source": "biorxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/11/2607.04243v1-heartvolmesh-cardiac-volumetric-mesh-reconstruction-via-covariance-guided-graph-deformation",
+      "section": "quick",
+      "title_en": "HeartVolMesh: Cardiac Volumetric Mesh Reconstruction via Covariance-Guided Graph Deformation",
+      "authors": "Fengming Lin, Arezoo Zakeri, Haoran Dou, Zherui Zhou, Shaokun Lan, Jinming Duan, Alejandro Frangi",
+      "date": "2026-07-05",
+      "pdf": "https://arxiv.org/pdf/2607.04243v1",
+      "score": "6.0",
+      "evidence": "从体积图像重建3D网格",
+      "tldr": "针对心脏解剖建模中常见分割-建模流程模糊薄壁结构且缺乏跨病例对应的问题，提出HeartVolMesh方法。该方法将每个模板顶点表示为各向异性高斯核，利用3D CNN-GNN网络从体积图像预测顶点位移和协方差矩阵，并通过协方差感知的负对数似然损失训练。通过分阶段对齐与变形传播将固定四面体模板包裹到重建表面，自动保持网格拓扑与对应关系。实验在表面网格精度和体积网格保真度上均优于基于变形的基线方法，为个性化心脏模拟提供了可靠网格。",
+      "tags": "query:d-recon",
+      "abstract_en": "Accurate patient-specific tetrahedral cardiac meshes are essential for in-silico trials, yet common segmentation-then-modelling pipelines can blur thin-wall anatomy and offer limited cross-case correspondence. We propose HeartVolMesh, which lifts each template vertex to an anisotropic Gaussian kernel and uses a 3D CNN-GNN to predict per-vertex displacements and Cholesky-parameterized covariances from volumetric images. Training is guided by a covariance-aware negative log-likelihood loss with lightweight mesh regularization. For volumetric meshing, we warp a fixed tetrahedral template to the reconstructed surface via staged alignment, non-rigid registration, and deformation propagation, preserving connectivity and correspondence by construction, with resolution controlled by template density. Experiments show consistent gains over deformation-based baselines in surface mesh accuracy and volumetric mesh fidelity.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/11/biorxiv-10-64898-2026-07-02-736195-v2-differentiable-design-for-morphogenesis-i-simulation-and-simulacra",
+      "section": "quick",
+      "title_en": "Differentiable Design for Morphogenesis I: Simulation and Simulacra",
+      "authors": "Beker, O., Dumitrascu, B.",
+      "date": "2026-07-10",
+      "pdf": "https://www.biorxiv.org/content/10.64898/2026.07.02.736195v2.full.pdf",
+      "score": "6.0",
+      "evidence": "可微框架用于三维形态发生重建",
+      "tldr": "发育中细胞通过局部力与信息交换构建组织，但规则难以从稀疏观测推断。waxMorph提出可微细胞框架，基于NVIDIA Warp构建混合物理-AI系统。在合成与小鼠心肌、前肢数据中，该框架重现形态发生程序、推断连续轨迹，并量化形状组装复杂度。提供开源、GPU加速工具，用于学习局部细胞交互如何产生生物形态。",
+      "tags": "query:d-recon",
+      "abstract_en": "Cells build tissues through local exchanges of force and information, yet the rules governing these interactions are difficult to infer from sparse observations. Here, we introduce waxMorph, a differentiable cell-based framework for generating and reconstructing three-dimensional morphogenesis. In synthetic and biological data, waxMorph reproduced established mechanochemical shape programs, inferred continuous trajectories from static tissue volumes, and recovered spatially organized latent signals. In a developing mouse myocardium dataset, it reconstructed unobserved intermediate geometries more accurately than optimal-transport interpolation, while in forelimbs it distinguished related developmental trajectories. By varying the capacity and spatial organization of the latent cues available to cells, waxMorph also provides a model-based way to quantify the complexity of shape assembly. waxMorph is built within the spatial-computing ecosystem of NVIDIA Warp. It provides an open-source, Python-native, GPU-accelerated, hybrid physics-AI framework for learning how local cellular interactions give rise to biological form.",
+      "source": "biorxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
