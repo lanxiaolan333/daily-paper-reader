@@ -6,34 +6,31 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-11
-- 运行时间：2026-07-11 21:08:50 UTC
+- 最新运行日期：2026-07-12
+- 运行时间：2026-07-12 20:26:33 UTC
 - 运行状态：成功
-- 本次总论文数：4
+- 本次总论文数：3
 - 精读区：1
-- 速读区：3
+- 速读区：2
 
 ### 今日简报（AI）
-1) 今日推荐4篇论文，精读《G²TAM: Geometry Grounded Track Anything Model》（8.0/10），速读涵盖植物胚胎细胞重建、心脏网格重建与形态发生模拟。
-2) 最值得看的两个方向：几何引导的视频追踪模型（G²TAM）以及基于椭圆截面的拟南芥胚胎早期细胞三维重建方法。
-3) 下一步建议普通读者优先关注G²TAM如何利用几何约束提升追踪鲁棒性，并关注形态发生模拟中的可微分设计思路。
-- 详情：[/202607/11/README](/202607/11/README)
+今日精读1篇高分论文《Rendering-Aware Bayesian 3D Gaussian Splatting》，速读2篇场景生成与深度估计工作。  
+最值得关注的是结合贝叶斯不确定性与自适应复杂度控制的3D渲染方法，以及零样本单目深度估计的轻量化方案。  
+建议优先精读9分论文掌握新框架，速读部分可留意ZipDepth在移动设备上的部署潜力。
+- 详情：[/202607/12/README](/202607/12/README)
 
 ### 精读区论文标签
-1. [G$^2$TAM: Geometry Grounded Track Anything Model](/202607/11/2607.03789v1-g2tam-geometry-grounded-track-anything-model)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：利用前馈3D重建从RGB图像中跟踪实例
+1. [Rendering-Aware Bayesian 3D Gaussian Splatting with Native Uncertainty and Adaptive Complexity Control](/202607/12/2607.05522v1-rendering-aware-bayesian-3d-gaussian-splatting-with-native-uncertainty-and-adaptive-complexity-control)  
+   标签：评分：9.0/10、query:d-recon
+   evidence：用于新视角合成的不确定性感知贝叶斯3D高斯泼溅
 
 ### 速读区论文标签
-1. [Apical3DTip: Elliptic Cross-section-based Reconstruction for the Embryo Initial Cell of Arabidopsis](/202607/11/biorxiv-10-64898-2026-06-25-734685-v1-apical3dtip-elliptic-cross-section-based-reconstruction-for-the-embryo-initial-cell-of-arabidopsis)  
+1. [SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control](/202607/12/2607.04540v1-scenefrom3d-geometry-conditioned-outdoor-3d-scene-generation-via-view-scheduling-with-object-level-control)  
    标签：评分：7.0/10、query:d-recon
-   evidence：从显微镜图像重建胚胎细胞的3D模型
-2. [HeartVolMesh: Cardiac Volumetric Mesh Reconstruction via Covariance-Guided Graph Deformation](/202607/11/2607.04243v1-heartvolmesh-cardiac-volumetric-mesh-reconstruction-via-covariance-guided-graph-deformation)  
+   evidence：从用户提供几何进行3D场景生成与重建
+2. [ZipDepth: Bringing Lightweight Zero-Shot Monocular Depth Anywhere, on Any Device](/202607/12/2607.08771v1-zipdepth-bringing-lightweight-zero-shot-monocular-depth-anywhere-on-any-device)  
    标签：评分：6.0/10、query:d-recon
-   evidence：从体积图像重建3D网格
-3. [Differentiable Design for Morphogenesis I: Simulation and Simulacra](/202607/11/biorxiv-10-64898-2026-07-02-736195-v2-differentiable-design-for-morphogenesis-i-simulation-and-simulacra)  
-   标签：评分：6.0/10、query:d-recon
-   evidence：可微框架用于三维形态发生重建
+   evidence：单目深度估计为3D重建提供基础
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,134 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-12T20:23:37.211997+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2607.05522v1",
+      "source": "arxiv",
+      "title": "Rendering-Aware Bayesian 3D Gaussian Splatting with Native Uncertainty and Adaptive Complexity Control",
+      "abstract": "3D Gaussian splatting (3DGS) is a strong representation for real-time novel-view synthesis, but its standard training pipeline relies on point estimates and hand-tuned heuristics, providing no native uncertainty or principled complexity control. This is most limiting under sparse views or fixed acquisition budgets, where a model must identify weakly supported geometry and select informative views. We introduce a rendering-aware Bayesian 3DGS framework that tracks Gaussian geometry with a Normal-Inverse-Wishart posterior over means and covariances using renderer-derived surrogate summaries. An optional Dirichlet-process extension adds a probabilistic component-usage signal, and the training schedule makes the closed-form versus approximate inference boundary explicit. Re-rendering posterior geometry samples yields native predictive uncertainty for interval calibration and active view selection. In a fixed-budget 16-to-32 active-view task, native NIW acquisition improves PSNR by +0.453 dB and LPIPS by -0.0146 over a scoring-only 3-member standard-ensemble baseline, winning 29/39 scene-seed pairs and 10/13 scene means; it also improves over PPU-style (+0.355 dB) and NIW-proxy (+0.401 dB) acquisition. NIW native intervals reduce 95% coverage error by about 17x relative to a shared proxy (0.046 vs. 0.796) and are about 10x closer to nominal coverage than a 3-member deep ensemble (0.047 vs. 0.454) at roughly one-third the training cost. As a reconstruction compatibility check, paired NIW-vs-standard analysis over 39 scene-seed runs yields +0.030 dB PSNR with 1.6% additional training time. These results position Bayesian 3DGS as a practical probabilistic scene representation for decision-facing tasks such as active view selection.",
+      "authors": [
+        "Gaoxiang Jia",
+        "Vikram Appia",
+        "Junzhou Huang",
+        "Xinlei Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-06T18:01:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.05522v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Bayesian 3D Gaussian Splatting for novel-view synthesis with uncertainty",
+      "llm_evidence_cn": "用于新视角合成的不确定性感知贝叶斯3D高斯泼溅",
+      "llm_evidence": "用于新视角合成的不确定性感知贝叶斯3D高斯泼溅",
+      "canonical_evidence": "用于新视角合成的不确定性感知贝叶斯3D高斯泼溅",
+      "llm_tldr_en": "Introduces rendering-aware Bayesian 3DGS with Normal-Inverse-Wishart posterior for native uncertainty and complexity control in novel-view synthesis.",
+      "llm_tldr_cn": "标准3DGS缺乏不确定性和复杂度控制，尤其在稀疏视图下。提出渲染感知贝叶斯3DGS框架，用Normal-Inverse-Wishart后验跟踪高斯几何，结合Dirichlet过程实现自适应复杂度。在稀疏视图和新视角合成任务上，该方法不仅提供可靠的不确定性估计，还提升了渲染质量。",
+      "llm_tldr": "标准3DGS缺乏不确定性和复杂度控制，尤其在稀疏视图下。提出渲染感知贝叶斯3DGS框架，用Normal-Inverse-Wishart后验跟踪高斯几何，结合Dirichlet过程实现自适应复杂度。在稀疏视图和新视角合成任务上，该方法不仅提供可靠的不确定性估计，还提升了渲染质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.04540v1",
+      "source": "arxiv",
+      "title": "SceneFrom3D: Geometry-Conditioned Outdoor 3D Scene Generation via View Scheduling with Object-Level Control",
+      "abstract": "Geometry-conditioned 3D scene generation enables the creation of 3D environments from user-provided geometry, offering direct control over scene structure and object layout. To generate such 3D scenes, current methods commonly adopt a three-stage design that first defines a view schedule, then synthesizes multi-view observations along the scheduled views, and finally reconstructs a 3D representation from the generated images. However, defining the view schedule becomes a major bottleneck for outdoor scenes, where large, unstructured, and unbounded geometry makes it difficult to obtain views that provide sufficient coverage while supporting stable generation. To address this bottleneck, we present SceneFrom3D, a framework that automatically schedules views from outdoor input geometries. SceneFrom3D constructs a directed generation graph whose nodes represent anchor views and whose edges represent interpolation trajectories, defining which views to synthesize, which view pairs to interpolate, and in which order generation should proceed. Beyond automatic view scheduling, SceneFrom3D further improves controllability through object-level conditioning, assigning each object an identity image for appearance guidance and a geometry-adherence parameter for region-wise control over the input geometry. Experiments demonstrate that SceneFrom3D achieves state-of-the-art geometry-conditioned outdoor 3D scene generation, producing high-quality scenes with controllable object appearance and geometry adherence.",
+      "authors": [
+        "Geonung Kim",
+        "Jeongeun Park",
+        "Nuri Ryu",
+        "Di Liu",
+        "Sunghyun Cho"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.CV"
+      ],
+      "published": "2026-07-05T23:07:03+00:00",
+      "link": "https://arxiv.org/pdf/2607.04540v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "3D scene generation and reconstruction from user-provided geometry",
+      "llm_evidence_cn": "从用户提供几何进行3D场景生成与重建",
+      "llm_evidence": "从用户提供几何进行3D场景生成与重建",
+      "canonical_evidence": "从用户提供几何进行3D场景生成与重建",
+      "llm_tldr_en": "Presents SceneFrom3D, a framework for geometry-conditioned outdoor 3D scene generation via view scheduling and object-level control.",
+      "llm_tldr_cn": "本文针对外景3D场景生成中视图调度成为瓶颈的问题，提出SceneFrom3D框架。该框架利用用户提供的几何条件，通过视图调度策略和对象级控制，生成高质量多视图观测并重建3D场景。实验证明该方法在处理大尺度非结构户外场景时具有更好的覆盖和稳定生成能力。该工作推动了可控3D场景生成的发展。",
+      "llm_tldr": "本文针对外景3D场景生成中视图调度成为瓶颈的问题，提出SceneFrom3D框架。该框架利用用户提供的几何条件，通过视图调度策略和对象级控制，生成高质量多视图观测并重建3D场景。实验证明该方法在处理大尺度非结构户外场景时具有更好的覆盖和稳定生成能力。该工作推动了可控3D场景生成的发展。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.08771v1",
+      "source": "arxiv",
+      "title": "ZipDepth: Bringing Lightweight Zero-Shot Monocular Depth Anywhere, on Any Device",
+      "abstract": "Monocular depth estimation has seen remarkable progress through foundation models achieving robust zero-shot generalization, yet their computational demands place them far beyond the reach of embedded and mobile platforms. Lightweight alternatives exist, but have been developed almost exclusively within single-domain, self-supervised paradigms, failing silently under domain shift. We present ZipDepth, a compact monocular depth network that bridges this gap by combining an efficient reparameterizable encoder-decoder with large-scale knowledge distillation from a foundation model over a large multi-domain training set. Comprising just 6.1M parameters, ZipDepth runs at real-time rates from server GPUs to power-constrained devices, achieving the best trade-off between zero-shot accuracy and deployment efficiency among lightweight models across five benchmarks, taking a significant step towards the accuracy of foundation models with 50x more parameters.",
+      "authors": [
+        "Fabio Tosi",
+        "Luca Bartolomei",
+        "Matteo Poggi",
+        "Stefano Mattoccia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.08771v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "monocular depth estimation enabling 3D reconstruction",
+      "llm_evidence_cn": "单目深度估计为3D重建提供基础",
+      "llm_evidence": "单目深度估计为3D重建提供基础",
+      "canonical_evidence": "单目深度估计为3D重建提供基础",
+      "llm_tldr_en": "ZipDepth is a lightweight 6.1M-parameter monocular depth network that achieves real-time zero-shot depth estimation on any device via knowledge distillation, bridging foundation models and embedded platforms.",
+      "llm_tldr_cn": "该论文提出了ZipDepth轻量级单目深度网络，仅6.1M参数，通过从大模型知识蒸馏和多域训练，在保持零样本泛化能力的同时，实现从服务器GPU到移动设备的实时深度估计。作为3D重建的关键组件，它为资源受限平台上的3D场景理解提供了高效深度信息。",
+      "llm_tldr": "该论文提出了ZipDepth轻量级单目深度网络，仅6.1M参数，通过从大模型知识蒸馏和多域训练，在保持零样本泛化能力的同时，实现从服务器GPU到移动设备的实时深度估计。作为3D重建的关键组件，它为资源受限平台上的3D场景理解提供了高效深度信息。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
