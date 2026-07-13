@@ -1,0 +1,488 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-13T20:10:22.743547+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 7,
+    "quick_skim_target": 11,
+    "quick_selected": 7
+  },
+  "deep_dive": [
+    {
+      "id": "2607.09225v1",
+      "source": "arxiv",
+      "title": "Glob3R: Global Structure-from-Motion with 3D Foundation Models",
+      "abstract": "Recent 3D geometric foundation models, such as VGGT, provide robust feed-forward 3D reconstruction by directly predicting camera poses and 3D scene points from input images. However, their results remain inaccurate, and scaling them to long sequences or large unordered image sets typically requires chunk-wise processing, which can introduce drift and inconsistency. We present Glob3R, a global SfM-style reconstruction built on 3D foundation models. Our key idea is to explicitly optimize feed-forward geometric predictions. To this end, we augment a frozen Pi3X backbone with a lightweight dense matching head that predicts image warps between selected reference frames and neighboring views. These dense warps are converted into sparse but reliable multi-view feature tracks, which provide correspondence constraints for global optimization. We further introduce a keyframe-based sliding-window association strategy that propagates tracks and relative poses across overlapping windows, enabling scalable reconstruction. Finally, we perform global motion averaging and bundle adjustment to refine camera poses, reduce scale inconsistencies, and recover dense scene geometry. Extensive experiments on indoor, outdoor, large-scale driving, and unordered SfM benchmarks demonstrate that Glob3R achieves robust and accurate reconstruction. It consistently improves over feed-forward foundation-model baselines and recent scalable reconstruction methods, while being more robust than classical SfM pipelines. The refined poses also lead to higher-quality neural rendering, validating the benefit of combining foundation-model priors with global geometric optimization. Project page: https://junyuandeng.github.io/Glob3r",
+      "authors": [
+        "Junyuan Deng",
+        "Heng Li",
+        "Kejie Qiu",
+        "Lingteng Qiu",
+        "Rui Peng",
+        "Weichao Shen",
+        "Weihao Yuan",
+        "Siyu Zhu",
+        "Zilong Dong",
+        "Ping Tan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T09:18:35+00:00",
+      "link": "https://arxiv.org/pdf/2607.09225v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "global SfM reconstruction using 3D foundation models from multiple images",
+      "llm_evidence_cn": "利用3D基础模型从多图像进行全局SfM重建",
+      "llm_evidence": "利用3D基础模型从多图像进行全局SfM重建",
+      "canonical_evidence": "利用3D基础模型从多图像进行全局SfM重建",
+      "llm_tldr_en": "Presents Glob3R, a global SfM-style reconstruction that optimizes feed-forward 3D foundation model predictions for accurate and consistent multi-view 3D reconstruction.",
+      "llm_tldr_cn": "针对3D基础模型预测不准确且难以扩展至长序列的问题，提出基于3D基础模型的全局SfM重建方法Glob3R。该方法在冻结的Pi3X骨干上添加轻量密集匹配头，将图像扭曲转换为可靠的多视图特征。实验表明，Glob3R在多个重建基准上显著优于现有方法，实现了从无序图像集中一致、准确的3D重建。",
+      "llm_tldr": "针对3D基础模型预测不准确且难以扩展至长序列的问题，提出基于3D基础模型的全局SfM重建方法Glob3R。该方法在冻结的Pi3X骨干上添加轻量密集匹配头，将图像扭曲转换为可靠的多视图特征。实验表明，Glob3R在多个重建基准上显著优于现有方法，实现了从无序图像集中一致、准确的3D重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09507v1",
+      "source": "arxiv",
+      "title": "DGSfM: Depth-Guided Scale-Aware Global Structure-from-Motion",
+      "abstract": "Global Structure-from-Motion (SfM) is an efficient paradigm for recovering camera poses and sparse 3D structure from unordered images. However, its reliance on scale-ambiguous epipolar geometry makes global positioning sensitive to noisy baseline estimates and weak view-graph constraints, while false edges from visually ambiguous pairs can further degrade reconstruction. We propose DGSfM, a depth-aware global SfM pipeline that uses monocular depth maps as a scalable prior while preserving explicit multi-view optimization. For each image pair, we use a depth-aware relative pose solver to convert scale-ambiguous epipolar constraints into scale-aware relative pose constraints. We further improve robustness through view-graph filtering and depth-consistency-based correspondence pruning, which suppress false edges and matches that remain plausible under epipolar geometry alone. Finally, global scale averaging and depth-guided pose-point initialization align monocular depth maps into a common reconstruction scale and provide stable initialization for global positioning and bundle adjustment. Experiments on ETH3D and IMC2021 show that DGSfM consistently improves over strong global SfM baselines across sparse and dense matching front-ends, achieving substantial gains in pose accuracy. Code is available at https://github.com/sithu31296/DGSfM.",
+      "authors": [
+        "Sithu Aung",
+        "Viktor Kocur",
+        "Yaqing Ding",
+        "Torsten Sattler",
+        "Zuzana Kukelova"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T15:18:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.09507v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "depth-aware global Structure-from-Motion for 3D reconstruction from images",
+      "llm_evidence_cn": "深度感知的全局运动恢复结构用于从图像重建3D",
+      "llm_evidence": "深度感知的全局运动恢复结构用于从图像重建3D",
+      "canonical_evidence": "深度感知的全局运动恢复结构用于从图像重建3D",
+      "llm_tldr_en": "Proposes DGSfM, a depth-guided scale-aware global SfM pipeline that uses monocular depth priors to resolve scale ambiguity and improve robustness.",
+      "llm_tldr_cn": "针对全局运动恢复结构依赖尺度模糊对极几何导致定位敏感的问题，提出深度引导的尺度感知全局SfM管道DGSfM。该方法利用单目深度图作为尺度先验，通过深度感知相对位姿解算器将尺度模糊约束转换为尺度感知。在多个数据集上，DGSfM在精度和鲁棒性上显著优于现有全局SfM方法，有效从无序图像中重建3D结构。",
+      "llm_tldr": "针对全局运动恢复结构依赖尺度模糊对极几何导致定位敏感的问题，提出深度引导的尺度感知全局SfM管道DGSfM。该方法利用单目深度图作为尺度先验，通过深度感知相对位姿解算器将尺度模糊约束转换为尺度感知。在多个数据集上，DGSfM在精度和鲁棒性上显著优于现有全局SfM方法，有效从无序图像中重建3D结构。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.08808v1",
+      "source": "arxiv",
+      "title": "StereoSplat+: Feed-Forward Stereo Gaussian Splatting with Diffusion-Assisted Progressive Inference",
+      "abstract": "Recent advances in 3D Gaussian Splatting (3DGS) have enabled high-quality, render-ready scene representations for novel-view synthesis. However, most existing 3DGS pipelines rely on multi-view observations (or non-causal access to future frames) to achieve sufficient coverage, which is often unavailable in on-device robotics and AR settings where sensing is restricted to a single stereo rig. Recovering a high-quality 3DGS scene from one stereo observation, therefore, remains challenging due to occlusions, limited field of view, and missing geometry. We present StereoSplat+, a diffusion-enhanced feed-forward framework that enables causal reconstruction from a single stereo pair. Our method builds on two key components. First, we propose StereoSplat, an input-invariant feed-forward 3D Gaussian estimator that takes a variable number of posed stereo pairs as input and predicts high-quality 3D Gaussians. StereoSplat fuses complementary geometry cues via a cost-volume branch and a triplane-based 3D volume branch and leverages continuous pose encoding to generalize across view counts and camera configurations. Second, since multiple posed stereo pairs are typically unavailable at inference time, we introduce a diffusion-enhanced one-shot progressive inference scheme called StereoSplat+: starting from one stereo pair, we render novel stereo views from the predicted 3DGS, refine them with a one-step diffusion enhancer, and feed them back as additional inputs to update the 3DGS. Experiments on the KITTI-360 dataset show that StereoSplat+ improves novel-view rendering quality and geometry accuracy, especially in occluded regions and under strong view extrapolation, outperforming recent feed-forward 3DGS baselines.",
+      "authors": [
+        "Zihua Liu",
+        "Masatoshi Okutomi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T16:32:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.08808v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "feed-forward stereo Gaussian splatting with diffusion for novel-view synthesis",
+      "llm_evidence_cn": "结合扩散的前馈立体高斯泼溅用于新颖视图合成",
+      "llm_evidence": "结合扩散的前馈立体高斯泼溅用于新颖视图合成",
+      "canonical_evidence": "结合扩散的前馈立体高斯泼溅用于新颖视图合成",
+      "llm_tldr_en": "Proposes StereoSplat+, a diffusion-enhanced feed-forward framework for causal novel-view synthesis from a single stereo pair using 3D Gaussian Splatting.",
+      "llm_tldr_cn": "大多数3D高斯泼溅方法需要多视角输入才能实现高质量新颖视图合成，但机器人或AR设备常局限于立体相机。为此提出StereoSplat+，采用扩散增强的前馈框架，仅从单次立体观测即可因果重建3D高斯场景。方法包括立体特征提取和扩散辅助的渐进推断，有效处理遮挡和缺失几何，实现高保真渲染。",
+      "llm_tldr": "大多数3D高斯泼溅方法需要多视角输入才能实现高质量新颖视图合成，但机器人或AR设备常局限于立体相机。为此提出StereoSplat+，采用扩散增强的前馈框架，仅从单次立体观测即可因果重建3D高斯场景。方法包括立体特征提取和扩散辅助的渐进推断，有效处理遮挡和缺失几何，实现高保真渲染。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09260v1",
+      "source": "arxiv",
+      "title": "AnythingReality: Robust Online Gaussian Splatting SLAM for Open-Vocabulary VR Scene Exploration",
+      "abstract": "We present a novel integrated architecture for robust online 3D Gaussian splatting, real-time VR exploration, and speech-driven Vision-Language-Model interaction. Unlike methods assuming clean depth or external poses, our system combines ORB-SLAM3-based pose estimation with online Gaussian reconstruction for noisy real-world data. A VR pipeline enables immersive exploration of incremental reconstructions; a semantic module transcribes voice commands, generates scene descriptions, and records points of interest. Against state-of-the-art online Gaussian splatting methods, we improve image quality on our dataset (+14.5% PSNR, +8.6% SSIM, -14.3% LPIPS) and TUM-RGBD (+11.7% PSNR, +7.8% SSIM, -21.6% LPIPS), with comparable or superior frame rates via quality-speed configurations. We achieve an 88% VLM object-recognition rate.",
+      "authors": [
+        "Timofei Kozlov",
+        "Dmitrii Maliukov",
+        "Andrey Marchenko",
+        "Miguel Altamirano Cabrera",
+        "Dzmitry Tsetserukou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T10:21:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.09260v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Online 3D Gaussian Splatting for novel view synthesis and SLAM",
+      "llm_evidence_cn": "在线3D高斯泼溅用于新视图合成与SLAM",
+      "llm_evidence": "在线3D高斯泼溅用于新视图合成与SLAM",
+      "canonical_evidence": "在线3D高斯泼溅用于新视图合成与SLAM",
+      "llm_tldr_en": "Presents an integrated system for robust online 3DGS, real-time VR, and VLM interaction, improving NVS quality.",
+      "llm_tldr_cn": "本文提出AnythingReality，一个集成在线3D高斯泼溅、实时VR探索与语音驱动VLM交互的系统。系统结合ORB-SLAM3位姿估计与高斯重建，无需清洁深度即可处理真实世界噪声。在多个数据集上显著提升了新视图合成指标（PSNR +14.5%）。",
+      "llm_tldr": "本文提出AnythingReality，一个集成在线3D高斯泼溅、实时VR探索与语音驱动VLM交互的系统。系统结合ORB-SLAM3位姿估计与高斯重建，无需清洁深度即可处理真实世界噪声。在多个数据集上显著提升了新视图合成指标（PSNR +14.5%）。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.09284v1",
+      "source": "arxiv",
+      "title": "Rethinking Monocular Depth Embedding for Generalized Stereo Matching",
+      "abstract": "Generally, monocular methods capture rich contextual priors but lack geometric precision, whereas stereo methods are geometrically accurate yet struggle in textureless and occluded regions. Several approaches attempt to combine their strengths to enhance the generalization of stereo matching (SM) by aligning monocular depth with stereo information. However, establishing a stable and generalizable alignment is challenging, and unreliable monocular cues can substantially degrade performance. This paper rethinks monocular depth embedding. First, to prevent shortcut learning, we reduce branch coupling instead of expanding network width. Second, we construct soft constraints instead of hard ones from monocular depth to improve tolerance to monocular depth errors. Based on the principles, we integrate monocular information into both feature extraction and GRU iterations. Specifically, the monocular depth map is fused with the RGB image to sharpen depth boundary perception and suppress matching ambiguities. The fused image is then used for feature extraction, allowing the contextual features to encode global geometric information. Furthermore, the monocular depth gradient feature is employed to guide disparity updates, helping to escape local oscillations. Finally, to address the boundary blurring of supervised disparity caused by data augmentation, we propose an edge confidence estimation method and an edge-aware loss function. Our method achieves state-of-the-art (SOTA) performance on multiple standard benchmarks, demonstrating excellent generalization while improving accuracy. The code is available at https://github.com/linliboabc-maker/stereo-matching-digital.",
+      "authors": [
+        "Libo Lin",
+        "Shuangli Du",
+        "Minghua Zhao",
+        "Zhenzhen You",
+        "Shun Lv",
+        "Yiguang Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T10:51:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.09284v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular depth embedding for generalized stereo matching in 3D reconstruction",
+      "llm_evidence_cn": "单目深度嵌入用于立体匹配的泛化",
+      "llm_evidence": "单目深度嵌入用于立体匹配的泛化",
+      "canonical_evidence": "单目深度嵌入用于立体匹配的泛化",
+      "llm_tldr_en": "Rethinks monocular depth embedding for stereo matching by reducing branch coupling and using soft constraints to improve generalization.",
+      "llm_tldr_cn": "针对单目深度与立体匹配结合时对齐不稳定导致泛化差的问题，重新思考单目深度嵌入策略。该方法通过减少分支耦合避免捷径学习，并构建软约束提高对单目误差的容忍度。实验表明该设计显著提升了立体匹配在纹理缺失和遮挡区域的泛化能力，为从双视图重建3D提供了更鲁棒的方法。",
+      "llm_tldr": "针对单目深度与立体匹配结合时对齐不稳定导致泛化差的问题，重新思考单目深度嵌入策略。该方法通过减少分支耦合避免捷径学习，并构建软约束提高对单目误差的容忍度。实验表明该设计显著提升了立体匹配在纹理缺失和遮挡区域的泛化能力，为从双视图重建3D提供了更鲁棒的方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.04243v1",
+      "source": "arxiv",
+      "title": "HeartVolMesh: Cardiac Volumetric Mesh Reconstruction via Covariance-Guided Graph Deformation",
+      "abstract": "Accurate patient-specific tetrahedral cardiac meshes are essential for in-silico trials, yet common segmentation-then-modelling pipelines can blur thin-wall anatomy and offer limited cross-case correspondence. We propose HeartVolMesh, which lifts each template vertex to an anisotropic Gaussian kernel and uses a 3D CNN-GNN to predict per-vertex displacements and Cholesky-parameterized covariances from volumetric images. Training is guided by a covariance-aware negative log-likelihood loss with lightweight mesh regularization. For volumetric meshing, we warp a fixed tetrahedral template to the reconstructed surface via staged alignment, non-rigid registration, and deformation propagation, preserving connectivity and correspondence by construction, with resolution controlled by template density. Experiments show consistent gains over deformation-based baselines in surface mesh accuracy and volumetric mesh fidelity.",
+      "authors": [
+        "Fengming Lin",
+        "Arezoo Zakeri",
+        "Haoran Dou",
+        "Zherui Zhou",
+        "Shaokun Lan",
+        "Jinming Duan",
+        "Alejandro Frangi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-05T11:42:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.04243v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "cardiac volumetric mesh reconstruction from volumetric images using deep learning",
+      "llm_evidence_cn": "从体积图像进行心脏体积网格重建，使用深度学习",
+      "llm_evidence": "从体积图像进行心脏体积网格重建，使用深度学习",
+      "canonical_evidence": "从体积图像进行心脏体积网格重建，使用深度学习",
+      "llm_tldr_en": "HeartVolMesh reconstructs patient-specific tetrahedral cardiac meshes from volumetric images by combining 3D CNN-GNN with covariance-guided deformation, preserving topology and correspondence.",
+      "llm_tldr_cn": "针对心脏体积网格重建中分割管线模糊薄壁解剖结构且缺乏对应性的问题，本文提出HeartVolMesh方法：利用3D CNN-GNN预测每个模板顶点的位移和协方差矩阵，通过协方差感知的负对数似然损失训练，并采用对齐、非刚性配准和变形传播将固定四面体模板扭曲到重建表面。实验表明该方法能精确重建心脏体积网格并保持跨病例对应性，为数字孪生试验提供可靠基础。",
+      "llm_tldr": "针对心脏体积网格重建中分割管线模糊薄壁解剖结构且缺乏对应性的问题，本文提出HeartVolMesh方法：利用3D CNN-GNN预测每个模板顶点的位移和协方差矩阵，通过协方差感知的负对数似然损失训练，并采用对齐、非刚性配准和变形传播将固定四面体模板扭曲到重建表面。实验表明该方法能精确重建心脏体积网格并保持跨病例对应性，为数字孪生试验提供可靠基础。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.08771v1",
+      "source": "arxiv",
+      "title": "ZipDepth: Bringing Lightweight Zero-Shot Monocular Depth Anywhere, on Any Device",
+      "abstract": "Monocular depth estimation has seen remarkable progress through foundation models achieving robust zero-shot generalization, yet their computational demands place them far beyond the reach of embedded and mobile platforms. Lightweight alternatives exist, but have been developed almost exclusively within single-domain, self-supervised paradigms, failing silently under domain shift. We present ZipDepth, a compact monocular depth network that bridges this gap by combining an efficient reparameterizable encoder-decoder with large-scale knowledge distillation from a foundation model over a large multi-domain training set. Comprising just 6.1M parameters, ZipDepth runs at real-time rates from server GPUs to power-constrained devices, achieving the best trade-off between zero-shot accuracy and deployment efficiency among lightweight models across five benchmarks, taking a significant step towards the accuracy of foundation models with 50x more parameters.",
+      "authors": [
+        "Fabio Tosi",
+        "Luca Bartolomei",
+        "Matteo Poggi",
+        "Stefano Mattoccia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-09T17:59:58+00:00",
+      "link": "https://arxiv.org/pdf/2607.08771v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "lightweight monocular depth estimation enabling 3D reconstruction from images",
+      "llm_evidence_cn": "轻量级单目深度估计，支持从图像进行3D重建",
+      "llm_evidence": "轻量级单目深度估计，支持从图像进行3D重建",
+      "canonical_evidence": "轻量级单目深度估计，支持从图像进行3D重建",
+      "llm_tldr_en": "Proposes ZipDepth, a compact monocular depth network with 6.1M parameters for real-time zero-shot depth estimation, enabling downstream 3D reconstruction.",
+      "llm_tldr_cn": "单目深度估计是3D重建的关键步骤，但现有基础模型计算量大，无法用于移动平台。本文提出ZipDepth，仅6.1M参数，通过重参数化编码器-解码器和大规模知识蒸馏，实现多领域泛化的零样本深度估计。该网络可在服务器GPU到低功耗设备上实时运行，为3D重建提供了轻量级深度输入。",
+      "llm_tldr": "单目深度估计是3D重建的关键步骤，但现有基础模型计算量大，无法用于移动平台。本文提出ZipDepth，仅6.1M参数，通过重参数化编码器-解码器和大规模知识蒸馏，实现多领域泛化的零样本深度估计。该网络可在服务器GPU到低功耗设备上实时运行，为3D重建提供了轻量级深度输入。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.06620v1",
+      "source": "arxiv",
+      "title": "SpaR3D-MoE: Adaptive 3D Spatial Reasoning from Sparse Views Meets Geometry-Inductive Mixture-of-Experts",
+      "abstract": "Recent Multimodal Large Language Models (MLLMs) struggle to bridge the representational gap between 2D semantic understanding and 3D spatial geometry. Existing 3D-aware models either rely on costly 3D-specific data or utilize RGB-only inputs with heuristic sampling and monolithic, shallow fusion, which respectively disrupt essential spatiotemporal connectivity and induce modality contention across diverse spatial tasks. To overcome these bottlenecks, we introduce SpaR3D-MoE, an end-to-end framework that enables adaptive spatial reasoning by equipping MLLMs with geometry-aware capabilities from only sparse RGB inputs. First, we propose an adaptive spatiotemporal manifold sampling mechanism that constructs a geometry-aware spatiotemporal graph to extract informative keyframes, effectively mitigating sequence redundancy while preserving the scene's topological connectivity. Second, we introduce the heterogeneous geometry-inductive Mixture-of-Experts driven by an instruction-pose aware router, which adaptively routes multimodal tokens to specialized experts, resolving the cross-modal contention inherent in monolithic fusion. Extensive experiments on VSI-Bench, ScanQA, and SQA3D demonstrate that our method achieves state-of-the-art performance. Notably, SpaR3D-MoE achieves the highest average score of 63.5 on VSI-Bench, outperforming the strongest baseline by 7.8 absolute points, alongside relative improvements of 35.4% and 51.4% in Route Plan and Relative Direction tasks, respectively.",
+      "authors": [
+        "Haida Feng",
+        "Hao Wei",
+        "Haolin Wang",
+        "Shiwei Li",
+        "Chade Li",
+        "Yihong Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-07T09:27:38+00:00",
+      "link": "https://arxiv.org/pdf/2607.06620v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "adaptive 3D reasoning from sparse views for reconstruction",
+      "llm_evidence_cn": "从稀疏视图进行自适应3D推理用于重构",
+      "llm_evidence": "从稀疏视图进行自适应3D推理用于重构",
+      "canonical_evidence": "从稀疏视图进行自适应3D推理用于重构",
+      "llm_tldr_en": "Introduces SpaR3D-MoE, an end-to-end framework for adaptive 3D spatial reasoning from sparse RGB views using geometry-inductive mixture-of-experts.",
+      "llm_tldr_cn": "针对多模态大语言模型在3D空间推理中的不足，提出SpaR3D-MoE框架，仅用稀疏RGB输入实现自适应空间推理。通过自适应时空流形采样构建几何感知表示，并采用几何归纳的混合专家结构融合模态。实验在多个3D任务上优于现有方法，尤其擅长从稀疏视图理解3D结构。",
+      "llm_tldr": "针对多模态大语言模型在3D空间推理中的不足，提出SpaR3D-MoE框架，仅用稀疏RGB输入实现自适应空间推理。通过自适应时空流形采样构建几何感知表示，并采用几何归纳的混合专家结构融合模态。实验在多个3D任务上优于现有方法，尤其擅长从稀疏视图理解3D结构。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "biorxiv-10-64898-2026-07-02-736195-v1",
+      "source": "biorxiv",
+      "title": "Differentiable Design for Morphogenesis I: Simulation and Simulacra",
+      "abstract": "Cells build tissues through local exchanges of force and information, yet the rules governing these interactions are difficult to infer from sparse observations. Here, we introduce waxMorph, a differentiable cell-based framework for generating and reconstructing three-dimensional morphogenesis. In synthetic and biological data, waxMorph reproduced established mechanochemical shape programs, inferred continuous trajectories from static tissue volumes, and recovered spatially organized latent signals. In a developing mouse myocardium dataset, it reconstructed unobserved intermediate geometries more accurately than optimal-transport interpolation, while in forelimbs it distinguished related developmental trajectories. By varying the capacity and spatial organization of the latent cues available to cells, waxMorph also provides a model-based way to quantify the complexity of shape assembly. waxMorph is built within the spatial-computing ecosystem of NVIDIA Warp. It provides an open-source, Python-native, GPU-accelerated, hybrid physics-AI framework for learning how local cellular interactions give rise to biological form.",
+      "authors": [
+        "Beker, O.",
+        "Dumitrascu, B."
+      ],
+      "primary_category": "systems biology",
+      "categories": [
+        "systems biology"
+      ],
+      "published": "2026-07-09T00:00:00+00:00",
+      "link": "https://www.biorxiv.org/content/10.64898/2026.07.02.736195v1.full.pdf",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "differentiable framework for reconstructing 3D morphogenesis from static volumes",
+      "llm_evidence_cn": "可微框架用于从静态体积重建3D形态发生",
+      "llm_evidence": "可微框架用于从静态体积重建3D形态发生",
+      "canonical_evidence": "可微框架用于从静态体积重建3D形态发生",
+      "llm_tldr_en": "waxMorph uses differentiable cell-based modeling to reconstruct 3D morphogenesis from static tissue volumes, inferring trajectories more accurately than optimal transport.",
+      "llm_tldr_cn": "针对从稀疏观测推断组织形态发生规则的难题，本文提出waxMorph，一个可微分的基于细胞的框架，用于生成和重建3D形态发生。它通过可微模拟从静态组织体积推断连续轨迹，恢复空间组织潜在信号。在发育中小鼠心肌数据集上，它比最优传输插值更准确地重建了未观测的中间几何；在肢体中区分了相关发育轨迹。该框架为理解形态发生机制提供了可学习的工具。",
+      "llm_tldr": "针对从稀疏观测推断组织形态发生规则的难题，本文提出waxMorph，一个可微分的基于细胞的框架，用于生成和重建3D形态发生。它通过可微模拟从静态组织体积推断连续轨迹，恢复空间组织潜在信号。在发育中小鼠心肌数据集上，它比最优传输插值更准确地重建了未观测的中间几何；在肢体中区分了相关发育轨迹。该框架为理解形态发生机制提供了可学习的工具。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.09125v1",
+      "source": "arxiv",
+      "title": "4D Human-Scene Reconstruction from Low-Overlap Captures",
+      "abstract": "Existing volumetric capture of dynamic human performance achieves high fidelity with dense camera arrays. However, in real-world scenarios, only a handful of low-overlap cameras are available, which degrades the output quality and leaves large areas unobserved. Recent 4D reconstruction methods have focused on low-overlap settings, yet they still produce noticeable artifacts in under-observed regions. Video diffusion models have emerged as another option, but they show geometrically inconsistent results for humans. To address these limitations, we propose StudioRecon, a pipeline that reconstructs 4D human scenes from sparse, low-overlap cameras by decoupling background and humans. We densify background supervision by synthesizing hundreds of camera-controlled novel views with a video diffusion model. We also robustly initialize deformable Gaussian humans with cross-view identity association and triangulated multi-view keypoint fitting. Finally, our recursive enhancement module with motion-adaptive consistency injection harmonizes the composed output, thereby further avoiding remaining artifacts. We achieve state-of-the-art novel view synthesis across four real-world datasets and demonstrate applications such as novel trajectory rendering and human replacement.",
+      "authors": [
+        "Minhyuk Hwang",
+        "Sangmin Kim",
+        "Seunguk Do",
+        "Daneul Kim",
+        "Jaesik Park"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-10T06:30:45+00:00",
+      "link": "https://arxiv.org/pdf/2607.09125v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "4D human-scene reconstruction from low-overlap captures",
+      "llm_evidence_cn": "低重叠拍摄下的4D人类场景重建",
+      "llm_evidence": "低重叠拍摄下的4D人类场景重建",
+      "canonical_evidence": "低重叠拍摄下的4D人类场景重建",
+      "llm_tldr_en": "StudioRecon reconstructs 4D human scenes from sparse low-overlap cameras using background-human decoupling and novel view synthesis.",
+      "llm_tldr_cn": "本文针对低重叠相机阵列下4D人类场景重建存在未观测区域与伪影的问题，提出了StudioRecon流水线。通过解耦背景与人物，并合成数百个相机控制的新颖视图来稠化背景监督。在多种稀疏设置下显著提升重建质量，解决了视频扩散模型几何不一致的问题。",
+      "llm_tldr": "本文针对低重叠相机阵列下4D人类场景重建存在未观测区域与伪影的问题，提出了StudioRecon流水线。通过解耦背景与人物，并合成数百个相机控制的新颖视图来稠化背景监督。在多种稀疏设置下显著提升重建质量，解决了视频扩散模型几何不一致的问题。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.09455v1",
+      "source": "arxiv",
+      "title": "Hydra++: Real-Time Hierarchical 3D Scene Graph Construction With Object-Level Shape Estimation",
+      "abstract": "3D scene graphs provide a hierarchical abstraction of environments by encoding spatial entities, such as objects and places, and their relationships. However, existing scene graph systems model object geometry coarsely, relying on partial point clouds or class-level CAD templates, which limits instance-specific shape detail. This paper presents Hydra++, a system-level investigation into how learning-based object shape estimators can be integrated into a hierarchical 3D scene graph pipeline. Hydra++ incorporates category-agnostic shape estimation and a reprojection-mask consistency check to reject degenerate predictions from partial observations or imprecise segmentation. In its default CRISP-based configuration, Hydra++ performs online scene graph construction; slower estimators such as SAM3D are evaluated as modular alternatives to demonstrate generalization-latency trade-offs. Furthermore, to address the challenges of sparse and noisy depth measurements in outdoor environments, Hydra++ supports a hybrid LiDAR-camera configuration for large-scale operation, improving scene-level reconstruction quality. Experiments in both simulation and real-world outdoor campus scenarios demonstrate that Hydra++ improves object- and scene-level reconstruction quality. Project page is available at https://hydra-plusplus.github.io/.",
+      "authors": [
+        "Hyungtae Lim",
+        "Nathan Hughes",
+        "Xihang Yu",
+        "Ruihan Xu",
+        "Yun Chang",
+        "Jingnan Shi",
+        "Rajat Talak",
+        "Luca Carlone"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-07-10T14:24:16+00:00",
+      "link": "https://arxiv.org/pdf/2607.09455v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "object-level shape estimation from partial point clouds",
+      "llm_evidence_cn": "从部分点云进行对象级形状估计",
+      "llm_evidence": "从部分点云进行对象级形状估计",
+      "canonical_evidence": "从部分点云进行对象级形状估计",
+      "llm_tldr_en": "Hydra++ integrates learning-based object shape estimators into hierarchical 3D scene graph construction, using category-agnostic shape estimation and reprojection-mask consistency check to reject degenerate predictions.",
+      "llm_tldr_cn": "本文研究如何将基于学习的对象形状估计器集成到层次化3D场景图构建中。Hydra++采用类别无关的形状估计和重投影掩码一致性检查，从部分点云和分割结果中拒绝退化预测，从而在实时场景图构建中提供更精细的对象形状细节。实验验证了该方法在多种数据集上的有效性。",
+      "llm_tldr": "本文研究如何将基于学习的对象形状估计器集成到层次化3D场景图构建中。Hydra++采用类别无关的形状估计和重投影掩码一致性检查，从部分点云和分割结果中拒绝退化预测，从而在实时场景图构建中提供更精细的对象形状细节。实验验证了该方法在多种数据集上的有效性。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.09503v1",
+      "source": "arxiv",
+      "title": "What VGGT Knows About Overlap: Probing Geometric Foundation Models for Co-Visibility",
+      "abstract": "A fundamental challenge in 3D reconstruction and robotic localization is co-visibility: determining which image pairs share overlapping visible surfaces, particularly in scenarios with minimal overlap. We demonstrate that VGGT implicitly encodes co-visibility as an emergent behavior: without any supervision for this task, its internal representations exhibit a clear hierarchical structure mirroring that of large language models, i.e. early layers build a 3D-aware scene representation, while late layers act as dedicated co-visibility reasoners. In particular, we identify layer L17 as a negative anchor that consistently routes non-co-visible pairs for this backbone, regardless of the evaluation setting, providing task-grounded evidence of layer specialization in a geometry-grounded foundation model. Building on this, we introduce Co-VGGT, which freezes VGGT and trains only a lightweight layer-wise mixture-of-experts head (less than 7.5M parameters) to classify co-visibility from RGB alone, treating each layer as a specialized expert whose geometric abstraction is adaptively weighted per input pair. On the Co-VisiON benchmark, Co-VGGT surpasses the human annotation baseline and improves over prior work by more than 25% pairwise and 10% multiview. Pairwise predictions are well-calibrated (ECE=0.030), enabling direct use as edge weights in visibility graphs for downstream SfM and SLAM pipelines without post-hoc correction. Code and data are available.",
+      "authors": [
+        "Filippo Ziliotto",
+        "Luciano Serafini",
+        "Lamberto Ballan",
+        "Tommaso Campari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-10T15:17:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.09503v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "probing geometric foundation model for co-visibility, a fundamental challenge in 3D reconstruction",
+      "llm_evidence_cn": "探针几何基础模型的共可见性，3D重建的基本挑战",
+      "llm_evidence": "探针几何基础模型的共可见性，3D重建的基本挑战",
+      "canonical_evidence": "探针几何基础模型的共可见性，3D重建的基本挑战",
+      "llm_tldr_en": "This paper probes VGGT, a geometric foundation model, and finds it implicitly encodes co-visibility with hierarchical structure, identifying layer L17 as a negative anchor for non-co-visible pairs.",
+      "llm_tldr_cn": "本文探针几何基础模型VGGT，发现其内部表示隐式编码了共可见性，呈现层次结构：早期层构建3D感知场景表示，后期层充当专用共可见性推理器。特别地，识别出L17层作为负锚点，一致区分非共视图像对。该发现为理解3D重建基础模型提供了新视角。",
+      "llm_tldr": "本文探针几何基础模型VGGT，发现其内部表示隐式编码了共可见性，呈现层次结构：早期层构建3D感知场景表示，后期层充当专用共可见性推理器。特别地，识别出L17层作为负锚点，一致区分非共视图像对。该发现为理解3D重建基础模型提供了新视角。",
+      "llm_tags": [
+        "query:d-recon:composite"
+      ],
+      "matched_query_tag": "query:d-recon:composite",
+      "matched_query_text": "Papers central to 3D重构, especially work that connects or combines: point cloud reconstruction techniques and algorithms; neural radiance field for novel view synthesis; how to reconstruct 3D models from multiple images; compare deep learning based 3D reconstruction with traditional methods.",
+      "matched_requirement_id": "req-composite-d-recon",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
