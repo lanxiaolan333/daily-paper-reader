@@ -1,0 +1,401 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-14T20:02:33.213030+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 7,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2607.10690v1",
+      "source": "arxiv",
+      "title": "Incremental Online Scene Reconstruction by 3D Gaussian Triangulation",
+      "abstract": "Incremental scene reconstruction is essential for real-world applications. Although 3D Gaussian Splatting shows strong potential, most existing approaches require offline conversion of the optimized Gaussians into an intermediate implicit field for explicit mesh extraction, which hinders seamless integration with downstream tasks. To address this limitation, we propose a novel online framework that incrementally reconstructs and updates high-fidelity explicit meshes by directly triangulating a dense geometric Gaussian representation, which supports both high-quality rendering and incremental surface reconstruction. Moreover, we present a direct meshing algorithm that efficiently extracts and updates the mesh from the Gaussian set. To ensure mesh accuracy, we enforce a plane-based pulling constraint that dynamically aligns 3D Gaussian primitives to the approximated local surface. Furthermore, our framework significantly reduces memory and computational overhead during long-sequence processing by dynamically freezing fully optimized historical regions. Experiments on public datasets demonstrate that our method outperforms conventional Gaussian-based methods on both rendering quality and reconstruction accuracy.",
+      "authors": [
+        "Yanjin Zhu",
+        "Shaofan Liu",
+        "Jianke Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T10:22:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.10690v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "incremental online 3D scene reconstruction from multi-view images using 3D Gaussian triangulation",
+      "llm_evidence_cn": "使用3D高斯三角化从多视图像增量在线重建3D场景",
+      "llm_evidence": "使用3D高斯三角化从多视图像增量在线重建3D场景",
+      "canonical_evidence": "使用3D高斯三角化从多视图像增量在线重建3D场景",
+      "llm_tldr_en": "Proposes an online framework that incrementally reconstructs and updates high-fidelity meshes by directly triangulating dense geometric Gaussian representation, supporting both rendering and surface reconstruction.",
+      "llm_tldr_cn": "现有3D高斯泼溅方法需要离线转换为隐式场才能提取网格，限制了在线应用。本文提出一种在线框架，通过直接三角化稠密几何高斯表示来增量重建和更新高保真显式网格，同时支持高质量渲染和表面重建。该框架包含一个直接网格提取算法，能够高效更新网格。实验表明该方法实现了实时在线重建，且网格质量优于现有方法。",
+      "llm_tldr": "现有3D高斯泼溅方法需要离线转换为隐式场才能提取网格，限制了在线应用。本文提出一种在线框架，通过直接三角化稠密几何高斯表示来增量重建和更新高保真显式网格，同时支持高质量渲染和表面重建。该框架包含一个直接网格提取算法，能够高效更新网格。实验表明该方法实现了实时在线重建，且网格质量优于现有方法。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10792v1",
+      "source": "arxiv",
+      "title": "MAC-Splat: Multi-Attribute Consistency for High-Fidelity Sparse-View Reconstruction",
+      "abstract": "Reconstructing high-fidelity 3D scenes from sparse-views remains a central problem in generalizable neural rendering. Existing generalizable 3D Gaussian Splatting (3DGS) methods often exhibit geometric artifacts in sparse-view settings, since supervision based solely on 2D photometric losses cannot resolve depth and correspondence ambiguities. To address this issue, we propose MAC-Splat, a training framework built around direct 3D consistency supervision. MAC-Splat builds on the MASt3R geometric backbone and a frozen DINOv3 encoder to obtain semantically informed 2D correspondences, which serve as geometric anchors for 3D supervision. Using these anchors, we define the Multi-Attribute Consistency (MAC) loss. This objective jointly regularizes the 3D attributes of matched Gaussians, including their position, shape, and appearance, by enforcing agreement in a common world coordinate frame. The formulation is robust to outliers and respects the geometry of covariance matrices, which leads to stable training under sparse-view conditions. Experiments on ScanNet++ show that MAC-Splat outperforms strong baselines, with particularly large gains under different overlap regimes. In particular, it improves average PSNR over Splatt3R by more than 4.5 dB, reduces LPIPS, and maintains performance as the camera pose gap increases. These results indicate that a direct, multi-attribute 3D consistency objective, when combined with high-quality correspondences, is effective for addressing the ill-posed sparse-view reconstruction problem.",
+      "authors": [
+        "Jinqian Yang",
+        "Yichen Wu",
+        "Wanhua Li",
+        "Haokun Lin",
+        "Renzhen Wang",
+        "Xiangchu Feng",
+        "Xixi Jia"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T14:50:08+00:00",
+      "link": "https://arxiv.org/pdf/2607.10792v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sparse-view 3D reconstruction from multiple images",
+      "llm_evidence_cn": "从稀疏视图重建3D场景",
+      "llm_evidence": "从稀疏视图重建3D场景",
+      "canonical_evidence": "从稀疏视图重建3D场景",
+      "llm_tldr_en": "MAC-Splat proposes multi-attribute consistency loss for sparse-view 3D Gaussian Splatting, achieving high-fidelity reconstruction without dense inputs.",
+      "llm_tldr_cn": "针对稀疏视角下3D高斯泼溅方法存在的几何伪影问题，MAC-Splat提出多属性一致性监督框架。该方法利用MASt3R几何骨干和DINOv3编码器获取语义2D对应点作为3D锚点，并定义多属性一致性损失联合优化。实验表明在稀疏输入下显著提升重建质量，减少几何畸变，为无约束场景的3D重建提供了高效方案。",
+      "llm_tldr": "针对稀疏视角下3D高斯泼溅方法存在的几何伪影问题，MAC-Splat提出多属性一致性监督框架。该方法利用MASt3R几何骨干和DINOv3编码器获取语义2D对应点作为3D锚点，并定义多属性一致性损失联合优化。实验表明在稀疏输入下显著提升重建质量，减少几何畸变，为无约束场景的3D重建提供了高效方案。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.10840v1",
+      "source": "arxiv",
+      "title": "OmniX: Any-view and Any-time 4D Reconstruction via Feed-forward Trajectory Fields",
+      "abstract": "Previous feed-forward 4D reconstruction methods either predict per-frame static point clouds, ignoring foreground motion, or estimate point cloud trajectories while being limited to small camera motions. This restricts their ability to aggregate observations over time and reconstruct complete dynamic scenes under large viewpoint changes. To address this limitation, we propose OmniX, a feed-forward 4D reconstruction framework that predicts dense 3D point trajectories for every pixel from videos with large camera motion. OmniX decouples dynamic motion modeling from static geometry prediction and represents motion using a compact set of dynamic tokens. By leveraging the sparse and low-rank structure of 3D motion, these tokens generate trajectory fields for all pixels across all images while efficiently preserving global interactions. To facilitate training, we further build an automatic UE5-based 4D data engine and introduce a large-scale dataset containing 80K scenes and 1.28M multi-view videos with full geometric annotations. OmniX achieves state-of-the-art performance on dense 3D point trajectory prediction and 3D point tracking, while also demonstrating competitive results on video depth estimation and camera pose estimation.",
+      "authors": [
+        "Yanqin Jiang",
+        "Tengfei Wang",
+        "Zhengwei Wang",
+        "Chenjie Cao",
+        "Junta Wu",
+        "Wenhan Luo",
+        "Weiming Hu",
+        "Jin Gao",
+        "Chunchao Guo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-12T17:05:18+00:00",
+      "link": "https://arxiv.org/pdf/2607.10840v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "feed-forward 4D reconstruction with dense point trajectories",
+      "llm_evidence_cn": "前馈4D重建，生成密集点轨迹",
+      "llm_evidence": "前馈4D重建，生成密集点轨迹",
+      "canonical_evidence": "前馈4D重建，生成密集点轨迹",
+      "llm_tldr_en": "OmniX proposes a feed-forward framework that predicts dense 3D point trajectories from videos with large camera motion, enabling complete dynamic scene reconstruction and novel view synthesis.",
+      "llm_tldr_cn": "前馈4D重建方法受限于小相机运动或忽略前景运动，难以处理大视角变化下的动态场景。OmniX提出一种前馈框架，使用动态令牌从视频中预测密集3D点轨迹，将运动建模与静态几何解耦，从而在任意视角和时间下重建完整动态场景，支持新视角合成。实验表明该方法在多种场景下优于现有技术。",
+      "llm_tldr": "前馈4D重建方法受限于小相机运动或忽略前景运动，难以处理大视角变化下的动态场景。OmniX提出一种前馈框架，使用动态令牌从视频中预测密集3D点轨迹，将运动建模与静态几何解耦，从而在任意视角和时间下重建完整动态场景，支持新视角合成。实验表明该方法在多种场景下优于现有技术。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11285v1",
+      "source": "arxiv",
+      "title": "SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation",
+      "abstract": "Reconstructing 3D scenes from unordered images remains bottlenecked by expensive Structure-from-Motion (SfM) preprocessing and frozen pose interfaces. We present SalientGS, a unified SfM-to-3D Gaussian Splatting (3DGS) pipeline. Its central contribution is importance-guided Markov Chain Monte Carlo (MCMC) Gaussian allocation, which aggregates multi-view residuals into per-Gaussian underfit and redundancy signals. These signals define a smooth importance-weighted sampling distribution that biases both birth and relocation toward underfit regions. This reallocates capacity from well-fit areas without altering the underlying stochastic gradient Langevin dynamics (SGLD). SalientGS achieves end-to-end reconstruction in 15 minutes with state-of-the-art perceptual quality. The supplementary material provides dedicated sections for Per-Scene Qualitative Comparisons and Per-Image Learned Perceptual Image Patch Similarity (LPIPS) Analysis, including failure cases. Code and evaluation scripts are available at https://github.com/Six-Bit-TX/SalientGS.",
+      "authors": [
+        "Tianyu Xiong",
+        "Rui Li",
+        "Suning Ge",
+        "Jiaqi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T09:06:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.11285v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unified SfM-to-3DGS pipeline for reconstructing 3D scenes from unordered images",
+      "llm_evidence_cn": "统一SfM和3D高斯泼溅，从无序图像重建3D场景",
+      "llm_evidence": "统一SfM和3D高斯泼溅，从无序图像重建3D场景",
+      "canonical_evidence": "统一SfM和3D高斯泼溅，从无序图像重建3D场景",
+      "llm_tldr_en": "Presents SalientGS, a unified SfM-to-3DGS pipeline with importance-guided MCMC Gaussian allocation that aggregates multi-view residuals to allocate Gaussians to underfit regions, achieving end-to-end reconstruction in 15 minutes with state-of-the-art quality.",
+      "llm_tldr_cn": "从无序图像重建3D场景通常需要昂贵的SfM预处理和固定的位姿接口。本文提出SalientGS，统一了SfM和3D高斯泼溅流水线，核心是重要性引导的MCMC高斯分配，通过聚合多视图残差信号来检测欠拟合和冗余区域，自动将高斯容量重新分配到欠拟合区域。该方法实现了15分钟端到端重建，在重建质量和渲染性能上达到最新水平。",
+      "llm_tldr": "从无序图像重建3D场景通常需要昂贵的SfM预处理和固定的位姿接口。本文提出SalientGS，统一了SfM和3D高斯泼溅流水线，核心是重要性引导的MCMC高斯分配，通过聚合多视图残差信号来检测欠拟合和冗余区域，自动将高斯容量重新分配到欠拟合区域。该方法实现了15分钟端到端重建，在重建质量和渲染性能上达到最新水平。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11184v1",
+      "source": "arxiv",
+      "title": "GeoGS-SLAM: Online Monocular Reconstruction Using Gaussian Splatting with Geometric Priors",
+      "abstract": "SLAM methods based on 3D Gaussian Splatting (3DGS) have demonstrated impressive tracking and mapping performance, but typically require additional geometric information from external depth sensors. Meanwhile, recent SLAM systems that leverage geometric priors from pre-trained feed-forward models enable real-time dense reconstruction, yet often discard original RGB information during optimization, thus degrading overall reconstruction quality. We present GeoGS-SLAM, an online monocular dense reconstruction system that combines the 3DGS-based map representation with learned geometric priors. Given uncalibrated RGB input, we first employ a feed-forward visual geometry model to predict camera and scene priors. The Gaussian scene map is then expanded by directly sampling Gaussian primitives from both RGB input and geometric priors. Camera poses and the scene map are jointly optimized through a coarse-to-fine strategy that minimizes both photometric and geometric losses. To ensure global consistency, we further incorporate online loop closure detection and pose graph optimization. Extensive experiments across indoor and outdoor benchmarks demonstrate that GeoGS-SLAM achieves superior rendering quality and tracking accuracy compared to state-of-the-art methods while maintaining online real-time performance. Project page: https://rlgao.github.io/geogs_slam.",
+      "authors": [
+        "Ruilan Gao",
+        "Letian Jin",
+        "Yu Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-13T07:32:09+00:00",
+      "link": "https://arxiv.org/pdf/2607.11184v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "online monocular dense reconstruction using Gaussian Splatting and geometric priors, from uncalibrated RGB images",
+      "llm_evidence_cn": "使用高斯溅射和几何先验的在线单目密集重建，从未标定RGB图像",
+      "llm_evidence": "使用高斯溅射和几何先验的在线单目密集重建，从未标定RGB图像",
+      "canonical_evidence": "使用高斯溅射和几何先验的在线单目密集重建，从未标定RGB图像",
+      "llm_tldr_en": "GeoGS-SLAM combines 3D Gaussian Splatting with learned geometric priors for online monocular dense reconstruction, achieving high-quality mapping without external depth sensors.",
+      "llm_tldr_cn": "现有基于高斯溅射的SLAM需要外部深度传感器或丢弃RGB信息。GeoGS-SLAM利用预训练视觉几何模型预测相机和场景先验，结合3DGS地图表示进行在线单目密集重建。实验表明，该方法在跟踪和映射精度上优于先前工作，同时保持了高质量RGB渲染，无需外部深度。",
+      "llm_tldr": "现有基于高斯溅射的SLAM需要外部深度传感器或丢弃RGB信息。GeoGS-SLAM利用预训练视觉几何模型预测相机和场景先验，结合3DGS地图表示进行在线单目密集重建。实验表明，该方法在跟踪和映射精度上优于先前工作，同时保持了高质量RGB渲染，无需外部深度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11588v1",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular metric geometry estimation outputting 3D point maps",
+      "llm_evidence_cn": "单目度量几何估计，输出3D点图",
+      "llm_evidence": "单目度量几何估计，输出3D点图",
+      "canonical_evidence": "单目度量几何估计，输出3D点图",
+      "llm_tldr_en": "FoundationGeo learns pixel-wise calibration fields for metric 3D point maps from single images, bridging relative and metric prediction via spatial calibration and large-scale training.",
+      "llm_tldr_cn": "单目几何估计通常输出相对深度，缺乏度量尺度一致性。FoundationGeo提出两阶段框架：第一阶段学习高保真仿射不变几何模型；第二阶段引入轻量像素级校准场，包括尺度场和射线方向校正场，用于度量估计，从而生成度量一致的3D点图。该模型在多样化数据上训练，展现出强跨域泛化能力。",
+      "llm_tldr": "单目几何估计通常输出相对深度，缺乏度量尺度一致性。FoundationGeo提出两阶段框架：第一阶段学习高保真仿射不变几何模型；第二阶段引入轻量像素级校准场，包括尺度场和射线方向校正场，用于度量估计，从而生成度量一致的3D点图。该模型在多样化数据上训练，展现出强跨域泛化能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.11673v1",
+      "source": "arxiv",
+      "title": "ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space",
+      "abstract": "We present ABot-3DWorld 0, a universal multimodal 3D world model that turns text, image, and video inputs into high-fidelity, explorable 3D worlds. At the heart of our framework is a unified Spatial Generative Primitive (SGP), a compact tuple of a high-quality panorama and a spatial point cloud that delivers an efficient description of any 3D space. Multimodal inputs are first lifted into this primitive; a 3D-consistent panoramic video generator then explores the primitive along a planned trajectory; finally, our panoramic video reconstruction engine converts the generated video into a clean, photorealistic 3D Gaussian Splatting (3DGS) world. This pipeline covers two regimes: rich inputs (multi-view sets, casual video) are lifted into the SGP through a geometry-rigorous recovery that mirrors the observed scene, while a single image or sentence is completed generatively into a creative world. The result is one low-barrier engine for general 3D content creation that further anchors generated worlds to geographic points of interest, enabling map-native spatial exploration at consumer scale. Experiments show that ABot-3DWorld 0 sets the state of the art among open-source methods and demonstrates stronger scene fidelity than Marble under rich multimodal inputs.",
+      "authors": [
+        "Mingchao Sun",
+        "Luyang Tang",
+        "Yu Liu",
+        "Xu Yan",
+        "Zhan Li",
+        "Yunwei Zhang",
+        "Fei Yu",
+        "Zengye Ge",
+        "Yumin Liu",
+        "Jiacheng Zhang",
+        "Yongchang Zhang",
+        "Jiawei Zhang",
+        "Zhicheng Liu",
+        "Zhongxu Sun",
+        "Tianjian Ouyang",
+        "Wenzheng Chen",
+        "Shixing Yang",
+        "Nianfei Fan",
+        "Guodong Sun",
+        "Huan Li",
+        "Zheng Zhou",
+        "Yongze Li",
+        "Yingliang Peng",
+        "Mengmeng Du",
+        "Yuan Liu",
+        "Haozhe Shi",
+        "Chunnuo Gong",
+        "Chengzhen Yu",
+        "Chunxue Jia",
+        "Yang Liu",
+        "Shiying Zeng",
+        "Junnan Lai",
+        "Hang Zhang",
+        "Ning Guo",
+        "Baoquan Chen",
+        "Mu Xu",
+        "Hongyu Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T15:14:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.11673v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "universal 3D world model from text/image/video to exploreable 3D spaces",
+      "llm_evidence_cn": "从多模态输入生成可探索3D世界",
+      "llm_evidence": "从多模态输入生成可探索3D世界",
+      "canonical_evidence": "从多模态输入生成可探索3D世界",
+      "llm_tldr_en": "ABot-3DWorld 0 uses a Spatial Generative Primitive and panoramic video reconstruction to create high-fidelity 3DGS worlds from diverse inputs.",
+      "llm_tldr_cn": "ABot-3DWorld 0提出统一空间生成基元（点云+全景），将文本、图像、视频等多模态输入提升为可探索3D世界。通过3D一致全景视频生成和GS重建引擎，在丰富输入（多视图、视频）和稀疏输入（单图）两种场景下均能获得高质量3D模型，为通用3D内容生成提供新范式。",
+      "llm_tldr": "ABot-3DWorld 0提出统一空间生成基元（点云+全景），将文本、图像、视频等多模态输入提升为可探索3D世界。通过3D一致全景视频生成和GS重建引擎，在丰富输入（多视图、视频）和稀疏输入（单图）两种场景下均能获得高质量3D模型，为通用3D内容生成提供新范式。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2607.11097v1",
+      "source": "arxiv",
+      "title": "Revisiting Matching Response and Swept Feature Volumes for Wide-baseline Omnidirectional Stereo",
+      "abstract": "In this paper, we propose a training strategy for confidence estimation in omnidirectional stereo, targeting the ambiguous matches that frequently occur in wide-baseline setups. Reinterpreting the matching responses produced by the 3D encoder decoder block, we show that their expectation values provide intrinsic confidence signals. Building on this, our method directly penalizes ambiguous responses without auxiliary heads, multi-pass inference, or additional modules, resulting in more efficient and generalized predictions. Beyond confidence, we introduce swept feature volume resampling, where response features produced by 3D CNNs are resampled using regressed positive matching indices and then processed by 2D CNNs to predict meta-information such as surface normals. This joint learning introduces auxiliary geometric regularization and improves depth coherence by leveraging additional contextual cues during response aggregation stage. Experimental results demonstrate that our approach enhances both confidence estimation and surface normal prediction while maintaining deployment practicality for autonomous mobility applications.",
+      "authors": [
+        "Seungjin Jeon",
+        "Jongwoo Lim",
+        "Changhee Won"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T05:09:06+00:00",
+      "link": "https://arxiv.org/pdf/2607.11097v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "omnidirectional stereo for depth estimation from multiple views",
+      "llm_evidence_cn": "全景立体匹配，从多视角估计深度",
+      "llm_evidence": "全景立体匹配，从多视角估计深度",
+      "canonical_evidence": "全景立体匹配，从多视角估计深度",
+      "llm_tldr_en": "This work introduces a confidence estimation strategy and swept feature volume resampling for wide-baseline omnidirectional stereo, improving depth prediction from multiple images.",
+      "llm_tldr_cn": "宽基线全景立体匹配中存在大量歧义匹配，影响深度估计质量。本文提出一种训练策略，利用3D编码器-解码器输出的匹配响应作为内在置信度信号，无需额外模块即可惩罚歧义响应。此外，提出扫掠特征体重采样方法，利用回归的正匹配索引重采样特征，从而提升深度预测精度和泛化能力。",
+      "llm_tldr": "宽基线全景立体匹配中存在大量歧义匹配，影响深度估计质量。本文提出一种训练策略，利用3D编码器-解码器输出的匹配响应作为内在置信度信号，无需额外模块即可惩罚歧义响应。此外，提出扫掠特征体重采样方法，利用回归的正匹配索引重采样特征，从而提升深度预测精度和泛化能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.11221v1",
+      "source": "arxiv",
+      "title": "HandFlow: Fully Generative 4D Hand Recovery with Flow Matching",
+      "abstract": "Accurate monocular 4D hand reconstruction remains challenging. Per-frame discriminative regressors lack temporal context and often produce jittery predictions. Temporal models improve consistency by aggregating information across frames, but they are typically deterministic regressors, making them vulnerable to ambiguous observations caused by occlusion and motion blur. Generative modeling offers a natural alternative by learning a prior over plausible hand motion sequences, enabling coherent hand-state recovery when visual evidence is incomplete or unreliable.   Motivated by this observation, we present HandFlow, a fully generative flow-matching framework for temporally coherent 3D hand pose and shape estimation from monocular video. Given visual and skeletal observations, HandFlow denoises an entire temporal window of MANO parameters through a single ODE integration. To support this, we use a Flux-style dual-stream transformer that attends across the full sequence to capture long-range dependencies without autoregressive decoding, and a confidence-aware continuous masking mechanism that blends observed features with learnable mask tokens to handle noisy or missing observations. Experiments on DexYCB and HOT3D show that HandFlow achieves state-of-the-art performance, with particularly large gains in world-space accuracy and temporal smoothness. It reduces world-space pose error by over 30% compared with the strongest baseline and achieves the lowest acceleration error among all evaluated methods, while remaining competitive in per-frame pose accuracy. Moreover, on a single GPU HandFlow reconstructs a 150-frame sequence at 47 fps, about 12x faster than the fastest prior video-based method, with reconstruction itself accounting for only a small fraction of the end-to-end latency.",
+      "authors": [
+        "Mingxi Xu",
+        "Bowen Duan",
+        "Yi Gu",
+        "Zhengyang Shen",
+        "Renjing Xu",
+        "Yutao Yue"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-13T08:13:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.11221v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "generative flow-matching for temporally coherent 3D hand reconstruction from monocular video",
+      "llm_evidence_cn": "基于流匹配的生成式方法实现单目视频的时域一致3D手部重建",
+      "llm_evidence": "基于流匹配的生成式方法实现单目视频的时域一致3D手部重建",
+      "canonical_evidence": "基于流匹配的生成式方法实现单目视频的时域一致3D手部重建",
+      "llm_tldr_en": "HandFlow uses flow matching to generate coherent 3D hand sequences, outperforming deterministic regressors in ambiguous conditions.",
+      "llm_tldr_cn": "单目4D手部重建面临遮挡和运动模糊下的歧义性，现有确定性回归器易产生抖动或错误。提出HandFlow全生成流匹配框架，学习合理手部运动先验，从视觉和骨骼线索生成时域一致的3D手部姿态和形状。实验表明，在遮挡和模糊场景下，HandFlow的重建一致性和精度均优于确定性方法，展示了生成模型在4D重建中的潜力。",
+      "llm_tldr": "单目4D手部重建面临遮挡和运动模糊下的歧义性，现有确定性回归器易产生抖动或错误。提出HandFlow全生成流匹配框架，学习合理手部运动先验，从视觉和骨骼线索生成时域一致的3D手部姿态和形状。实验表明，在遮挡和模糊场景下，HandFlow的重建一致性和精度均优于确定性方法，展示了生成模型在4D重建中的潜力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
