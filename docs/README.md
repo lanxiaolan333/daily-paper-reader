@@ -6,47 +6,47 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-14
-- 运行时间：2026-07-14 20:08:31 UTC
+- 最新运行日期：2026-07-15
+- 运行时间：2026-07-15 20:43:15 UTC
 - 运行状态：成功
 - 本次总论文数：9
-- 精读区：6
-- 速读区：3
+- 精读区：3
+- 速读区：6
 
 ### 今日简报（AI）
-今天共推荐9篇论文，精读6篇，重点聚焦3D场景重建与稀疏视图生成。最值得关注的是两篇9分佳作：增量在线场景重建与多属性一致性高保真稀疏视图重建。建议读者优先精读这两篇，了解如何通过三角化或属性一致性提升3D重建的实时性与质量。
-- 详情：[/202607/14/README](/202607/14/README)
+今日聚焦扩散引导的3D高斯泼溅内窥镜视角外推与单目度量几何场学习，精读9.0/8.0分两文。最值得看ExtraGS用扩散模型增强高斯泼溅的视角外推，以及FoundationGeo实现像素级单目度量几何预测。建议关注生成式几何融合方向，并尝试将度量几何场应用到你的场景理解任务中。
+- 详情：[/202607/15/README](/202607/15/README)
 
 ### 精读区论文标签
-1. [Incremental Online Scene Reconstruction by 3D Gaussian Triangulation](/202607/14/2607.10690v1-incremental-online-scene-reconstruction-by-3d-gaussian-triangulation)  
+1. [ExtraGS: Enhancing Endoscopic View Extrapolation via Diffusion-Guided 3D Gaussian Splatting](/202607/15/2607.12785v1-extrags-enhancing-endoscopic-view-extrapolation-via-diffusion-guided-3d-gaussian-splatting)  
    标签：评分：9.0/10、query:d-recon
-   evidence：使用3D高斯三角化从多视图像增量在线重建3D场景
-2. [MAC-Splat: Multi-Attribute Consistency for High-Fidelity Sparse-View Reconstruction](/202607/14/2607.10792v1-mac-splat-multi-attribute-consistency-for-high-fidelity-sparse-view-reconstruction)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：从稀疏视图重建3D场景
-3. [OmniX: Any-view and Any-time 4D Reconstruction via Feed-forward Trajectory Fields](/202607/14/2607.10840v1-omnix-any-view-and-any-time-4d-reconstruction-via-feed-forward-trajectory-fields)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：前馈4D重建，生成密集点轨迹
-4. [SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation](/202607/14/2607.11285v1-salientgs-unified-sfm-to-3dgs-with-importance-guided-mcmc-gaussian-allocation)  
-   标签：评分：9.0/10、query:d-recon
-   evidence：统一SfM和3D高斯泼溅，从无序图像重建3D场景
-5. [GeoGS-SLAM: Online Monocular Reconstruction Using Gaussian Splatting with Geometric Priors](/202607/14/2607.11184v1-geogs-slam-online-monocular-reconstruction-using-gaussian-splatting-with-geometric-priors)  
+   evidence：神经辐射场和三维高斯泼溅用于新视角合成
+2. [FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry](/202607/15/2607.11588v2-foundationgeo-learning-spatial-pixel-wise-fields-for-monocular-metric-geometry)  
    标签：评分：8.0/10、query:d-recon
-   evidence：使用高斯溅射和几何先验的在线单目密集重建，从未标定RGB图像
-6. [FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry](/202607/14/2607.11588v1-foundationgeo-learning-spatial-pixel-wise-fields-for-monocular-metric-geometry)  
+   evidence：单目度量点云重建
+3. [DermDepth: Toward Monocular Metric Scale 3D Reconstruction Models for Dermatology](/202607/15/2607.13010v1-dermdepth-toward-monocular-metric-scale-3d-reconstruction-models-for-dermatology)  
    标签：评分：8.0/10、query:d-recon
-   evidence：单目度量几何估计，输出3D点图
+   evidence：面向皮肤科的单目度量尺度3D重建，从单张图像实现稠密重建。
 
 ### 速读区论文标签
-1. [ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space](/202607/14/2607.11673v1-abot-3dworld-0-a-universal-world-model-to-explore-any-3d-space)  
-   标签：评分：8.0/10、query:d-recon
-   evidence：从多模态输入生成可探索3D世界
-2. [Revisiting Matching Response and Swept Feature Volumes for Wide-baseline Omnidirectional Stereo](/202607/14/2607.11097v1-revisiting-matching-response-and-swept-feature-volumes-for-wide-baseline-omnidirectional-stereo)  
+1. [MultiView-Bench: A Diagnostic Benchmark for World-Centric Multi-View Integration in VLMs](/202607/15/2607.08970v1-multiview-bench-a-diagnostic-benchmark-for-world-centric-multi-view-integration-in-vlms)  
+   标签：评分：7.0/10、query:d-recon
+   evidence：多视图集成以重建3D场景的基准
+2. [What VGGT Knows About Overlap: Probing Geometric Foundation Models for Co-Visibility](/202607/15/2607.09503v1-what-vggt-knows-about-overlap-probing-geometric-foundation-models-for-co-visibility)  
+   标签：评分：7.0/10、query:d-recon
+   evidence：探索几何基础模型中的共视性知识，是多视图3D重建的核心问题
+3. [GHOST: Geometry-Guided Hallucination of Opaque Surface Textures](/202607/15/2607.11118v1-ghost-geometry-guided-hallucination-of-opaque-surface-textures)  
+   标签：评分：7.0/10、query:d-recon
+   evidence：用于透明物体三维重建的几何引导预处理
+4. [ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space](/202607/15/2607.11673v2-abot-3dworld-0-a-universal-world-model-to-explore-any-3d-space)  
+   标签：评分：7.0/10、query:d-recon
+   evidence：多视角输入生成3DGS世界重构
+5. [ARDepth: Auto-regressive Monocular Depth Estimation with Progressive Visual Conditioning](/202607/15/2607.12433v1-ardepth-auto-regressive-monocular-depth-estimation-with-progressive-visual-conditioning)  
    标签：评分：6.0/10、query:d-recon
-   evidence：全景立体匹配，从多视角估计深度
-3. [HandFlow: Fully Generative 4D Hand Recovery with Flow Matching](/202607/14/2607.11221v1-handflow-fully-generative-4d-hand-recovery-with-flow-matching)  
+   evidence：单目深度估计方法，可用于3D点云生成
+6. [X-Lens: Real-Time Metric Depth Estimation with Heterogeneous Cameras](/202607/15/2607.12993v1-x-lens-real-time-metric-depth-estimation-with-heterogeneous-cameras)  
    标签：评分：6.0/10、query:d-recon
-   evidence：基于流匹配的生成式方法实现单目视频的时域一致3D手部重建
+   evidence：从多视角提供度量深度，是3D重建的关键组件。
 
 
 <div class="dpr-home-promo-card">

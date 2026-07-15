@@ -1,0 +1,409 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-15T20:38:17.578512+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 6,
+    "quick_skim_target": 11,
+    "quick_selected": 6
+  },
+  "deep_dive": [
+    {
+      "id": "2607.12785v1",
+      "source": "arxiv",
+      "title": "ExtraGS: Enhancing Endoscopic View Extrapolation via Diffusion-Guided 3D Gaussian Splatting",
+      "abstract": "Robot-assisted minimally invasive surgery (MIS) critically depends on reliable endoscopic perception for navigation and safety. However, conventional endoscopes provide only a limited field of view, leaving large portions of surrounding anatomy unobserved. Recent neural rendering approaches, such as Neural Radiance Fields and 3D Gaussian Splatting, enable novel view synthesis from endoscopic videos, but their reliance on sparse observations often leads to severe artifacts when extrapolating beyond the training trajectory.In this work, we propose ExtraGS, a framework for enhancing endoscopic view extrapolation via diffusion-guided 3D Gaussian Splatting. Starting from an initial reconstruction, we introduce an uncertainty-guided virtual camera sampling strategy to actively explore blind spots and maximize information gain. The rendered views from these sampled locations are refined using a diffusion model to recover plausible anatomical structures, producing pseudo observations that guide further optimization. To prevent the generated content from degrading reliable regions, we adopt a confidence-weighted fine-tuning strategy when incorporating these pseudo observations.Extensive experiments on multiple public endoscopic datasets demonstrate that ExtraGS significantly reduces extrapolation artifacts and achieves state-of-the-art performance in endoscopic novel view synthesis.",
+      "authors": [
+        "Cheng-Tai Hsieh",
+        "Jiwei Shan",
+        "Han Fang",
+        "Jianshu Hu",
+        "Tao Ni",
+        "Lijun Han",
+        "Yutong Ban",
+        "Shing Shin Cheng",
+        "Hesheng Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T14:00:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.12785v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "neural radiance field and 3D Gaussian splatting for novel view synthesis",
+      "llm_evidence_cn": "神经辐射场和三维高斯泼溅用于新视角合成",
+      "llm_evidence": "神经辐射场和三维高斯泼溅用于新视角合成",
+      "canonical_evidence": "神经辐射场和三维高斯泼溅用于新视角合成",
+      "llm_tldr_en": "Enhances endoscopic view extrapolation via diffusion-guided 3D Gaussian splatting, reducing artifacts beyond training trajectories.",
+      "llm_tldr_cn": "针对内窥镜视频新视角合成中外推时出现严重伪影的问题，提出扩散引导的三维高斯泼溅框架ExtraGS。通过不确定性引导的虚拟视角采样和扩散模型细化，有效增强了超出训练轨迹的视角外推质量，为机器人辅助手术中的导航和安全性提供了更可靠的感知能力。",
+      "llm_tldr": "针对内窥镜视频新视角合成中外推时出现严重伪影的问题，提出扩散引导的三维高斯泼溅框架ExtraGS。通过不确定性引导的虚拟视角采样和扩散模型细化，有效增强了超出训练轨迹的视角外推质量，为机器人辅助手术中的导航和安全性提供了更可靠的感知能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11588v2",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular metric point cloud reconstruction",
+      "llm_evidence_cn": "单目度量点云重建",
+      "llm_evidence": "单目度量点云重建",
+      "canonical_evidence": "单目度量点云重建",
+      "llm_tldr_en": "FoundationGeo uses pixel-wise calibration fields to produce metrically consistent 3D point maps from monocular images, bridging relative and metric prediction.",
+      "llm_tldr_cn": "现有单目几何估计存在尺度模糊和度量不一致的问题。FoundationGeo提出两阶段框架：第一阶段学习高保真仿射不变几何模型，第二阶段引入轻量级像素级校准场进行尺度校准和射线方向修正，从而生成度量一致的3D点云。在多种数据集上验证了其卓越的跨域泛化能力和精细边界重建质量。",
+      "llm_tldr": "现有单目几何估计存在尺度模糊和度量不一致的问题。FoundationGeo提出两阶段框架：第一阶段学习高保真仿射不变几何模型，第二阶段引入轻量级像素级校准场进行尺度校准和射线方向修正，从而生成度量一致的3D点云。在多种数据集上验证了其卓越的跨域泛化能力和精细边界重建质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13010v1",
+      "source": "arxiv",
+      "title": "DermDepth: Toward Monocular Metric Scale 3D Reconstruction Models for Dermatology",
+      "abstract": "Dermatological practice routinely involves measuring and tracking lesion size, morphology and texture, as critical components of wound or skin cancer screening, monitoring and diagnosis. To accomplish this task, practitioners often image the skin surface with commonly available off-the-shelf camera sensors. This has led to an overwhelming research focus on 2D methods while these objectives naturally benefit from 3D information. In this paper, we demonstrate that dense monocular 3D reconstructions, metric scale measurements and rich surface normal texture estimates are achievable for both dermoscopic and macroscopic cases without the need for additional hardware or multiple captures. We present DermDepth, the first single-view metric scale 3D model for the dermatological domain and D-Synth, the first synthetic dermoscopic dataset with pixel-perfect 3D information. Our experiments show training DermDepth on D-Synth corrects metric scale error from over 16x to under 1.1x for real dermoscopic data, while preserving geometric quality and increasing texture richness. Fine-tuning on a small amount of real clinical samples generalizes our method across three real-world benchmarks spanning the few mm to hundred cm range, diverse skin-tones, chronic wound cases and produces measurements broadly consistent with disease size reported in medical literature. All code, data and models are available at https://github.com/hectorcarrion/dermdepth.",
+      "authors": [
+        "Héctor Carrión",
+        "Narges Norouzi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T17:51:37+00:00",
+      "link": "https://arxiv.org/pdf/2607.13010v1",
+      "tags": [
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Monocular metric scale 3D reconstruction for dermatology, achieving dense reconstruction from single images.",
+      "llm_evidence_cn": "面向皮肤科的单目度量尺度3D重建，从单张图像实现稠密重建。",
+      "llm_evidence": "面向皮肤科的单目度量尺度3D重建，从单张图像实现稠密重建。",
+      "canonical_evidence": "面向皮肤科的单目度量尺度3D重建，从单张图像实现稠密重建。",
+      "llm_tldr_en": "Presents the first single-view metric scale 3D reconstruction model for dermatology, producing dense depth, surface normals, and metric measurements from a single image.",
+      "llm_tldr_cn": "该论文提出DermDepth，首个面向皮肤科的单目度量尺度3D重建模型。仅用单张皮肤图像即可获得稠密深度图、表面法线和度量尺寸，无需额外硬件。在皮肤镜和宏观图像上验证了效果，有望辅助皮肤病变的测量与监测。",
+      "llm_tldr": "该论文提出DermDepth，首个面向皮肤科的单目度量尺度3D重建模型。仅用单张皮肤图像即可获得稠密深度图、表面法线和度量尺寸，无需额外硬件。在皮肤镜和宏观图像上验证了效果，有望辅助皮肤病变的测量与监测。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.08970v1",
+      "source": "arxiv",
+      "title": "MultiView-Bench: A Diagnostic Benchmark for World-Centric Multi-View Integration in VLMs",
+      "abstract": "Recent benchmarks for VLMs largely assess single- or limited-view perception, leaving untested the core cognitive ability to integrate observations across viewpoints into a coherent, world-centric (allocentric) 3D mental model. We introduce MultiView-Bench, a diagnostic benchmark expressly designed to evaluate multi-view integration for holistic 3D scene comprehension. Unlike existing datasets that focus on pixel-level mapping or camera-relative navigation, MultiView-Bench requires models to decouple object positioning from transient perspectives and ground them in a fixed global coordinate system. This capability serves as a prerequisite for VLMs before being deployed for downstream tasks such as mechanical part assembly. Our systematic evaluation of frontier VLMs reveals consistent failure modes: strong performance on 2D planar relations from a single image, but marked difficulty with 3D spatial relations and with aggregating information across views. We further identify biases in VLMs, such as struggles with unconventional axis directions and sensitivity to object colorways and texture variations. Acknowledging these limitations, we propose ViewNavigator, a multi-agent framework that actively selects informative viewpoints, perceives, and fuses multi-view evidence, improving diverse base models on MultiView-Bench even under a strict budget-matched comparison (and by 3-5x for the full agent).",
+      "authors": [
+        "Hantao Zhang",
+        "Jinru Sui",
+        "Ed Li",
+        "Dirk Bergemann",
+        "Zhuoran Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-09T22:22:42+00:00",
+      "link": "https://arxiv.org/pdf/2607.08970v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "benchmark for multi-view integration to reconstruct 3D scene",
+      "llm_evidence_cn": "多视图集成以重建3D场景的基准",
+      "llm_evidence": "多视图集成以重建3D场景的基准",
+      "canonical_evidence": "多视图集成以重建3D场景的基准",
+      "llm_tldr_en": "A diagnostic benchmark to evaluate multi-view integration for world-centric 3D scene comprehension in VLMs.",
+      "llm_tldr_cn": "该论文提出MultiView-Bench，专门用于评估视觉语言模型多视图集成能力的诊断基准。要求模型将不同视角的观测整合为世界中心（分配中心）的3D场景理解，而不仅仅是像素级映射或相机相对导航。系统评估表明当前VLM在此任务上存在显著不足，为多视图3D重建和推理提供了关键测试平台。",
+      "llm_tldr": "该论文提出MultiView-Bench，专门用于评估视觉语言模型多视图集成能力的诊断基准。要求模型将不同视角的观测整合为世界中心（分配中心）的3D场景理解，而不仅仅是像素级映射或相机相对导航。系统评估表明当前VLM在此任务上存在显著不足，为多视图3D重建和推理提供了关键测试平台。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12433v1",
+      "source": "arxiv",
+      "title": "ARDepth: Auto-regressive Monocular Depth Estimation with Progressive Visual Conditioning",
+      "abstract": "Diffusion models have recently become the dominant paradigm for monocular depth estimation (MDE). However, they implicitly assume that depth can be recovered as a globally smooth field through iterative denoising, which does not explicitly reflect the piecewise and scale-dependent organization of scene geometry. In practice, geometric structure emerges progressively across spatial scales, where coarse layout, surfaces, and boundaries are constructed in a hierarchical manner. Motivated by this observation, we introduce ARDepth, which formulates depth estimation as structured auto-regressive generation. Instead of recovering depth through global refinement, ARDepth progressively constructs depth representations as spatial resolution increases. To support this generative process, we introduce Scale-Progressive Conditioning (SPC) to inject multi-scale visual features at each generation stage, and Semantic-Aware Guidance (SAG) to provide scene-level semantic priors that enhance global structural consistency. Together, these designs enable the model to capture fine-grained local details while maintaining coherent global geometry. Empirical results demonstrate that our approach achieves strong performance and produces structurally consistent depth predictions across scales, validating auto-regressive generation as a promising alternative paradigm for geometric modeling.",
+      "authors": [
+        "Zijie Wang",
+        "Wei Zhang",
+        "Weiming Zhang",
+        "Xiao Tan",
+        "Weikai Chen",
+        "Xiaoxu Li",
+        "Guanbin Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-14T07:06:46+00:00",
+      "link": "https://arxiv.org/pdf/2607.12433v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Monocular depth estimation method that can be used for 3D point cloud generation",
+      "llm_evidence_cn": "单目深度估计方法，可用于3D点云生成",
+      "llm_evidence": "单目深度估计方法，可用于3D点云生成",
+      "canonical_evidence": "单目深度估计方法，可用于3D点云生成",
+      "llm_tldr_en": "Proposes ARDepth, an auto-regressive depth estimation method that progressively constructs depth representations, suitable for generating point clouds.",
+      "llm_tldr_cn": "针对扩散模型假设深度为全局平滑场的问题，提出ARDepth自回归深度估计方法。该方法逐步构建多尺度深度表示，更符合几何结构分层组织。在多数据集上取得最先进结果，为单目3D重建提供高质量深度线索，可进一步用于点云生成。",
+      "llm_tldr": "针对扩散模型假设深度为全局平滑场的问题，提出ARDepth自回归深度估计方法。该方法逐步构建多尺度深度表示，更符合几何结构分层组织。在多数据集上取得最先进结果，为单目3D重建提供高质量深度线索，可进一步用于点云生成。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.09503v1",
+      "source": "arxiv",
+      "title": "What VGGT Knows About Overlap: Probing Geometric Foundation Models for Co-Visibility",
+      "abstract": "A fundamental challenge in 3D reconstruction and robotic localization is co-visibility: determining which image pairs share overlapping visible surfaces, particularly in scenarios with minimal overlap. We demonstrate that VGGT implicitly encodes co-visibility as an emergent behavior: without any supervision for this task, its internal representations exhibit a clear hierarchical structure mirroring that of large language models, i.e. early layers build a 3D-aware scene representation, while late layers act as dedicated co-visibility reasoners. In particular, we identify layer L17 as a negative anchor that consistently routes non-co-visible pairs for this backbone, regardless of the evaluation setting, providing task-grounded evidence of layer specialization in a geometry-grounded foundation model. Building on this, we introduce Co-VGGT, which freezes VGGT and trains only a lightweight layer-wise mixture-of-experts head (less than 7.5M parameters) to classify co-visibility from RGB alone, treating each layer as a specialized expert whose geometric abstraction is adaptively weighted per input pair. On the Co-VisiON benchmark, Co-VGGT surpasses the human annotation baseline and improves over prior work by more than 25% pairwise and 10% multiview. Pairwise predictions are well-calibrated (ECE=0.030), enabling direct use as edge weights in visibility graphs for downstream SfM and SLAM pipelines without post-hoc correction. Code and data are available.",
+      "authors": [
+        "Filippo Ziliotto",
+        "Luciano Serafini",
+        "Lamberto Ballan",
+        "Tommaso Campari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-07-10T15:17:02+00:00",
+      "link": "https://arxiv.org/pdf/2607.09503v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "probing geometric foundation models for co-visibility, a fundamental challenge in 3D reconstruction from multiple images",
+      "llm_evidence_cn": "探索几何基础模型中的共视性知识，是多视图3D重建的核心问题",
+      "llm_evidence": "探索几何基础模型中的共视性知识，是多视图3D重建的核心问题",
+      "canonical_evidence": "探索几何基础模型中的共视性知识，是多视图3D重建的核心问题",
+      "llm_tldr_en": "Demonstrates that VGGT implicitly encodes co-visibility as an emergent hierarchical behavior, identifying a specific layer as a negative anchor for non-overlapping pairs.",
+      "llm_tldr_cn": "针对多视图3D重建中的共视性判定难题，本文发现VGGT模型内部自发出现层次化的共视性推理能力。具体而言，早期层构建3D场景表示，晚期层作为共视性推理器。并识别出第17层作为非共视角对的负锚点，为几何基础模型的可解释性提供新证据。",
+      "llm_tldr": "针对多视图3D重建中的共视性判定难题，本文发现VGGT模型内部自发出现层次化的共视性推理能力。具体而言，早期层构建3D场景表示，晚期层作为共视性推理器。并识别出第17层作为非共视角对的负锚点，为几何基础模型的可解释性提供新证据。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12993v1",
+      "source": "arxiv",
+      "title": "X-Lens: Real-Time Metric Depth Estimation with Heterogeneous Cameras",
+      "abstract": "We present X-lens, a compact feed-forward model for metric depth estimation from a variable number of calibrated fisheye and pinhole views. To support real-time downstream perception, X-lens is built around a geometry-aware heterogeneous camera formulation with two key components. Learnable calibration tokens provide a coarse alignment between fisheye and pinhole projective spaces, while a Jacobian-parameterized distortion bias injected into cross-attention models local projection changes and promotes cross-camera consistency, enabling robust generalization with only 0.04B parameters and up to 41 FPS. The model predicts dense depth together with a global metric scale, avoiding auxiliary reconstruction targets that increase computation and optimization complexity. To learn such cross-camera generalization at scale and depth, X-lens is trained on multiple public datasets and OmniScene, our newly released large-scale synthetic dataset containing approximately 266K synchronized six-view frames, 1.7M individual images, and 103 indoor and outdoor scenes. Extensive experiments on both real-world and synthetic indoor and outdoor datasets demonstrate superior heterogeneous-camera metric depth accuracy, reducing AbsRel by 25.4\\% on OmniScene-Full over the strongest baseline while using 88.9\\% fewer parameters, with competitive performance on conventional fisheye-only and pinhole-only settings.",
+      "authors": [
+        "Heng Zhou",
+        "Shuhong Liu",
+        "Yonghao He",
+        "Bohao Zhang",
+        "Fa Fu",
+        "Chenhui Hou",
+        "Xianbao Hou",
+        "Lijun Han",
+        "Wei Sui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T17:45:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.12993v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Provides metric depth from multiple views, crucial for 3D reconstruction.",
+      "llm_evidence_cn": "从多视角提供度量深度，是3D重建的关键组件。",
+      "llm_evidence": "从多视角提供度量深度，是3D重建的关键组件。",
+      "canonical_evidence": "从多视角提供度量深度，是3D重建的关键组件。",
+      "llm_tldr_en": "Proposes a compact feed-forward model for real-time metric depth estimation from fisheye and pinhole cameras using learnable calibration tokens and Jacobian-parameterized distortion bias.",
+      "llm_tldr_cn": "该论文提出X-Lens，一种紧凑的前馈模型，可从多个标定的鱼眼和针孔相机实时估计度量深度。通过可学习的校准令牌和雅可比参数化畸变偏置，实现跨相机一致性。模型参数仅0.04B，速度达41 FPS，为多视图3D重建提供高效深度输入。",
+      "llm_tldr": "该论文提出X-Lens，一种紧凑的前馈模型，可从多个标定的鱼眼和针孔相机实时估计度量深度。通过可学习的校准令牌和雅可比参数化畸变偏置，实现跨相机一致性。模型参数仅0.04B，速度达41 FPS，为多视图3D重建提供高效深度输入。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.11118v1",
+      "source": "arxiv",
+      "title": "GHOST: Geometry-Guided Hallucination of Opaque Surface Textures",
+      "abstract": "Transparent objects pose a fundamental challenge for depth estimation and 3D reconstruction due to their violation of Lambertian assumptions, leading to severe geometry degradation in downstream tasks. To address this, we propose a novel geometry-guided preprocessing framework \\textbf{GHOST} that leverages visual foundation models to transform transparent regions into opaque, structurally consistent representations without requiring downstream model retraining. Specifically, our pipeline utilizes (1) \\textbf{TransDINO} and (2) \\textbf{TransDecomp} to disentangle masks and transparency physical properties, while (3) \\textbf{DAF-Net} recovers surface normal priors to encode geometric curvature. Subsequently, (4) \\textbf{GeoSemTransNet} integrates these multi-modal cues to synthesize a texture-rich opaque RGB image that preserves the transparent object's 3D structure. Extensive experiments demonstrate that our method significantly enhances the accuracy of state-of-the-art depth estimation and reconstruction models on transparent objects by restoring essential photometric cues.",
+      "authors": [
+        "Langxu Zhao",
+        "Zuan Gu",
+        "Tianhan Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T05:50:19+00:00",
+      "link": "https://arxiv.org/pdf/2607.11118v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "geometry-guided preprocessing for 3D reconstruction of transparent objects",
+      "llm_evidence_cn": "用于透明物体三维重建的几何引导预处理",
+      "llm_evidence": "用于透明物体三维重建的几何引导预处理",
+      "canonical_evidence": "用于透明物体三维重建的几何引导预处理",
+      "llm_tldr_en": "Proposes a geometry-guided preprocessing framework that transforms transparent regions into opaque representations for improved depth and 3D reconstruction.",
+      "llm_tldr_cn": "透明物体因违反朗伯假设导致深度估计和三维重建严重退化。提出几何引导预处理框架GHOST，利用视觉基础模型解耦遮罩与透明度物理属性，恢复表面法线先验，并融合多模态特征将透明区域转换为不透明且结构一致的表示，无需下游模型重训练即可提升重建质量。",
+      "llm_tldr": "透明物体因违反朗伯假设导致深度估计和三维重建严重退化。提出几何引导预处理框架GHOST，利用视觉基础模型解耦遮罩与透明度物理属性，恢复表面法线先验，并融合多模态特征将透明区域转换为不透明且结构一致的表示，无需下游模型重训练即可提升重建质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.11673v2",
+      "source": "arxiv",
+      "title": "ABot-3DWorld 0: A Universal World Model to Explore Any 3D Space",
+      "abstract": "We present ABot-3DWorld 0, a universal multimodal 3D world model that turns text, image, and video inputs into high-fidelity, explorable 3D worlds. At the heart of our framework is a unified Spatial Generative Primitive (SGP), a compact tuple of a high-quality panorama and a spatial point cloud that delivers an efficient description of any 3D space. Multimodal inputs are first lifted into this primitive; a 3D-consistent panoramic video generator then explores the primitive along a planned trajectory; finally, our panoramic video reconstruction engine converts the generated video into a clean, photorealistic 3D Gaussian Splatting (3DGS) world. This pipeline covers two regimes: rich inputs (multi-view sets, casual video) are lifted into the SGP through a geometry-rigorous recovery that mirrors the observed scene, while a single image or sentence is completed generatively into a creative world. The result is one low-barrier engine for general 3D content creation that further anchors generated worlds to geographic points of interest, enabling map-native spatial exploration at consumer scale. Experiments show that ABot-3DWorld 0 sets the state of the art among open-source methods and demonstrates stronger scene fidelity than Marble under rich multimodal inputs.",
+      "authors": [
+        "Mingchao Sun",
+        "Luyang Tang",
+        "Yu Liu",
+        "Xu Yan",
+        "Zhan Li",
+        "Yunwei Zhang",
+        "Fei Yu",
+        "Zengye Ge",
+        "Yumin Liu",
+        "Jiacheng Zhang",
+        "Yongchang Zhang",
+        "Jiawei Zhang",
+        "Zhicheng Liu",
+        "Zhongxu Sun",
+        "Tianjian Ouyang",
+        "Wenzheng Chen",
+        "Shixing Yang",
+        "Nianfei Fan",
+        "Guodong Sun",
+        "Huan Li",
+        "Zheng Zhou",
+        "Yongze Li",
+        "Yingliang Peng",
+        "Mengmeng Du",
+        "Yuan Liu",
+        "Haozhe Shi",
+        "Chunnuo Gong",
+        "Chengzhen Yu",
+        "Chunxue Jia",
+        "Yang Liu",
+        "Shiying Zeng",
+        "Junnan Lai",
+        "Hang Zhang",
+        "Ning Guo",
+        "Baoquan Chen",
+        "Mu Xu",
+        "Hongyu Pan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T15:14:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.11673v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "multi-view input to 3DGS world reconstruction",
+      "llm_evidence_cn": "多视角输入生成3DGS世界重构",
+      "llm_evidence": "多视角输入生成3DGS世界重构",
+      "canonical_evidence": "多视角输入生成3DGS世界重构",
+      "llm_tldr_en": "ABot-3DWorld converts text/image/video into explorable 3DGS worlds via spatial generative primitives and panoramic video reconstruction.",
+      "llm_tldr_cn": "从多模态输入重建可探索的3D世界仍然面临表示效率与保真度之间的平衡问题。ABot-3DWorld提出统一的空间生成原语（SGP），包含全景图和空间点云，通过全景视频生成器和重建引擎将其转化为高质量3D高斯泼溅世界。支持多视角集和视频输入，在多个场景上实现了高保真重建。",
+      "llm_tldr": "从多模态输入重建可探索的3D世界仍然面临表示效率与保真度之间的平衡问题。ABot-3DWorld提出统一的空间生成原语（SGP），包含全景图和空间点云，通过全景视频生成器和重建引擎将其转化为高质量3D高斯泼溅世界。支持多视角集和视频输入，在多个场景上实现了高保真重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
