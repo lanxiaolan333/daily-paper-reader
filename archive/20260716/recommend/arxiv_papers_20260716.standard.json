@@ -1,0 +1,382 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-16T20:02:52.801430+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 5,
+    "deep_cap": 6,
+    "deep_selected": 5,
+    "quick_candidates": 4,
+    "quick_skim_target": 11,
+    "quick_selected": 4
+  },
+  "deep_dive": [
+    {
+      "id": "2607.11285v2",
+      "source": "arxiv",
+      "title": "SalientGS: Unified SfM-to-3DGS with Importance-Guided MCMC Gaussian Allocation",
+      "abstract": "Reconstructing 3D scenes from unordered images remains bottlenecked by expensive Structure-from-Motion (SfM) preprocessing and frozen pose interfaces. We present SalientGS, a unified SfM-to-3D Gaussian Splatting (3DGS) pipeline. Its central contribution is importance-guided Markov Chain Monte Carlo (MCMC) Gaussian allocation, which aggregates multi-view residuals into per-Gaussian underfit and redundancy signals. These signals define a smooth importance-weighted sampling distribution that biases both birth and relocation toward underfit regions. This reallocates capacity from well-fit areas without altering the underlying stochastic gradient Langevin dynamics (SGLD). SalientGS achieves end-to-end reconstruction in 15 minutes with state-of-the-art perceptual quality. The supplementary material provides dedicated sections for Per-Scene Qualitative Comparisons and Per-Image Learned Perceptual Image Patch Similarity (LPIPS) Analysis, including failure cases. Code and evaluation scripts are available at https://github.com/Six-Bit-TX/SalientGS.",
+      "authors": [
+        "Tianyu Xiong",
+        "Rui Li",
+        "Suning Ge",
+        "Jiaqi Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T09:06:49+00:00",
+      "link": "https://arxiv.org/pdf/2607.11285v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "unified SfM-to-3DGS pipeline for reconstructing 3D scenes from unordered images",
+      "llm_evidence_cn": "统一的SfM到3D高斯泼溅管线，从无序图像重建3D场景",
+      "llm_evidence": "统一的SfM到3D高斯泼溅管线，从无序图像重建3D场景",
+      "canonical_evidence": "统一的SfM到3D高斯泼溅管线，从无序图像重建3D场景",
+      "llm_tldr_en": "SalientGS presents an end-to-end pipeline from SfM to 3D Gaussian Splatting with importance-guided MCMC allocation, achieving state-of-the-art reconstruction quality in minutes.",
+      "llm_tldr_cn": "该论文提出SalientGS，统一的SfM到3D高斯泼溅（3DGS）管线。核心是通过重要性引导的马尔可夫链蒙特卡洛（MCMC）高斯分配，自动将高斯原语从已拟合区域重分配到欠拟合区域，无需额外调整。在多个数据集上以15分钟实现端到端重建，质量达到最先进水平。该方法直接解决了从无序图像快速高质量重建3D场景的问题。",
+      "llm_tldr": "该论文提出SalientGS，统一的SfM到3D高斯泼溅（3DGS）管线。核心是通过重要性引导的马尔可夫链蒙特卡洛（MCMC）高斯分配，自动将高斯原语从已拟合区域重分配到欠拟合区域，无需额外调整。在多个数据集上以15分钟实现端到端重建，质量达到最先进水平。该方法直接解决了从无序图像快速高质量重建3D场景的问题。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13492v1",
+      "source": "arxiv",
+      "title": "CASA-SDF: Curriculum-Aware Spatial Adaptation with Curvature-Guided Density for Neural Implicit Surface Reconstruction",
+      "abstract": "Neural implicit representations have emerged as a powerful paradigm for 3D reconstruction. However, high-fidelity indoor surface reconstruction remains a significant challenge, primarily due to the pronounced \\emph{geometric heterogeneity} of indoor scenes. Large texture-less planar regions typically require stronger regularization to suppress high-frequency artifacts, while thin structures demand sharper, more adaptive representations to mitigate the spectral bias of multi-layer perceptrons (MLPs) and prevent over-smoothing. Existing approaches often rely on spatially indiscriminate prior supervision and a scene-global SDF-to-density transformation, which constrains their ability to balance planar smoothness and detail preservation. In this paper, we propose CASA-SDF (Curriculum-Aware Spatial Adaptation for SDF), a unified framework that addresses this challenge via complementary adaptations of supervision and representation capacity. Specifically, Hybrid Spatially-Adaptive Uncertainty Annealing (SAUA) fuses semantic and photometric uncertainties to construct a pixel-wise curriculum for monocular prior supervision. This strategy maintains regularization in reliable regions while attenuating unreliable supervision early in training to enable data-driven photometric refinement. Meanwhile, Curvature-Aware Locally Adaptive Density Transformation (CALADT) progressively modulates the sharpness of the SDF-to-density mapping via a curvature proxy to enhance the representation of thin structures. Extensive experiments on benchmark indoor datasets demonstrate that CASA-SDF improves surface completeness and detail recovery on high-frequency structures, without compromising the stability of planar surfaces.",
+      "authors": [
+        "Lei Yang",
+        "Weiqing Li",
+        "Zhiyong Su",
+        "Liang Xiao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-15T06:38:23+00:00",
+      "link": "https://arxiv.org/pdf/2607.13492v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "neural implicit surface reconstruction from multi-view images",
+      "llm_evidence_cn": "基于神经隐式表示的多视图表面重建",
+      "llm_evidence": "基于神经隐式表示的多视图表面重建",
+      "canonical_evidence": "基于神经隐式表示的多视图表面重建",
+      "llm_tldr_en": "Proposes CASA-SDF, a curriculum-aware neural implicit surface reconstruction method that adapts spatial regularization and curvature-guided density for high-fidelity indoor scenes.",
+      "llm_tldr_cn": "针对室内场景几何异构性导致的重建困难，本文提出CASA-SDF方法。该方法通过课程感知的空间自适应机制平衡大面积纹理缺失平面和薄结构的高质量重建，利用曲率引导的密度变换避免过度平滑。实验表明，CASA-SDF在室内场景上实现了高保真表面重建，尤其在精细结构和平坦区域表现优异。",
+      "llm_tldr": "针对室内场景几何异构性导致的重建困难，本文提出CASA-SDF方法。该方法通过课程感知的空间自适应机制平衡大面积纹理缺失平面和薄结构的高质量重建，利用曲率引导的密度变换避免过度平滑。实验表明，CASA-SDF在室内场景上实现了高保真表面重建，尤其在精细结构和平坦区域表现优异。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.11588v3",
+      "source": "arxiv",
+      "title": "FoundationGeo: Learning Spatial Pixel-Wise Fields for Monocular Metric Geometry",
+      "abstract": "We present FoundationGeo, a two-stage framework that explicitly bridges relative and metric prediction via spatial calibration and principled data design. Stage 1 learns a high-fidelity, affine-invariant geometry model by initializing with DINOv3 and training on a curated 10.2M-sample multi-domain corpus with complementary local-detail supervision, yielding sharp boundaries and strong cross-domain generalization. Stage 2 moves beyond global scaling by introducing lightweight pixel-wise calibration fields for metric estimation: a scale field for spatially varying metric alignment and a ray-direction correction field that mitigates directional bias in point-map geometry, together producing metrically consistent 3D point maps. Beyond model design, we identify camera intrinsic coverage, especially focal length distribution mismatch between training and test data, as a key bottleneck for zero-shot metric generalization: performance drops sharply when test intrinsics fall outside the training distribution. To address this, we synthesize additional training data across diverse focal lengths using a Blender-based data engine, repairing under-covered focal regimes and improving robustness under intrinsic shift. Extensive zero-shot evaluations across seven benchmarks show that FoundationGeo significantly strengthens cross-domain robustness, staying near the top across diverse domains while avoiding the sharp cross-domain performance drops observed in other methods. This consistency translates into the best overall performance, surpassing heavier baselines by over 5.2% on average.",
+      "authors": [
+        "Muxin Liu",
+        "Xiaoyang Lyu",
+        "Tianhe Ren",
+        "Peng Dai",
+        "Xiaoshan Wu",
+        "Zhiyue Zhang",
+        "Jiaqi Zhang",
+        "Jiehong Lin",
+        "Shaoshuai Shi",
+        "Xiaojuan Qi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-13T14:10:01+00:00",
+      "link": "https://arxiv.org/pdf/2607.11588v3",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "monocular metric geometry to point cloud reconstruction",
+      "llm_evidence_cn": "单目度量几何用于点云重建",
+      "llm_evidence": "单目度量几何用于点云重建",
+      "canonical_evidence": "单目度量几何用于点云重建",
+      "llm_tldr_en": "FoundationGeo learns pixel-wise calibration fields for monocular metric 3D point map estimation, directly applicable to point cloud reconstruction.",
+      "llm_tldr_cn": "该论文提出FoundationGeo框架，通过空间校准和像素级校正场，从单目图像学习高保真度量几何，生成度量一致的3D点图。该方法直接服务于点云重建任务，解决了单目重建中尺度模糊和方向偏差问题，具有跨域泛化能力。",
+      "llm_tldr": "该论文提出FoundationGeo框架，通过空间校准和像素级校正场，从单目图像学习高保真度量几何，生成度量一致的3D点图。该方法直接服务于点云重建任务，解决了单目重建中尺度模糊和方向偏差问题，具有跨域泛化能力。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13524v1",
+      "source": "arxiv",
+      "title": "COLMAR: Cooperative View Policy Learning for Multi-Agent Active 3D Reconstruction",
+      "abstract": "Active 3D reconstruction requires selecting informative viewpoints under limited sensing budgets. In multi-agent settings, coordination inefficiencies such as redundant observations and spatial clustering can significantly reduce reconstruction quality. We present COLMAR, a cooperative view policy learning framework for multi-agent active 3D reconstruction. COLMAR formulates viewpoint allocation as a shared policy optimization over map-centric observations and introduces a reconstruction-aware objective that promotes overlap-aware coverage, team-level discovery, and collision-safe exploration. Dense feedback derived from incremental reconstruction updates aligns exploration behavior with downstream geometric quality. The policy is trained using parameter-sharing Proximal Policy Optimization (PPO) with independent per-agent action selection at deployment, conditioned on a fused team map and without inter-agent message passing for decision making. Selected viewpoints are then reconstructed with 3D Gaussian Splatting (3DGS) for high-fidelity photometric evaluation. Experiments on GLEAM and Replica demonstrate consistent improvements over heuristic and non-cooperative baselines, achieving up to 54% higher reconstruction accuracy and 49% greater coverage under matched sensing budgets.",
+      "authors": [
+        "Phu Pham",
+        "Damon Conover",
+        "Aniket Bera"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-07-15T07:24:05+00:00",
+      "link": "https://arxiv.org/pdf/2607.13524v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "cooperative view policy learning for active 3D reconstruction",
+      "llm_evidence_cn": "多智能体主动三维重建的协同视角策略学习",
+      "llm_evidence": "多智能体主动三维重建的协同视角策略学习",
+      "canonical_evidence": "多智能体主动三维重建的协同视角策略学习",
+      "llm_tldr_en": "Presents COLMAR, a cooperative view policy learning framework for multi-agent active 3D reconstruction, optimizing viewpoint allocation with reconstruction-aware objectives.",
+      "llm_tldr_cn": "针对多智能体主动三维重建中视角选择效率低下的问题，本文提出COLMAR协同视角策略学习框架。该框架将视角分配转化为基于地图观测的共享策略优化，引入重建感知目标以促进重叠感知覆盖、团队级发现和碰撞安全探索。通过增量重建更新提供密集反馈，使探索行为与下游几何质量对齐。实验表明该方法能有效提升重建质量。",
+      "llm_tldr": "针对多智能体主动三维重建中视角选择效率低下的问题，本文提出COLMAR协同视角策略学习框架。该框架将视角分配转化为基于地图观测的共享策略优化，引入重建感知目标以促进重叠感知覆盖、团队级发现和碰撞安全探索。通过增量重建更新提供密集反馈，使探索行为与下游几何质量对齐。实验表明该方法能有效提升重建质量。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.13808v1",
+      "source": "arxiv",
+      "title": "Bake It Till You Make It: Ultrafast Spatial Texture-Atlas Splatting",
+      "abstract": "Recent extensions of 3D Gaussian Splatting (3DGS) capture fine color details using hash-grid-based appearance parameterization but incur high computational cost during fragment rendering. We introduce a decoupled radiance representation that models low-frequency geometry and view dependent appearance features with 2D surfels while representing high-frequency textures via a view-independent spatial hash grid that is baked into a compact texture atlas. By including sparsity-enhancing optimizations that penalize semi-transparency and per-primitive falloff, our method aggressively prunes insignificant surfels and achieves significantly faster and sparser reconstructions than prior work. Exploiting geometric sparsity and efficient GPU texture mapping, our approach achieves up to a fivefold speedup over 3DGS while preserving state-of-the-art visual fidelity, enabling real-time 4K rendering at 60 FPS on consumer hardware.",
+      "authors": [
+        "Neel Kelkar",
+        "Simon Niedermayr",
+        "Kaloian Petkov",
+        "Klaus Engel",
+        "Rüdiger Westermann"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-15T13:12:31+00:00",
+      "link": "https://arxiv.org/pdf/2607.13808v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Improved 3DGS for novel view synthesis with texture atlas",
+      "llm_evidence_cn": "改进3DGS用于新视图合成，使用纹理图集",
+      "llm_evidence": "改进3DGS用于新视图合成，使用纹理图集",
+      "canonical_evidence": "改进3DGS用于新视图合成，使用纹理图集",
+      "llm_tldr_en": "This paper proposes a decoupled radiance representation for 3DGS, using 2D surfels for geometry and view-dependent appearance, and baking high-frequency textures into a compact atlas, achieving faster and sparser reconstructions.",
+      "llm_tldr_cn": "针对3D高斯泼溅在精细纹理渲染时计算成本高的问题，本文提出解耦辐射场表示，用2D面元建模低频几何与视角相关外观，将高频纹理烘焙为紧凑纹理图集，并通过稀疏性优化修剪无效面元，实现更快更稀疏的重建。该方法在保持高质量新视图合成的同时显著提升效率。",
+      "llm_tldr": "针对3D高斯泼溅在精细纹理渲染时计算成本高的问题，本文提出解耦辐射场表示，用2D面元建模低频几何与视角相关外观，将高频纹理烘焙为紧凑纹理图集，并通过稀疏性优化修剪无效面元，实现更快更稀疏的重建。该方法在保持高质量新视图合成的同时显著提升效率。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "neural radiance field for novel view synthesis",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2607.09329v1",
+      "source": "arxiv",
+      "title": "Dynamic Inverse Rendering for Enhanced Material-Lighting Decomposition",
+      "abstract": "Decomposing outgoing surface radiance into material and illumination during inverse rendering is essential for applications such as relighting and augmented reality, yet it is severely ill-posed since multiple combinations can result in the same observed colour. Capturing an object under multiple lighting conditions usually helps resolve this ambiguity as it constrains the optimization towards correct solutions. In this work, we explore the potential of reconstructing rigidly moving objects -- which provides observations of diverse light-surface interactions -- to resolve the material-lighting ambiguity in inverse rendering. For this purpose, we introduce a relightable approach that marries object tracking and reconstruction with inverse rendering for general rigidly moving objects. Our experimental analysis on synthetic data demonstrates that motion can be an advantage for disentangling material and lighting: the reconstructed material is significantly more accurate when the object is observed under rigid motion than when it is static. Moreover, results on RGB videos of real hand-held objects show that our pipeline preserves this advantage even under noisy real-world conditions.",
+      "authors": [
+        "Raza Yunus",
+        "Benjamin Ummenhofer",
+        "Jan Eric Lenssen",
+        "Eddy Ilg"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-07-10T12:09:53+00:00",
+      "link": "https://arxiv.org/pdf/2607.09329v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reconstructs rigidly moving objects from multiple observations for material-lighting decomposition",
+      "llm_evidence_cn": "利用刚性运动物体的多观测进行材质-光照分解和重建",
+      "llm_evidence": "利用刚性运动物体的多观测进行材质-光照分解和重建",
+      "canonical_evidence": "利用刚性运动物体的多观测进行材质-光照分解和重建",
+      "llm_tldr_en": "Dynamic inverse rendering marries tracking and reconstruction with inverse rendering to exploit diverse lighting from rigid motion for material-lighting decomposition.",
+      "llm_tldr_cn": "针对逆渲染中材质与光照分解的歧义性问题，本文提出利用刚性运动物体的多视角观测来约束优化。通过结合物体跟踪与重建，该方法从视频帧中恢复可重光照的3D模型。实验表明，运动提供的多样光交互有效解决了歧义，在合成和真实数据上均取得了高质量分解与重建。",
+      "llm_tldr": "针对逆渲染中材质与光照分解的歧义性问题，本文提出利用刚性运动物体的多视角观测来约束优化。通过结合物体跟踪与重建，该方法从视频帧中恢复可重光照的3D模型。实验表明，运动提供的多样光交互有效解决了歧义，在合成和真实数据上均取得了高质量分解与重建。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.12993v2",
+      "source": "arxiv",
+      "title": "X-Lens: Real-Time Metric Depth Estimation with Heterogeneous Cameras",
+      "abstract": "We present X-lens, a compact feed-forward model for metric depth estimation from a variable number of calibrated fisheye and pinhole views. To support real-time downstream perception, X-lens is built around a geometry-aware heterogeneous camera formulation with two key components. Learnable calibration tokens provide a coarse alignment between fisheye and pinhole projective spaces, while a Jacobian-parameterized distortion bias injected into cross-attention models local projection changes and promotes cross-camera consistency, enabling robust generalization with only 0.04B parameters and up to 41 FPS. The model predicts dense depth together with a global metric scale, avoiding auxiliary reconstruction targets that increase computation and optimization complexity. To learn such cross-camera generalization at scale and depth, X-lens is trained on multiple public datasets and OmniScene, our newly released large-scale synthetic dataset containing approximately 266K synchronized six-view frames, 1.7M individual images, and 103 indoor and outdoor scenes. Extensive experiments on both real-world and synthetic indoor and outdoor datasets demonstrate superior heterogeneous-camera metric depth accuracy, reducing AbsRel by 25.4\\% on OmniScene-Full over the strongest baseline while using 88.9\\% fewer parameters, with competitive performance on conventional fisheye-only and pinhole-only settings.",
+      "authors": [
+        "Heng Zhou",
+        "Shuhong Liu",
+        "Yonghao He",
+        "Bohao Zhang",
+        "Fa Fu",
+        "Chenhui Hou",
+        "Xianbao Hou",
+        "Lijun Han",
+        "Wei Sui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-14T17:45:50+00:00",
+      "link": "https://arxiv.org/pdf/2607.12993v2",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "real-time metric depth estimation from multiple cameras, enabling point cloud acquisition",
+      "llm_evidence_cn": "从多相机实时度量深度估计，可获取点云",
+      "llm_evidence": "从多相机实时度量深度估计，可获取点云",
+      "canonical_evidence": "从多相机实时度量深度估计，可获取点云",
+      "llm_tldr_en": "X-Lens is a compact feed-forward model for metric depth estimation from variable fisheye and pinhole views, achieving real-time performance with 0.04B parameters and up to 41 FPS.",
+      "llm_tldr_cn": "针对异构相机系统的实时深度估计需求，本文提出X-Lens，一种紧凑的前馈模型，通过可学习校准令牌和雅可比参数化畸变偏置实现从鱼眼和针孔视图的度量深度预测，仅0.04B参数即可达到41 FPS的实时性能，为下游感知提供密集深度。",
+      "llm_tldr": "针对异构相机系统的实时深度估计需求，本文提出X-Lens，一种紧凑的前馈模型，通过可学习校准令牌和雅可比参数化畸变偏置实现从鱼眼和针孔视图的度量深度预测，仅0.04B参数即可达到41 FPS的实时性能，为下游感知提供密集深度。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "point cloud reconstruction techniques and algorithms",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2607.13449v1",
+      "source": "arxiv",
+      "title": "DreamSat-Pose: Spacecraft Pose Estimation from Single-View 3D Reconstructions and Learned 2D-3D Feature Matching",
+      "abstract": "6-DoF pose estimation is a critical task in autonomous rendezvous and proximity operations. In the case of an unknown target, this task becomes challenging as it shall be paired with the reconstruction of the target shape model. In this article, we propose a novel framework for single-shot shape and pose estimation of unknown spacecraft objects. Given a single image, we first reconstruct a 3D shape model of the target, then estimate the relative six-degrees-of-freedom pose by learning dense 2D-3D correspondences. The image features are extracted using a frozen DINOv3 vision transformer, while the geometric features are computed from the reconstructed point cloud using a trainable dynamic graph convolutional neural network encoder. A dual-stream transformer matcher refines descriptors through alternating self- and cross-attention, producing soft correspondences that are passed to a Perspective-$n$-Point solver for pose recovery. We evaluate the method on the SPE3R dataset and consider FoundationPose as a representative baseline for current state-of-the-art capabilities. Results show reliable pose estimates achieving 0.157 degrees mean pointing error using only a single image and reconstructed geometry, demonstrating strong generalization to unseen spacecraft.",
+      "authors": [
+        "Josiane Uwumukiza",
+        "Jocelyn Zhao",
+        "Giovanni Lavezzi",
+        "Giacomo Battaglia",
+        "Paolo Panicucci",
+        "Minduli C. Wijayatunga",
+        "Victor Rodriguez-Fernandez",
+        "Richard Linares"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-15T05:12:48+00:00",
+      "link": "https://arxiv.org/pdf/2607.13449v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reconstructs 3D shape from single image, directly addressing 3D model reconstruction",
+      "llm_evidence_cn": "从单张图像重建3D形状，直接解决3D模型重建问题",
+      "llm_evidence": "从单张图像重建3D形状，直接解决3D模型重建问题",
+      "canonical_evidence": "从单张图像重建3D形状，直接解决3D模型重建问题",
+      "llm_tldr_en": "DreamSat-Pose reconstructs a 3D point cloud from a single spacecraft image and estimates 6-DoF pose, demonstrating a tight coupling of reconstruction and pose estimation.",
+      "llm_tldr_cn": "该论文提出DreamSat-Pose框架，从单张航天器图像先重建3D形状模型（点云），再通过学习的2D-3D匹配估计六自由度姿态。解决了未知目标形状和姿态联合估计的挑战。实验表明该方法在航天器姿态估计任务上有效，其3D重建模块可迁移到其他单视图重建场景。",
+      "llm_tldr": "该论文提出DreamSat-Pose框架，从单张航天器图像先重建3D形状模型（点云），再通过学习的2D-3D匹配估计六自由度姿态。解决了未知目标形状和姿态联合估计的挑战。实验表明该方法在航天器姿态估计任务上有效，其3D重建模块可迁移到其他单视图重建场景。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2607.13468v1",
+      "source": "arxiv",
+      "title": "HIVE-3D: Hierarchical Voxel Enhancement for High-Quality 3D Scene Generation",
+      "abstract": "Recently, a line of works can generate impressive 3D objects from a single image, but they are limited by restricted representation resolution, making them unsuitable for 3D scene generation. In this work, we introduce HIVE-3D, a novel method for high-quality 3D scene generation based on hierarchical voxel enhancement framework. Specifically, given a single scene image as input, we first produce a coarse initial scene, then introduce image segmentation and attention-based retrieval to align 2D image components with 3D scene components. Subsequently, we organize these scene relations into a hierarchical component tree, where nodes closer to the leaves denote finer-grained components. Finally, we propose a voxel super-resolution model that generates refined voxels for the target instance while maintaining strong consistency with the coarse voxels. Equipped with this model, we perform coarse-to-fine hierarchical super-resolution on images and voxels for each component, producing a high-resolution and high-quality 3D scene. Extensive experiments demonstrate that our method significantly outperforms previous approaches, achieving state-of-the-art performance.",
+      "authors": [
+        "Bin Zang",
+        "Wenting Zheng",
+        "Xiaoliang Luo",
+        "Zhiyuan Fang",
+        "Shi Li",
+        "Lvchun Wang",
+        "Wei Yu",
+        "Yi Zhao",
+        "Tian Xie",
+        "Yuchi Huo",
+        "Rengan Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-07-15T05:56:34+00:00",
+      "link": "https://arxiv.org/pdf/2607.13468v1",
+      "tags": [
+        "keyword:d-recon",
+        "query:d-recon"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "single image to 3D scene reconstruction",
+      "llm_evidence_cn": "从单张图像重建三维场景",
+      "llm_evidence": "从单张图像重建三维场景",
+      "canonical_evidence": "从单张图像重建三维场景",
+      "llm_tldr_en": "Proposes HIVE-3D, a hierarchical voxel enhancement method for high-quality 3D scene generation from a single image using segmentation, attention-based retrieval, and voxel super-resolution.",
+      "llm_tldr_cn": "针对单图像三维场景生成中分辨率受限的问题，本文提出HIVE-3D层次化体素增强框架。首先从单张场景图像生成粗糙初始场景，然后通过图像分割和注意力检索对齐二维与三维组件，构建层次组件树，最后通过体素超分辨率模型生成高质量场景。实验证明该方法能生成高质量的室内外三维场景。",
+      "llm_tldr": "针对单图像三维场景生成中分辨率受限的问题，本文提出HIVE-3D层次化体素增强框架。首先从单张场景图像生成粗糙初始场景，然后通过图像分割和注意力检索对齐二维与三维组件，构建层次组件树，最后通过体素超分辨率模型生成高质量场景。实验证明该方法能生成高质量的室内外三维场景。",
+      "llm_tags": [
+        "query:d-recon"
+      ],
+      "matched_query_tag": "query:d-recon",
+      "matched_query_text": "how to reconstruct 3D models from multiple images",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
